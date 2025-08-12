@@ -5,6 +5,7 @@
         "categories": "Categories",
         "contact": "Contact",
         "store": "Store",
+        "signup": "Sign up",
         "signin": "Signin"
     },
     "Herafy": {
@@ -39,5 +40,45 @@
         "mastercard": "MascterCard",
         "discover": "DISCOVER",
         "paypal": "PayPal"
+    },
+    "Login":{
+        "welcome": "Welcome Back!",
+        "sign": "Please sign in to continue",
+        "email": "Email Address",
+        "emailplace": "you@example.com",
+        "wrongemail": "Please enter a valid email address",
+        "password": "Password",
+        "wrongpasswrod": " Password must be at least 8 characters",
+        "signing": "Processing...",
+        "button": "Sign In",
+        "goolgesignin": "Sign in with Google",
+        "signup": "Don't have an account?",
+        "newsignup": "Sign up",
+        "worksentence": "Herafy – where the largest collection of handmade products meets passion and craft."
+    },
+    "Signup": {
+        
+        "newacount": "Create Your Account",
+        "details": "Please fill in your details",
+        "firstname": " First Name",
+        "fnameplace": "Jon",
+        "lastname": "Last Name",
+        "lnameplace": "Doe",
+        "Username": "johndoe123",
+        "pemail": "you@example.com",
+        "emailaddress": "Email Address",
+        "wemail": "Please enter a valid email address",
+        "phonenumber": "Phone Number",
+        "pplace": "0123456789",
+        "Password": "Password",
+        "wpassword": "Password must be at least 8 characters",
+        "cpassword": "Confirm Password",
+        "wcpswword": " Passwords do not match",
+        "Gsignup": "Sign up with Google",
+        "accountexists": "Already have an account?",
+        "join": "Join Us Today",
+        "signin": "Sign in",
+        "signingup": "Processing...",
+        "signUp": "Sign Up"
     }
 }

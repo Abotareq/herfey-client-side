@@ -1,9 +1,10 @@
-"use client";
-
-import Link from "next/link";
+'use client';
+import React from 'react'
 import { useState } from "react";
+import { useTranslations } from 'use-intl';
+import Link from 'next/link';
 
-export default function SignUp() {
+function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -37,7 +38,8 @@ export default function SignUp() {
       alert("Account created successfully!");
     }, 1500);
   };
-
+  const t = useTranslations('Signup');
+  const t2 = useTranslations('Login')
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Left - Form */}
@@ -49,9 +51,9 @@ export default function SignUp() {
               <i className="fas fa-user-plus text-green-500 fa-lg"></i>
             </div>
             <h2 className="text-2xl font-bold text-gray-800">
-              Create Your Account
+             {t('newacount')}
             </h2>
-            <p className="text-gray-600 mt-2">Please fill in your details</p>
+            <p className="text-gray-600 mt-2">{t('details')}</p>
           </div>
 
           {/* Form */}
@@ -60,7 +62,7 @@ export default function SignUp() {
             <div className="mb-6 grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  First Name
+                  {t('firstname')}
                 </label>
                 <input
                   type="text"
@@ -69,12 +71,12 @@ export default function SignUp() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="John"
+                  placeholder={t('fnameplace')}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Last Name
+                  {t('lastname')}
                 </label>
                 <input
                   type="text"
@@ -83,7 +85,7 @@ export default function SignUp() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Doe"
+                  placeholder={t('lnameplace')}
                 />
               </div>
             </div>
@@ -91,7 +93,7 @@ export default function SignUp() {
             {/* Username */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Username
+                {t('Username')}
               </label>
               <input
                 type="text"
@@ -100,14 +102,14 @@ export default function SignUp() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="johndoe123"
+                placeholder={t('Username')}
               />
             </div>
 
             {/* Email */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t('emailaddress')}
               </label>
               <input
                 type="email"
@@ -116,7 +118,7 @@ export default function SignUp() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="you@example.com"
+                placeholder={t('pemail')}
               />
               {formData.email && !validateEmail(formData.email) && (
                 <p className="mt-2 text-sm text-green-500">
@@ -128,7 +130,7 @@ export default function SignUp() {
             {/* Phone */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number
+                {t('phonenumber')}
               </label>
               <input
                 type="tel"
@@ -138,14 +140,14 @@ export default function SignUp() {
                 required
                 pattern="[0-9]{10,15}"
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="0123456789"
+                placeholder={t('pplace')}
               />
             </div>
 
             {/* Password */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t('Password')}
               </label>
               <div className="relative">
                 <input
@@ -169,7 +171,7 @@ export default function SignUp() {
               </div>
               {formData.password && !validatePassword(formData.password) && (
                 <p className="mt-2 text-sm text-green-500">
-                  Password must be at least 8 characters
+                  {t('wpassword')}
                 </p>
               )}
             </div>
@@ -177,7 +179,7 @@ export default function SignUp() {
             {/* Confirm Password */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password
+                {t('cpassword')}
               </label>
               <div className="relative">
                 <input
@@ -203,7 +205,7 @@ export default function SignUp() {
               </div>
               {formData.confirmPassword && !passwordsMatch && (
                 <p className="mt-2 text-sm text-red-500">
-                  Passwords do not match
+                  {t('wcpswword')}
                 </p>
               )}
             </div>
@@ -219,7 +221,7 @@ export default function SignUp() {
               }
               className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-50"
             >
-              {loading ? "Processing..." : "Sign Up"}
+              {loading ? `${t('signingup')}` : `${t('signUp')}`}
             </button>
 
             {/* Google Sign Up */}
@@ -252,18 +254,18 @@ export default function SignUp() {
                 />
               </svg>
               <span className="text-gray-700 font-medium">
-                Sign up with Google
+                {t('Gsignup')}
               </span>
             </button>
 
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
-              Already have an account?{" "}
+              {t('accountexists')}{" "}
               <Link
                 href="/signin"
                 className="ml-1 text-green-500 hover:text-green-600 font-semibold"
               >
-                Sign in
+                {t('signin')}
               </Link>
             </p>
           </form>
@@ -271,22 +273,26 @@ export default function SignUp() {
       </div>
 
       {/* Right - Image */}
-      <div
-        className="hidden lg:block lg:w-1/2 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80')",
-        }}
-      >
+      
+        <div
+        className="hidden lg:block lg:w-1/2 bg-cover bg-center relative"
+         style={{
+            backgroundImage: "url('/handmade.jpg')",
+            minHeight: "full",
+  }}
+        >
         <div className="h-full bg-black bg-opacity-50 flex items-center justify-center text-white px-12">
           <div className="text-center">
-            <h2 className="text-4xl font-bold mb-6">Join Us Today</h2>
+            <h2 className="text-4xl font-bold mb-6">{t('join')}</h2>
             <p className="text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              {t2('worksentence')}
             </p>
           </div>
         </div>
       </div>
     </div>
   );
+
 }
+
+export default Signup

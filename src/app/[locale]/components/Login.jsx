@@ -2,6 +2,8 @@
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "use-intl";
+import Image from "next/image";
 
 export default function LogIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +22,8 @@ export default function LogIn() {
       alert("Logged in successfully!");
     }, 1500);
   };
-
+  const t = useTranslations('Login')
+  const t2 = useTranslations('Herafy')
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Left - Form */}
@@ -31,8 +34,8 @@ export default function LogIn() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
               <i className="fas fa-sign-in-alt text-orange-500 fa-lg"></i>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800">Welcome Back!</h2>
-            <p className="text-gray-600 mt-2">Please sign in to continue</p>
+            <h2 className="text-2xl font-bold text-gray-800">{t('welcome')}</h2>
+            <p className="text-gray-600 mt-2">{t('sign')}</p>
           </div>
 
           {/* Form */}
@@ -40,7 +43,7 @@ export default function LogIn() {
             {/* Email */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t('email')}
               </label>
               <div className="relative">
                 <input
@@ -49,13 +52,13 @@ export default function LogIn() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  placeholder="you@example.com"
+                  placeholder={t('emailplace')}
                 />
                 <i className="fas fa-envelope absolute right-2 top-4 w-6 h-6 text-gray-400"></i>
               </div>
               {email && !validateEmail(email) && (
                 <p className="mt-2 text-sm text-orange-500">
-                  Please enter a valid email address
+                  {t('wrongemail')}
                 </p>
               )}
             </div>
@@ -63,7 +66,7 @@ export default function LogIn() {
             {/* Password */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t('password')}
               </label>
               <div className="relative">
                 <input
@@ -86,7 +89,7 @@ export default function LogIn() {
               </div>
               {password && !validatePassword(password) && (
                 <p className="mt-2 text-sm text-orange-500">
-                  Password must be at least 8 characters
+                 {t('wrongpasswrod')}
                 </p>
               )}
             </div>
@@ -123,10 +126,10 @@ export default function LogIn() {
                       d="M4 12a8 8 0 018-8V0..."
                     ></path>
                   </svg>
-                  Processing...
+                  {t('signing')}
                 </span>
               ) : (
-                "Sign In"
+                `${t('button')}`
               )}
             </button>
             <button
@@ -163,18 +166,18 @@ export default function LogIn() {
               </svg>
 
               <span className="text-gray-700 font-medium">
-                Sign in with Google
+                {t('goolgesignin')}
               </span>
             </button>
 
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
-              Don't have an account?{" "}
+              {t('signup')}{" "}
               <Link
                 href="/signup"
                 className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
               >
-                Sign up
+                {t('newsignup')}
               </Link>
             </p>
           </form>
@@ -186,14 +189,14 @@ export default function LogIn() {
         className="hidden lg:block lg:w-1/2 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80')",
+            "url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dreamstime.com%2Fphotos-images%2Fhandmade-crafts.html&psig=AOvVaw28jo-XqVlAGWqXvhKBryNW&ust=1755097306486000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCIiOuo7FhY8DFQAAAAAdAAAAABAE')",
         }}
       >
         <div className="h-full bg-black bg-opacity-50 flex items-center justify-center text-white px-12">
           <div className="text-center">
-            <h2 className="text-4xl font-bold mb-6">Your Title</h2>
+            <h2 className="text-4xl font-bold mb-6">{t2('herafy')}</h2>
             <p className="text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+             {t('worksentence')}
             </p>
           </div>
         </div>

@@ -31,7 +31,8 @@ export default function Header() {
     { name: "categories", href: "/categories" },
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },
-    {name: 'signin', href: '/signin'}
+    {name: 'signin', href: '/signin'},
+    {name: 'signup', href: '/signup'}
   ];
 
   const isActive = (path) => pathname === path;
