@@ -10,7 +10,34 @@
     "Herafy": {
         "herafy": "Herafy"
     },
-    "SignIN": {
-
+    "Footer": {
+        "herafy": "Herafy",
+        "phone": "+201507975526 / +201507975527",
+        "email":"info@herafy.net",
+        "support":"support@herafy.net",
+        "sales": "sales@herafy.net",
+        "web":"herafy.net"
+    },
+    "workingHours":{
+        "day1": "Sunday-Thursday",
+        "time1": "18:00 - 09:00",
+        "day2": "Friday",
+        "time2": "18:00 - 13:00",
+        "day3": "Saturday",
+        "time3": "18:00 - 10:00"
+    },
+    "Terms":{
+        "termsofuse": "Terms of Sale and Packaging",
+        "frequentQuetsions": "Frequently Asked Questions",
+        "contact": "Contact us",
+        "excahnge": "Exchange and Return Policy",
+        "terms": "terms and conditions",
+        "privacy": "privacy policy"
+    },
+    "Payment":{
+        "visa": "VISA",
+        "mastercard": "MascterCard",
+        "discover": "DISCOVER",
+        "paypal": "PayPal"
     }
 }

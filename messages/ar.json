@@ -9,5 +9,35 @@
     },
      "Herafy": {
         "herafy": "حرفي"
-    }
+    },
+    "Footer": {
+        "herafy": "حرفي",
+        "phone": "201507975526+ / 201507975527+",
+        "email":"info@herafy.net",
+        "support":"support@herafy.net",
+        "sales": "sales@herafy.net",
+        "web":"herafy.net"
+    },
+    "workingHours": {
+    "day1": "الأحد - الخميس",
+    "time1": "18:00 - 09:00",
+    "day2": "الجمعة",
+    "time2": "18:00 - 13:00",
+    "day3": "السبت",
+    "time3": "18:00 - 10:00"
+  },
+  "Terms": {
+    "termsofuse": "شروط البيع والتعبئة",
+    "frequentQuetsions": "الأسئلة الشائعة",
+    "contact": "اتصل بنا",
+    "excahnge": "سياسة الاستبدال والإرجاع",
+    "terms": "الأحكام والشروط",
+    "privacy": "سياسة الخصوصية"
+  },
+  "Payment": {
+    "visa": "فيزا",
+    "mastercard": "ماستركارد",
+    "discover": "ديسكفر",
+    "paypal": "باي بال"
+  }
 }
