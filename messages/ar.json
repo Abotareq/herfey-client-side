@@ -1,7 +1,10 @@
 {
-    "navbar": {
-        "home": "الرئيسية",
-        "about": "حول",
-        "contact": "اتصل بنا"
+    "Navbar": {
+       "home": "الرئيسية",
+        "articles": "المقالات",
+        "categories": "التصنيفات",
+        "contact": "اتصل بنا",
+        "store": "المتجر"
+
     }
 }

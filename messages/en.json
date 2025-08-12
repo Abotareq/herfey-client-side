@@ -1,7 +1,9 @@
 {
-    "navbar": {
+    "Navbar": {
         "home": "Home",
-        "about": "About",
-        "contact": "Contact"
+        "articles": "Articles",
+        "categories": "Categories",
+        "contact": "Contact",
+        "store": "Store"
     }
 }
