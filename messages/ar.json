@@ -4,7 +4,10 @@
         "articles": "المقالات",
         "categories": "التصنيفات",
         "contact": "اتصل بنا",
-        "store": "المتجر"
-
+        "store": "المتجر",
+        "signin": "تسجيل الدخول"
+    },
+     "Herafy": {
+        "herafy": "حرفي"
     }
 }

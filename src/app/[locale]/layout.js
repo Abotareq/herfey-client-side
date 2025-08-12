@@ -4,6 +4,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import NotFound from "./not-found";
+import Header from "./components/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default async function RootLayout({ params, children }) {
           locale={resolvedParams.locale}
           messages={messages}
         >
+          <Header />
           {children}
         </NextIntlClientProvider>
       </body>

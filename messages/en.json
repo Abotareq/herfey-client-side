@@ -4,6 +4,13 @@
         "articles": "Articles",
         "categories": "Categories",
         "contact": "Contact",
-        "store": "Store"
+        "store": "Store",
+        "signin": "Signin"
+    },
+    "Herafy": {
+        "herafy": "Herafy"
+    },
+    "SignIN": {
+
     }
 }
