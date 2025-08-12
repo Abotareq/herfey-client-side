@@ -1,9 +1,9 @@
-"use client";
-
+'use client';
+import React from "react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function SignIn() {
+export default function LogIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
