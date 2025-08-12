@@ -1,9 +1,292 @@
-import React from 'react'
+"use client";
 
-function Signup() {
+import Link from "next/link";
+import { useState } from "react";
+
+export default function SignUp() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePassword = (password) => password.length >= 8;
+  const passwordsMatch = formData.password === formData.confirmPassword;
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!passwordsMatch) {
+      alert("Passwords do not match!");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      alert("Account created successfully!");
+    }, 1500);
+  };
+
   return (
-    <div>Signup</div>
-  )
-}
+    <div className="min-h-screen bg-gray-100 flex">
+      {/* Left - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+          {/* Logo */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+              <i className="fas fa-user-plus text-green-500 fa-lg"></i>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800">
+              Create Your Account
+            </h2>
+            <p className="text-gray-600 mt-2">Please fill in your details</p>
+          </div>
 
-export default Signup
+          {/* Form */}
+          <form onSubmit={handleSubmit}>
+            {/* First & Last Name */}
+            <div className="mb-6 grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="John"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="Doe"
+                />
+              </div>
+            </div>
+
+            {/* Username */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                placeholder="johndoe123"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                placeholder="you@example.com"
+              />
+              {formData.email && !validateEmail(formData.email) && (
+                <p className="mt-2 text-sm text-green-500">
+                  Please enter a valid email address
+                </p>
+              )}
+            </div>
+
+            {/* Phone */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                pattern="[0-9]{10,15}"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                placeholder="0123456789"
+              />
+            </div>
+
+            {/* Password */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <i
+                    className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}
+                  ></i>
+                </button>
+              </div>
+              {formData.password && !validatePassword(formData.password) && (
+                <p className="mt-2 text-sm text-green-500">
+                  Password must be at least 8 characters
+                </p>
+              )}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <i
+                    className={
+                      showConfirmPassword ? "fas fa-eye-slash" : "fas fa-eye"
+                    }
+                  ></i>
+                </button>
+              </div>
+              {formData.confirmPassword && !passwordsMatch && (
+                <p className="mt-2 text-sm text-red-500">
+                  Passwords do not match
+                </p>
+              )}
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={
+                loading ||
+                !validateEmail(formData.email) ||
+                !validatePassword(formData.password) ||
+                !passwordsMatch
+              }
+              className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-50"
+            >
+              {loading ? "Processing..." : "Sign Up"}
+            </button>
+
+            {/* Google Sign Up */}
+            <button
+              type="button"
+              onClick={() => alert("Google Sign-Up Clicked!")}
+              className="mt-4 w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg py-3 hover:bg-gray-50 transition"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="#EA4335"
+                  d="M24 9.5c3.9 0 7.1 1.4 9.4 3.3l7-7C35.3 2.1 30 0 24 0 14.7 0 6.9 5.4 3 13.2l8.2 6.4C12.6 13.3 17.7 9.5 24 9.5z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M46.5 24c0-1.6-.1-3.1-.4-4.6H24v9.1h12.7c-.6 3.4-2.7 6.3-5.8 8.1l9 7.1C43.7 39.8 46.5 32.7 46.5 24z"
+                />
+                <path
+                  fill="#4A90E2"
+                  d="M11.2 28.6A14.9 14.9 0 0 1 10 24c0-1.5.2-2.9.6-4.2L3.4 13.4C1.2 16.9 0 20.9 0 25c0 4.2 1.3 8 3.6 11.2l7.6-7.6z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M24 48c6.4 0 11.8-2.1 15.7-5.8l-7.6-6.1C29.3 36.1 26.8 37 24 37c-6.2 0-11.4-3.4-14-8.3l-7.6 5.9C6.9 42.6 14.7 48 24 48z"
+                />
+              </svg>
+              <span className="text-gray-700 font-medium">
+                Sign up with Google
+              </span>
+            </button>
+
+            {/* Switch */}
+            <p className="mt-6 text-center text-gray-600">
+              Already have an account?{" "}
+              <Link
+                href="/signin"
+                className="ml-1 text-green-500 hover:text-green-600 font-semibold"
+              >
+                Sign in
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      {/* Right - Image */}
+      <div
+        className="hidden lg:block lg:w-1/2 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80')",
+        }}
+      >
+        <div className="h-full bg-black bg-opacity-50 flex items-center justify-center text-white px-12">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold mb-6">Join Us Today</h2>
+            <p className="text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
