@@ -108,7 +108,7 @@ export default function Header() {
             </div>
             {/* Desktop Navigation */}
             
-            <nav className="hidden md:block">
+            <nav className="hidden sm:block">
               <div className="flex items-center justify-between space-x-4">
                 {/* Nav items */}
                 {navigation.map((item) => (
