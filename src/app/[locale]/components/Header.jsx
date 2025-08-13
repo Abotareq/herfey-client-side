@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { Search, Heart, ShoppingCart, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
