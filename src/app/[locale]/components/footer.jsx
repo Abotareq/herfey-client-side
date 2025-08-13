@@ -59,13 +59,17 @@ const Footer = () => {
           {/* Column 2: Terms and Links */}
           <div className="space-y-3">
             <div className="space-y-2">
-              {["termsofuse", "frequentQuetsions", "contact"].map((key, idx) => (
+              {[
+                { key: "termsofuse", href: "/packging" },
+                { key: "frequentQuetsions", href: "/faq" },
+                { key: "contact", href: "/contact" },
+              ].map((item, idx) => (
                 <Link
                   key={idx}
-                  href="/#"
+                  href={item.href}
                   className="block text-sm text-gray-700 hover:text-gray-900 transition-all duration-300 hover:translate-x-1"
                 >
-                  {t3(key)}
+                  {t3(item.key)}
                 </Link>
               ))}
             </div>

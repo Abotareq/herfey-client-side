@@ -12,6 +12,7 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("Navbar");
+  const t2 = useTranslations('Herafy');
 
   useEffect(() => {
     const pathLocale = pathname?.split("/")[1];
@@ -58,7 +59,7 @@ export default function Header() {
             {/* Center - Logo (Hidden on sm and below) */}
             <div className="hidden sm:flex justify-center">
               <div className="text-xl sm:text-2xl font-bold text-orange-500">
-                حرفي
+                {t2('herafy')}
                 <div className="w-10 sm:w-12 h-1 bg-orange-500 mx-auto mt-1"></div>
               </div>
             </div>
@@ -104,7 +105,7 @@ export default function Header() {
             {/* Logo - Mobile */}
             <div className="sm:hidden col-span-2 flex justify-center py-2">
               <div className="text-xl font-bold text-orange-500">
-                حرفي
+                {t2('herafy')}
                 <div className="w-10 h-1 bg-orange-500 mx-auto mt-1"></div>
               </div>
             </div>

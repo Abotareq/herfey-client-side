@@ -1,37 +1,24 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
-const faqs = [
-  {
-    question: "How to create an account?",
-    answer:
-      "To create an account, find the 'Sign up' or 'Create account' button, fill out the registration form with your personal information, and click 'Create account' or 'Sign up.' Verify your email address if needed, and then log in to start using the platform.",
-  },
-  {
-    question: "Have any trust issue?",
-    answer:
-      "Our focus on providing robust and user-friendly content management capabilities ensures that you can manage your content with confidence, and achieve your content marketing goals with ease.",
-  },
-  {
-    question: "How can I reset my password?",
-    answer:
-      "Our focus on providing robust and user-friendly content management capabilities ensures that you can manage your content with confidence, and achieve your content marketing goals with ease.",
-  },
-  {
-    question: "What is the payment process?",
-    answer:
-      "Our focus on providing robust and user-friendly content management capabilities ensures that you can manage your content with confidence, and achieve your content marketing goals with ease.",
-  },
-];
 
 export default function FAQSection() {
+  const t = useTranslations('FAQ')
   const [openIndex, setOpenIndex] = useState(0); // First one open by default
 
   const toggleAccordion = (index) => {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
-
+  const faqs = [
+  { question: t('q1'), answer: t('A1')},
+  { question: t('q2'), answer: t('A2')},
+  { question: t('q3'), answer: t('A3')},
+  { question: t('q4'), answer: t('A4')}
+  ];
+  const locale = useLocale();
+  const isArabic = locale === 'ar';
   return (
     <section className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -49,11 +36,11 @@ export default function FAQSection() {
           <div className="w-full lg:w-1/2">
             <div className="lg:max-w-xl">
               <div className="mb-6 lg:mb-16">
-                <h6 className="text-lg text-center font-medium text-orange-600 mb-2 lg:text-left">
-                  faqs
+                <h6 className={`text-lg font-medium text-orange-600 mb-2 ${isArabic ? "rtl": 'ltr'}`}>
+                  {t('faq')}
                 </h6>
-                <h2 className="text-4xl text-center font-bold text-gray-900 leading-[3.25rem] mb-5 lg:text-left">
-                  Looking for answers?
+                <h2 className="text-4xl font-bold text-gray-900 leading-[3.25rem] mb-5 ">
+                  {t('answer')}
                 </h2>
               </div>
 
