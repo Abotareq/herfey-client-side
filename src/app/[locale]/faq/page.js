@@ -3,22 +3,21 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
-
 export default function FAQSection() {
-  const t = useTranslations('FAQ')
+  const t = useTranslations("FAQ");
   const [openIndex, setOpenIndex] = useState(0); // First one open by default
 
   const toggleAccordion = (index) => {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
   const faqs = [
-  { question: t('q1'), answer: t('A1')},
-  { question: t('q2'), answer: t('A2')},
-  { question: t('q3'), answer: t('A3')},
-  { question: t('q4'), answer: t('A4')}
+    { question: t("q1"), answer: t("A1") },
+    { question: t("q2"), answer: t("A2") },
+    { question: t("q3"), answer: t("A3") },
+    { question: t("q4"), answer: t("A4") },
   ];
   const locale = useLocale();
-  const isArabic = locale === 'ar';
+  const isArabic = locale === "ar";
   return (
     <section className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -26,7 +25,7 @@ export default function FAQSection() {
           {/* Left Image */}
           <div className="w-full lg:w-1/2">
             <img
-              src="https://pagedone.io/asset/uploads/1696230182.png"
+              src="/3.webp"
               alt="FAQ tailwind section"
               className="w-full rounded-xl object-cover"
             />
@@ -36,11 +35,15 @@ export default function FAQSection() {
           <div className="w-full lg:w-1/2">
             <div className="lg:max-w-xl">
               <div className="mb-6 lg:mb-16">
-                <h6 className={`text-lg font-medium text-orange-600 mb-2 ${isArabic ? "rtl": 'ltr'}`}>
-                  {t('faq')}
+                <h6
+                  className={`text-lg font-medium text-orange-600 mb-2 ${
+                    isArabic ? "rtl" : "ltr"
+                  }`}
+                >
+                  {t("faq")}
                 </h6>
                 <h2 className="text-4xl font-bold text-gray-900 leading-[3.25rem] mb-5 ">
-                  {t('answer')}
+                  {t("answer")}
                 </h2>
               </div>
 

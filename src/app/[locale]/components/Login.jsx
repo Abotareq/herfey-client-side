@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
@@ -22,8 +22,8 @@ export default function LogIn() {
       alert("Logged in successfully!");
     }, 1500);
   };
-  const t = useTranslations('Login')
-  const t2 = useTranslations('Herafy')
+  const t = useTranslations("Login");
+  const t2 = useTranslations("Herafy");
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Left - Form */}
@@ -34,8 +34,8 @@ export default function LogIn() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
               <i className="fas fa-sign-in-alt text-orange-500 fa-lg"></i>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800">{t('welcome')}</h2>
-            <p className="text-gray-600 mt-2">{t('sign')}</p>
+            <h2 className="text-2xl font-bold text-gray-800">{t("welcome")}</h2>
+            <p className="text-gray-600 mt-2">{t("sign")}</p>
           </div>
 
           {/* Form */}
@@ -43,7 +43,7 @@ export default function LogIn() {
             {/* Email */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('email')}
+                {t("email")}
               </label>
               <div className="relative">
                 <input
@@ -52,13 +52,13 @@ export default function LogIn() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  placeholder={t('emailplace')}
+                  placeholder={t("emailplace")}
                 />
                 <i className="fas fa-envelope absolute right-2 top-4 w-6 h-6 text-gray-400"></i>
               </div>
               {email && !validateEmail(email) && (
                 <p className="mt-2 text-sm text-orange-500">
-                  {t('wrongemail')}
+                  {t("wrongemail")}
                 </p>
               )}
             </div>
@@ -66,7 +66,7 @@ export default function LogIn() {
             {/* Password */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('password')}
+                {t("password")}
               </label>
               <div className="relative">
                 <input
@@ -89,7 +89,7 @@ export default function LogIn() {
               </div>
               {password && !validatePassword(password) && (
                 <p className="mt-2 text-sm text-orange-500">
-                 {t('wrongpasswrod')}
+                  {t("wrongpasswrod")}
                 </p>
               )}
             </div>
@@ -126,10 +126,10 @@ export default function LogIn() {
                       d="M4 12a8 8 0 018-8V0..."
                     ></path>
                   </svg>
-                  {t('signing')}
+                  {t("signing")}
                 </span>
               ) : (
-                `${t('button')}`
+                `${t("button")}`
               )}
             </button>
             <button
@@ -166,18 +166,18 @@ export default function LogIn() {
               </svg>
 
               <span className="text-gray-700 font-medium">
-                {t('goolgesignin')}
+                {t("goolgesignin")}
               </span>
             </button>
 
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
-              {t('signup')}{" "}
+              {t("signup")}{" "}
               <Link
                 href="/signup"
                 className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
               >
-                {t('newsignup')}
+                {t("newsignup")}
               </Link>
             </p>
           </form>
@@ -185,19 +185,11 @@ export default function LogIn() {
       </div>
 
       {/* Right - Image */}
-      <div
-        className="hidden lg:block lg:w-1/2 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dreamstime.com%2Fphotos-images%2Fhandmade-crafts.html&psig=AOvVaw28jo-XqVlAGWqXvhKBryNW&ust=1755097306486000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCIiOuo7FhY8DFQAAAAAdAAAAABAE')",
-        }}
-      >
+      <div className="hidden lg:block lg:w-1/2 bg-cover bg-center min-h-full bg-amber-400">
         <div className="h-full bg-black bg-opacity-50 flex items-center justify-center text-white px-12">
           <div className="text-center">
-            <h2 className="text-4xl font-bold mb-6">{t2('herafy')}</h2>
-            <p className="text-xl">
-             {t('worksentence')}
-            </p>
+            <h2 className="text-4xl font-bold mb-6">{t2("herafy")}</h2>
+            <p className="text-xl">{t("worksentence")}</p>
           </div>
         </div>
       </div>
