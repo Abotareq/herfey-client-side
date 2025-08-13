@@ -48,7 +48,7 @@ function Signup() {
           {/* Logo */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-              <i className="fas fa-user-plus text-green-500 fa-lg"></i>
+              <i className="fas fa-user-plus text-orange-500 fa-lg"></i>
             </div>
             <h2 className="text-2xl font-bold text-gray-800">
              {t('newacount')}
@@ -70,7 +70,7 @@ function Signup() {
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder={t('fnameplace')}
                 />
               </div>
@@ -84,7 +84,7 @@ function Signup() {
                   value={formData.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder={t('lnameplace')}
                 />
               </div>
@@ -101,7 +101,7 @@ function Signup() {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder={t('Username')}
               />
             </div>
@@ -117,11 +117,11 @@ function Signup() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder={t('pemail')}
               />
               {formData.email && !validateEmail(formData.email) && (
-                <p className="mt-2 text-sm text-green-500">
+                <p className="mt-2 text-sm text-orange-500">
                   Please enter a valid email address
                 </p>
               )}
@@ -139,7 +139,7 @@ function Signup() {
                 onChange={handleChange}
                 required
                 pattern="[0-9]{10,15}"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder={t('pplace')}
               />
             </div>
@@ -156,7 +156,7 @@ function Signup() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="••••••••"
                 />
                 <button
@@ -188,7 +188,7 @@ function Signup() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="••••••••"
                 />
                 <button
@@ -219,7 +219,7 @@ function Signup() {
                 !validatePassword(formData.password) ||
                 !passwordsMatch
               }
-              className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-50"
+              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 focus:ring-4 focus:ring-orange-500 focus:ring-opacity-50 disabled:opacity-50"
             >
               {loading ? `${t('signingup')}` : `${t('signUp')}`}
             </button>
@@ -263,7 +263,7 @@ function Signup() {
               {t('accountexists')}{" "}
               <Link
                 href="/signin"
-                className="ml-1 text-green-500 hover:text-green-600 font-semibold"
+                className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
               >
                 {t('signin')}
               </Link>
