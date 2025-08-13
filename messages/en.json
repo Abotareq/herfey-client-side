@@ -158,5 +158,43 @@
             "desc2": " Fragile products must be packaged appropriately and labeled as &quot;fragile&quot; to prevent damage during shipping.",
             "note": "Important Notice",
             "notedes": "The seller is fully responsible for providing proper packaging. Any damage due to negligent packaging is not covered by the platform. Seller losses from poor packaging are not compensated."
+        },
+        "Exchange":{
+            "title": "Exchange & Return Policy",
+            "des": "Shop With Confidence",
+            "p1": "You may request an exchange or return within ",
+            "p11": "of receiving your order, provided the product is unused, in original packaging, and in the same condition as received.",
+            "stong": "14 days",
+            "p2":"Custom-made and sale items are non-returnable. To initiate a return, contact us at",
+            "email": "support@herafy.com",
+            "p3": "If the item is damaged or defective, please notify us within ",
+            "strong2": "48 hours",
+            "p31": "of delivery with photos. We will cover the return shipping cost in such cases.",
+            "p4": "Refunds will be processed within",
+            "strong3":"7 working days",
+            "p41": "after inspection of the returned item."
+        },
+        "Privacy":{
+            "title": "Privacy Policy",
+            "desc": " How We Protect Your Data",
+            "p1": "At",
+            "strong": "Herafy",
+            "p11": ", we value your privacy and are committed to safeguarding your personal information. This Privacy Policy explains what data we collect, how we use it, and your rights regarding your information.",
+            "p2": " We collect personal details such as your name, email, shipping address, and payment information only to process your orders and improve your shopping experience.",
+            "p3": " We never sell or trade your personal information to third parties. Your data is protected using encryption and secure storage, and only shared when required to fulfill your order or by law.",
+            "p4": " You have the right to request, correct, or delete your personal data at any time. For inquiries, contact us at",
+            "link": "support@herafy.com"
+        },
+        "Terms & Conditions":{
+            "title": "Terms & Conditions",
+            "desc": "Please Read Before Using Our Site",
+            "p1": "By accessing and using",
+            "strong": "Herafy",
+            "p11": ", you agree to our Terms and Conditions. We sell unique, handmade products — variations in size, color, and design are natural.",
+            "p2": "All prices are listed in your local currency and may change without notice. Orders are confirmed upon payment and shipped according to our shipping policy.",
+            "p3": "We are not responsible for delays caused by couriers or customs. Please review our",
+            "pspan": "Exchange & Return Policy",
+            "p31": "for product return details.",
+            "p4": " These terms are governed by the laws of Egypt. If you disagree with any part, please discontinue use of our website."
         }
 }
