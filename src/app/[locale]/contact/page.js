@@ -1,3 +1,6 @@
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "Contact Us - My Website",
@@ -5,6 +8,9 @@ export const metadata = {
 };
 
 export default function ContactPage() {
+  const locale = useLocale();
+  const isArabic = locale === 'ar';
+  const t = useTranslations('Contct')
   return (
     <section className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -13,18 +19,20 @@ export default function ContactPage() {
           <div className="lg:mb-0 mb-10">
             <div className="group w-full h-full">
               <div className="relative h-full">
-                <img
-                  src="https://pagedone.io/asset/uploads/1696488602.png"
-                  alt="Contact us"
+                <Image
+                  src='/Contact.PNG'
+                  width={800}
+                  height={800}
+                  alt={t('title')}
                   className="w-full h-full lg:rounded-l-2xl rounded-2xl bg-blend-multiply bg-orange-500 object-cover"
                 />
                 <h1 className="font-manrope text-white text-4xl font-bold leading-10 absolute top-11 left-11">
-                  Contact us
+                  {t('title')}
                 </h1>
                 <div className="absolute bottom-0 w-full lg:p-11 p-5">
                   <div className="bg-white rounded-lg p-6 block">
                     {/* Phone */}
-                    <a href="#" className="flex items-center mb-6">
+                    <Link href="#" className="flex items-center mb-6">
                       <svg
                         width="30"
                         height="30"
@@ -40,26 +48,26 @@ export default function ContactPage() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <h5 className="text-black text-base font-normal leading-6 ml-5">
-                        470-601-1911
+                      <h5 className="text-black text-base font-normal leading-6 ml-5 hover:text-orange-400 transition-transform duration-300 hover:scale-105">
+                        {t('phone')}
                       </h5>
-                    </a>
+                    </Link>
 
                     {/* Email */}
-                    <a href="#" className="flex items-center mb-6">
+                    <Link href="#" className="flex items-center mb-6">
                       {/* SVG email icon here */}
-                      <h5 className="text-black text-base font-normal leading-6 ml-5">
-                        Pagedone1234@gmail.com
+                      <h5 className="text-black text-base font-normal leading-6 ml-5 hover:text-orange-400 transition-transform duration-300 hover:scale-105">
+                        {t('email')}
                       </h5>
-                    </a>
+                    </Link>
 
                     {/* Address */}
-                    <a href="#" className="flex items-center">
+                    <Link href="#" className="flex items-center">
                       {/* SVG location icon here */}
-                      <h5 className="text-black text-base font-normal leading-6 ml-5">
-                        654 Sycamore Avenue, Meadowville, WA 76543
+                      <h5 className="text-black text-base font-normal leading-6 ml-5 hover:text-orange-400 transition-transform duration-300 hover:scale-105">
+                        {t('address')}
                       </h5>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -69,27 +77,27 @@ export default function ContactPage() {
           {/* Right side */}
           <div className=" p-5 lg:p-11 lg:rounded-r-2xl rounded-2xl">
             <h2 className="text-orange-500 font-manrope text-4xl font-semibold leading-10 mb-11">
-              Send Us A Message
+              {t('send')}
             </h2>
             <input
               type="text"
-              className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-              placeholder="Name"
+              className={`w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10 ${isArabic ? 'pr-[10px]': ''}`}
+              placeholder={t('nplace')}
             />
             <input
               type="text"
-              className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-              placeholder="Email"
+              className={`w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10 ${isArabic ? 'pr-[10px]': ''}`}
+              placeholder={t('ePlace')}
             />
             <input
               type="text"
-              className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-              placeholder="Phone"
+              className={`w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10 ${isArabic ? 'pr-[10px]': ''}`}
+              placeholder={t('pplace')}
             />
 
             <div className="mb-10">
               <h4 className="text-gray-500 text-lg font-normal leading-7 mb-4">
-                Preferred method of communication
+                {t('communication')}
               </h4>
               <div className="flex">
                 <div className="flex items-center mr-11">
@@ -104,7 +112,7 @@ export default function ContactPage() {
                     className="flex items-center cursor-pointer text-gray-500 text-base font-normal leading-6"
                   >
                     <span className="border border-gray-300 rounded-full mr-2 w-4 h-4 ml-2"></span>{" "}
-                    Email
+                    {t('Ecommunication')}
                   </label>
                 </div>
                 <div className="flex items-center">
@@ -119,7 +127,7 @@ export default function ContactPage() {
                     className="flex items-center cursor-pointer text-gray-500 text-base font-normal leading-6"
                   >
                     <span className="border border-gray-300 rounded-full mr-2 w-4 h-4 ml-2"></span>{" "}
-                    Phone
+                    {t('Pcommunucation')}
                   </label>
                 </div>
               </div>
@@ -127,11 +135,11 @@ export default function ContactPage() {
 
             <input
               type="text"
-              className="w-full h-12 text-gray-600 placeholder-gray-400 bg-transparent text-lg shadow-sm font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-              placeholder="Message"
+              className={`w-full h-12 text-gray-600 placeholder-gray-400 bg-transparent text-lg shadow-sm font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10 ${isArabic ? 'pr-[10px]': ''}`}
+              placeholder={t('mpalce')}
             />
             <button className="w-full h-12 text-white text-base font-semibold leading-6 rounded-full transition-all duration-700 hover:bg-orange-800 bg-orange-600 shadow-sm">
-              Send
+              {t('Buttonsend')}
             </button>
           </div>
         </div>

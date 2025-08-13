@@ -81,5 +81,82 @@
         "signin": "Sign in",
         "signingup": "Processing...",
         "signUp": "Sign Up"
-    }
+    },
+    "Contct": {
+        "title": "Contact us",
+        "phone": "+201507975526",
+        "email": "info@herafy.net",
+        "nplace": "Name",
+        "ePlace": "Email",
+        "pplace": "Phone",
+        "mpalce": "Message",
+        "address": "654 Sycamore Avenue, Meadowville, WA 76543",
+        "send": "Send Us A Message",
+        "communication": "Preferred method of communication",
+        "Ecommunication": "Email",
+        "Pcommunucation": "Phone",
+        "Buttonsend": "Send"
+    },
+    "FAQ": {
+        "faq": "faqs",
+        "answer": "Looking for answers?",
+        "q1": "How to create an account?",
+        "A1": "To create an account, find the 'Sign up' or 'Create account' button, fill out the registration form with your personal information, and click 'Create account' or 'Sign up.' Verify your email address if needed, and then log in to start using the platform.",
+        "q2": "Have any trust issue?",
+        "A2": "Our focus on providing robust and user-friendly content management capabilities ensures that you can manage your content with confidence, and achieve your content marketing goals with ease.",
+        "q3": "How can I reset my password?",
+        "A3": "If you’ve forgotten your password, go to the login page and click on 'Forgot Password.' Enter your registered email address, and we’ll send you a secure link to reset your password. Follow the instructions to create a new one.",
+        "q4": "What is the payment process on Herafy?",
+        "A4": "Payments on Herafy are simple and secure. Once you choose a service, you can proceed to checkout, select your preferred payment method, and complete the transaction. All payments are processed through trusted, encrypted payment gateways."
+    },
+    "TermsOfSale":{
+        "title": "Terms of Sale and Packaging",
+        "guideline": "Comprehensive guidelines for handmade product sellers on quality standards,",
+        "requiremnts": "packaging requirements, and image specifications for Harfi platforms.",
+        "termsofsale": "Terms of Sale",
+        "warning": "All products are handmade, any non-handmade product will be removed.",
+        "imagequality": "The seller is committed to providing high-quality product images.",
+        "productquality": "Products must meet agreed quality and specifications with proper packaging to maintain quality during shipping.",
+        "policy": "Each seller must display their own sales policies regarding order preparation and delivery.",
+        "productremarked": "Products will be marketed on all Harfi platforms throughout the Arab Republic of Egypt.",
+        "offers": "The seller offers a 10% marketing commission on the cost of the product sold to the craftsman.",
+        "productimage": "Product Image Acceptance Terms"
+    },
+    "Avoid These":{
+            "avoid": "Avoid These",
+            "one": "Light source behind product",
+            "two": "Phone flash creating shadows",
+            "three": "Bed sheets as background",
+            "four": "Shaky or blurry images",
+            "five": "Too many decorations nearby",
+            "six": "Tilted product positioning"
+        },
+        "Best Practices":{
+            "best": "Best Practices",
+            "one": "White background (white board)",
+            "two": "Good lighting conditions",
+            "three": "Photography box if possible",
+            "four": "Horizontal product position",
+            "five": "Clear product colors",
+            "six": "Professional photographer when possible"
+        },
+        "Logo & Layout":{
+            "logo": "Logo & Layout",
+            "one":"Small logo at bottom only",
+            "two": "One image per product display",
+            "three": "Minimal decorations",
+            "four": "Don&apos;t combine multiple images",
+            "five": "Logo should not be large on product"
+        },
+        "Packaging":{
+            "title": "Packaging Products for Shipping",
+            "one": "1",
+            "title1": "Brand Packaging",
+            "des": "All packaging types permitted with brand logo, but no direct contact information (phone numbers, social media pages).",
+            "two": "2",
+            "title2": "Fragile Items",
+            "desc2": " Fragile products must be packaged appropriately and labeled as &quot;fragile&quot; to prevent damage during shipping.",
+            "note": "Important Notice",
+            "notedes": "The seller is fully responsible for providing proper packaging. Any damage due to negligent packaging is not covered by the platform. Seller losses from poor packaging are not compensated."
+        }
 }
