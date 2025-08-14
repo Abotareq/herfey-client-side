@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useTranslations } from "use-intl";
 import Image from "next/image";
 
+
 export default function LogIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -185,7 +186,12 @@ export default function LogIn() {
       </div>
 
       {/* Right - Image */}
-      <div className="hidden lg:block lg:w-1/2 bg-cover bg-center min-h-full bg-amber-400">
+      <div
+        className="hidden lg:block lg:w-1/2 bg-cover bg-center min-h-full bg-amber-400"
+        style={{
+          backgroundImage: 'url("@/handmade.jpg")',
+        }}
+      >
         <div className="h-full bg-black bg-opacity-50 flex items-center justify-center text-white px-12">
           <div className="text-center">
             <h2 className="text-4xl font-bold mb-6">{t2("herafy")}</h2>
