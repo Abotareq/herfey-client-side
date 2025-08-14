@@ -196,5 +196,17 @@
             "pspan": "Exchange & Return Policy",
             "p31": "for product return details.",
             "p4": " These terms are governed by the laws of Egypt. If you disagree with any part, please discontinue use of our website."
+        },
+        "Services": {
+            "t1": "Discount",
+            "t2": "Secure Payment method",
+            "t3": "Full Refund",
+            "t4": "Technical Support",
+            "t5": "Coverage of all Governments",
+            "desc1": "Year-round offers, especailly for regular customers",
+            "desc2": "We Provide all payments methods, including cash on delevery",
+            "desc3": "You have 7 days to return and get 100% refund",
+            "desc4": "Ready to answer all inquires",
+            "desc5": "We will deliver to your doorstep wherever you are within 3 to 7 days"
         }
 }

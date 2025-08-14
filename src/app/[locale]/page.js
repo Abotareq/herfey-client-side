@@ -4,8 +4,10 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import SwiperComponent from "./components/Swiper";
+import Services from "./components/Services";
 export default function Home() {
   return <>
   <SwiperComponent/>
+  <Services />
   </>;
 }
