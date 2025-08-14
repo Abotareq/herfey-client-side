@@ -208,5 +208,22 @@
             "desc3": "You have 7 days to return and get 100% refund",
             "desc4": "Ready to answer all inquires",
             "desc5": "We will deliver to your doorstep wherever you are within 3 to 7 days"
+        },
+        "BestSeller":{
+            "title": "Best Seller",
+            "name1": "Wood Products",
+            "name2": "Genuine Leather Products",
+            "name3": "Decoupage Products",
+            "title1": "Wooden Table",
+            "cat1": "Wood Products",
+            "title2": "Wooden Chair",
+            "title3": "Wooden Holder",
+            "title4": "Leather Bag",
+            "cat2": "Genuine Leather Products",
+            "title5": "Leather Purse",
+            "title6": "Decoupage Art - 1",
+            "title7": "Decoupage Art - 2",
+            "title8": "Decoupage Art - 3",
+            "cat3": "Decoupage Products"
         }
 }
