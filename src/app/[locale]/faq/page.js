@@ -1,8 +1,8 @@
 "use client";
-
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-
+import background from "../../../../public/faq.jpg";
 export default function FAQSection() {
   const t = useTranslations("FAQ");
   const [openIndex, setOpenIndex] = useState(0); // First one open by default
@@ -24,9 +24,11 @@ export default function FAQSection() {
         <div className="flex flex-col justify-center items-center gap-x-16 gap-y-5 xl:gap-28 lg:flex-row lg:justify-between max-lg:max-w-2xl mx-auto max-w-full">
           {/* Left Image */}
           <div className="w-full lg:w-1/2">
-            <img
-              src="/3.webp"
+            <Image
+              src={background}
               alt="FAQ tailwind section"
+              width={500}
+              height={500}
               className="w-full rounded-xl object-cover"
             />
           </div>

@@ -1,7 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
-
+import background from "../../../../public/contact.webp";
 export const metadata = {
   title: "Contact Us - My Website",
   description: "Get in touch with us via phone, email, or our contact form.",
@@ -20,13 +20,13 @@ export default function ContactPage() {
             <div className="group w-full h-full">
               <div className="relative h-full">
                 <Image
-                  src="/1.jpg"
+                  src={background}
                   width={800}
                   height={800}
                   alt={t("title")}
                   className="w-full h-full lg:rounded-l-2xl rounded-2xl bg-blend-multiply bg-orange-500 object-cover"
                 />
-                <h1 className="font-manrope text-white text-4xl font-bold leading-10 absolute top-11 left-11">
+                <h1 className="font-manrope text-zinc-700 text-4xl font-bold leading-10 absolute top-11 left-11">
                   {t("title")}
                 </h1>
                 <div className="absolute bottom-0 w-full lg:p-11 p-5">
