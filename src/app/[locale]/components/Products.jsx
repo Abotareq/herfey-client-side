@@ -1,82 +1,73 @@
-import image1 from '../photos/image1.png';
-import image2 from '../photos/image2.png';
+import Link from "next/link";
 
 function Products() {
   const products = [
-    { title: 'vase', price: 800, image: image1 },
-    { title: 'vase', price: 900, image: image2 },
-    { title: 'green vase', price: 1000, image: image1 },
-    { title: 'white vase', price: 1200, image: image2 },
-    { title: 'white vase', price: 1200, image: image2 },
-    { title: 'white vase', price: 1200, image: image2 },
-    { title: 'white vase', price: 1200, image: image2 },
-    { title: 'white vase', price: 1200, image: image2 },
-    { title: 'white vase', price: 1200, image: image2 },
-    { title: 'white vase', price: 1200, image: image2 },
+    { title: "vase", price: 800, image: "/1.jpg" },
+    { title: "vase", price: 900, image: "/1.jpg" },
+    { title: "green vase", price: 1000, image: "/2.jpg" },
+    { title: "white vase", price: 1200, image: "/3.jpg" },
+    { title: "white vase", price: 1200, image: "/4.jpg" },
+    { title: "white vase", price: 1200, image: "/5.jpg" },
+    { title: "white vase", price: 1200, image: "/6.jpg" },
+    { title: "white vase", price: 1200, image: "/7.jpg" },
+    { title: "white vase", price: 1200, image: "/8.jpg" },
+    { title: "white vase", price: 1200, image: "/9.jpg" },
   ];
 
   return (
-    <div className="flex flex-wrap justify-center">
-      {products.map((pro, index) => (
-        <div
-          key={index}
-          className="flex-shrink-0 m-6 relative overflow-hidden bg-orange-500 rounded-lg max-w-xs shadow-lg group"
-        >
-          {/* Background SVG */}
-          <svg
-            className="absolute bottom-0 left-0 mb-8 scale-150 group-hover:scale-[1.65] transition-transform"
-            viewBox="0 0 375 283"
-            fill="none"
-            style={{ opacity: 0.1 }}
+    <div className="p-4 mx-auto lg:max-w-6xl md:max-w-4xl">
+      <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 sm:mb-8">
+        Products page
+      </h2>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        {products.map((product) => (
+          <Link
+            key={product.id}
+            href={`/product/${product.id}`} // dynamic product page
+            className="bg-white flex flex-col rounded-sm overflow-hidden shadow-md hover:scale-[1.01] transition-all relative"
           >
-            <rect
-              x="159.52"
-              y="175"
-              width="152"
-              height="152"
-              rx="8"
-              transform="rotate(-45 159.52 175)"
-              fill="white"
-            />
-            <rect
-              y="107.48"
-              width="152"
-              height="152"
-              rx="8"
-              transform="rotate(-45 0 107.48)"
-              fill="white"
-            />
-          </svg>
-
-          {/* Product Image */}
-          <div className="relative pt-10 px-10 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <div
-              className="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3"
-              style={{
-                background: "radial-gradient(black, transparent 60%)",
-                transform: "rotate3d(0, 0, 1, 20deg) scale3d(1, 0.6, 1)",
-                opacity: 0.2,
-              }}
-            ></div>
-            <img
-              className="relative w-40"
-              src={pro.image}
-              alt={pro.title}
-            />
-          </div>
-
-          {/* Product Details */}
-          <div className="relative text-white px-6 pb-6 mt-6">
-            <span className="block opacity-75 -mb-1">Outdoor</span>
-            <div className="flex justify-between">
-              <span className="block font-semibold text-xl capitalize">{pro.title}</span>
-              <span className="block bg-white rounded-full text-teal-500 text-xs font-bold px-3 py-2 leading-none flex items-center">
-                ${pro.price}
-              </span>
+            <div className="w-full">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full aspect-[18/24] object-cover object-top"
+              />
             </div>
-          </div>
-        </div>
-      ))}
+            <div className="p-4">
+              <h5 className="text-sm sm:text-base font-semibold text-slate-900 line-clamp-2">
+                {product.title}
+              </h5>
+              <div className="mt-2 flex items-center flex-wrap gap-2">
+                <h6 className="text-sm sm:text-base font-semibold text-slate-900">
+                  ${product.price}
+                </h6>
+                <div
+                  className="bg-slate-100 w-8 h-8 flex items-center justify-center rounded-full ml-auto"
+                  title="Wishlist"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16px"
+                    className="fill-slate-800 inline-block"
+                    viewBox="0 0 64 64"
+                  >
+                    <path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div className="min-h-[50px] p-4 !pt-0">
+              <button
+                type="button"
+                className="absolute left-0 right-0 bottom-3 cursor-pointer max-w-[88%] mx-auto text-sm px-2 py-2 font-medium w-full bg-orange-400 hover:bg-blue-700 text-white tracking-wide outline-none border-none rounded-sm"
+              >
+                Add to cart
+              </button>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
