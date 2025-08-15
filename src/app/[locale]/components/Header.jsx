@@ -5,14 +5,15 @@ import { useTranslations } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-
+import Image from "next/image";
+/* import user from "../../../../public/user.svg"; // Assuming you have a user icon */
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(routing.defaultLocale);
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("Navbar");
-  const t2 = useTranslations('Herafy');
+  const t2 = useTranslations("Herafy");
 
   useEffect(() => {
     const pathLocale = pathname?.split("/")[1];
@@ -32,8 +33,6 @@ export default function Header() {
     { name: "categories", href: "/categories" },
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },
-    {name: 'signin', href: '/signin'},
-    {name: 'signup', href: '/signup'}
   ];
 
   const isActive = (path) => pathname === path;
@@ -59,12 +58,29 @@ export default function Header() {
             {/* Center - Logo (Hidden on sm and below) */}
             <div className="hidden sm:flex justify-center">
               <div className="text-xl sm:text-2xl font-bold text-orange-500">
-                {t2('herafy')}
+                {t2("herafy")}
                 <div className="w-10 sm:w-12 h-1 bg-orange-500 mx-auto mt-1"></div>
               </div>
             </div>
+
             {/* Right Side - Social Media Icons */}
             <div className="flex justify-end items-center gap-2 sm:gap-3">
+              <Link
+                href={`/${currentLocale}/signin`}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit ${
+                  isActive(`/${currentLocale}/signin`)
+                    ? "bg-emerald-600 text-white"
+                    : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
+                }`}
+              >
+                {t("signin")}
+              </Link>
+              <Link
+                href={`/${currentLocale}/user-profile`}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit `}
+              >
+                <Image src="/1.10.svg" alt="user" width={20} height={20} />
+              </Link>
               {/* Social icons here */}
             </div>
           </div>
@@ -105,12 +121,12 @@ export default function Header() {
             {/* Logo - Mobile */}
             <div className="sm:hidden col-span-2 flex justify-center py-2">
               <div className="text-xl font-bold text-orange-500">
-                {t2('herafy')}
+                {t2("herafy")}
                 <div className="w-10 h-1 bg-orange-500 mx-auto mt-1"></div>
               </div>
             </div>
             {/* Desktop Navigation */}
-            
+
             <nav className="hidden sm:block">
               <div className="flex items-center justify-between space-x-4">
                 {/* Nav items */}
@@ -142,7 +158,6 @@ export default function Header() {
                 </select>
               </div>
             </nav>
-
           </div>
 
           {/* Mobile Navigation Menu */}
