@@ -14,4 +14,5 @@ export default function Home() {
   <Services />
   <BetsSeller />
   </>;
+
 }
