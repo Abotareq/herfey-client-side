@@ -76,10 +76,10 @@ export default function Header() {
                 {t("signin")}
               </Link>
               <Link
-                href={`/${currentLocale}/user-profile`}
+                href={`/${currentLocale}/customer-profile`}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit `}
               >
-                <Image src="/1.10.svg" alt="user" width={20} height={20} />
+                <Image src="/1.10.svg" alt="customer" width={20} height={20} />
               </Link>
               {/* Social icons here */}
             </div>
