@@ -3,7 +3,8 @@ import React from 'react'
 import { useState } from "react";
 import { useTranslations } from 'use-intl';
 import Link from 'next/link';
-
+import Image from 'next/image';
+import background from "../../../../public/singup.jpg";
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -47,7 +48,7 @@ function Signup() {
         <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
               <i className="fas fa-user-plus text-orange-500 fa-lg"></i>
             </div>
             <h2 className="text-2xl font-bold text-gray-800">
@@ -276,12 +277,15 @@ function Signup() {
       
         <div
         className="hidden lg:block lg:w-1/2 bg-cover bg-center relative"
-         style={{
-            backgroundImage: "url('/handmade.jpg')",
-            minHeight: "full",
-  }}
         >
-        <div className="h-full bg-black bg-opacity-50 flex items-center justify-center text-white px-12">
+                  <Image
+                    src={background}
+                    alt="Herafy background"
+                    fill
+                    priority
+                    className="object-cover"
+                  />
+        <div className="h-full bg-black opacity-50 flex items-center justify-center text-white px-12">
           <div className="text-center">
             <h2 className="text-4xl font-bold mb-6">{t('join')}</h2>
             <p className="text-xl">
