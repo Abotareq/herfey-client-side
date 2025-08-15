@@ -2,7 +2,9 @@ import React from 'react'
 
 function Products() {
   return (
-    <div>Products</div>
+    <div className='bg-white'>
+        <Products />
+    </div>
   )
 }
 
