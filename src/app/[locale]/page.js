@@ -6,13 +6,13 @@ import "swiper/css/thumbs";
 import SwiperComponent from "./components/Swiper";
 import Services from "./components/Services";
 import BetsSeller from "./components/BetsSeller";
+import CategoryLinks from "./components/CategoryLinks";
 export default function Home() {
-  return (
-    <>
-      <SwiperComponent />
+  return <>
+  <SwiperComponent/>
+  <CategoryLinks />
+  <Services />
+  <BetsSeller />
+  </>;
 
-      <BetsSeller />
-      <Services />
-    </>
-  );
 }
