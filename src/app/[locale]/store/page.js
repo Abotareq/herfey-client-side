@@ -1,9 +1,11 @@
-import React from 'react'
+import Products from '../components/Products'
 
 function Store() {
   return (
-    <div>page</div>
+    <div className='bg-white'>
+        <Products />
+    </div>
   )
 }
 
-export default Store``
+export default Store;
