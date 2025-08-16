@@ -1,9 +1,8 @@
 import React from 'react'
+import VendorProfile from '../components/vendor/Vendor'
 
-function VendorProfile() {
-  return (
-    <div>page</div>
-  )
+function Vendor() {
+  return <VendorProfile />
 }
 
-export default VendorProfile
+export default Vendor
