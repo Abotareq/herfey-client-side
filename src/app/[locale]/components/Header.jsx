@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Search, Heart, ShoppingCart, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -6,7 +6,6 @@ import { routing } from "@/i18n/routing";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-/* import user from "../../../../public/user.svg"; // Assuming you have a user icon */
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(routing.defaultLocale);

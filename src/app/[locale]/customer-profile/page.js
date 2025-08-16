@@ -1,4 +1,4 @@
-import CustomerProfile from "../components/userProfile/CustomerProfile";
+import CustomerProfile from "../components/customerProfile/CustomerProfile";
 
 function Customer() {
   return (
