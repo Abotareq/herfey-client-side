@@ -5,8 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import background from "../../../../public/singup.jpg";
 import { useSignUp } from "@/service/auth.js";
+import { useRouter } from 'next/navigation';
 
 function Signup() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -38,6 +40,7 @@ function Signup() {
     signUp(formData, {
       onSuccess: () => {
         alert("Account created successfully!");
+        router.push('/')
       },
       onError: (err) => {
         alert(err.message || "Signup failed");
