@@ -6,7 +6,7 @@ import { routing } from "@/i18n/routing";
 import NotFound from "./not-found";
 import Header from "./components/Header";
 import Footer from "./components/footer";
-
+import { Providers } from "./client/queryClientProivder";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -42,9 +42,11 @@ export default async function RootLayout({ params, children }) {
           locale={resolvedParams.locale}
           messages={messages}
         >
-          <Header />
-          {children}
-          <Footer />
+          <Providers>
+            <Header />
+            {children}
+            <Footer />
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

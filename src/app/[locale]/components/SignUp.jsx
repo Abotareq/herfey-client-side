@@ -1,23 +1,25 @@
-'use client';
-import React from 'react'
-import { useState } from "react";
-import { useTranslations } from 'use-intl';
-import Link from 'next/link';
-import Image from 'next/image';
+"use client";
+import React, { useState } from "react";
+import { useTranslations } from "use-intl";
+import Link from "next/link";
+import Image from "next/image";
 import background from "../../../../public/singup.jpg";
+import { useSignUp } from "@/service/auth.js";
+
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    username: "",
+    userName: "",
     email: "",
     phone: "",
     password: "",
     confirmPassword: "",
   });
-  const [loading, setLoading] = useState(false);
+
+  const { mutate: signUp, isPending } = useSignUp();
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePassword = (password) => password.length >= 8;
@@ -33,14 +35,19 @@ function Signup() {
       alert("Passwords do not match!");
       return;
     }
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      alert("Account created successfully!");
-    }, 1500);
+    signUp(formData, {
+      onSuccess: () => {
+        alert("Account created successfully!");
+      },
+      onError: (err) => {
+        alert(err.message || "Signup failed");
+      },
+    });
   };
-  const t = useTranslations('Signup');
-  const t2 = useTranslations('Login')
+
+  const t = useTranslations("Signup");
+  const t2 = useTranslations("Login");
+
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Left - Form */}
@@ -52,9 +59,9 @@ function Signup() {
               <i className="fas fa-user-plus text-orange-500 fa-lg"></i>
             </div>
             <h2 className="text-2xl font-bold text-gray-800">
-             {t('newacount')}
+              {t("newacount")}
             </h2>
-            <p className="text-gray-600 mt-2">{t('details')}</p>
+            <p className="text-gray-600 mt-2">{t("details")}</p>
           </div>
 
           {/* Form */}
@@ -63,7 +70,7 @@ function Signup() {
             <div className="mb-6 grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('firstname')}
+                  {t("firstname")}
                 </label>
                 <input
                   type="text"
@@ -72,12 +79,12 @@ function Signup() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  placeholder={t('fnameplace')}
+                  placeholder={t("fnameplace")}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('lastname')}
+                  {t("lastname")}
                 </label>
                 <input
                   type="text"
@@ -86,7 +93,7 @@ function Signup() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  placeholder={t('lnameplace')}
+                  placeholder={t("lnameplace")}
                 />
               </div>
             </div>
@@ -94,23 +101,23 @@ function Signup() {
             {/* Username */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('Username')}
+                {t("Username")}
               </label>
               <input
                 type="text"
-                name="username"
-                value={formData.username}
+                name="userName"
+                value={formData.userName}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                placeholder={t('Username')}
+                placeholder={t("Username")}
               />
             </div>
 
             {/* Email */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('emailaddress')}
+                {t("emailaddress")}
               </label>
               <input
                 type="email"
@@ -119,7 +126,7 @@ function Signup() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                placeholder={t('pemail')}
+                placeholder={t("pemail")}
               />
               {formData.email && !validateEmail(formData.email) && (
                 <p className="mt-2 text-sm text-orange-500">
@@ -131,7 +138,7 @@ function Signup() {
             {/* Phone */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('phonenumber')}
+                {t("phonenumber")}
               </label>
               <input
                 type="tel"
@@ -141,14 +148,14 @@ function Signup() {
                 required
                 pattern="[0-9]{10,15}"
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                placeholder={t('pplace')}
+                placeholder={t("pplace")}
               />
             </div>
 
             {/* Password */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('Password')}
+                {t("Password")}
               </label>
               <div className="relative">
                 <input
@@ -171,16 +178,14 @@ function Signup() {
                 </button>
               </div>
               {formData.password && !validatePassword(formData.password) && (
-                <p className="mt-2 text-sm text-green-500">
-                  {t('wpassword')}
-                </p>
+                <p className="mt-2 text-sm text-green-500">{t("wpassword")}</p>
               )}
             </div>
 
             {/* Confirm Password */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('cpassword')}
+                {t("cpassword")}
               </label>
               <div className="relative">
                 <input
@@ -205,9 +210,7 @@ function Signup() {
                 </button>
               </div>
               {formData.confirmPassword && !passwordsMatch && (
-                <p className="mt-2 text-sm text-red-500">
-                  {t('wcpswword')}
-                </p>
+                <p className="mt-2 text-sm text-red-500">{t("wcpswword")}</p>
               )}
             </div>
 
@@ -215,14 +218,14 @@ function Signup() {
             <button
               type="submit"
               disabled={
-                loading ||
+                isPending ||
                 !validateEmail(formData.email) ||
                 !validatePassword(formData.password) ||
                 !passwordsMatch
               }
               className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 focus:ring-4 focus:ring-orange-500 focus:ring-opacity-50 disabled:opacity-50"
             >
-              {loading ? `${t('signingup')}` : `${t('signUp')}`}
+              {isPending ? `${t("signingup")}` : `${t("signUp")}`}
             </button>
 
             {/* Google Sign Up */}
@@ -254,19 +257,17 @@ function Signup() {
                   d="M24 48c6.4 0 11.8-2.1 15.7-5.8l-7.6-6.1C29.3 36.1 26.8 37 24 37c-6.2 0-11.4-3.4-14-8.3l-7.6 5.9C6.9 42.6 14.7 48 24 48z"
                 />
               </svg>
-              <span className="text-gray-700 font-medium">
-                {t('Gsignup')}
-              </span>
+              <span className="text-gray-700 font-medium">{t("Gsignup")}</span>
             </button>
 
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
-              {t('accountexists')}{" "}
+              {t("accountexists")}{" "}
               <Link
                 href="/signin"
                 className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
               >
-                {t('signin')}
+                {t("signin")}
               </Link>
             </p>
           </form>
@@ -274,29 +275,23 @@ function Signup() {
       </div>
 
       {/* Right - Image */}
-      
-        <div
-        className="hidden lg:block lg:w-1/2 bg-cover bg-center relative"
-        >
-                  <Image
-                    src={background}
-                    alt="Herafy background"
-                    fill
-                    priority
-                    className="object-cover"
-                  />
+      <div className="hidden lg:block lg:w-1/2 bg-cover bg-center relative">
+        <Image
+          src={background}
+          alt="Herafy background"
+          fill
+          priority
+          className="object-cover"
+        />
         <div className="h-full bg-black opacity-50 flex items-center justify-center text-white px-12">
           <div className="text-center">
-            <h2 className="text-4xl font-bold mb-6">{t('join')}</h2>
-            <p className="text-xl">
-              {t2('worksentence')}
-            </p>
+            <h2 className="text-4xl font-bold mb-6">{t("join")}</h2>
+            <p className="text-xl">{t2("worksentence")}</p>
           </div>
         </div>
       </div>
     </div>
   );
-
 }
 
-export default Signup
+export default Signup;

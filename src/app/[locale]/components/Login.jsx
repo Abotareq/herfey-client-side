@@ -5,11 +5,17 @@ import { useState } from "react";
 import { useTranslations } from "use-intl";
 import Image from "next/image";
 import background from "../../../../public/login.jpg";
+import { useSignIn } from '@/service/auth'; // adjust path if needed
+import { useRouter } from 'next/navigation';
+
 export default function LogIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const signInMutation = useSignIn();
+  const router = useRouter();
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePassword = (password) => password.length >= 8;
@@ -17,11 +23,24 @@ export default function LogIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      alert("Logged in successfully!");
-    }, 1500);
+
+    signInMutation.mutate(
+      { email, password },
+      {
+        onSuccess: (data) => {
+          setLoading(false);
+          alert("Logged in successfully!");
+          // if backend sets cookies, session is set. If token returned it's stored by service.
+          router.push('/');
+        },
+        onError: (err) => {
+          setLoading(false);
+          alert(err.message || "Login failed");
+        },
+      }
+    );
   };
+
   const t = useTranslations("Login");
   const t2 = useTranslations("Herafy");
   return (
@@ -179,6 +198,8 @@ export default function LogIn() {
               >
                 {t("newsignup")}
               </Link>
+              {/* Minimal delete account link placed next to the switch (keeps layout) */}
+           
             </p>
           </form>
         </div>
