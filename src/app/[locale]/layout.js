@@ -7,6 +7,7 @@ import NotFound from "./not-found";
 import Header from "./components/Header";
 import Footer from "./components/footer";
 import { Providers } from "./client/queryClientProivder";
+import { AuthProvider } from "../context/AuthContext";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -43,9 +44,11 @@ export default async function RootLayout({ params, children }) {
           messages={messages}
         >
           <Providers>
-            <Header />
-            {children}
-            <Footer />
+            <AuthProvider>
+              <Header />
+              {children}
+              <Footer />
+            </AuthProvider>
           </Providers>
         </NextIntlClientProvider>
       </body>
