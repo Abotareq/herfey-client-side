@@ -17,21 +17,21 @@ function BestSeller() {
       title: t('title1'),
       price: 999,
       category: t('cat1'),
-      image: "/wood1.jpg",
+      image: "/1.jpg",
     },
     {
       id: 2,
       title: t('title2'),
       price: 1000,
       category: t('cat1'),
-      image: "/wood2.jpg",
+      image: "/2.jpg",
     },
     {
       id: 3,
       title: t('title3'),
       price: 500,
       category: t('cat1'),
-      image: "/wood3.jpg",
+      image: "/3.jpg",
     },
 
     // Leather products
@@ -40,21 +40,21 @@ function BestSeller() {
       title: t('title4'),
       price: 1500,
       category: t('cat2'),
-      image: "/product1.jpg",
+      image: "/1.jpg",
     },
     {
       id: 5,
       title: t('title4'),
       price: 2000,
       category: t('cat2'),
-      image: "/product2.jpg",
+      image: "/2.jpg",
     },
     {
       id: 6,
       title: t('title5'),
       price: 600,
       category: t('cat2'),
-      image: "/product3.jpg",
+      image: "/3.jpg",
     },
 
     // Decoupage products
@@ -63,21 +63,21 @@ function BestSeller() {
       title: t('title6'),
       price: 800,
       category: t('cat3'),
-      image: "/decoupage1.jpg",
+      image: "/8.jpg",
     },
     {
       id: 8,
       title: t('title7'),
       price: 1000,
       category: t('cat3'),
-      image: "/decoupage2.jpg",
+      image: "/9.jpg",
     },
     {
       id: 9,
       title: t('title8'),
       price: 1200,
       category: t('cat3'),
-      image: "/decoupage3.jpg",
+      image: "/6.jpg",
     },
   ];
 

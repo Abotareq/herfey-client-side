@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("api/token/route.js", { credentials: "include" }) 
+    fetch("api/token", { credentials: "include" }) 
       .then(res => res.json())
       .then(data => {
         setUser(data.user);

@@ -2,9 +2,9 @@ import Link from "next/link";
 
 function CategoryLinks() {
   const categories = [
-    { title: "Wood Products", image: "/wood1.jpg", href: "/productpage" },
-    { title: "Decoupage products", image: "/decopage1.jpg", href: "/productpage" },
-    { title: "Leather Products", image: "/product2.jpg", href: "/productpage" },
+    { title: "Wood Products", image: "/1.jpg", href: "/store" },
+    { title: "Decoupage products", image: "/2.jpg", href: "/store" },
+    { title: "Leather Products", image: "/3.jpg", href: "/store" },
   ];
 
   return (
@@ -20,7 +20,7 @@ function CategoryLinks() {
                     src={item.image}
                     alt={item.title}
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>
+                  <div className="absolute inset-0  bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold text-gray-800 mb-2" style={{direction: 'rtl'}}>

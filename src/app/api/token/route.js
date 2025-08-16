@@ -9,7 +9,7 @@ export async function GET() {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, 'egqmp84vs3uu9mlhptjka079');
     return Response.json({ user: decoded }); // send only safe user info
   } catch {
     return Response.json({ user: null }, { status: 401 });
