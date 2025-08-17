@@ -1,9 +1,8 @@
 import React from 'react'
+import CategoryPage from '../components/categoryDetail'
 
 function Categories() {
-  return (
-    <div>page</div>
-  )
+  return <CategoryPage />
 }
 
 export default Categories
