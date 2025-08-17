@@ -40,7 +40,7 @@ function Signup() {
     signUp(formData, {
       onSuccess: () => {
         alert("Account created successfully!");
-        router.push('/')
+       window.location.href = "/";
       },
       onError: (err) => {
         alert(err.message || "Signup failed");
@@ -271,6 +271,15 @@ function Signup() {
                 className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
               >
                 {t("signin")}
+              </Link>
+            </p>
+                  <p className="mt-6 text-center text-gray-600">
+              {"process as a guest"}
+              <Link
+                href="/"
+                className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
+              >
+                {"guest"}
               </Link>
             </p>
           </form>

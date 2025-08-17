@@ -49,7 +49,7 @@ const { mutate: signOut, isLoading } = useSignOut();
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },
   ];
-  const { user } = useAuth();
+  const { user,loading } = useAuth();
   const isActive = (path) => pathname === path;
 
   return (
@@ -80,7 +80,8 @@ const { mutate: signOut, isLoading } = useSignOut();
 
             {/* Right Side - Social Media Icons */}
             <div className="flex justify-end items-center gap-2 sm:gap-3">
-              {!user && (
+              {!user && !loading && (
+
                 <Link
                   href={`/${currentLocale}/signin`}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit ${
@@ -92,7 +93,7 @@ const { mutate: signOut, isLoading } = useSignOut();
                   {t("signin")}
                 </Link>
               )}
-              {user && (
+              {user && !loading && (
                 <button
                   onClick={handleSignOut}
                   disabled={isLoading}
@@ -103,12 +104,12 @@ const { mutate: signOut, isLoading } = useSignOut();
                   {isLoading ? "Signing Out..." : "Sign Out"}
                 </button>
               )}
-              <Link
+              {user&&!loading && <Link
                 href={`/${currentLocale}/customer-profile`}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit `}
               >
                 <Image src="/1.10.svg" alt="customer" width={20} height={20} />
-              </Link>
+              </Link>}
               {/* Social icons here */}
             </div>
           </div>

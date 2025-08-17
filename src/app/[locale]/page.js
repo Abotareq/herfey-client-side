@@ -8,11 +8,13 @@ import Services from "./components/Services";
 import BetsSeller from "./components/BetsSeller";
 import CategoryLinks from "./components/CategoryLinks";
 export default function Home() {
-  return <>
-  <SwiperComponent/>
-  <CategoryLinks />
-  <Services />
-  <BetsSeller />
-  </>;
+  return (
+    <>
+      <SwiperComponent />
+      <CategoryLinks />
 
+      <BetsSeller />
+      <Services />
+    </>
+  );
 }

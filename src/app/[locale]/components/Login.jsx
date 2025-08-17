@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useTranslations } from "use-intl";
 import Image from "next/image";
 import background from "../../../../public/login.jpg";
-import { useSignIn } from '@/service/auth'; // adjust path if needed
-import { useRouter } from 'next/navigation';
+import { useSignIn } from "@/service/auth"; // adjust path if needed
+import { useRouter } from "next/navigation";
 
 export default function LogIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +31,7 @@ export default function LogIn() {
           setLoading(false);
           alert("Logged in successfully!");
           // if backend sets cookies, session is set. If token returned it's stored by service.
-          router.push('/');
+          window.location.href = "/";
         },
         onError: (err) => {
           setLoading(false);
@@ -199,7 +199,16 @@ export default function LogIn() {
                 {t("newsignup")}
               </Link>
               {/* Minimal delete account link placed next to the switch (keeps layout) */}
-           
+            </p>
+
+            <p className="mt-6 text-center text-gray-600">
+              {"process as a guest"}
+              <Link
+                href="/"
+                className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
+              >
+                {"guest"}
+              </Link>
             </p>
           </form>
         </div>
