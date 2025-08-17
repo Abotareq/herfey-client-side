@@ -4,10 +4,10 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import NotFound from "./not-found";
-import Header from "./components/Header";
-import Footer from "./components/footer";
 import { Providers } from "./client/queryClientProivder";
 import { AuthProvider } from "../context/AuthContext";
+import ConditionalLayout from "./components/ConditionalLayout ";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,15 +28,18 @@ export const metadata = {
 
 export default async function RootLayout({ params, children }) {
   const resolvedParams = await params;
+  
   if (!hasLocale(routing.locales, resolvedParams.locale)) {
     return <NotFound />;
   }
-
+  
   const messages = await getMessages();
+  
   return (
     <html
       lang={resolvedParams.locale}
       dir={resolvedParams.locale === "ar" ? "rtl" : "ltr"}
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body>
         <NextIntlClientProvider
@@ -45,9 +48,9 @@ export default async function RootLayout({ params, children }) {
         >
           <Providers>
             <AuthProvider>
-              <Header />
-              {children}
-              <Footer />
+              <ConditionalLayout locale={resolvedParams.locale}>
+                {children}
+              </ConditionalLayout>
             </AuthProvider>
           </Providers>
         </NextIntlClientProvider>

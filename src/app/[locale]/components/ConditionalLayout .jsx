@@ -1,0 +1,24 @@
+"use client";
+import { usePathname } from "next/navigation";
+import Header from "./Header";
+import Footer from "./footer";
+
+export default function ConditionalLayout({ locale, children }) {
+  const pathname = usePathname();
+  
+  const excludedRoutes = [
+    `/${locale}/signin`,
+    `/${locale}/signup`,
+    // Add other routes as needed
+  ];
+  
+  const showHeaderFooter = !excludedRoutes.includes(pathname);
+  
+  return (
+    <>
+      {showHeaderFooter && <Header />}
+      {children}
+      {showHeaderFooter && <Footer />}
+    </>
+  );
+}

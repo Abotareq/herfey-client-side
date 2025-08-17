@@ -1,37 +1,38 @@
 "use client";
 import Link from "next/link";
-import { getCategoriesById, getAllCategories } from "@/service/category.js";
-import { useQuery } from "@tanstack/react-query";
+import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
 
-  // get all categories
-  const { data: categories, isLoading: loadingList } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getAllCategories,
-  });
+  // Get all categories using the service hook
+  const { data: categories, isLoading: loadingList, error: categoriesError } = useGetAllCategories();
 
-  // get category by id
-  const { data: categoryDetails, isLoading: loadingDetails } = useQuery({
-    queryKey: ["category", selectedId],
-    queryFn: () => getCategoriesById(selectedId),
-    enabled: !!selectedId,
-  });
+  // Get category by ID using the service hook
+  const { data: categoryDetails, isLoading: loadingDetails, error: categoryError } = useGetCategoryById(selectedId);
 
+  // Handle loading state for categories
   if (loadingList) return <p>Loading Categories...</p>;
+
+  // Handle error state for categories
+  if (categoriesError) return <p>Error loading categories: {categoriesError.message}</p>;
+
+  // Handle case where categories data is empty or invalid
+  if (!categories || !Array.isArray(categories) || categories.length === 0) {
+    return <p>No categories available</p>;
+  }
 
   return (
     <div className="w-full bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {categories.data.allCategories.map((item) => (
+          {categories.map((item) => (
             <Link
               key={item._id}
               href={{
                 pathname: "/categories",
-                query: { id: item._id }, // pass id in query
+                query: { id: item._id }, // Pass ID in query
               }}
               onClick={() => setSelectedId(item._id)}
               className="cursor-pointer bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
@@ -40,7 +41,7 @@ function CategoryLinks() {
                 <img
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   src={item.image || "/placeholder.jpg"}
-                  alt={item.name}
+                  alt={item.name || "Category"}
                 />
                 <div className="absolute inset-0 bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
@@ -49,7 +50,7 @@ function CategoryLinks() {
                   className="text-xl font-bold text-gray-800 mb-2"
                   style={{ direction: "rtl" }}
                 >
-                  {item.name}
+                  {item.name || "Unnamed Category"}
                 </h3>
                 <div className="w-16 h-0.5 bg-amber-600 mx-auto"></div>
               </div>
@@ -59,6 +60,7 @@ function CategoryLinks() {
 
         {/* Show details when clicked */}
         {loadingDetails && <p>Loading details...</p>}
+        {categoryError && <p>Error loading category details: {categoryError.message}</p>}
         {categoryDetails && (
           <div className="mt-6 p-4 bg-white shadow rounded">
             <h2 className="text-lg font-bold">Category Details</h2>
@@ -66,7 +68,24 @@ function CategoryLinks() {
               <strong>ID:</strong> {categoryDetails._id}
             </p>
             <p>
-              <strong>Name:</strong> {categoryDetails.name}
+              <strong>Name:</strong> {categoryDetails.name || "Unnamed Category"}
+            </p>
+            <p>
+              <strong>Slug:</strong> {categoryDetails.slug || "N/A"}
+            </p>
+            <p>
+              <strong>Product Count:</strong> {categoryDetails.productCount ?? 0}
+            </p>
+            <p>
+              <strong>Stores Count:</strong> {categoryDetails.storesCount ?? 0}
+            </p>
+            {categoryDetails.parent && (
+              <p>
+                <strong>Parent Category:</strong> {categoryDetails.parent}
+              </p>
+            )}
+            <p>
+              <strong>Created At:</strong> {new Date(categoryDetails.createdAt).toLocaleString()}
             </p>
           </div>
         )}

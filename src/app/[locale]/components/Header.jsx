@@ -1,4 +1,6 @@
-'use client';
+"use client";
+import { useAuth } from "@/app/context/AuthContext";
+import { useSignOut } from "@/service/auth";
 import { Search, Heart, ShoppingCart, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -13,7 +15,21 @@ export default function Header() {
   const pathname = usePathname();
   const t = useTranslations("Navbar");
   const t2 = useTranslations("Herafy");
-
+const { mutate: signOut, isLoading } = useSignOut();
+  
+  const handleSignOut = () => {
+    console.log("Signing out...");
+    signOut(
+      {},
+      {
+        onSuccess: () => {
+        
+          window.location.reload();
+          
+        },
+      }
+    );
+  };
   useEffect(() => {
     const pathLocale = pathname?.split("/")[1];
     if (routing.locales.includes(pathLocale)) {
@@ -33,7 +49,7 @@ export default function Header() {
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },
   ];
-
+  const { user } = useAuth();
   const isActive = (path) => pathname === path;
 
   return (
@@ -64,16 +80,29 @@ export default function Header() {
 
             {/* Right Side - Social Media Icons */}
             <div className="flex justify-end items-center gap-2 sm:gap-3">
-              <Link
-                href={`/${currentLocale}/signin`}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit ${
-                  isActive(`/${currentLocale}/signin`)
-                    ? "bg-emerald-600 text-white"
-                    : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
-                }`}
-              >
-                {t("signin")}
-              </Link>
+              {!user && (
+                <Link
+                  href={`/${currentLocale}/signin`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit ${
+                    isActive(`/${currentLocale}/signin`)
+                      ? "bg-emerald-600 text-white"
+                      : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
+                  }`}
+                >
+                  {t("signin")}
+                </Link>
+              )}
+              {user && (
+                <button
+                  onClick={handleSignOut}
+                  disabled={isLoading}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit text-gray-700 hover:bg-red-600 hover:text-emerald-100 ${
+                    isLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isLoading ? "Signing Out..." : "Sign Out"}
+                </button>
+              )}
               <Link
                 href={`/${currentLocale}/customer-profile`}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit `}

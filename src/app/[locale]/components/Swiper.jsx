@@ -1,18 +1,33 @@
+
 "use client";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import "swiper/css/free-mode";
-import React, { useRef, useState } from "react";
-// Import Swiper React components
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { swiperimages } from "../constants";
-// import required modules
-import { FreeMode, Navigation, Thumbs,Autoplay  } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs, Autoplay } from "swiper/modules";
+import { useGetAllCategories } from "@/service/category";
 
 export default function SwiperComponent() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+  // Fetch categories
+  const { data: categories, isLoading, error } = useGetAllCategories();
+
+  // Debug log for categories
+  console.log('Swiper categories:', categories);
+
+  // Handle loading and error states
+  if (isLoading) return <p>Loading categories...</p>;
+  if (error) return <p>Error loading categories: {error.message}</p>;
+  if (!categories || !Array.isArray(categories) || categories.length === 0) {
+    return <p>No categories available</p>;
+  }
+
+  // Base URL for images (adjust if images are served from a different source)
+  const BASE_IMAGE_URL = "http://localhost:5000"; // Update if needed
 
   return (
     <>
@@ -26,15 +41,17 @@ export default function SwiperComponent() {
         navigation={true}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
+        modules={[FreeMode, Navigation, Thumbs, Autoplay]}
         className="mySwiper2"
       >
-        {swiperimages.map((item, index) => (
-         
-            <SwiperSlide key={index}>
-              <img src={item} />
-            </SwiperSlide>
-         
+        {categories.map((item) => (
+          <SwiperSlide key={item._id}>
+            <img
+              src={item.image}
+              alt={item.name || "Category"}
+              className="w-full h-full object-cover"
+            />
+          </SwiperSlide>
         ))}
       </Swiper>
       <Swiper
@@ -47,17 +64,20 @@ export default function SwiperComponent() {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        {swiperimages.map((item, index) => (
-          <div key={index} className=" ">
-            <SwiperSlide key={index} >
-              <img src={item} />
-            </SwiperSlide>
-          </div>
+        {categories.map((item) => (
+          <SwiperSlide key={item._id}>
+            <img
+              src={item.image}
+              alt={item.name || "Category"}
+              className="w-full h-full object-cover"
+            />
+          </SwiperSlide>
         ))}
       </Swiper>
     </>
   );
 }
+
 {
   /* <Swiper
         onSwiper={setThumbsSwiper}
