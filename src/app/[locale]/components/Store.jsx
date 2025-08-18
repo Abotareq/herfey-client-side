@@ -1,178 +1,392 @@
-export default function HerafyStorePage() {
-  const stores = [
-    {
-      id: 1,
-      name: "Herafy Wood Works",
-      description: "Handcrafted wood furniture and décor.",
-      image: "/1.jpg",
-      link: "/stores/wood",
-    },
-    {
-      id: 2,
-      name: "Herafy Leather",
-      description: "Premium handmade leather bags and accessories.",
-      image: "/2.jpg",
-      link: "/stores/leather",
-    },
-    {
-      id: 3,
-      name: "Herafy Découpage",
-      description: "Artistic découpage creations for unique home décor.",
-      image: "/3.jpg",
-      link: "/stores/decoupage",
-    },
-    {
-      id: 4,
-      name: "Herafy Sports",
-      description: "Custom sports gear and branded merchandise.",
-      image: "/4.jpg",
-      link: "/stores/sports",
-    },
-    {
-      id: 5,
-      name: "Herafy Fashion",
-      description: "Trendy fashion items crafted by local artisans.",
-      image: "/5.jpg",
-      link: "/stores/fashion",
-    },
-    {
-      id: 6,
-      name: "Herafy Arts",
-      description: "Exclusive handcrafted art pieces for your space.",
-      image: "/6.jpg",
-      link: "/stores/arts",
-    },
-  ];
+
+"use client";
+import { getAllStores, getVendorStores } from "@/service/store";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+export default function HerafyStorePage({ vendorOnly = false }) {
+  const [stores, setStores] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // 🔹 filter + sort state
+  const [filters, setFilters] = useState({
+    search: "",
+    status: "",
+    brand: [],
+    sort: "newest", // default
+    page: 1,
+    limit: 12,
+  });
+
+  // Fetch stores
+  useEffect(() => {
+    const fetchStores = async () => {
+      try {
+        setLoading(true);
+
+        let data;
+        if (vendorOnly) {
+          data = await getVendorStores(filters);
+        } else {
+          data = await getAllStores(filters);
+        }
+
+        setStores(data?.stores || data?.data?.stores || []);
+      } catch (error) {
+        console.error("Error fetching stores:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStores();
+  }, [filters, vendorOnly]);
+
+  // 🔹 update filter helper
+  const updateFilter = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
+  };
+
+  // 🔹 toggle brand
+  const toggleBrand = (brand) => {
+    setFilters((prev) => {
+      const updated = prev.brand.includes(brand)
+        ? prev.brand.filter((b) => b !== brand)
+        : [...prev.brand, brand];
+      return { ...prev, brand: updated, page: 1 };
+    });
+  };
+
+  // 🔹 clear all
+  const clearFilters = () => {
+    setFilters({
+      search: "",
+      status: "",
+      brand: [],
+      sort: "newest",
+      page: 1,
+      limit: 12,
+    });
+  };
 
   return (
-    <div className="flex">
-      {/* Sidebar Filter */}
-      <div className="w-full max-w-[300px] shrink-0 shadow-md px-6 sm:px-8 min-h-screen py-6">
-        <div className="flex items-center border-b border-gray-300 pb-2 mb-6">
-          <h3 className="text-slate-900 text-lg font-semibold">Filter</h3>
-          <button
-            type="button"
-            className="text-sm text-red-500 font-semibold ml-auto cursor-pointer"
-          >
-            Clear all
-          </button>
-        </div>
-
-        {/* Brand Filter */}
-        <div>
-          <h6 className="text-slate-900 text-sm font-semibold">Brand</h6>
-          <div className="flex px-3 py-1.5 rounded-md border border-gray-300 bg-gray-100 overflow-hidden mt-2">
-            <input
-              type="text"
-              placeholder="Search brand"
-              className="w-full bg-transparent outline-none text-gray-900 text-sm"
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 192.904 192.904"
-              className="w-3 fill-gray-600"
-            >
-              <path d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z"></path>
-            </svg>
-          </div>
-          <ul className="mt-6 space-y-4">
-            {["Zara", "H&M", "Uniqlo", "Levi’s", "Nike", "Adidas", "Puma", "Tommy Hilfiger"].map(
-              (brand, index) => (
-                <li key={index} className="flex items-center gap-3">
-                  <input
-                    id={brand.toLowerCase()}
-                    type="checkbox"
-                    className="w-4 h-4 cursor-pointer"
-                  />
-                  <label
-                    htmlFor={brand.toLowerCase()}
-                    className="text-slate-600 font-medium text-sm cursor-pointer"
-                  >
-                    {brand}
-                  </label>
-                </li>
-              )
-            )}
-          </ul>
-        </div>
-
-        <hr className="my-6 border-gray-300" />
-        {/* Price Filter */}
-        <div>
-          <h6 className="text-slate-900 text-sm font-semibold">Price</h6>
-          <div className="relative mt-6">
-            <div className="h-1.5 bg-gray-300 relative">
-              <div
-                id="activeTrack"
-                className="absolute h-1.5 bg-pink-500 rounded-full w-9/12"
-              ></div>
-            </div>
-            <input type="range" min="0" max="1000" defaultValue="0" />
-            <input type="range" min="0" max="1000" defaultValue="750" />
-            <div className="flex justify-between text-slate-600 font-medium text-sm mt-4">
-              <span>$750</span>
-              <span>$1000</span>
-            </div>
-          </div>
-        </div>
-
-        <hr className="my-6 border-gray-300" />
-
-        {/* Color Filter */}
-        {/* <div>
-          <h6 className="text-slate-900 text-sm font-semibold">Color</h6>
-          <div className="flex flex-wrap gap-3 mt-4">
-            {[
-              "bg-blue-700",
-              "bg-purple-700",
-              "bg-pink-700",
-              "bg-orange-700",
-              "bg-red-700",
-              "bg-yellow-700",
-              "bg-black",
-              "bg-gray-700",
-            ].map((color, index) => (
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex flex-col lg:flex-row">
+        {/* Sidebar Filter */}
+        <div className="w-full lg:w-80 lg:min-w-80 bg-white border-r border-gray-200 shadow-sm">
+          <div className="sticky top-0 px-6 py-8 lg:min-h-screen">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-8">
+              <h3 className="text-slate-900 text-xl font-bold tracking-tight">
+                Filters
+              </h3>
               <button
-                key={index}
                 type="button"
-                className={`cursor-pointer rounded-full w-8 h-8 hover:scale-[1.05] transition-all ${color}`}
-              ></button>
-            ))}
-          </div>
-        </div> */}
-      </div>
+                onClick={clearFilters}
+                className="text-sm text-red-500 hover:text-red-600 font-semibold transition-colors duration-200 hover:underline focus:outline-none focus:ring-2 focus:ring-red-200 rounded px-2 py-1"
+              >
+                Clear all
+              </button>
+            </div>
 
-      {/* Store Cards */}
-      <div className="w-full p-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stores.map((store) => (
-            <div
-              key={store.id}
-              className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition"
-            >
-              <img
-                src={store.image}
-                alt={store.name}
-                className="w-full h-40 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-slate-900">
-                  {store.name}
-                </h3>
-                <p className="text-sm text-slate-600 mt-1">
-                  {store.description}
-                </p>
-                <a
-                  href={store.link}
-                  className="mt-3 inline-block px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-700 rounded"
-                >
-                  View Store
-                </a>
+            {/* Search Filter */}
+            <div className="mb-8">
+              <label className="block text-slate-900 text-sm font-semibold mb-3">
+                Search Store
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search store..."
+                  value={filters.search}
+                  onChange={(e) => updateFilter("search", e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400"
+                />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <svg
+                    className="h-4 w-4 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
-          ))}
+
+            {/* Status Filter */}
+            <div className="mb-8">
+              <label className="block text-slate-900 text-sm font-semibold mb-3">
+                Store Status
+              </label>
+              <div className="relative">
+                <select
+                  value={filters.status}
+                  onChange={(e) => updateFilter("status", e.target.value)}
+                  className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
+                >
+                  <option value="">All Status</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <svg
+                    className="h-4 w-4 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+              {/* Sort Filter */}
+            <div className="mb-6">
+              <label className="block text-slate-900 text-sm font-semibold mb-3">
+                Sort By
+              </label>
+              <div className="relative">
+                <select
+                  value={filters.sort}
+                  onChange={(e) => updateFilter("sort", e.target.value)}
+                  className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="name">Name (A-Z)</option>
+                  <option value="products">Most Products</option>
+                  <option value="orders">Most Orders</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <svg
+                    className="h-4 w-4 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            {/* Brand Filter */}
+            <div className="mb-8">
+              <label className="block text-slate-900 text-sm font-semibold mb-4">
+                Brand Selection
+              </label>
+              <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+                {[
+                  "Zara",
+                  "H&M",
+                  "Uniqlo",
+                  "Levi's",
+                  "Nike",
+                  "Adidas",
+                  "Puma",
+                ].map((brand, index) => (
+                  <div key={index} className="flex items-center group">
+                    <div className="relative flex items-center">
+                      <input
+                        id={brand.toLowerCase()}
+                        type="checkbox"
+                        checked={filters.brand.includes(brand)}
+                        onChange={() => toggleBrand(brand)}
+                        className="w-4 h-4 text-orange-500 bg-white border-2 border-gray-300 rounded focus:ring-orange-500 focus:ring-2 transition-all duration-200 cursor-pointer hover:border-orange-400"
+                      />
+                    </div>
+                    <label
+                      htmlFor={brand.toLowerCase()}
+                      className="ml-3 text-slate-600 font-medium text-sm cursor-pointer group-hover:text-slate-800 transition-colors duration-200 select-none"
+                    >
+                      {brand}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Store Cards Section */}
+        <div className="flex-1 bg-gray-50">
+          <div className="p-6 lg:p-8">
+            {/* Header */}
+            <div className="mb-8">
+              <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
+                {vendorOnly ? "My Stores" : "All Stores"}
+              </h1>
+              <p className="text-slate-600 text-sm lg:text-base">
+                Discover and explore our collection of premium stores
+              </p>
+            </div>
+
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-16">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-3 border-orange-500 mb-4"></div>
+                <p className="text-center text-gray-500 text-lg font-medium">
+                  Loading stores...
+                </p>
+                <p className="text-center text-gray-400 text-sm mt-1">
+                  Please wait while we fetch the latest data
+                </p>
+              </div>
+            ) : stores.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 max-w-md mx-auto">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg
+                      className="w-8 h-8 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                    No stores found
+                  </h3>
+                  <p className="text-slate-600 text-sm">
+                    Try adjusting your filters or search terms to find what
+                    you're looking for.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+                {stores.map((store, index) => (
+                  <div
+                    key={store._id || store.id}
+                    className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl hover:border-gray-300 transition-all duration-300 transform hover:-translate-y-1 group"
+                    style={{
+                      animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
+                    }}
+                  >
+                    {/* Image Container */}
+                    <div className="relative overflow-hidden bg-gray-100">
+                      <img
+                        src={store.logoUrl || "/placeholder.jpg"}
+                        alt={store.name}
+                        className="w-full h-48 lg:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-lg lg:text-xl font-semibold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors duration-200 line-clamp-1">
+                        {store.name}
+                      </h3>
+                      <p className="text-sm text-slate-600 mb-6 line-clamp-2 leading-relaxed">
+                        {store.description}
+                      </p>
+
+                      <Link
+                        href={`/store/${store._id}`}
+                        className="inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-700 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
+                      >
+                        <span>View Store</span>
+                        <svg
+                          className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .line-clamp-1 {
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e0 #f7fafc;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f7fafc;
+          border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #cbd5e0;
+          border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #a0aec0;
+        }
+
+        .border-b-3 {
+          border-bottom-width: 3px;
+        }
+      `}</style>
     </div>
   );
 }
