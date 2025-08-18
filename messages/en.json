@@ -6,7 +6,9 @@
         "contact": "Contact",
         "store": "Store",
         "signup": "Sign up",
-        "signin": "Signin"
+        "signin": "Signin",
+        "signout": "Sign Out",
+        "signing": "Signing Out..."
     },
     "Herafy": {
         "herafy": "Herafy"
@@ -227,5 +229,73 @@
             "title7": "Decoupage Art - 2",
             "title8": "Decoupage Art - 3",
             "cat3": "Decoupage Products"
-        }
+        },
+        "customer": {
+            "title": "Personal Information",
+            "username": "Username",
+            "firstname": "First Name",
+            "lastname": "Last Name",
+            "email": "Email",
+            "verify": "Verified",
+            "phone": "Phone",
+            "role": "Role",
+            "cancel": "Cancel",
+            "save": "Save Changes",
+            "total": "Total Orders",
+            "active": "Active Orders",
+            "cancelorders": "Cancelled Orders",
+            "edit": "Edit Profile"
+    },
+    "address":{
+        "delivery": "Delivery Addresses",
+        "newaddress": "Add New Address",
+        "building": "Building Number",
+        "street": "Street",
+        "streetname": "Street name",
+        "landmark": "Nearest Landmark",
+        "city": "City",
+        "government": "Governorate",
+        "country": "Country",
+        "type": "Address Type",
+        "home": "Home",
+        "work": "Work",
+        "defaultaddress": "Set as default address",
+        "cancel": "Cancel"
+    },
+    "defaultaddress":{
+        "building": "Building:",
+        "street": "Street:",
+        "near": "Near:",
+        "city": "City:",
+        "government": "Governorate:",
+        "country": "Country:",
+        "default": "Default"
+    },
+    "reviews": {
+        "myreviews": "My Reviews",
+        "desc": "Your reviews and feedback on products and stores",
+        "all": "All Reviews",
+        "products": "Products",
+        "stores": "Stores",
+        "new": "Newest First",
+        "old": "Oldest First",
+        "high": "Highest Rated",
+        "low": "Lowest Rated",
+        "total": "Total Reviews",
+        "product": "Product Reviews",
+        "store": "Store Reviews",
+        "average": "Average Rating",
+        "edit": "Edit Review",
+        "rate": "Rating",
+        "comment": "Comment",
+        "cancel": "Cancel",
+        "update": "Update Review",
+        "noreview": "No reviews found"
+    },
+    "customerpage":{
+        "date": "Member since",
+        "profile": "Profile",
+        "address": "Addresses",
+        "review": "Reviews"
+    }
 }
