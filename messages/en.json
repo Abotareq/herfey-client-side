@@ -55,17 +55,19 @@
         "goolgesignin": "Sign in with Google",
         "signup": "Don't have an account?",
         "newsignup": "Sign up",
-        "worksentence": "Herafy – where the largest collection of handmade products meets passion and craft."
+        "worksentence": "Herafy – where the largest collection of handmade products meets passion and craft.",
+        "guest": "process as a guest",
+        "guestl": "guest"
     },
     "Signup": {
         
         "newacount": "Create Your Account",
         "details": "Please fill in your details",
         "firstname": " First Name",
-        "fnameplace": "Jon",
-        "lastname": "Last Name",
+        "fnameplace": "first name",
+        "lastname": "family name",
         "lnameplace": "Doe",
-        "Username": "johndoe123",
+        "Username": "usename",
         "pemail": "you@example.com",
         "emailaddress": "Email Address",
         "wemail": "Please enter a valid email address",

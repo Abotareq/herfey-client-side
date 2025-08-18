@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import Image from "next/image";
 import background from "../../../../public/login.jpg";
 import { useSignIn } from "@/service/auth"; // adjust path if needed
@@ -43,6 +43,8 @@ export default function LogIn() {
 
   const t = useTranslations("Login");
   const t2 = useTranslations("Herafy");
+  const locale = useLocale();
+  const isArabic = locale === 'ar';
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Left - Form */}
@@ -202,12 +204,12 @@ export default function LogIn() {
             </p>
 
             <p className="mt-6 text-center text-gray-600">
-              {"process as a guest"}
+              {t("guest")}
               <Link
                 href="/"
-                className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
+                className={`ml-1 text-orange-500 hover:text-orange-600 font-semibold ${isArabic? 'pr-1' : ''}`}
               >
-                {"guest"}
+                {t("guestl")}
               </Link>
             </p>
           </form>

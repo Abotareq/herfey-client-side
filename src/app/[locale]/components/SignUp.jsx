@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import Link from "next/link";
 import Image from "next/image";
 import background from "../../../../public/singup.jpg";
@@ -50,7 +50,8 @@ function Signup() {
 
   const t = useTranslations("Signup");
   const t2 = useTranslations("Login");
-
+  const locale = useLocale();
+  const isArabic = locale === 'ar';
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Left - Form */}
@@ -133,7 +134,7 @@ function Signup() {
               />
               {formData.email && !validateEmail(formData.email) && (
                 <p className="mt-2 text-sm text-orange-500">
-                  Please enter a valid email address
+                  {t('wemail')}
                 </p>
               )}
             </div>
@@ -274,12 +275,12 @@ function Signup() {
               </Link>
             </p>
                   <p className="mt-6 text-center text-gray-600">
-              {"process as a guest"}
+              {t2("guest")}
               <Link
                 href="/"
-                className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
+                className={`ml-1 text-orange-500 hover:text-orange-600 font-semibold ${isArabic ? 'pr-1': ''}`}
               >
-                {"guest"}
+                {t2("guestl")}
               </Link>
             </p>
           </form>

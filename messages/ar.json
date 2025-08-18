@@ -55,17 +55,19 @@
     "goolgesignin": "تسجيل الدخول باستخدام جوجل",
     "signup": "ليس لديك حساب؟",
     "newsignup": "إنشاء حساب",
-    "worksentence": "حرفي – حيث تلتقي أكبر مجموعة من المنتجات اليدوية بالشغف والحرفة."
+    "worksentence": "حرفي – حيث تلتقي أكبر مجموعة من المنتجات اليدوية بالشغف والحرفة.",
+    "guest": "اكمل مشاهدة",
+    "guestl": "كزائر"
   },
   "Signup": {
     
     "newacount": "إنشاء حساب جديد",
     "details": "يرجى ادخال بياناتك",
     "firstname": "الاسم الأول",
-    "fnameplace": "جون",
+    "fnameplace": "اسمك الاول",
     "lastname": "اسم العائلة",
-    "lnameplace": "دو",
-    "Username": "johndoe123",
+    "lnameplace": "اسم العائلة",
+    "Username": "اسم المستخدم",
     "pemail": "you@example.com",
     "emailaddress": "البريد الالكتروني",
     "wemail": "يرجى إدخال بريد إلكتروني صالح",
