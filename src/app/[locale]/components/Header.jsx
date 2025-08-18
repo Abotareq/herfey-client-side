@@ -57,8 +57,8 @@ const { mutate: signOut, isLoading } = useSignOut();
     <header className="sticky top-0 z-50 bg-white shadow-md">
       {/* Upper Section */}
       <div className="border-b border-gray-200">
-        <div className="container mx-auto px-2 sm:px-4">
-          <div className="grid grid-cols-3 items-center py-2 sm:py-3">
+        <div className="mx-auto px-2 sm:px-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 items-center py-2 sm:py-3 justify-between">
             {/* Left Side - Action Icons */}
             <div className="flex justify-start items-center gap-2 sm:gap-4">
               <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -80,7 +80,7 @@ const { mutate: signOut, isLoading } = useSignOut();
             </div>
 
             {/* Right Side - Social Media Icons */}
-            <div className='flex justify-center gap-2 max-w-full bg-red-500 sm:gap-3'>
+            <div className='flex justify-end gap-2 max-w-full sm:gap-3'>
               {!user && !loading && (
 
                 <Link

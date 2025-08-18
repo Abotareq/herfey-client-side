@@ -1,41 +1,17 @@
 "use client"
-import  { useState } from 'react'
+import  { useEffect, useState } from 'react'
 import Customer from './customercomponents/Profile'
 import AddressesSection from './customercomponents/AdressSection';
 import ReviewsSection from './customercomponents/ReviewSetcion';
 import { useTranslations } from 'next-intl';
+import { useGetUserById } from '@/service/user';
+import { useAuth } from '@/app/context/AuthContext';
 
 function CustomerProfile() {
   const [activeTab, setActiveTab] = useState('profile')
   
   // Mock user data based on your schema
-  const [userData, setUserData] = useState({
-    userName: "osama_saad",
-    firstName: "Osama",
-    lastName: "Saad",
-    email: "osama@gmail.com",
-    emailVerified: true,
-    phone: "01000000000",
-    role: "customer",
-    addresses: [
-      {
-        _id: "1",
-        buildingNo: 4,
-        street: "Al Shohadaa",
-        nearestLandMark: "School",
-        city: "Juhayna",
-        governorate: "Sohag",
-        country: "Egypt",
-        addressType: "home",
-        isDefault: true
-      }
-    ],
-    wishlist: [],
-    ordersCount: 12,
-    cancelledOrders: 1,
-    activeOrders: 2,
-    createdAt: "2024-01-15T10:30:00Z"
-  })
+
 
   // Mock reviews data based on your schema
   const [userReviews, setUserReviews] = useState([
@@ -96,7 +72,17 @@ function CustomerProfile() {
       }
     }
   ])
+  const [userId, setUserId] = useState(null);
+  const { user, loading: authLoading } = useAuth();
+  const { data, isLoading: userLoading, error } = useGetUserById(userId);
+  const userData = data?.data?.user || {};
   const t = useTranslations('customerpage')
+
+  useEffect(() => {
+    if (!authLoading && user?.id) {
+      setUserId(user.id);
+    }
+  }, [authLoading, user]);
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -104,7 +90,7 @@ function CustomerProfile() {
         <div className="mb-8">
           <div className="flex items-center space-x-4 mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
-              {userData.firstName[0]}{userData.lastName[0]}
+              {userData.firstName}{userData.lastName}
             </div>
             <div>
               <h1 className="text-3xl font-bold text-slate-900">{userData.firstName} {userData.lastName}</h1>
@@ -151,8 +137,8 @@ function CustomerProfile() {
         </div>
 
         {/* Content */}
-        {activeTab === 'profile' && <Customer userData={userData} setUserData={setUserData} />}
-        {activeTab === 'addresses' && <AddressesSection userData={userData} setUserData={setUserData} />}
+        {activeTab === 'profile' && <Customer />}
+        {activeTab === 'addresses' && <AddressesSection  userData={userData} setUserData={setUserData} />}
         {activeTab === 'reviews' && <ReviewsSection userReviews={userReviews} setUserReviews={setUserReviews} />}
       </div>
     </div>
