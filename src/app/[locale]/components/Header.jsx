@@ -3,7 +3,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import { useSignOut } from "@/service/auth";
 import { Search, Heart, ShoppingCart, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
@@ -51,7 +51,8 @@ const { mutate: signOut, isLoading } = useSignOut();
   ];
   const { user,loading } = useAuth();
   const isActive = (path) => pathname === path;
-
+  const locale = useLocale()
+  const isArabic = locale === 'ar';
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
       {/* Upper Section */}
@@ -79,12 +80,12 @@ const { mutate: signOut, isLoading } = useSignOut();
             </div>
 
             {/* Right Side - Social Media Icons */}
-            <div className="flex justify-end items-center gap-2 sm:gap-3">
+            <div className='flex justify-center gap-2 max-w-full bg-red-500 sm:gap-3'>
               {!user && !loading && (
 
                 <Link
                   href={`/${currentLocale}/signin`}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit ${
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
                     isActive(`/${currentLocale}/signin`)
                       ? "bg-emerald-600 text-white"
                       : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
@@ -94,23 +95,24 @@ const { mutate: signOut, isLoading } = useSignOut();
                 </Link>
               )}
               {user && !loading && (
-                <button
+                <div className="flex flex-start max-w-fit">
+                  <button
                   onClick={handleSignOut}
                   disabled={isLoading}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit text-gray-700 hover:bg-red-600 hover:text-emerald-100 ${
                     isLoading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
-                  {isLoading ? "Signing Out..." : "Sign Out"}
+                  {isLoading ? t("signing") : t("signout")}
                 </button>
+                </div>
               )}
               {user&&!loading && <Link
                 href={`/${currentLocale}/customer-profile`}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit `}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit`}
               >
-                <Image src="/1.10.svg" alt="customer" width={20} height={20} />
+                <Image src="/1.10.svg" alt="customer" width={20} height={20}/>
               </Link>}
-              {/* Social icons here */}
             </div>
           </div>
         </div>
