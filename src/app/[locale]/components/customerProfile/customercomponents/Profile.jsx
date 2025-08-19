@@ -1,16 +1,56 @@
 'use client';
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'use-intl';
+import { useAuth } from '@/app/context/AuthContext';
+import { useGetUserById, useUpdateUser } from './../../../../../service/user';
 
-function Customer({ userData, setUserData }) {
-  const [isEditing, setIsEditing] = useState(false)
+function Customer() {
+  const t = useTranslations('customer');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState({});
+  const [userId, setUserId] = useState(null);
+  
+  // Get user and loading state from useAuth
+  const { user, loading: authLoading } = useAuth();
+
+  // Set userId only when authLoading is false and user is available
+  useEffect(() => {
+    if (!authLoading && user?.id) {
+      setUserId(user.id);
+    }
+  }, [authLoading, user]);
+
+  // Fetch user data using the service, only when userId is available
+  const { data, isLoading: userLoading, error } = useGetUserById(userId);
+  console.log(data)
+  console.log(userId)
+  const updateUserMutation = useUpdateUser();
+
+  const userData = data?.data?.user || {};
+  console.log(userData)
+  // Initialize editedData with fetched data when entering edit mode
+  const handleEditToggle = () => {
+    if (!isEditing) {
+      setEditedData({
+        userName: userData.userName || 'no',
+        firstName: userData.firstName || '',
+        lastName: userData.lastName || '',
+        email: userData.email || '',
+        phone: userData.phone || '',
+      });
+    }
+    setIsEditing(!isEditing);
+  };
 
   const handleSaveProfile = () => {
-    setIsEditing(false)
-    // Here you would typically make an API call to update the user data
-    console.log('Saving profile data:', userData)
-  }
-  const t = useTranslations('customer')
+  updateUserMutation.mutate({ userId, ...editedData }, {
+    onSuccess: () => {
+      setIsEditing(false);
+      console.log('Profile updated successfully');
+    }
+  });
+};
+
   return (
     <div className="space-y-8">
       {/* Personal Information Card */}
@@ -18,7 +58,7 @@ function Customer({ userData, setUserData }) {
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-bold text-slate-900">{t('title')}</h3>
           <button
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={handleEditToggle}
             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,12 +74,12 @@ function Customer({ userData, setUserData }) {
             {isEditing ? (
               <input
                 type="text"
-                value={userData.userName}
-                onChange={(e) => setUserData(prev => ({ ...prev, userName: e.target.value }))}
+                value={editedData.userName || ''}
+                onChange={(e) => setEditedData(prev => ({ ...prev, userName: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.userName}</p>
+              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.userName || '-'}</p>
             )}
           </div>
 
@@ -48,12 +88,12 @@ function Customer({ userData, setUserData }) {
             {isEditing ? (
               <input
                 type="text"
-                value={userData.firstName}
-                onChange={(e) => setUserData(prev => ({ ...prev, firstName: e.target.value }))}
+                value={editedData.firstName || ''}
+                onChange={(e) => setEditedData(prev => ({ ...prev, firstName: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.firstName}</p>
+              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.firstName || '-'}</p>
             )}
           </div>
 
@@ -62,12 +102,12 @@ function Customer({ userData, setUserData }) {
             {isEditing ? (
               <input
                 type="text"
-                value={userData.lastName}
-                onChange={(e) => setUserData(prev => ({ ...prev, lastName: e.target.value }))}
+                value={editedData.lastName || ''}
+                onChange={(e) => setEditedData(prev => ({ ...prev, lastName: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.lastName}</p>
+              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.lastName || '-'}</p>
             )}
           </div>
 
@@ -77,12 +117,12 @@ function Customer({ userData, setUserData }) {
               {isEditing ? (
                 <input
                   type="email"
-                  value={userData.email}
-                  onChange={(e) => setUserData(prev => ({ ...prev, email: e.target.value }))}
+                  value={editedData.email || ''}
+                  onChange={(e) => setEditedData(prev => ({ ...prev, email: e.target.value }))}
                   className="flex-1 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               ) : (
-                <p className="flex-1 text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.email}</p>
+                <p className="flex-1 text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.email || '-'}</p>
               )}
               {userData.emailVerified && (
                 <div className="flex items-center space-x-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
@@ -100,25 +140,25 @@ function Customer({ userData, setUserData }) {
             {isEditing ? (
               <input
                 type="tel"
-                value={userData.phone}
-                onChange={(e) => setUserData(prev => ({ ...prev, phone: e.target.value }))}
+                value={editedData.phone || ''}
+                onChange={(e) => setEditedData(prev => ({ ...prev, phone: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.phone}</p>
+              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">{userData.phone || '-'}</p>
             )}
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">{t('role')}</label>
-            <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg capitalize">{userData.role}</p>
+            <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg capitalize">{userData.role || '-'}</p>
           </div>
         </div>
 
         {isEditing && (
           <div className="mt-6 flex justify-end space-x-3">
             <button
-              onClick={() => setIsEditing(false)}
+              onClick={handleEditToggle}
               className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
             >
               {t('cancel')}
@@ -126,8 +166,9 @@ function Customer({ userData, setUserData }) {
             <button
               onClick={handleSaveProfile}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              disabled={updateUserMutation.isLoading}
             >
-              {t('save')}
+              {updateUserMutation.isLoading ? t('saving') : t('save')}
             </button>
           </div>
         )}
@@ -139,7 +180,7 @@ function Customer({ userData, setUserData }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-slate-600 text-sm font-medium">{t('total')}</p>
-              <p className="text-3xl font-bold text-blue-600">{userData.ordersCount}</p>
+              <p className="text-3xl font-bold text-blue-600">{userData.ordersCount || 0}</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
               <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +194,7 @@ function Customer({ userData, setUserData }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-slate-600 text-sm font-medium">{t('active')}</p>
-              <p className="text-3xl font-bold text-green-600">{userData.activeOrders}</p>
+              <p className="text-3xl font-bold text-green-600">{userData.activeOrders || 0}</p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
               <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +208,7 @@ function Customer({ userData, setUserData }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-slate-600 text-sm font-medium">{t('cancelorders')}</p>
-              <p className="text-3xl font-bold text-red-600">{userData.cancelledOrders}</p>
+              <p className="text-3xl font-bold text-red-600">{userData.cancelledOrders || 0}</p>
             </div>
             <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
               <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,7 +219,7 @@ function Customer({ userData, setUserData }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Customer
+export default Customer;

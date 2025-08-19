@@ -1,4 +1,5 @@
 'use client';
+import { useGetUserById } from '@/service/user';
 import { useState } from 'react'
 import { useTranslations } from 'use-intl'
 
@@ -91,8 +92,8 @@ function AddressesSection({ userData, setUserData }) {
       }))
     }))
   }
-  const t = useTranslations('address');
-  const t1 = useTranslations('defaultaddress')
+
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
