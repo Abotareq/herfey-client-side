@@ -7,7 +7,7 @@ import NotFound from "./not-found";
 import { Providers } from "./client/queryClientProivder";
 import { AuthProvider } from "../context/AuthContext";
 import ConditionalLayout from "./components/ConditionalLayout ";
-
+import { RouteGuard } from "./components/RouteGuard";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,13 +28,13 @@ export const metadata = {
 
 export default async function RootLayout({ params, children }) {
   const resolvedParams = await params;
-  
+
   if (!hasLocale(routing.locales, resolvedParams.locale)) {
     return <NotFound />;
   }
-  
+
   const messages = await getMessages();
-  
+
   return (
     <html
       lang={resolvedParams.locale}
@@ -48,9 +48,11 @@ export default async function RootLayout({ params, children }) {
         >
           <Providers>
             <AuthProvider>
-              <ConditionalLayout locale={resolvedParams.locale}>
-                {children}
-              </ConditionalLayout>
+              <RouteGuard>
+                <ConditionalLayout locale={resolvedParams.locale}>
+                  {children}
+                </ConditionalLayout>
+              </RouteGuard>
             </AuthProvider>
           </Providers>
         </NextIntlClientProvider>
