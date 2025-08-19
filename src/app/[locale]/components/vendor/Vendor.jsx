@@ -1,8 +1,9 @@
 "use client"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CouponsSection from './components/Coupon/Coupon'
 import ProfileSection from './components/PersonalInfo/PersonalInfo'
 import StoresSection from './components/Store/Store'
+import { getVendorStores } from '@/service/store'
 
 
 function VendorProfile() {
@@ -25,56 +26,22 @@ function VendorProfile() {
   })
 
   // Mock stores data
-  const [userStores, setUserStores] = useState([
-    {
-      _id: "65ff32fae201f6b1b3d7c9ef",
-      name: "Tech World Electronics",
-      slug: "tech-world-electronics",
-      description: "Premium electronics and gadgets for tech enthusiasts",
-      logoUrl: "https://readymadeui.com/images/product1.webp",
-      status: "approved",
-      location: {
-        coordinates: [31.2357, 30.0444]
-      },
-      address: {
-        city: "Cairo",
-        postalCode: 12345,
-        street: "Tech Street 123"
-      },
-      categorieCount: 5,
-      couponsUsed: 12,
-      productCount: 45,
-      ordersCount: 89,
-      policies: {
-        shipping: "Free shipping on orders over $50",
-        returns: "30-day return policy"
-      }
-    },
-    {
-      _id: "65ff32fae201f6b1b3d7c9f0",
-      name: "Modern Fashion Hub",
-      slug: "modern-fashion-hub",
-      description: "Trendy fashion and accessories for modern lifestyle",
-      logoUrl: "https://readymadeui.com/images/product4.webp",
-      status: "pending",
-      location: {
-        coordinates: [31.2357, 30.0444]
-      },
-      address: {
-        city: "Cairo",
-        postalCode: 12346,
-        street: "Fashion Avenue 456"
-      },
-      categorieCount: 3,
-      couponsUsed: 5,
-      productCount: 28,
-      ordersCount: 67,
-      policies: {
-        shipping: "Standard shipping 3-5 days",
-        returns: "14-day return policy"
-      }
-    }
-  ])
+  const [userStores, setUserStores] = useState([])
+
+  // useEffect(() => {
+  //   // Fetch user stores from the API or any data source
+  //   const fetchUserStores = async () => {
+  //     const data = await getVendorStores()
+  //     console.log("Fetched user stores:", data)
+  //     setUserStores(data.stores)
+  //   }
+
+  //   fetchUserStores()
+  // }, [])
+
+  // useEffect(() => {
+  //   // Update user data or perform any side effects when userStores change
+  // }, [userStores])
 
   // Mock coupons data
   const [userCoupons, setUserCoupons] = useState([
@@ -173,10 +140,7 @@ function VendorProfile() {
           />
         )}
         {activeTab === 'stores' && (
-          <StoresSection 
-            userStores={userStores} 
-            setUserStores={setUserStores} 
-          />
+          <StoresSection />
         )}
         {activeTab === 'coupons' && (
           <CouponsSection 
