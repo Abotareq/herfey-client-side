@@ -84,20 +84,66 @@ function AddressesSection() {
       }
     }
 
-    // use the user Id
+    // Use the correct user ID and clean the addresses data
+    const cleanedAddresses = updatedAddresses.map(addr => {
+      // Remove temporary IDs for new addresses
+      if (typeof addr._id === 'string' && addr._id.length > 12) {
+        const { _id, ...addressWithoutId } = addr;
+        return addressWithoutId;
+      }
+      return addr;
+    });
+
     updateUser.mutate(
-      { userId: user.id || user._id, addresses: updatedAddresses },
+      { userId: user.id || user._id, addresses: cleanedAddresses },
       {
         onSuccess: () => {
           console.log('Address updated successfully');
           resetForm();
+        },
+        onError: (error) => {
+          console.error('Failed to update address:', error);
+          alert('Failed to update address. Please try again.');
         }
       }
     );
   };
 
   const handleDeleteAddress = (addressId) => {
-    const updatedAddresses = addresses.filter(addr => addr._id !== addressId);
+    // Destructure and clean up remaining addresses
+    const updatedAddresses = addresses
+      .filter(addr => addr._id !== addressId)
+      .map(address => {
+        const {
+          buildingNo,
+          street,
+          nearestLandMark,
+          city,
+          governorate,
+          country,
+          addressType,
+          isDefault,
+          _id
+        } = address;
+
+        const cleanAddress = {
+          buildingNo,
+          street,
+          nearestLandMark,
+          city,
+          governorate,
+          country,
+          addressType,
+          isDefault
+        };
+
+        // Include _id only if it's a valid MongoDB ObjectId
+        if (_id && typeof _id === 'string' && _id.length === 24 && /^[0-9a-fA-F]{24}$/.test(_id)) {
+          cleanAddress._id = _id;
+        }
+
+        return cleanAddress;
+      });
     
     updateUser.mutate(
       { userId: user.id || user._id, addresses: updatedAddresses },
@@ -114,10 +160,37 @@ function AddressesSection() {
   };
 
   const handleSetDefaultAddress = (addressId) => {
-    const updatedAddresses = addresses.map(addr => ({
-      ...addr,
-      isDefault: addr._id === addressId,
-    }));
+    // Destructure and clean up addresses while setting default
+    const updatedAddresses = addresses.map(address => {
+      const {
+        buildingNo,
+        street,
+        nearestLandMark,
+        city,
+        governorate,
+        country,
+        addressType,
+        _id
+      } = address;
+
+      const cleanAddress = {
+        buildingNo,
+        street,
+        nearestLandMark,
+        city,
+        governorate,
+        country,
+        addressType,
+        isDefault: _id === addressId // Set as default only if this is the selected address
+      };
+
+      // Include _id only if it's a valid MongoDB ObjectId
+      if (_id && typeof _id === 'string' && _id.length === 24 && /^[0-9a-fA-F]{24}$/.test(_id)) {
+        cleanAddress._id = _id;
+      }
+
+      return cleanAddress;
+    });
     
     updateUser.mutate(
       { userId: user.id || user._id, addresses: updatedAddresses },
@@ -205,7 +278,7 @@ function AddressesSection() {
               type="text"
               value={newAddress.governorate}
               onChange={(e) => setNewAddress(prev => ({ ...prev, governorate: e.target.value }))}
-              placeholder={t('governorate')}
+              placeholder={t('government')}
               className="px-4 py-3 border rounded-lg"
             />
             <select
@@ -246,7 +319,7 @@ function AddressesSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {addresses.length === 0 ? (
           <div className="col-span-full text-center py-8 text-slate-500">
-            <p>Updating Your Address.........</p>
+            <p>{t('noaddresses') || 'No addresses found. Add your first address to get started.'}</p>
           </div>
         ) : (
           addresses.map((address) => (
