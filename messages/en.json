@@ -260,13 +260,21 @@
         "home": "Home",
         "work": "Work",
         "defaultaddress": "Set as default address",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "Edit": "edit",
+        "Delete": "delete",
+        "Update": "update",
+        "Add": "add",
+        "authloading": "Loading user session...",
+        "loginaddress": "Please log in to view addresses",
+        "loadingaddress": "Loading addresses...",
+        "error": "Error loading addresses"
     },
     "defaultaddress":{
-        "building": "Building:",
-        "street": "Street:",
+        "building": "Building",
+        "street": "Street",
         "near": "Near:",
-        "city": "City:",
+        "city": "City",
         "government": "Governorate:",
         "country": "Country:",
         "default": "Default"

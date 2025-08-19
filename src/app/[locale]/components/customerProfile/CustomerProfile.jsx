@@ -12,7 +12,7 @@ function CustomerProfile() {
   
   // Mock user data based on your schema
 
-
+  
   // Mock reviews data based on your schema
   const [userReviews, setUserReviews] = useState([
     {
@@ -138,7 +138,7 @@ function CustomerProfile() {
 
         {/* Content */}
         {activeTab === 'profile' && <Customer />}
-        {activeTab === 'addresses' && <AddressesSection  userData={userData} setUserData={setUserData} />}
+        {activeTab === 'addresses' && <AddressesSection />}
         {activeTab === 'reviews' && <ReviewsSection userReviews={userReviews} setUserReviews={setUserReviews} />}
       </div>
     </div>
