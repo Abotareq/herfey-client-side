@@ -27,11 +27,12 @@ const deleteRequest = async (endpoint) => {
   return response.data;
 };
 
-export const useGetUserById = (userId) => {
+export const useGetUserById = (userId, Option = {}) => {
   return useQuery({
     queryKey: ["user", userId],
     queryFn: () => getRequest(`/users/${userId}`),
     enabled: !!userId,
+    ...Option,
     onError: (error) => {
       console.error(
         "GetUserById error:",

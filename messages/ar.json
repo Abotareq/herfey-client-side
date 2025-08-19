@@ -260,15 +260,23 @@
     "home": "المنزل",
     "work": "العمل",
     "defaultaddress": "تعيين كعنوان افتراضي",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "Edit": "تعديل",
+    "Delete": "حذف",
+    "Update": "تحديث",
+    "Add": "اضافة",
+    "authloading": "جاري تحميل جلسة المستخدم...",
+    "loginaddress": "يرجى تسجيل الدخول لعرض العناوين",
+    "loadingaddress": "جاري تحميل العناوين...",
+    "error": "حدث خطأ أثناء تحميل العناوين"
   },
   "defaultaddress": {
-    "building": "المبنى:",
-    "street": "الشارع:",
-    "near": "بالقرب من:",
-    "city": "المدينة:",
-    "government": "المحافظة:",
-    "country": "الدولة:",
+    "building": "المبنى",
+    "street": "الشارع",
+    "near": "بالقرب من",
+    "city": "المدينة",
+    "government": "المحافظة",
+    "country": "الدولة",
     "default": "كافتراضي"
   },
   "reviews": {
