@@ -1,11 +1,31 @@
 'use client';
-import { useGetUserById } from '@/service/user';
-import { useState } from 'react'
-import { useTranslations } from 'use-intl'
+import { useAuth } from '@/app/context/AuthContext';
+import { useUpdateUser, useGetUserById } from '@/service/user';
+import { useState } from 'react';
+import { useTranslations } from 'use-intl';
 
-function AddressesSection({ userData, setUserData }) {
-  const [showAddressForm, setShowAddressForm] = useState(false)
-  const [editingAddress, setEditingAddress] = useState(null)
+function AddressesSection() {
+  const t = useTranslations('address');
+  const t1 = useTranslations('defaultaddress');
+  
+  const { user, loading: authLoading } = useAuth();
+  
+  // Fix 1: Only enable query when user ID is available
+  const { data, isLoading: userLoading, error } = useGetUserById(user?.id, {
+    enabled: !!user?.id, // Only run query when user ID exists
+    keepPreviousData: true,
+    placeholderData: { data: { user: { addresses: [] } } } // Fix placeholder structure
+  });
+
+  console.log("Data response:", data);
+  const updateUser = useUpdateUser();
+
+  // Fix 2: Better fallback handling
+  const addresses = data?.data?.user?.addresses || [];
+  console.log("Addresses:", addresses);
+
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
   const [newAddress, setNewAddress] = useState({
     buildingNo: '',
     street: '',
@@ -14,15 +34,10 @@ function AddressesSection({ userData, setUserData }) {
     governorate: '',
     country: 'Egypt',
     addressType: 'home',
-    isDefault: false
-  })
+    isDefault: false,
+  });
 
-  const handleAddAddress = () => {
-    const addressWithId = { ...newAddress, _id: Date.now().toString() }
-    setUserData(prev => ({
-      ...prev,
-      addresses: [...prev.addresses, addressWithId]
-    }))
+  const resetForm = () => {
     setNewAddress({
       buildingNo: '',
       street: '',
@@ -31,71 +46,186 @@ function AddressesSection({ userData, setUserData }) {
       governorate: '',
       country: 'Egypt',
       addressType: 'home',
-      isDefault: false
-    })
-    setShowAddressForm(false)
-  }
+      isDefault: false,
+    });
+    setEditingAddress(null);
+    setShowAddressForm(false);
+  };
 
-  const handleEditAddress = (address) => {
-    setEditingAddress(address)
-    setNewAddress({ ...address })
-  }
+  const handleAddOrUpdate = () => {
+    // Validation
+    if (!newAddress.buildingNo || !newAddress.street || !newAddress.city) {
+      alert('Please fill in all required fields');
+      return;
+    }
 
-  const handleUpdateAddress = () => {
-    setUserData(prev => ({
-      ...prev,
-      addresses: prev.addresses.map(addr => 
-        addr._id === editingAddress._id ? { ...newAddress } : addr
-      )
-    }))
-    setNewAddress({
-      buildingNo: '',
-      street: '',
-      nearestLandMark: '',
-      city: '',
-      governorate: '',
-      country: 'Egypt',
-      addressType: 'home',
-      isDefault: false
-    })
-    setEditingAddress(null)
-  }
+    let updatedAddresses;
+    if (editingAddress) {
+      // Update existing address
+      updatedAddresses = addresses.map(addr =>
+        addr._id === editingAddress._id ? { ...newAddress, _id: editingAddress._id } : addr
+      );
+    } else {
+      // Add new address - handle default logic
+      const addressToAdd = { ...newAddress, _id: Date.now().toString() };
+      
+      // If this is set as default, make sure all others are not default
+      if (addressToAdd.isDefault) {
+        updatedAddresses = [
+          ...addresses.map(addr => ({ ...addr, isDefault: false })),
+          addressToAdd
+        ];
+      } else {
+        // If no addresses exist, make this one default
+        if (addresses.length === 0) {
+          addressToAdd.isDefault = true;
+        }
+        updatedAddresses = [...addresses, addressToAdd];
+      }
+    }
 
-  const handleCancelEdit = () => {
-    setEditingAddress(null)
-    setNewAddress({
-      buildingNo: '',
-      street: '',
-      nearestLandMark: '',
-      city: '',
-      governorate: '',
-      country: 'Egypt',
-      addressType: 'home',
-      isDefault: false
-    })
-    setShowAddressForm(false)
-  }
+    // Use the correct user ID and clean the addresses data
+    const cleanedAddresses = updatedAddresses.map(addr => {
+      // Remove temporary IDs for new addresses
+      if (typeof addr._id === 'string' && addr._id.length > 12) {
+        const { _id, ...addressWithoutId } = addr;
+        return addressWithoutId;
+      }
+      return addr;
+    });
+
+    updateUser.mutate(
+      { userId: user.id || user._id, addresses: cleanedAddresses },
+      {
+        onSuccess: () => {
+          console.log('Address updated successfully');
+          resetForm();
+        },
+        onError: (error) => {
+          console.error('Failed to update address:', error);
+          alert('Failed to update address. Please try again.');
+        }
+      }
+    );
+  };
 
   const handleDeleteAddress = (addressId) => {
-    setUserData(prev => ({
-      ...prev,
-      addresses: prev.addresses.filter(addr => addr._id !== addressId)
-    }))
-  }
+    // Destructure and clean up remaining addresses
+    const updatedAddresses = addresses
+      .filter(addr => addr._id !== addressId)
+      .map(address => {
+        const {
+          buildingNo,
+          street,
+          nearestLandMark,
+          city,
+          governorate,
+          country,
+          addressType,
+          isDefault,
+          _id
+        } = address;
+
+        const cleanAddress = {
+          buildingNo,
+          street,
+          nearestLandMark,
+          city,
+          governorate,
+          country,
+          addressType,
+          isDefault
+        };
+
+        // Include _id only if it's a valid MongoDB ObjectId
+        if (_id && typeof _id === 'string' && _id.length === 24 && /^[0-9a-fA-F]{24}$/.test(_id)) {
+          cleanAddress._id = _id;
+        }
+
+        return cleanAddress;
+      });
+    
+    updateUser.mutate(
+      { userId: user.id || user._id, addresses: updatedAddresses },
+      {
+        onSuccess: () => {
+          console.log('Address deleted successfully');
+        },
+        onError: (error) => {
+          console.error('Failed to delete address:', error);
+          alert('Failed to delete address. Please try again.');
+        }
+      }
+    );
+  };
 
   const handleSetDefaultAddress = (addressId) => {
-    setUserData(prev => ({
-      ...prev,
-      addresses: prev.addresses.map(addr => ({
-        ...addr,
-        isDefault: addr._id === addressId
-      }))
-    }))
-  }
+    // Destructure and clean up addresses while setting default
+    const updatedAddresses = addresses.map(address => {
+      const {
+        buildingNo,
+        street,
+        nearestLandMark,
+        city,
+        governorate,
+        country,
+        addressType,
+        _id
+      } = address;
 
+      const cleanAddress = {
+        buildingNo,
+        street,
+        nearestLandMark,
+        city,
+        governorate,
+        country,
+        addressType,
+        isDefault: _id === addressId // Set as default only if this is the selected address
+      };
+
+      // Include _id only if it's a valid MongoDB ObjectId
+      if (_id && typeof _id === 'string' && _id.length === 24 && /^[0-9a-fA-F]{24}$/.test(_id)) {
+        cleanAddress._id = _id;
+      }
+
+      return cleanAddress;
+    });
+    
+    updateUser.mutate(
+      { userId: user.id || user._id, addresses: updatedAddresses },
+      {
+        onSuccess: () => {
+          console.log('Default address updated successfully');
+        },
+        onError: (error) => {
+          console.error('Failed to set default address:', error);
+          alert('Failed to set default address. Please try again.');
+        }
+      }
+    );
+  };
+
+  // Fix 3: Better loading state handling
+  if (authLoading) {
+    return <p>{t('authloading')}</p>;
+  }
+  
+  if (!user?.id) {
+    return <p>{t('loginaddress')}</p>;
+  }
+  
+  if (userLoading) {
+    return <p>{t('loadingaddress')}</p>;
+  }
+  
+  if (error) {
+    return <p>{t('error')}: {error.message}</p>;
+  }
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-2xl font-bold text-slate-900">{t('delivery')}</h3>
         <button
@@ -109,106 +239,77 @@ function AddressesSection({ userData, setUserData }) {
         </button>
       </div>
 
-      {/* Add/Edit Address Form */}
+      {/* Add/Edit Form */}
       {(showAddressForm || editingAddress) && (
         <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-          <h4 className="text-lg font-semibold text-slate-900 mb-4">
+          <h4 className="text-lg font-semibold mb-4">
             {editingAddress ? 'Edit Address' : 'Add New Address'}
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">{t('building')}</label>
-              <input
-                type="number"
-                value={newAddress.buildingNo}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, buildingNo: e.target.value }))}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={t('building')}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">{t('street')}</label>
-              <input
-                type="text"
-                value={newAddress.street}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, street: e.target.value }))}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={t('streetname')}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">{t('landmark')}</label>
-              <input
-                type="text"
-                value={newAddress.nearestLandMark}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, nearestLandMark: e.target.value }))}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={t('landmark')}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">{t('city')}</label>
-              <input
-                type="text"
-                value={newAddress.city}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, city: e.target.value }))}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={t('city')}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">{t('government')}</label>
-              <input
-                type="text"
-                value={newAddress.governorate}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, governorate: e.target.value }))}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={t('government')}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">{t('country')}</label>
-              <input
-                type="text"
-                value={newAddress.country}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, country: e.target.value }))}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={t('country')}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">{t('type')}</label>
-              <select
-                value={newAddress.addressType}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, addressType: e.target.value }))}
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="home">{t('home')}</option>
-                <option value="work">{t('work')}</option>
-              </select>
-            </div>
-            <div className="flex items-center">
+            <input
+              type="number"
+              value={newAddress.buildingNo}
+              onChange={(e) => setNewAddress(prev => ({ ...prev, buildingNo: e.target.value }))}
+              placeholder={t('building')}
+              className="px-4 py-3 border rounded-lg"
+            />
+            <input
+              type="text"
+              value={newAddress.street}
+              onChange={(e) => setNewAddress(prev => ({ ...prev, street: e.target.value }))}
+              placeholder={t('street')}
+              className="px-4 py-3 border rounded-lg"
+            />
+            <input
+              type="text"
+              value={newAddress.nearestLandMark}
+              onChange={(e) => setNewAddress(prev => ({ ...prev, nearestLandMark: e.target.value }))}
+              placeholder={t('landmark')}
+              className="px-4 py-3 border rounded-lg"
+            />
+            <input
+              type="text"
+              value={newAddress.city}
+              onChange={(e) => setNewAddress(prev => ({ ...prev, city: e.target.value }))}
+              placeholder={t('city')}
+              className="px-4 py-3 border rounded-lg"
+            />
+            <input
+              type="text"
+              value={newAddress.governorate}
+              onChange={(e) => setNewAddress(prev => ({ ...prev, governorate: e.target.value }))}
+              placeholder={t('government')}
+              className="px-4 py-3 border rounded-lg"
+            />
+            <select
+              value={newAddress.addressType}
+              onChange={(e) => setNewAddress(prev => ({ ...prev, addressType: e.target.value }))}
+              className="px-4 py-3 border rounded-lg"
+            >
+              <option value="home">{t('home')}</option>
+              <option value="work">{t('work')}</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div className="mt-4">
+            <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
                 checked={newAddress.isDefault}
                 onChange={(e) => setNewAddress(prev => ({ ...prev, isDefault: e.target.checked }))}
-                className="mr-2"
               />
-              <label className="text-sm font-medium text-slate-700">{t('defaultaddress')}</label>
-            </div>
+              <span>{t('defaultaddress')}</span>
+            </label>
           </div>
           <div className="mt-6 flex justify-end space-x-3">
-            <button
-              onClick={handleCancelEdit}
-              className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
-            >
+            <button onClick={resetForm} className="px-6 py-2 border rounded-lg">
               {t('cancel')}
             </button>
             <button
-              onClick={editingAddress ? handleUpdateAddress : handleAddAddress}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              onClick={handleAddOrUpdate}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg"
             >
-              {editingAddress ? 'Update Address' : 'Add Address'}
+              {editingAddress ? t('Update') : t('Add')}
             </button>
           </div>
         </div>
@@ -216,71 +317,60 @@ function AddressesSection({ userData, setUserData }) {
 
       {/* Address List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {userData.addresses.map((address) => (
-          <div key={address._id} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative">
-            {address.isDefault && (
-              <div className="absolute top-4 right-4 bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
-                {t1('default')}
-              </div>
-            )}
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <span className="font-semibold text-slate-900 capitalize">{address.addressType}</span>
-              </div>
-            </div>
-            
-            <div className="space-y-2 text-slate-600">
-              <p><span className="font-medium">{t1('building')}</span> {address.buildingNo}</p>
-              <p><span className="font-medium">{t1('street')}</span> {address.street}</p>
-              {address.nearestLandMark && (
-                <p><span className="font-medium">{t1('near')}</span> {address.nearestLandMark}</p>
-              )}
-              <p><span className="font-medium">{t1('city')}</span> {address.city}</p>
-              <p><span className="font-medium">{t1('government')}</span> {address.governorate}</p>
-              <p><span className="font-medium">{t1('country')}</span> {address.country}</p>
-            </div>
-            
-            <div className="mt-4 flex justify-between items-center">
-              {!address.isDefault && (
-                <button
-                  onClick={() => handleSetDefaultAddress(address._id)}
-                  className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors"
-                >
-                  {t('defaultaddress')}
-                </button>
-              )}
-              <div className="flex space-x-2 ml-auto">
-                <button 
-                  onClick={() => handleEditAddress(address)}
-                  className="text-slate-500 hover:text-blue-600 transition-colors"
-                  title="Edit address"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => handleDeleteAddress(address._id)}
-                  className="text-slate-500 hover:text-red-600 transition-colors"
-                  title="Delete address"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              </div>
-            </div>
+        {addresses.length === 0 ? (
+          <div className="col-span-full text-center py-8 text-slate-500">
+            <p>{t('noaddresses') || 'No addresses found. Add your first address to get started.'}</p>
           </div>
-        ))}
+        ) : (
+          addresses.map((address) => (
+            <div key={address._id} className="bg-white rounded-2xl p-6 border shadow-sm relative">
+              {address.isDefault && (
+                <div className="absolute top-4 right-4 bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                  {t1('default')}
+                </div>
+              )}
+              <div className="space-y-2 text-slate-600">
+                <p>{t1('building')}: {address.buildingNo}</p>
+                <p>{t1('street')}: {address.street}</p>
+                {address.nearestLandMark && <p>{t('landmark')}: {address.nearestLandMark}</p>}
+                <p>{t1('city')}: {address.city}</p>
+                <p>{t('government')}: {address.governorate}</p>
+                <p>{t('type')}: {address.addressType}</p>
+              </div>
+              <div className="mt-4 flex justify-between">
+                {!address.isDefault && (
+                  <button 
+                    onClick={() => handleSetDefaultAddress(address._id)} 
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    {t('defaultaddress')}
+                  </button>
+                )}
+                <div className="flex space-x-2">
+                  <button 
+                    onClick={() => { 
+                      setEditingAddress(address); 
+                      setNewAddress(address); 
+                      setShowAddressForm(true);
+                    }}
+                    className="text-slate-600 hover:text-slate-800"
+                  >
+                    {t('Edit')}
+                  </button>
+                  <button 
+                    onClick={() => handleDeleteAddress(address._id)} 
+                    className="text-red-600 hover:text-red-800"
+                  >
+                    {t('Delete')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default AddressesSection
+export default AddressesSection;

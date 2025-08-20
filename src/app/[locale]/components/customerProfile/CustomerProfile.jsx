@@ -8,9 +8,9 @@ import { useTranslations } from "next-intl";
 import { useGetUserById } from "@/service/user";
 import { useAuth } from "@/app/context/AuthContext";
 
-
 function CustomerProfile() {
   const [activeTab, setActiveTab] = useState("profile");
+
   const [userId, setUserId] = useState(null);
   const { user, loading: authLoading } = useAuth();
   const t = useTranslations("customerpage");
@@ -100,10 +100,11 @@ function CustomerProfile() {
         </div>
 
         {/* Content */}
+
         {activeTab === "profile" && <Customer />}
         {activeTab === "addresses" && <AddressesSection userData={userData} />}
-
         {activeTab === "reviews" && <ReviewsSection userId={userId} />}
+
       </div>
     </div>
   );
