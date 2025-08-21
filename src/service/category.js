@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000/api/category';
+const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/api/category`;
 
 // Axios instance with default config
 const apiClient = axios.create({
@@ -9,6 +9,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  
   // No withCredentials, as cookies are not needed
 });
 
