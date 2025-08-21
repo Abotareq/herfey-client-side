@@ -1,5 +1,6 @@
 import axios from "axios";
-
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+/** ===================== HOOKS ===================== **/
 const API_BASE = 'http://localhost:5000/api/store';
 
 /** ===================== PUBLIC METHODS ===================== **/
@@ -8,7 +9,7 @@ const API_BASE = 'http://localhost:5000/api/store';
  * Get all stores (public)
  * @param {Object} params Optional query params: page, limit, search, status
  */
-export const getAllStores = async ({
+const getAllStores = async ({
   page = 1,
   limit = 10,
   search,
@@ -55,7 +56,7 @@ export const getAllStores = async ({
  * Get store by ID (public)
  * @param {string} storeId
  */
-export const getStoreById = async (storeId) => {
+const getStoreById = async (storeId) => {
     console.log("Fetching store by ID:", storeId);
     try {
         const { data } = await axios.get(`${API_BASE}/${storeId}`, {
@@ -75,7 +76,7 @@ export const getStoreById = async (storeId) => {
  * Get stores of the authenticated vendor/admin
  * @param {Object} params Optional query params: page, limit, search, status
  */
-export const getVendorStores = async ({ page = 1, limit = 10, search, status } = {}) => {
+const getVendorStores = async ({ page = 1, limit = 10, search, status } = {}) => {
     console.log("Fetching vendor stores...");
     try {
         const queryParams = new URLSearchParams({
@@ -101,7 +102,7 @@ export const getVendorStores = async ({ page = 1, limit = 10, search, status } =
  * Create a new store (Vendor/Admin)
  * @param {FormData} formData
  */
-export const createStore = async (formData) => {
+const createStore = async (formData) => {
     try {
         const { data } = await axios.post(API_BASE, formData, {
         withCredentials: true,
@@ -120,7 +121,7 @@ export const createStore = async (formData) => {
  * @param {string} storeId
  * @param {FormData} formData
  */
-export const updateStore = async (storeId, formData) => {
+const updateStore = async (storeId, formData) => {
   try {
     const { data } = await axios.patch(`${API_BASE}/${storeId}`, formData, {
       withCredentials: true,
@@ -138,7 +139,7 @@ export const updateStore = async (storeId, formData) => {
  * Delete store by ID (Vendor/Admin)
  * @param {string} storeId
  */
-export const deleteStore = async (storeId) => {
+const deleteStore = async (storeId) => {
   try {
     const { data } = await axios.delete(`${API_BASE}/${storeId}`, {
       withCredentials: true,
@@ -149,4 +150,85 @@ export const deleteStore = async (storeId) => {
     console.error(`Error deleting store ${storeId}:`, error);
     throw error;
   }
+};
+
+
+/**
+ * Get all stores (public)
+ */
+export const useStores = (params) => {
+  return useQuery({
+    queryKey: ["stores", params],
+    queryFn: () => getAllStores(params),
+    keepPreviousData: true, // pagination friendly
+  });
+};
+
+/**
+ * Get store by ID (public)
+ */
+export const useStore = (storeId, enabled = true) => {
+  return useQuery({
+    queryKey: ["store", storeId],
+    queryFn: () => getStoreById(storeId),
+    enabled: !!storeId && enabled,
+  });
+};
+
+/**
+ * Get vendor/admin stores
+ */
+export const useVendorStores = (params) => {
+  return useQuery({
+    queryKey: ["vendorStores", params],
+    queryFn: () => getVendorStores(params),
+    keepPreviousData: true,
+  });
+};
+
+/**
+ * Create store
+ */
+export const useCreateStore = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createStore,
+    onSuccess: () => {
+      // invalidate cache after creating
+      queryClient.invalidateQueries(["stores"]);
+      queryClient.invalidateQueries(["vendorStores"]);
+    },
+  });
+};
+
+/**
+ * Update store
+ */
+export const useUpdateStore = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ storeId, formData }) => updateStore(storeId, formData),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries(["stores"]);
+      queryClient.invalidateQueries(["vendorStores"]);
+      queryClient.invalidateQueries(["store", variables.storeId]); // refresh specific
+    },
+  });
+};
+
+/**
+ * Delete store
+ */
+export const useDeleteStore = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteStore,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["stores"]);
+      queryClient.invalidateQueries(["vendorStores"]);
+    },
+  });
 };
