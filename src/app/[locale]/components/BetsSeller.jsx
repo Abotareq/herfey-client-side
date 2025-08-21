@@ -214,74 +214,74 @@ export default function ProductCard() {
   );
 }
 
-"use client";
+// "use client";
 
-import { useState, useMemo } from "react";
-import { useAddItemToCart } from "@/service/cart";
-import { addToGuestCart } from "@/service/cart"; // import guest cart util
-import { useAuth } from "../../context/AuthContext"; // import auth context
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+// import { useState, useMemo } from "react";
+// import { useAddItemToCart } from "@/service/cart";
+// import { addToGuestCart } from "@/service/cart"; // import guest cart util
+// import { useAuth } from "../../context/AuthContext"; // import auth context
+// import { Button } from "@/components/ui/button";
+// import {
+//   AlertDialog,
+//   AlertDialogAction,
+//   AlertDialogCancel,
+//   AlertDialogContent,
+//   AlertDialogDescription,
+//   AlertDialogFooter,
+//   AlertDialogHeader,
+//   AlertDialogTitle,
+//   AlertDialogTrigger,
+// } from "@/components/ui/alert-dialog";
 
-export default function ProductCard() {
-  const { user } = useAuth(); // ✅ check if user logged in
-  const product = {
-    _id: "689cf90b7ca2eb630ef984fa",
-    name: "diamond 001",
-    description: "High quality ",
-    basePrice: 50,
-    images: [
-      "https://res.cloudinary.com/dfg4uwokf/image/upload/v1755117835/herfy/d1jg3as97shxpap7kpmb.png",
-    ],
-    variants: [
-      {
-        name: "Color",
-        options: [
-          {
-            value: "Red",
-            priceModifier: 0,
-            stock: 230,
-            _id: "689cf90b7ca2eb630ef984fc",
-          },
-          {
-            value: "Blue",
-            priceModifier: 2.5,
-            stock: 100,
-            _id: "689cf90b7ca2eb630ef984fd",
-          },
-        ],
-        _id: "689cf90b7ca2eb630ef984fb",
-      },
-      {
-        name: "Size",
-        options: [
-          {
-            value: "Small",
-            priceModifier: 0,
-            stock: 8,
-            _id: "689cf90b7ca2eb630ef984ff",
-          },
-          {
-            value: "Large",
-            priceModifier: 3,
-            stock: 6,
-            _id: "689cf90b7ca2eb630ef98500",
-          },
-        ],
-        _id: "689cf90b7ca2eb630ef984fe",
-      },
-    ],
-  };
+// export default function ProductCard() {
+//   const { user } = useAuth(); // ✅ check if user logged in
+//   const product = {
+//     _id: "689cf90b7ca2eb630ef984fa",
+//     name: "diamond 001",
+//     description: "High quality ",
+//     basePrice: 50,
+//     images: [
+//       "https://res.cloudinary.com/dfg4uwokf/image/upload/v1755117835/herfy/d1jg3as97shxpap7kpmb.png",
+//     ],
+//     variants: [
+//       {
+//         name: "Color",
+//         options: [
+//           {
+//             value: "Red",
+//             priceModifier: 0,
+//             stock: 230,
+//             _id: "689cf90b7ca2eb630ef984fc",
+//           },
+//           {
+//             value: "Blue",
+//             priceModifier: 2.5,
+//             stock: 100,
+//             _id: "689cf90b7ca2eb630ef984fd",
+//           },
+//         ],
+//         _id: "689cf90b7ca2eb630ef984fb",
+//       },
+//       {
+//         name: "Size",
+//         options: [
+//           {
+//             value: "Small",
+//             priceModifier: 0,
+//             stock: 8,
+//             _id: "689cf90b7ca2eb630ef984ff",
+//           },
+//           {
+//             value: "Large",
+//             priceModifier: 3,
+//             stock: 6,
+//             _id: "689cf90b7ca2eb630ef98500",
+//           },
+//         ],
+//         _id: "689cf90b7ca2eb630ef984fe",
+//       },
+//     ],
+//   };
 
 //   const [quantity, setQuantity] = useState(1);
 //   const [selectedVariants, setSelectedVariants] = useState({});
