@@ -2,6 +2,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import background from "../../../../public/prv.jpg";
+import Link from "next/link";
 function Privacy() {
   const locale = useLocale();
   const isArabic = locale === "ar";
@@ -41,12 +42,12 @@ function Privacy() {
                 <p>{t("p3")}</p>
                 <p>
                   {t("p4")}{" "}
-                  <a
+                  <Link
                     href="mailto:support@herafy.com"
                     className="text-orange-600 underline"
                   >
                     {t("link")}
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>
