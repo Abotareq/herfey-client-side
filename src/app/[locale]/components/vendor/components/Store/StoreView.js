@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useState } from 'react'
 
 // Store Details View Component
@@ -87,8 +88,10 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                 src={currentStore?.logoUrl || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop&crop=center'}
                 alt={currentStore?.name}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop&crop=center';
+                width={100}
+                height={100}
+                onError={() => {
+                  return 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=100&h=100&fit=crop&crop=center';
                 }}
               />
             </div>
