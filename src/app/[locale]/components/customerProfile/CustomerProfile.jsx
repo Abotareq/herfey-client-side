@@ -33,7 +33,43 @@ function CustomerProfile() {
 
   // Combined loading state for the main profile
   if (userLoading || authLoading) {
-    return <div>Loading Profile...</div>;
+    return (
+      <>
+        {" "}
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+          <div className="max-w-6xl mx-auto px-4 py-8">
+            {/* Header Skeleton */}
+            <div className="mb-8">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-16 h-16 bg-slate-200 rounded-full animate-pulse"></div>
+                <div className="space-y-2">
+                  <div className="h-8 w-48 bg-slate-200 rounded animate-pulse"></div>
+                  <div className="h-5 w-32 bg-slate-200 rounded animate-pulse"></div>
+                  <div className="h-4 w-40 bg-slate-200 rounded animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Tabs Skeleton */}
+            <div className="mb-8">
+              <div className="flex space-x-1 bg-slate-100 rounded-lg p-1 max-w-lg">
+                {Array(3)
+                  .fill()
+                  .map((_, index) => (
+                    <div
+                      key={index}
+                      className="flex-1 h-10 bg-slate-200 rounded-md animate-pulse"
+                    ></div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Content Skeleton */}
+            <div className="min-h-[400px] bg-slate-100 rounded-lg animate-pulse"></div>
+          </div>
+        </div>
+      </>
+    );
   }
 
   if (userError) {
@@ -56,8 +92,7 @@ function CustomerProfile() {
               </h1>
               <p className="text-slate-600">@{userData.userName}</p>
               <p className="text-sm text-slate-500">
-                {t("date")}{" "}
-                {new Date(userData.createdAt).toLocaleDateString()}
+                {t("date")} {new Date(userData.createdAt).toLocaleDateString()}
               </p>
             </div>
           </div>
@@ -104,7 +139,6 @@ function CustomerProfile() {
         {activeTab === "profile" && <Customer />}
         {activeTab === "addresses" && <AddressesSection userData={userData} />}
         {activeTab === "reviews" && <ReviewsSection userId={userId} />}
-
       </div>
     </div>
   );
