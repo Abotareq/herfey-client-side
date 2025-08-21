@@ -3,29 +3,25 @@ import { useGetProductById } from "@/service/ProductService";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import ReviewsSection from "./components/ReviewData";
+import SkeletonLoader from "../SkeltonLoader";
+import NotFoundPage from "../NotFoundComponent";
+import { useTranslations } from "next-intl";
 
 function ProductDetails({id}) {
   const {data, isLoading, isError} = useGetProductById(id);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const t = useTranslations('products')
 
   if(isLoading){
     return(
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-          <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
-        </div>
-      </div>
+      <SkeletonLoader />
     )
   }
 
   if(isError){
     return(
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="p-4 text-center">
-          <p className="text-red-500 text-xl">Failed to load product</p>
-        </div>
-      </div>
+      <NotFoundPage />
     )
   }
 
@@ -39,7 +35,6 @@ function ProductDetails({id}) {
     product.images,
     product.images
   ].filter(Boolean);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -123,7 +118,7 @@ function ProductDetails({id}) {
                     ))}
                   </div>
                   <span className="text-gray-700 font-medium">
-                    {product.averageRating || '4.0'} ({product.reviewCount || '127'} reviews)
+                    {product.averageRating || '4.0'} ({product.reviewCount || '127'} t('review'))
                   </span>
                 </div>
 
@@ -141,7 +136,7 @@ function ProductDetails({id}) {
 
                 {/* Description */}
                 <div className="bg-gray-50 rounded-2xl p-6">
-                  <h3 className="font-semibold text-gray-900 mb-3">Description</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3">{t('desc')}: </h3>
                   <p className="text-gray-700 leading-relaxed">
                     {product.description || "This is a premium quality product designed with attention to detail and crafted for excellence."}
                   </p>
@@ -149,7 +144,7 @@ function ProductDetails({id}) {
 
                 {/* Status */}
                 <div className="flex items-center space-x-3">
-                  <span className="text-gray-700 font-medium">Status:</span>
+                  <span className="text-gray-700 font-medium">{t('status')}:</span>
                   <span className={`px-4 py-2 rounded-full text-sm font-medium ${
                     product.status === 'approved' 
                       ? 'bg-green-100 text-green-800' 
@@ -162,7 +157,7 @@ function ProductDetails({id}) {
                 {/* Quantity Selector */}
                 <div className="space-y-3">
                   <label className="block text-sm font-medium text-gray-900">
-                    Quantity:
+                    {t('quantity')}:
                   </label>
                   <div className="flex items-center space-x-4">
                     <button 
@@ -191,14 +186,14 @@ function ProductDetails({id}) {
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6 0a2 2 0 100 4 2 2 0 000-4zm-6 0a2 2 0 100 4 2 2 0 000-4z" />
                     </svg>
-                    <span>Add to Cart</span>
+                    <span>{t('addtocart')}</span>
                   </button>
                   
                   <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 border-2 border-gray-200 hover:border-gray-300">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
-                    <span>Wishlist</span>
+                    <span>{t('fav')}</span>
                   </button>
                 </div>
               </div>

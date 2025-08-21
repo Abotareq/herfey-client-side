@@ -1,9 +1,12 @@
 "use client";
 import { useGetAllProducts } from "@/service/ProductService";
 import Link from "next/link";
+import { useTranslations } from "use-intl";
+import NotFoundPage from "./NotFoundComponent";
 
 function Products() {
   const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
+    const t = useTranslations('products')
 
   if (isLoading) {
     return (
@@ -61,7 +64,6 @@ function Products() {
     ];
     return colors[index % colors.length];
   };
-
   return (
     <section className="container mx-auto p-10 md:py-12 px-0 md:p-8 md:px-0">
       <section className="p-5 md:p-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
@@ -84,23 +86,24 @@ function Products() {
                   <p className="mb-5">{product.description}</p>
                   
                   <div className="mb-3">
-                    <p className="text-sm text-gray-600">Category: {product.category?.name}</p>
-                    <p className="text-sm text-gray-600">Status: {product.status}</p>
+                    <p className="text-sm text-gray-600">{t('category')}: {product.category?.name}</p>
+                    <p className="text-sm text-gray-600">{t('status')}: {product.status}</p>
                   </div>
                   
                   <h2 className="font-semibold mb-5">${product.basePrice}</h2>
                   
                   <button className={`p-2 px-6 ${colors.button} text-white rounded-md`}>
-                    Add To Cart
+                    {t('cart')}
                   </button>
                 </section>
               </Link>
             );
           })
         ) : (
-          <p className="col-span-full text-center text-gray-500">
-            No products found
-          </p>
+          // <p className="col-span-full text-center text-gray-500">
+          //   No products found
+          // </p>
+          <NotFoundPage />
         )}
       </section>
     </section>

@@ -404,5 +404,49 @@
         "Cancel": "Cancel",
         "View Details": "View Details",
         "Manage Store": "Manage Store"
+    },
+    "category": {
+        "error": "Error loading categories",
+        "loading": "Loading details...",
+        "errorlpading": "Error loading category details",
+        "categorydetails": "Category Details",
+        "name": "Name",
+        "slug": "Slug",
+        "productcount": "Product Count",
+        "storecount": "Stores Count",
+        "parentcategory": "Parent Category",
+        "createdat": "Created At"
+    },
+    "products": {
+        "category": "Category",
+        "status": "Status",
+        "cart": "Add To Cart",
+        "desc": "Description",
+        "quantity": "Quantity",
+        "addtocart": "Add to Cart",
+        "fav": "Wishlist",
+        "review": "Reviews"
+    },
+    "store": {
+        "filter": "Filters",
+        "clear": "Clear all",
+        "search": "Search Store",
+        "status": "Store Status",
+        "all": "All Status",
+        "approve": "Approved",
+        "pending": "Pending",
+        "rejected": "Rejected",
+        "suspended": "Suspended",
+        "sort": "Sort By",
+        "new": "Newest First",
+        "old": "Oldest First",
+        "name": "Name (A-Z)",
+        "mostproducts": "Most Products",
+        "mostorders": "Most Orders",
+        "brandselection": "Brand Selection",
+        "desc": "Discover and explore our collection of premium stores",
+        "ostores": "No stores found",
+        "errormessage": "Try adjusting your filters or search terms to find what you're looking for.",
+        "viewstore": "View Store"
     }
 }

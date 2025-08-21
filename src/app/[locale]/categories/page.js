@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
+import SkeletonLoader from "../components/SkeltonLoader";
+import NotFoundPage from "../components/NotFoundComponent";
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
@@ -13,14 +15,14 @@ function CategoryLinks() {
   const { data: categoryDetails, isLoading: loadingDetails, error: categoryError } = useGetCategoryById(selectedId);
 
   // Handle loading state for categories
-  if (loadingList) return <p>Loading Categories...</p>;
+  if (loadingList) return <SkeletonLoader />;
 
   // Handle error state for categories
   if (categoriesError) return <p>Error loading categories: {categoriesError.message}</p>;
 
   // Handle case where categories data is empty or invalid
   if (!categories || !Array.isArray(categories) || categories.length === 0) {
-    return <p>No categories available</p>;
+    return <NotFoundPage />;
   }
 
   return (
