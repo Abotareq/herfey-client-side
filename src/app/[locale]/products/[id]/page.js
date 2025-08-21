@@ -1,7 +1,6 @@
-import ProductDetails from "@/components/productdetails/ProductDetails";
-import Product from './../../components/Products';
+import ProductDetails from "../../components/productdetails/ProductDetails";
 
 export default function Page({ params }) {
-  const { ProductId } = params;
-  return <ProductDetails id={ProductId} />;
+  const { id } = params;   // ✅ must match folder name [id]
+  return <ProductDetails id={id} />;
 }

@@ -289,7 +289,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     {/* Image Container */}
                     <div className="relative overflow-hidden bg-gray-100">
                       <img
-                        src={store.logoUrl || "/placeholder.jpg"}
+                        src={store.logoUrl || "/5.jpg"}
                         alt={store.name}
                         className="w-full h-48 lg:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
                         loading="lazy"

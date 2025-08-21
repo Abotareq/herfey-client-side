@@ -1,8 +1,8 @@
-import Product from "../components/Products"
+import Products from "../components/Products"
 
 function page() {
   return (
-    <Product />
+    <Products />
   )
 }
 
