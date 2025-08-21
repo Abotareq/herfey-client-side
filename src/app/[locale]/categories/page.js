@@ -40,7 +40,7 @@ function CategoryLinks() {
               <div className="h-64 relative overflow-hidden">
                 <img
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  src={item.image || "/placeholder.jpg"}
+                  src={item.image || "/6.jpg"}
                   alt={item.name || "Category"}
                 />
                 <div className="absolute inset-0 bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>

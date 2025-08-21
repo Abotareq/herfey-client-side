@@ -1,9 +1,12 @@
 "use client";
-import { useStores, useVendorStores } from "@/service/store";
+import { getAllStores, getVendorStores } from "@/service/store";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HerafyStorePage({ vendorOnly = false }) {
+  const [stores, setStores] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   // 🔹 filter + sort state
   const [filters, setFilters] = useState({
     search: "",
@@ -14,18 +17,29 @@ export default function HerafyStorePage({ vendorOnly = false }) {
     limit: 12,
   });
 
-  // 🔹 Use React Query hooks based on vendorOnly prop
-  const {
-    data: storeData,
-    isLoading: loading,
-    error,
-  } = vendorOnly
-    ? useVendorStores(filters)
-    : useStores(filters);
+  // Fetch stores
+  useEffect(() => {
+    const fetchStores = async () => {
+      try {
+        setLoading(true);
 
-  // Extract stores from the response (handle different response structures)
-  const stores = storeData?.stores || storeData?.data?.stores || [];
-  const pagination = storeData?.pagination || {};
+        let data;
+        if (vendorOnly) {
+          data = await getVendorStores(filters);
+        } else {
+          data = await getAllStores(filters);
+        }
+
+        setStores(data?.stores || data?.data?.stores || []);
+      } catch (error) {
+        console.error("Error fetching stores:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStores();
+  }, [filters, vendorOnly]);
 
   // 🔹 update filter helper
   const updateFilter = (key, value) => {
@@ -53,24 +67,6 @@ export default function HerafyStorePage({ vendorOnly = false }) {
       limit: 12,
     });
   };
-
-  // 🔹 Handle error state
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-2">Error Loading Stores</h2>
-          <p className="text-gray-600">{error.message || "Something went wrong"}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -157,7 +153,6 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                 </div>
               </div>
             </div>
-
             {/* Sort Filter */}
             <div className="mb-6">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
@@ -192,7 +187,6 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                 </div>
               </div>
             </div>
-
             {/* Brand Filter */}
             <div className="mb-8">
               <label className="block text-slate-900 text-sm font-semibold mb-4">
@@ -235,6 +229,27 @@ export default function HerafyStorePage({ vendorOnly = false }) {
         <div className="flex-1 bg-gray-50">
           <div className="p-6 lg:p-8">
             {/* Header */}
+            
+                      <Link
+                        href={`/store/add-products`}
+                        className="inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-700 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
+                      >
+                        <span>Add Products</span>
+                        <svg
+                          className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
+
             <div className="mb-8">
               <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
                 {vendorOnly ? "My Stores" : "All Stores"}
@@ -294,7 +309,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     {/* Image Container */}
                     <div className="relative overflow-hidden bg-gray-100">
                       <img
-                        src={store.logoUrl || "/placeholder.jpg"}
+                        src={store.logoUrl || "/6.jpg"}
                         alt={store.name}
                         className="w-full h-48 lg:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
                         loading="lazy"
@@ -312,7 +327,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                       </p>
 
                       <Link
-                        href={`/store/${store._id || store.id}`}
+                        href={`/store/${store._id}`}
                         className="inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-700 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
                       >
                         <span>View Store</span>
@@ -333,31 +348,6 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     </div>
                   </div>
                 ))}
-              </div>
-            )}
-
-            {/* Pagination (if needed) */}
-            {pagination?.totalPages > 1 && (
-              <div className="flex justify-center mt-8">
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => updateFilter("page", Math.max(1, filters.page - 1))}
-                    disabled={filters.page === 1}
-                    className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Previous
-                  </button>
-                  <span className="px-4 py-2 text-sm bg-orange-500 text-white rounded-lg">
-                    {filters.page} of {pagination.totalPages}
-                  </span>
-                  <button
-                    onClick={() => updateFilter("page", Math.min(pagination.totalPages, filters.page + 1))}
-                    disabled={filters.page === pagination.totalPages}
-                    className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Next
-                  </button>
-                </div>
               </div>
             )}
           </div>

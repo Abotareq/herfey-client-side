@@ -8,6 +8,9 @@ import { Providers } from "./client/queryClientProivder";
 import { AuthProvider } from "../context/AuthContext";
 import ConditionalLayout from "./components/ConditionalLayout ";
 import { RouteGuard } from "./components/RouteGuard";
+import { Toaster } from 'react-hot-toast';
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -49,6 +52,17 @@ export default async function RootLayout({ params, children }) {
           <Providers>
             <AuthProvider>
               <RouteGuard>
+              <Toaster
+                  position="top-center"
+                  toastOptions={{
+                    success: {
+                      duration: 3000,
+                    },
+                    error: {
+                      duration: 5000,
+                    },
+                  }}
+                />
                 <ConditionalLayout locale={resolvedParams.locale}>
                   {children}
                 </ConditionalLayout>
