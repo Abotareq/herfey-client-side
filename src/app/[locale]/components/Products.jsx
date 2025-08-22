@@ -3,9 +3,13 @@ import { useGetAllProducts } from "@/service/ProductService";
 import { useTranslations } from "use-intl";
 import NotFoundPage from "./NotFoundComponent";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 function Products() {
   const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
-    const t = useTranslations('products')
+  const t = useTranslations('products')
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("")
+  
   const router = useRouter()
   if (isLoading) {
     return (
@@ -30,8 +34,7 @@ function Products() {
   }
 
   const products = data?.products || [];
-
-  // Star rating component
+ // Star rating component
   // const StarRating = ({ rating = 4 }) => {
   //   return (
   //     <div className="space-x-1 flex justify-center mt-10">
@@ -69,6 +72,9 @@ function Products() {
         {products.length > 0 ? (
           products.map((product, index) => {
             const colors = getProductColors(index);
+            const isDisabled = 
+            (product.variant?.some((x) => x.name.toLowerCase() === "color") && !selectedColor) ||
+            (product.variant?.smoe((i) => i.name.toLowerCase() === 'size') && !selectedSize)
             return (
               <section key={product._id}>
                 <section className={`p-5 py-10 ${colors.bg} text-center transform duration-500 hover:-translate-y-2 cursor-pointer`}>
@@ -96,7 +102,7 @@ function Products() {
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                               Color:
                             </label>
-                            <select defaultValue="" className="w-full border rounded-md p-2 text-sm">
+                            <select defaultValue="" className="w-full border rounded-md p-2 text-sm" onChange={(e) => setSelectedColor(e.target.value)}>
                               <option value="" disabled>
                                 Select Color
                               </option>
@@ -116,7 +122,7 @@ function Products() {
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Size:
                           </label>
-                          <select defaultValue="" className="w-full border rounded-md p-2 text-sm">
+                          <select defaultValue="" className="w-full border rounded-md p-2 text-sm" onChange={(e) => setSelectedSize(e.target.value)}>
                             <option value="" disabled>
                               Select Size
                             </option>
@@ -135,7 +141,14 @@ function Products() {
                   className={`p-2 px-6 ${colors.button} text-white rounded-md mr-3`}>
                     produc details
                   </button>
-                  <button className={`p-2 px-6 ${colors.button} text-white rounded-md`}>
+                  <button 
+                    disabled={isDisabled}
+                    className={`p-2 px-6 text-white rounded-md ${
+                      isDisabled
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : colors.button
+                    }`}
+                  >
                     {t('cart')}
                   </button>
                 </section>
