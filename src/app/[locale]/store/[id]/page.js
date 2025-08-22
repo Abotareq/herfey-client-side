@@ -22,6 +22,7 @@ import {
 import { useStore } from '@/service/store';
 import Image from 'next/image';
 
+// Main component for Store Details Page
 export default function StoreDetailsPage() {
   const params = useParams();
   const router = useRouter();

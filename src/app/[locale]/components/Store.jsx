@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import SkeletonLoader from "./SkeltonLoader";
 import { useTranslations } from "use-intl";
 
+// Main component for Herafy Store Page
+
 export default function HerafyStorePage({ vendorOnly = false }) {
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);

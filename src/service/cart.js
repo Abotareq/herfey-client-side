@@ -234,6 +234,7 @@ export const useAddItemToCart = () => {
 /**
  * Remove item
  */
+
 export const useRemoveItemFromCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
