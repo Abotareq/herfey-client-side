@@ -316,7 +316,7 @@ export default function ProductCard() {
         product: product._id,
         quantity,
         variant: formattedVariants,
-        price: product.basePrice, // useful for guest cart
+        // price: product.basePrice, // useful for guest cart
       };
       addToCartMutation.mutate(item);
     } else {
