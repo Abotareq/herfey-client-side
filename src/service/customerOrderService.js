@@ -3,7 +3,7 @@ import axios from "axios";
 
 // ===== Axios instance =====
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE,
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE}/api`,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
