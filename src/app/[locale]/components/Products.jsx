@@ -7,8 +7,7 @@ import { useGetAllProducts } from '../../../service/product';
 function Products() {
   const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
   const t = useTranslations('products')
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("")
+
   
   const router = useRouter()
   if (isLoading) {
@@ -72,9 +71,6 @@ function Products() {
         {products.length > 0 ? (
           products.map((product, index) => {
             const colors = getProductColors(index);
-            const isDisabled =
-                            (product.variants?.some((e) => e.name.toLowerCase() === "color") && !selectedColor) ||
-                            (product.variants?.some((i) => i.name.toLowerCase() === "size") && !selectedSize);
             return (
               <section key={product._id}>
                 <section className={`p-5 py-10 ${colors.bg} text-center transform duration-500 hover:-translate-y-2 cursor-pointer`}>
@@ -95,45 +91,7 @@ function Products() {
                     <p className="text-sm text-gray-600">{t('status')}: {product.status}</p>
                   </div>
                   {/* variants */}
-                  {product.variants
-                    ?.filter((variant) => variant.name.toLowerCase() === "color")
-                      .map((variant) => (
-                          <div key={variant._id} className="mb-3">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Color:
-                            </label>
-                            <select defaultValue="" className="w-full border rounded-md p-2 text-sm" onChange={(e) => setSelectedColor(e.target.value)}>
-                              <option value="" disabled>
-                                Select Color
-                              </option>
-                              {variant.options?.map((option) => (
-                                <option key={option._id} value={option.value}>
-                                  {option.value}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          ))}
-                    {/** Size Dropdown */}
-                  {product.variants
-                      ?.filter((variant) => variant.name.toLowerCase() === "size")
-                      .map((variant) => (
-                        <div key={variant._id} className="mb-3">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Size:
-                          </label>
-                          <select defaultValue="" className="w-full border rounded-md p-2 text-sm" onChange={(e) => setSelectedSize(e.target.value)}>
-                            <option value="" disabled>
-                              Select Size
-                            </option>
-                            {variant.options?.map((option) => (
-                              <option key={option._id} value={option.value}>
-                                {option.value}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                    ))}
+                  
                   <h2 className="font-semibold mb-5">${product.basePrice}</h2>
                   {/* product details */}
                   <button 
@@ -142,12 +100,7 @@ function Products() {
                     {t('details')}
                   </button>
                   <button 
-                    disabled={isDisabled}
-                    className={`p-2 px-6 text-white rounded-md ${
-                      isDisabled
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : colors.button
-                    }`}
+                    className='p-2 px-6 text-white rounded-md'
                   >
                     {t('cart')}
                   </button>
