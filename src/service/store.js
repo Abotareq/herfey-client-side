@@ -18,6 +18,7 @@ const getAllStores = async ({
 } = {}) => {
   console.log("Fetching all stores...");
 
+  
   try {
     // Build query params
     const queryParams = new URLSearchParams({

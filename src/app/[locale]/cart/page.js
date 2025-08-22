@@ -19,6 +19,7 @@ function ShoppingCart() {
     );
   }
 
+  // If user is authenticated, show authenticated cart
   // Render appropriate cart component based on authentication status
   return user ? <AuthenticatedCart /> : <GuestCart />;
 }

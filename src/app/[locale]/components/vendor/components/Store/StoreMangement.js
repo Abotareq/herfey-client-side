@@ -40,6 +40,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
     } finally {
       setIsLoading(false)
     }
+
   }
 
   const mockProducts = [

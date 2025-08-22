@@ -1,11 +1,10 @@
 'use client';
-import { useGetProductById } from "@/service/ProductService";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 import ReviewsSection from "./components/ReviewData";
 import SkeletonLoader from "../SkeltonLoader";
 import NotFoundPage from "../NotFoundComponent";
 import { useTranslations } from "next-intl";
+import { useGetProductById } from '../../../../service/product';
 
 function ProductDetails({id}) {
   const {data, isLoading, isError} = useGetProductById(id);

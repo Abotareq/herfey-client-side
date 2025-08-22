@@ -154,4 +154,5 @@ function VendorProfile() {
   )
 }
 
+// Vendor Profile Component
 export default VendorProfile

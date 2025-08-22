@@ -1,9 +1,9 @@
 "use client";
-import { useGetAllProducts } from "@/service/ProductService";
 import { useTranslations } from "use-intl";
 import NotFoundPage from "./NotFoundComponent";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useGetAllProducts } from '../../../service/product';
 function Products() {
   const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
   const t = useTranslations('products')
@@ -139,7 +139,7 @@ function Products() {
                   <button 
                   onClick={() => router.push(`/products/${product._id}`)}
                   className={`p-2 px-6 ${colors.button} text-white rounded-md mr-3`}>
-                    produc details
+                    {t('details')}
                   </button>
                   <button 
                     disabled={isDisabled}
