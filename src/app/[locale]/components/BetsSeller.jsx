@@ -1,167 +1,430 @@
+// "use client";
+
+// import { useState, useMemo } from "react";
+// import { useAddItemToCart } from "@/service/cart";
+// import { Button } from "@/components/ui/button";
+// import {
+//   AlertDialog,
+//   AlertDialogAction,
+//   AlertDialogCancel,
+//   AlertDialogContent,
+//   AlertDialogDescription,
+//   AlertDialogFooter,
+//   AlertDialogHeader,
+//   AlertDialogTitle,
+//   AlertDialogTrigger,
+// } from "@/components/ui/alert-dialog";
+
+// export default function ProductCard() {
+//   const product = {
+//   _id: "689cf90b7ca2eb630ef984fa",
+//   store: "689b23632dc0fef270cdcf33",
+//   name: "diamond 001",
+//   status: "pending",
+//   slug: "diamond-001",
+//   description: "High quality ",
+//   basePrice: 50,
+//   discountPrice: 0,
+//   category: "68895bd225e59a1915813ce4",
+//   images: [
+//     "https://res.cloudinary.com/dfg4uwokf/image/upload/v1755117835/herfy/d1jg3as97shxpap7kpmb.png"
+//   ],
+//   variants: [
+//     {
+//       name: "Color",
+//       isDeleted: false,
+//       options: [
+//         {
+//           value: "Red",
+//           priceModifier: 0,
+//           stock: 230,
+//           sku: "TSHIRT-RED-001",
+//           _id: "689cf90b7ca2eb630ef984fc"
+//         },
+//         {
+//           value: "Blue",
+//           priceModifier: 2.5,
+//           stock: 100,
+//           sku: "TSHIRT-BLU-002",
+//           _id: "689cf90b7ca2eb630ef984fd"
+//         }
+//       ],
+//       _id: "689cf90b7ca2eb630ef984fb"
+//     },
+//     {
+//       name: "Size",
+//       isDeleted: false,
+//       options: [
+//         {
+//           value: "Small",
+//           priceModifier: 0,
+//           stock: 8,
+//           sku: "TSHIRT-SML-003",
+//           _id: "689cf90b7ca2eb630ef984ff"
+//         },
+//         {
+//           value: "Large",
+//           priceModifier: 3,
+//           stock: 6,
+//           sku: "TSHIRT-LRG-004",
+//           _id: "689cf90b7ca2eb630ef98500"
+//         }
+//       ],
+//       _id: "689cf90b7ca2eb630ef984fe"
+//     }
+//   ],
+//   averageRating: 0,
+//   reviewCount: 0,
+//   createdBy: "68977a32da64448f47935fa2",
+//   isDeleted: false,
+//   createdAt: "2025-08-13T20:43:55.069Z",
+//   updatedAt: "2025-08-20T11:12:35.609Z",
+//   __v: 0
+// };
+//   const [quantity, setQuantity] = useState(1);
+//   const [selectedVariants, setSelectedVariants] = useState({});
+//   const addToCartMutation = useAddItemToCart();
+
+//   //  Calculate final price
+//   const finalPrice = useMemo(() => {
+//     let modifiers = 0;
+//     product.variants?.forEach((variant) => {
+//       const selected = selectedVariants[variant.name];
+//       const opt = variant.options.find((o) => o.value === selected);
+//       if (opt) modifiers += opt.priceModifier;
+//     });
+//     return (product.basePrice + modifiers) * quantity;
+//   }, [product, selectedVariants, quantity]);
+
+//   const handleVariantChange = (variantName, value) => {
+//     setSelectedVariants((prev) => ({
+//       ...prev,
+//       [variantName]: value,
+//     }));
+//   };
+
+//   const handleAddToCart = () => {
+//     const formattedVariants = Object.entries(selectedVariants).map(
+//       ([name, value]) => ({ name, value })
+//     );
+
+//     addToCartMutation.mutate({
+//       product: product._id,
+//       quantity,
+//       variant: formattedVariants,
+//     });
+//   };
+
+//   return (
+//     <div className="border rounded-2xl shadow-md p-4 flex flex-col space-y-4">
+//       {/* Product Image */}
+//       <img
+//         src={product.images?.[0]}
+//         alt={product.name}
+//         className="w-full h-48 object-cover rounded-xl"
+//       />
+
+//       {/* Product Info */}
+//       <div>
+//         <h3 className="text-lg font-semibold">{product.name}</h3>
+//         <p className="text-gray-500 text-sm">{product.description}</p>
+
+//         {/* Dynamic Price */}
+//         <span className="text-xl font-bold mt-2 block">
+//           ${finalPrice.toFixed(2)}
+//         </span>
+//       </div>
+
+//       {/* Variant Selectors */}
+//       <div className="space-y-3">
+//         {product.variants?.map((variant) => (
+//           <div key={variant._id.$oid} className="flex flex-col">
+//             <label className="text-sm font-semibold mb-1">{variant.name}</label>
+//             <select
+//               className="border rounded-lg px-3 py-2"
+//               onChange={(e) =>
+//                 handleVariantChange(variant.name, e.target.value)
+//               }
+//               value={selectedVariants[variant.name] || ""}
+//             >
+//               <option value="">Select {variant.name}</option>
+//               {variant.options.map((opt) => (
+//                 <option key={opt._id.$oid} value={opt.value}>
+//                   {opt.value}{" "}
+//                   {opt.priceModifier > 0 ? `(+${opt.priceModifier}$)` : ""}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* Quantity Control */}
+//       <div className="flex items-center gap-2">
+//         <Button
+//           variant="outline"
+//           size="sm"
+//           onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+//         >
+//           -
+//         </Button>
+//         <span className="px-4">{quantity}</span>
+//         <Button
+//           variant="outline"
+//           size="sm"
+//           onClick={() => setQuantity((q) => q + 1)}
+//         >
+//           +
+//         </Button>
+//       </div>
+
+//       {/* Add to Cart with Confirmation */}
+//       <AlertDialog>
+//         <AlertDialogTrigger asChild>
+//           <Button
+//             className="w-full"
+//             disabled={
+//               addToCartMutation.isPending ||
+//               Object.keys(selectedVariants).length < product.variants.length
+//             }
+//           >
+//             {addToCartMutation.isPending ? "Adding..." : "Add to Cart"}
+//           </Button>
+//         </AlertDialogTrigger>
+//         <AlertDialogContent>
+//           <AlertDialogHeader>
+//             <AlertDialogTitle>Add to Cart</AlertDialogTitle>
+//             <AlertDialogDescription>
+//               Do you want to add <b>{product.name}</b> (x{quantity}) with:{" "}
+//               {Object.entries(selectedVariants)
+//                 .map(([name, value]) => `${name}: ${value}`)
+//                 .join(", ")}{" "}
+//               for <b>${finalPrice.toFixed(2)}</b>?
+//             </AlertDialogDescription>
+//           </AlertDialogHeader>
+//           <AlertDialogFooter>
+//             <AlertDialogCancel>Cancel</AlertDialogCancel>
+//             <AlertDialogAction onClick={handleAddToCart}>
+//               Confirm
+//             </AlertDialogAction>
+//           </AlertDialogFooter>
+//         </AlertDialogContent>
+//       </AlertDialog>
+//     </div>
+//   );
+// }
+
 "use client";
-import React, { useState } from "react";
-import { useTranslations } from "use-intl";
 
-function BestSeller() {
-    const t = useTranslations('BestSeller')
-  const categories = [
-    { name: t('name1') },
-    { name: t('name2') },
-    { name: t('name3') },
-  ];
+import { useState, useMemo } from "react";
+import { useAddItemToCart } from "@/service/cart";
+import { addToGuestCart } from "@/service/cart"; // import guest cart util
+import { useAuth } from "../../context/AuthContext"; // import auth context
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-  const products = [
-    // Wood
-    {
-      id: 1,
-      title: t('title1'),
-      price: 999,
-      category: t('cat1'),
-      image: "/1.jpg",
-    },
-    {
-      id: 2,
-      title: t('title2'),
-      price: 1000,
-      category: t('cat1'),
-      image: "/2.jpg",
-    },
-    {
-      id: 3,
-      title: t('title3'),
-      price: 500,
-      category: t('cat1'),
-      image: "/3.jpg",
-    },
+export default function ProductCard() {
+  const { user } = useAuth(); // ✅ check if user logged in
+  const product = {
+    _id: "689cf90b7ca2eb630ef984fa",
+    name: "diamond 001",
+    description: "High quality ",
+    basePrice: 50,
+    images: [
+      "https://res.cloudinary.com/dfg4uwokf/image/upload/v1755117835/herfy/d1jg3as97shxpap7kpmb.png",
+    ],
+    variants: [
+      {
+        name: "Color",
+        options: [
+          {
+            value: "Red",
+            priceModifier: 0,
+            stock: 230,
+            _id: "689cf90b7ca2eb630ef984fc",
+          },
+          {
+            value: "Blue",
+            priceModifier: 2.5,
+            stock: 100,
+            _id: "689cf90b7ca2eb630ef984fd",
+          },
+        ],
+        _id: "689cf90b7ca2eb630ef984fb",
+      },
+      {
+        name: "Size",
+        options: [
+          {
+            value: "Small",
+            priceModifier: 0,
+            stock: 8,
+            _id: "689cf90b7ca2eb630ef984ff",
+          },
+          {
+            value: "Large",
+            priceModifier: 3,
+            stock: 6,
+            _id: "689cf90b7ca2eb630ef98500",
+          },
+        ],
+        _id: "689cf90b7ca2eb630ef984fe",
+      },
+    ],
+  };
 
-    // Leather products
-    {
-      id: 4,
-      title: t('title4'),
-      price: 1500,
-      category: t('cat2'),
-      image: "/1.jpg",
-    },
-    {
-      id: 5,
-      title: t('title4'),
-      price: 2000,
-      category: t('cat2'),
-      image: "/2.jpg",
-    },
-    {
-      id: 6,
-      title: t('title5'),
-      price: 600,
-      category: t('cat2'),
-      image: "/3.jpg",
-    },
+  const [quantity, setQuantity] = useState(1);
+  const [selectedVariants, setSelectedVariants] = useState({});
+  const addToCartMutation = useAddItemToCart();
 
-    // Decoupage products
-    {
-      id: 7,
-      title: t('title6'),
-      price: 800,
-      category: t('cat3'),
-      image: "/8.jpg",
-    },
-    {
-      id: 8,
-      title: t('title7'),
-      price: 1000,
-      category: t('cat3'),
-      image: "/9.jpg",
-    },
-    {
-      id: 9,
-      title: t('title8'),
-      price: 1200,
-      category: t('cat3'),
-      image: "/6.jpg",
-    },
-  ];
+  // Calculate final price
+  const finalPrice = useMemo(() => {
+    let modifiers = 0;
+    product.variants?.forEach((variant) => {
+      const selected = selectedVariants[variant.name];
+      const opt = variant.options.find((o) => o.value === selected);
+      if (opt) modifiers += opt.priceModifier;
+    });
+    return (product.basePrice + modifiers) * quantity;
+  }, [product, selectedVariants, quantity]);
 
-  const [activeCategory, setActiveCategory] = useState(categories[0].name);
+  const handleVariantChange = (variantName, value) => {
+    setSelectedVariants((prev) => ({
+      ...prev,
+      [variantName]: value,
+    }));
+  };
+
+  const handleAddToCart = () => {
+    const formattedVariants = Object.entries(selectedVariants).map(
+      ([name, value]) => ({ name, value })
+    );
+
+    if (user) {
+      // ✅ Authenticated: send to backend
+      const item = {
+        product: product._id,
+        quantity,
+        variant: formattedVariants,
+        // price: product.basePrice, // useful for guest cart
+      };
+      addToCartMutation.mutate(item);
+    } else {
+      const item = {
+        product: product,
+        quantity,
+        variant: formattedVariants,
+        price: product.basePrice, // useful for guest cart
+      };
+      // 🚀 Guest: save to localStorage
+      addToGuestCart(item);
+      alert("Item added to guest cart!");
+    }
+  };
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen">
-      <div className="max-w-6xl mx-auto">
-        {/* Title */}
-        <div className="text-center mb-12">
-          <h2 className="text-5xl font-bold text-gray-900 mb-4 tracking-tight bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text">
-            {t('title')}
-          </h2>
-          <div className="w-24 h-1 bg-orange-400 mx-auto rounded-full"></div>
-        </div>
+    <div className="border rounded-2xl shadow-md p-4 flex flex-col space-y-4">
+      {/* Product Image */}
+      <img
+        src={product.images?.[0]}
+        alt={product.name}
+        className="w-full h-48 object-cover rounded-xl"
+      />
 
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-8 mb-16">
-          {categories.map((cat) => (
-            <button
-              key={cat.name}
-              onClick={() => setActiveCategory(cat.name)}
-              className={`relative px-6 py-3 text-lg font-medium transition-all duration-300 rounded-full ${
-                activeCategory === cat.name
-                  ? "text-white bg-orange-400 shadow-lg transform scale-105"
-                  : "text-gray-600 bg-white hover:text-gray-900 hover:bg-gray-100 hover:shadow-md hover:scale-102 shadow-sm"
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Products Grid - Centered */}
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl">
-            {products
-              .filter((p) => p.category === activeCategory)
-              .map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-2 border border-gray-100"
-                >
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    {/* Wishlist button */}
-                    <button className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white hover:scale-110 transition-all duration-200 group-hover:shadow-xl">
-                      <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-
-                    {/* Category tag */}
-                    <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {activeCategory}
-                    </div>
-                  </div>
-                  
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-200">
-                      {product.title}
-                    </h3>
-                    <div className="flex items-center justify-between">
-                      <p className="text-2xl font-bold text-gray-900">
-                        <span className="text-lg text-gray-600">EGP</span> {product.price.toLocaleString()}
-                      </p>
-                      <button className="bg-orange-400 text-white px-4 py-2 rounded-full font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
+      {/* Product Info */}
+      <div>
+        <h3 className="text-lg font-semibold">{product.name}</h3>
+        <p className="text-gray-500 text-sm">{product.description}</p>
+        <span className="text-xl font-bold mt-2 block">
+          ${finalPrice.toFixed(2)}
+        </span>
       </div>
-    </section>
+
+      {/* Variant Selectors */}
+      <div className="space-y-3">
+        {product.variants?.map((variant) => (
+          <div key={variant._id} className="flex flex-col">
+            <label className="text-sm font-semibold mb-1">{variant.name}</label>
+            <select
+              className="border rounded-lg px-3 py-2"
+              onChange={(e) =>
+                handleVariantChange(variant.name, e.target.value)
+              }
+              value={selectedVariants[variant.name] || ""}
+            >
+              <option value="">Select {variant.name}</option>
+              {variant.options.map((opt) => (
+                <option key={opt._id} value={opt.value}>
+                  {opt.value}{" "}
+                  {opt.priceModifier > 0 ? `(+${opt.priceModifier}$)` : ""}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
+      </div>
+
+      {/* Quantity Control */}
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+        >
+          -
+        </Button>
+        <span className="px-4">{quantity}</span>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setQuantity((q) => q + 1)}
+        >
+          +
+        </Button>
+      </div>
+
+      {/* Add to Cart with Confirmation */}
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            className="w-full"
+            disabled={
+              addToCartMutation.isPending ||
+              Object.keys(selectedVariants).length < product.variants.length
+            }
+          >
+            {addToCartMutation.isPending ? "Adding..." : "Add to Cart"}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Add to Cart</AlertDialogTitle>
+            <AlertDialogDescription>
+              Do you want to add <b>{product.name}</b> (x{quantity}) with:{" "}
+              {Object.entries(selectedVariants)
+                .map(([name, value]) => `${name}: ${value}`)
+                .join(", ")}{" "}
+              for <b>${finalPrice.toFixed(2)}</b>?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleAddToCart}>
+              Confirm
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
 }
-
-export default BestSeller;

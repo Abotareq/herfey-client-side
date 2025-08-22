@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react'
+import { useTranslations } from 'use-intl';
 
 function ProfileSection({ userData, setUserData }) {
   const [isEditing, setIsEditing] = useState(false)
@@ -8,13 +9,13 @@ function ProfileSection({ userData, setUserData }) {
     setIsEditing(false)
     console.log('Saving profile data:', userData)
   }
-
+  const t = useTranslations('vendorProfile')
   return (
     <div className="space-y-8">
       {/* Personal Information Card */}
       <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-slate-900">Vendor Information</h3>
+          <h3 className="text-2xl font-bold text-slate-900">{t('title')}</h3>
           <button
             onClick={() => setIsEditing(!isEditing)}
             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -28,7 +29,7 @@ function ProfileSection({ userData, setUserData }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Username</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">{t('name')}</label>
             {isEditing ? (
               <input
                 type="text"
@@ -42,7 +43,7 @@ function ProfileSection({ userData, setUserData }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">First Name</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">{t('fname')}</label>
             {isEditing ? (
               <input
                 type="text"
@@ -56,7 +57,7 @@ function ProfileSection({ userData, setUserData }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">{t('lname')}</label>
             {isEditing ? (
               <input
                 type="text"
@@ -70,7 +71,7 @@ function ProfileSection({ userData, setUserData }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">{t('email')}</label>
             <div className="flex items-center space-x-2">
               {isEditing ? (
                 <input
@@ -87,14 +88,14 @@ function ProfileSection({ userData, setUserData }) {
                   <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  <span>Verified</span>
+                  <span>{t('verify')}</span>
                 </div>
               )}
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Phone</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">{t('phone')}</label>
             {isEditing ? (
               <input
                 type="tel"
@@ -108,7 +109,7 @@ function ProfileSection({ userData, setUserData }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Role</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">{t('role')}</label>
             <p className="text-slate-900 font-medium bg-gradient-to-r from-purple-100 to-blue-100 px-4 py-3 rounded-lg capitalize flex items-center">
               <svg className="w-4 h-4 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -124,13 +125,13 @@ function ProfileSection({ userData, setUserData }) {
               onClick={() => setIsEditing(false)}
               className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
             >
-              Cancel
+              {t('cancel')}
             </button>
             <button
               onClick={handleSaveProfile}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
-              Save Changes
+              {t('save')}
             </button>
           </div>
         )}
@@ -141,7 +142,7 @@ function ProfileSection({ userData, setUserData }) {
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">Total Stores</p>
+              <p className="text-slate-600 text-sm font-medium">{t('stores')}</p>
               <p className="text-3xl font-bold text-purple-600">{userData.storesCount}</p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
@@ -155,7 +156,7 @@ function ProfileSection({ userData, setUserData }) {
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">Total Orders</p>
+              <p className="text-slate-600 text-sm font-medium">{t('orders')}</p>
               <p className="text-3xl font-bold text-blue-600">{userData.ordersCount}</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -169,7 +170,7 @@ function ProfileSection({ userData, setUserData }) {
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">Active Orders</p>
+              <p className="text-slate-600 text-sm font-medium">{t('active')}</p>
               <p className="text-3xl font-bold text-green-600">{userData.activeOrders}</p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -183,7 +184,7 @@ function ProfileSection({ userData, setUserData }) {
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">Cancelled Orders</p>
+              <p className="text-slate-600 text-sm font-medium">{t('ocancel')}</p>
               <p className="text-3xl font-bold text-red-600">{userData.cancelledOrders}</p>
             </div>
             <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">

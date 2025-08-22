@@ -1,74 +1,168 @@
-import Link from "next/link";
-
+"use client";
+import { useTranslations } from "use-intl";
+import NotFoundPage from "./NotFoundComponent";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useGetAllProducts } from './../../../service/productService';
 function Products() {
-  const products = [
-    { title: "vase", price: 800, image: "/1.jpg" },
-    { title: "vase", price: 900, image: "/1.jpg" },
-    { title: "green vase", price: 1000, image: "/2.jpg" },
-    { title: "white vase", price: 1200, image: "/3.jpg" },
-    { title: "white vase", price: 1200, image: "/4.jpg" },
-    { title: "white vase", price: 1200, image: "/5.jpg" },
-    { title: "white vase", price: 1200, image: "/6.jpg" },
-    { title: "white vase", price: 1200, image: "/7.jpg" },
-    { title: "white vase", price: 1200, image: "/8.jpg" },
-    { title: "white vase", price: 1200, image: "/9.jpg" },
-  ];
-
-  return (
-    <div className="p-4 mx-auto lg:max-w-6xl md:max-w-4xl">
-      <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 sm:mb-8">
-        Products page
-      </h2>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        {products.map((product) => (
-          <Link
-            key={product.id}
-            href={`/product/${product.id}`} // dynamic product page
-            className="bg-white flex flex-col rounded-sm overflow-hidden shadow-md hover:scale-[1.01] transition-all relative"
-          >
-            <div className="w-full">
-              <img
-                src={product.image}
-                alt={product.title}
-                className="w-full aspect-[18/24] object-cover object-top"
-              />
-            </div>
-            <div className="p-4">
-              <h5 className="text-sm sm:text-base font-semibold text-slate-900 line-clamp-2">
-                {product.title}
-              </h5>
-              <div className="mt-2 flex items-center flex-wrap gap-2">
-                <h6 className="text-sm sm:text-base font-semibold text-slate-900">
-                  ${product.price}
-                </h6>
-                <div
-                  className="bg-slate-100 w-8 h-8 flex items-center justify-center rounded-full ml-auto"
-                  title="Wishlist"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16px"
-                    className="fill-slate-800 inline-block"
-                    viewBox="0 0 64 64"
-                  >
-                    <path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div className="min-h-[50px] p-4 !pt-0">
-              <button
-                type="button"
-                className="absolute left-0 right-0 bottom-3 cursor-pointer max-w-[88%] mx-auto text-sm px-2 py-2 font-medium w-full bg-orange-400 hover:bg-blue-700 text-white tracking-wide outline-none border-none rounded-sm"
-              >
-                Add to cart
-              </button>
-            </div>
-          </Link>
-        ))}
+  const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
+  const t = useTranslations('products')
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("")
+  
+  const router = useRouter()
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+          <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+            loading...
+          </div>
+        </div>
       </div>
-    </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex justify-between">
+        <div className="p-4 text-center">
+          <p className="text-red-500">Failed to load products</p>
+        </div>
+      </div>
+    );
+  }
+
+  const products = data?.products || [];
+ // Star rating component
+  // const StarRating = ({ rating = 4 }) => {
+  //   return (
+  //     <div className="space-x-1 flex justify-center mt-10">
+  //       {[1, 2, 3, 4, 5].map((star) => (
+  //         <svg
+  //           key={star}
+  //           className={`w-4 h-4 mx-px fill-current ${
+  //             star <= rating ? "text-orange-600" : "text-gray-300"
+  //           }`}
+  //           xmlns="http://www.w3.org/2000/svg"
+  //           viewBox="0 0 14 14"
+  //         >
+  //           <path d="M6.43 12l-2.36 1.64a1 1 0 0 1-1.53-1.11l.83-2.75a1 1 0 0 0-.35-1.09L.73 6.96a1 1 0 0 1 .59-1.8l2.87-.06a1 1 0 0 0 .92-.67l.95-2.71a1 1 0 0 1 1.88 0l.95 2.71c.13.4.5.66.92.67l2.87.06a1 1 0 0 1 .59 1.8l-2.3 1.73a1 1 0 0 0-.34 1.09l.83 2.75a1 1 0 0 1-1.53 1.1L7.57 12a1 1 0 0 0-1.14 0z"></path>
+  //         </svg>
+  //       ))}
+  //     </div>
+  //   );
+  // };
+
+  // Color options for different products
+  const getProductColors = (index) => {
+    const colors = [
+      { bg: "bg-purple-50", button: "bg-purple-500 hover:bg-purple-600" },
+      { bg: "bg-green-50", button: "bg-green-500 hover:bg-green-600" },
+      { bg: "bg-red-50", button: "bg-red-500 hover:bg-red-600" },
+      { bg: "bg-blue-50", button: "bg-blue-500 hover:bg-blue-600" },
+      { bg: "bg-yellow-50", button: "bg-yellow-500 hover:bg-yellow-600" },
+      { bg: "bg-indigo-50", button: "bg-indigo-500 hover:bg-indigo-600" },
+    ];
+    return colors[index % colors.length];
+  };
+  return (
+    <section className="container mx-auto p-10 md:py-12 px-0 md:p-8 md:px-0">
+      <section className="p-5 md:p-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
+        {products.length > 0 ? (
+          products.map((product, index) => {
+            const colors = getProductColors(index);
+            const isDisabled =
+                            (product.variants?.some((e) => e.name.toLowerCase() === "color") && !selectedColor) ||
+                            (product.variants?.some((i) => i.name.toLowerCase() === "size") && !selectedSize);
+            return (
+              <section key={product._id}>
+                <section className={`p-5 py-10 ${colors.bg} text-center transform duration-500 hover:-translate-y-2 cursor-pointer`}>
+                  <img 
+                    src={product.images || "/placeholder.png"} 
+                    alt={product.name}
+                    className="w-full h-32 object-cover mx-auto"
+                  />
+                  
+                  {/* <StarRating rating={4} /> */}
+                  
+                  <h1 className="text-3xl my-5">{product.name}</h1>
+                  
+                  <p className="mb-5">{product.description}</p>
+                  
+                  <div className="mb-3">
+                    <p className="text-sm text-gray-600">{t('category')}: {product.category?.name}</p>
+                    <p className="text-sm text-gray-600">{t('status')}: {product.status}</p>
+                  </div>
+                  {/* variants */}
+                  {product.variants
+                    ?.filter((variant) => variant.name.toLowerCase() === "color")
+                      .map((variant) => (
+                          <div key={variant._id} className="mb-3">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Color:
+                            </label>
+                            <select defaultValue="" className="w-full border rounded-md p-2 text-sm" onChange={(e) => setSelectedColor(e.target.value)}>
+                              <option value="" disabled>
+                                Select Color
+                              </option>
+                              {variant.options?.map((option) => (
+                                <option key={option._id} value={option.value}>
+                                  {option.value}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          ))}
+                    {/** Size Dropdown */}
+                  {product.variants
+                      ?.filter((variant) => variant.name.toLowerCase() === "size")
+                      .map((variant) => (
+                        <div key={variant._id} className="mb-3">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Size:
+                          </label>
+                          <select defaultValue="" className="w-full border rounded-md p-2 text-sm" onChange={(e) => setSelectedSize(e.target.value)}>
+                            <option value="" disabled>
+                              Select Size
+                            </option>
+                            {variant.options?.map((option) => (
+                              <option key={option._id} value={option.value}>
+                                {option.value}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                    ))}
+                  <h2 className="font-semibold mb-5">${product.basePrice}</h2>
+                  {/* product details */}
+                  <button 
+                  onClick={() => router.push(`/products/${product._id}`)}
+                  className={`p-2 px-6 ${colors.button} text-white rounded-md mr-3`}>
+                    {t('details')}
+                  </button>
+                  <button 
+                    disabled={isDisabled}
+                    className={`p-2 px-6 text-white rounded-md ${
+                      isDisabled
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : colors.button
+                    }`}
+                  >
+                    {t('cart')}
+                  </button>
+                </section>
+              </section>
+            );
+          })
+        ) : (
+          // <p className="col-span-full text-center text-gray-500">
+          //   No products found
+          // </p>
+          <NotFoundPage />
+        )}
+      </section>
+    </section>
   );
 }
 

@@ -2,10 +2,13 @@
 import Link from "next/link";
 import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
+import SkeletonLoader from "./SkeltonLoader";
+import { useTranslations } from "next-intl";
+import NotFoundPage from "./NotFoundComponent";
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
-
+  const t = useTranslations('category')
   // Get all categories using the service hook
   const { data: categories, isLoading: loadingList, error: categoriesError } = useGetAllCategories();
 
@@ -13,14 +16,20 @@ function CategoryLinks() {
   const { data: categoryDetails, isLoading: loadingDetails, error: categoryError } = useGetCategoryById(selectedId);
 
   // Handle loading state for categories
-  if (loadingList) return <p>Loading Categories...</p>;
+  if (loadingList) {
+    return (
+    <SkeletonLoader />
+  )
 
+  }
   // Handle error state for categories
-  if (categoriesError) return <p>Error loading categories: {categoriesError.message}</p>;
+  if (categoriesError) return <p>{t('error')}: {categoriesError.message}</p>;
 
   // Handle case where categories data is empty or invalid
   if (!categories || !Array.isArray(categories) || categories.length === 0) {
-    return <p>No categories available</p>;
+    return (
+      <NotFoundPage />
+    )
   }
 
   return (
@@ -40,7 +49,7 @@ function CategoryLinks() {
               <div className="h-64 relative overflow-hidden">
                 <img
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  src={item.image || "/placeholder.jpg"}
+                  src={item.image || "/5.jpg"}
                   alt={item.name || "Category"}
                 />
                 <div className="absolute inset-0 bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>
@@ -59,33 +68,33 @@ function CategoryLinks() {
         </div>
 
         {/* Show details when clicked */}
-        {loadingDetails && <p>Loading details...</p>}
-        {categoryError && <p>Error loading category details: {categoryError.message}</p>}
+        {loadingDetails && <p>{t('loading')}</p>}
+        {categoryError && <p>{t('errorlpading')}: {categoryError.message}</p>}
         {categoryDetails && (
           <div className="mt-6 p-4 bg-white shadow rounded">
-            <h2 className="text-lg font-bold">Category Details</h2>
+            <h2 className="text-lg font-bold">{t('categorydetails')}</h2>
             <p>
               <strong>ID:</strong> {categoryDetails._id}
             </p>
             <p>
-              <strong>Name:</strong> {categoryDetails.name || "Unnamed Category"}
+              <strong>{t('name')}:</strong> {categoryDetails.name || "Unnamed Category"}
             </p>
             <p>
-              <strong>Slug:</strong> {categoryDetails.slug || "N/A"}
+              <strong>{t('slug')}:</strong> {categoryDetails.slug || "N/A"}
             </p>
             <p>
-              <strong>Product Count:</strong> {categoryDetails.productCount ?? 0}
+              <strong>{t('productcount')}:</strong> {categoryDetails.productCount ?? 0}
             </p>
             <p>
-              <strong>Stores Count:</strong> {categoryDetails.storesCount ?? 0}
+              <strong>{t('storecount')}:</strong> {categoryDetails.storesCount ?? 0}
             </p>
             {categoryDetails.parent && (
               <p>
-                <strong>Parent Category:</strong> {categoryDetails.parent}
+                <strong>{t('parentcategory')}:</strong> {categoryDetails.parent}
               </p>
             )}
             <p>
-              <strong>Created At:</strong> {new Date(categoryDetails.createdAt).toLocaleString()}
+              <strong>{t('createdat')}:</strong> {new Date(categoryDetails.createdAt).toLocaleString()}
             </p>
           </div>
         )}

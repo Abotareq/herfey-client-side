@@ -7,6 +7,7 @@ import ReviewsSection from "./customercomponents/ReviewSetcion";
 import { useTranslations } from "next-intl";
 import { useGetUserById } from "@/service/user";
 import { useAuth } from "@/app/context/AuthContext";
+import OrderSection from "./customercomponents/OrderSection.jsx";
 
 function CustomerProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -122,6 +123,16 @@ function CustomerProfile() {
               {t("address")}
             </button>
             <button
+              onClick={() => setActiveTab("orders")}
+              className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                activeTab === "orders"
+                  ? "bg-white text-blue-600 shadow-sm"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              {t("order")}
+            </button>
+            <button
               onClick={() => setActiveTab("reviews")}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "reviews"
@@ -138,6 +149,7 @@ function CustomerProfile() {
 
         {activeTab === "profile" && <Customer />}
         {activeTab === "addresses" && <AddressesSection userData={userData} />}
+        {activeTab === "orders" && <OrderSection  />}
         {activeTab === "reviews" && <ReviewsSection userId={userId} />}
       </div>
     </div>

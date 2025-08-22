@@ -8,7 +8,8 @@
         "signup": "Sign up",
         "signin": "Signin",
         "signout": "Sign Out",
-        "signing": "Signing Out..."
+        "signing": "Signing Out...",
+        "products": "products"
     },
     "Herafy": {
         "herafy": "Herafy"
@@ -324,7 +325,8 @@
         "vendorsince": "Vendor since",
         "profilelabel": "Profile",
         "storeslabel": "Stores",
-        "couponslable": "Coupons"
+        "couponslable": "Coupons",
+        "store": "store"
     },
     "vendorCoupons":{
         "title": "My Coupons",
@@ -359,7 +361,9 @@
         "expiredc": "Expires",
         "deletec": "Delete coupon",
         "usage": "Usage",
-        "noc": "No coupons found"
+        "noc": "No coupons found",
+        "error": "You haven't created any coupons yet.",
+        "edit": "Edit coupon"
     },
     "vendorstore": {
         "title": "My Stores",
@@ -378,6 +382,72 @@
         "products": "Products",
         "orders": "Orders",
         "categories": "Categories",
-        "couponsused": "Coupons Used"
+        "couponsused": "Coupons Used",
+        "loading": "Loading your stores...",
+        "storename": "Enter your store name",
+        "Logo": "Logo",
+        "storelocation": "Store Location",
+        "Longitude": "Longitude",
+        "Latitude": "Latitude",
+        "location" : "Enter coordinates for precise location mapping",
+        "Store Address": "Store Address",
+        "storepolicy": "Store Policies",
+        "Updating": "Updating...",
+        "creating": "Creating...",
+        "updates": "Update Store",
+        "creates": "Create Store",
+        "nostore": "No stores yet",
+        "getstarted": "Get started by creating your first store",
+        "firststore": "Create Your First Store",
+        "sure": "Are you sure?",
+        "refuseaction": "This action cannot be undone. This will permanently delete this store.",
+        "Cancel": "Cancel",
+        "View Details": "View Details",
+        "Manage Store": "Manage Store"
+    },
+    "category": {
+        "error": "Error loading categories",
+        "loading": "Loading details...",
+        "errorlpading": "Error loading category details",
+        "categorydetails": "Category Details",
+        "name": "Name",
+        "slug": "Slug",
+        "productcount": "Product Count",
+        "storecount": "Stores Count",
+        "parentcategory": "Parent Category",
+        "createdat": "Created At"
+    },
+    "products": {
+        "category": "Category",
+        "status": "Status",
+        "cart": "Add To Cart",
+        "desc": "Description",
+        "quantity": "Quantity",
+        "addtocart": "Add to Cart",
+        "fav": "Wishlist",
+        "review": "Reviews",
+        "details": "product details"
+    },
+    "store": {
+        "filter": "Filters",
+        "clear": "Clear all",
+        "search": "Search Store",
+        "status": "Store Status",
+        "all": "All Status",
+        "approve": "Approved",
+        "pending": "Pending",
+        "rejected": "Rejected",
+        "suspended": "Suspended",
+        "sort": "Sort By",
+        "new": "Newest First",
+        "old": "Oldest First",
+        "name": "Name (A-Z)",
+        "mostproducts": "Most Products",
+        "mostorders": "Most Orders",
+        "brandselection": "Brand Selection",
+        "desc": "Discover and explore our collection of premium stores",
+        "ostores": "No stores found",
+        "errormessage": "Try adjusting your filters or search terms to find what you're looking for.",
+        "viewstore": "View Store"
     }
 }

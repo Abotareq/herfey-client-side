@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
+import SkeletonLoader from "../components/SkeltonLoader";
+import NotFoundPage from "../components/NotFoundComponent";
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
@@ -13,14 +15,14 @@ function CategoryLinks() {
   const { data: categoryDetails, isLoading: loadingDetails, error: categoryError } = useGetCategoryById(selectedId);
 
   // Handle loading state for categories
-  if (loadingList) return <p>Loading Categories...</p>;
+  if (loadingList) return <SkeletonLoader />;
 
   // Handle error state for categories
   if (categoriesError) return <p>Error loading categories: {categoriesError.message}</p>;
 
   // Handle case where categories data is empty or invalid
   if (!categories || !Array.isArray(categories) || categories.length === 0) {
-    return <p>No categories available</p>;
+    return <NotFoundPage />;
   }
 
   return (
@@ -40,7 +42,8 @@ function CategoryLinks() {
               <div className="h-64 relative overflow-hidden">
                 <img
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  src={item.image || "/placeholder.jpg"}
+                  src={item.image || "/1.jpg"}
+                  src={item.image || "/6.jpg"}
                   alt={item.name || "Category"}
                 />
                 <div className="absolute inset-0 bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>

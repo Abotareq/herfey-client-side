@@ -4,6 +4,7 @@ import CouponsSection from './components/Coupon/Coupon'
 import ProfileSection from './components/PersonalInfo/PersonalInfo'
 import StoresSection from './components/Store/Store'
 import { getVendorStores } from '@/service/store'
+import { useTranslations } from 'next-intl'
 
 
 function VendorProfile() {
@@ -70,7 +71,7 @@ function VendorProfile() {
       active: true
     }
   ])
-
+  const t = useTranslations('vendorProfile')
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -84,12 +85,12 @@ function VendorProfile() {
               <h1 className="text-3xl font-bold text-slate-900">{userData.firstName} {userData.lastName}</h1>
               <p className="text-slate-600">@{userData.userName}</p>
               <div className="flex items-center space-x-4 text-sm text-slate-500">
-                <span>Vendor since {new Date(userData.createdAt).toLocaleDateString()}</span>
+                <span>{t('vendorsince')}: {new Date(userData.createdAt).toLocaleDateString()}</span>
                 <span className="flex items-center space-x-1">
                   <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
-                  <span>{userData.storesCount} Store{userData.storesCount !== 1 ? 's' : ''}</span>
+                  <span>{userData.storesCount} {t('store')}{userData.storesCount !== 1 ? 's' : ''}</span>
                 </span>
               </div>
             </div>
@@ -107,7 +108,7 @@ function VendorProfile() {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Profile
+              {t('profilelabel')}
             </button>
             <button
               onClick={() => setActiveTab('stores')}
@@ -117,7 +118,7 @@ function VendorProfile() {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Stores
+              {t('storeslabel')}
             </button>
             <button
               onClick={() => setActiveTab('coupons')}
@@ -127,7 +128,7 @@ function VendorProfile() {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Coupons
+              {t('couponslable')}
             </button>
           </div>
         </div>
@@ -153,4 +154,5 @@ function VendorProfile() {
   )
 }
 
+// Vendor Profile Component
 export default VendorProfile

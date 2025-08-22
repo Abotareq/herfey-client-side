@@ -3,6 +3,8 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 import Link from "next/link";
+import SkeletonLoader from "./SkeltonLoader";
+import NotFoundPage from './NotFoundComponent';
 
 export default function CategoryPage() {
   const { id } = useParams();
@@ -13,8 +15,8 @@ export default function CategoryPage() {
     enabled: !!id,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading category</p>;
+  if (isLoading) return <SkeletonLoader />;
+  if (error) return <NotFoundPage />;
 
   const category = data?.data?.category;
 

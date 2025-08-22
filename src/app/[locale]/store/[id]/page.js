@@ -19,41 +19,34 @@ import {
     Truck,
     Shield
 } from 'lucide-react';
-import { getStoreById } from '@/service/store';
+import { useStore } from '@/service/store';
+import Image from 'next/image';
 
+// Main component for Store Details Page
 export default function StoreDetailsPage() {
   const params = useParams();
   const router = useRouter();
-  const [storeData, setStoreData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   // Extract store ID from params
   const storeId = params?.id;
 
+  // Use React Query hook for fetching store data
+  const {
+    data: storeData,
+    isLoading: loading,
+    error,
+    isError
+  } = useStore(storeId);
+
+  // Trigger animations after data loads
   useEffect(() => {
-    const fetchStoreData = async () => {
-      if (!storeId) return;
-
-      try {
-        setLoading(true);
-        setError(null);
-        const store = await getStoreById(storeId);
-        setStoreData(store);
-        // Trigger animations after data loads
-        setTimeout(() => setIsVisible(true), 100);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch store details');
-        console.error('Error fetching store:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStoreData();
-  }, [storeId]);
+    if (storeData && !loading) {
+      const timer = setTimeout(() => setIsVisible(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [storeData, loading]);
 
   const handleBackToStores = () => {
     router.push('/store');
@@ -132,7 +125,9 @@ export default function StoreDetailsPage() {
   }
 
   // Error state
-  if (error) {
+  if (isError) {
+    const errorMessage = error?.response?.data?.message || error?.message || 'Failed to fetch store details';
+    
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full transform transition-all duration-500 hover:scale-105">
@@ -142,7 +137,7 @@ export default function StoreDetailsPage() {
             </div>
             <h2 className="text-xl font-bold">Oops! Something went wrong</h2>
           </div>
-          <p className="text-gray-600 mb-6 leading-relaxed">{error}</p>
+          <p className="text-gray-600 mb-6 leading-relaxed">{errorMessage}</p>
           <div className="flex gap-3">
             <button
               onClick={handleBackToStores}
@@ -162,6 +157,7 @@ export default function StoreDetailsPage() {
     );
   }
 
+  // No store data found
   if (!storeData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 flex items-center justify-center">
@@ -233,8 +229,10 @@ export default function StoreDetailsPage() {
                     src={storeData.logoUrl || '/api/placeholder/128/128'}
                     alt={storeData.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    onError={(e) => {
-                      e.target.src = '/api/placeholder/128/128';
+                    width={128}
+                    height={128}
+                    onError={() => {
+                      storeData.logoUrl = '/api/placeholder/128/128';
                     }}
                   />
                 </div>
@@ -259,7 +257,7 @@ export default function StoreDetailsPage() {
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <div className="flex items-center gap-1">
                         <Eye className="w-4 h-4" />
-                        <span>Store ID: {storeData._id.slice(-8)}</span>
+                        <span>Store ID: {storeData._id?.slice(-8) || storeData.id?.slice(-8)}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
@@ -313,7 +311,7 @@ export default function StoreDetailsPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 mb-3 text-lg">Shipping Policy</h3>
-                  <p className="text-gray-700 leading-relaxed">{storeData.policies?.shipping}</p>
+                  <p className="text-gray-700 leading-relaxed">{storeData.policies?.shipping || 'No shipping policy specified'}</p>
                 </div>
               </div>
             </div>
@@ -324,7 +322,7 @@ export default function StoreDetailsPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 mb-3 text-lg">Return Policy</h3>
-                  <p className="text-gray-700 leading-relaxed">{storeData.policies?.returns}</p>
+                  <p className="text-gray-700 leading-relaxed">{storeData.policies?.returns || 'No return policy specified'}</p>
                 </div>
               </div>
             </div>
@@ -338,7 +336,7 @@ export default function StoreDetailsPage() {
             <div className="space-y-6">
               <div className="p-4 bg-gray-50 rounded-xl">
                 <label className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Store Slug</label>
-                <p className="text-gray-900 font-medium mt-1">{storeData.slug}</p>
+                <p className="text-gray-900 font-medium mt-1">{storeData.slug || 'N/A'}</p>
               </div>
               <div className="p-4 bg-gray-50 rounded-xl">
                 <label className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Last Updated</label>
@@ -357,17 +355,17 @@ export default function StoreDetailsPage() {
                 <label className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Address</label>
                 <div className="flex items-center gap-2 text-gray-900 mt-1">
                   <MapPin className="w-4 h-4 text-red-600" />
-                  <span className="font-medium">{storeData.address?.street}</span>
+                  <span className="font-medium">{storeData.address?.street || 'N/A'}</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-blue-50 rounded-xl">
                   <label className="text-sm font-semibold text-gray-500 uppercase tracking-wide">City</label>
-                  <p className="text-gray-900 font-medium capitalize mt-1">{storeData.address?.city}</p>
+                  <p className="text-gray-900 font-medium capitalize mt-1">{storeData.address?.city || 'N/A'}</p>
                 </div>
                 <div className="p-4 bg-purple-50 rounded-xl">
                   <label className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Postal Code</label>
-                  <p className="text-gray-900 font-medium mt-1">{storeData.address?.postalCode}</p>
+                  <p className="text-gray-900 font-medium mt-1">{storeData.address?.postalCode || 'N/A'}</p>
                 </div>
               </div>
             </div>

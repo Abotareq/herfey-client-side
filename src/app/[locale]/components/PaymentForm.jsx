@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 function PaymentForm() {
@@ -89,7 +90,7 @@ function PaymentForm() {
                   required
                 />
                 <label for="saveCard" class="ml-2 block text-sm text-slate-900 font-medium">
-                  I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-500">Terms and Conditions</a>
+                  I agree to the <Link href="#" class="text-indigo-600 hover:text-indigo-500">Terms and Conditions</Link>
                 </label>
               </div>
             </div>

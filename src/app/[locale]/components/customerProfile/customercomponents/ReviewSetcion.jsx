@@ -1,13 +1,14 @@
 "use client";
+import React, { useState } from 'react';
+import { useTranslations } from 'use-intl';
+import Link from 'next/link';
+import { 
+  useFilteredReviews, 
+  useDeleteReview, 
+  useUpdateReview 
+} from '@/service/reviewService';
+import LoadingSpinner from '../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx';
 
-import React, { useState } from "react";
-import { useTranslations } from "use-intl";
-import Link from "next/link";
-import {
-  useFilteredReviews,
-  useDeleteReview,
-  useUpdateReview,
-} from "@/service/reviewService";
 
 function ReviewsSection({ userId }) {
   const t = useTranslations("reviews");
@@ -64,76 +65,7 @@ function ReviewsSection({ userId }) {
     setEditingReview(null);
   };
 
-  if (isLoading)
-    return (
-      <>
-        {" "}
-        <div className="space-y-6">
-          {/* Header Skeleton */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="space-y-2">
-              <div className="h-8 w-40 bg-slate-200 rounded animate-pulse"></div>
-              <div className="h-5 w-64 bg-slate-200 rounded animate-pulse"></div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="h-10 w-32 bg-slate-200 rounded-lg animate-pulse"></div>
-              <div className="h-10 w-32 bg-slate-200 rounded-lg animate-pulse"></div>
-            </div>
-          </div>
-
-          {/* Statistics Section Skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {Array(4)
-              .fill()
-              .map((_, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-xl p-4 border border-slate-200 text-center space-y-2"
-                >
-                  <div className="h-8 w-16 mx-auto bg-slate-200 rounded animate-pulse"></div>
-                  <div className="h-4 w-20 mx-auto bg-slate-200 rounded animate-pulse"></div>
-                </div>
-              ))}
-          </div>
-
-          {/* Reviews List Skeleton */}
-          <div className="space-y-4">
-            {Array(3)
-              .fill()
-              .map((_, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm animate-pulse"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="w-16 h-16 bg-slate-200 rounded-lg flex-shrink-0"></div>
-                    <div className="flex-1 space-y-3">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-2">
-                          <div className="h-6 w-48 bg-slate-200 rounded"></div>
-                          <div className="flex items-center space-x-2">
-                            <div className="h-5 w-16 bg-slate-200 rounded-full"></div>
-                            <div className="h-4 w-20 bg-slate-200 rounded"></div>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-6 w-6 bg-slate-200 rounded-full"></div>
-                          <div className="h-6 w-6 bg-slate-200 rounded-full"></div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-5 w-24 bg-slate-200 rounded"></div>
-                        <div className="h-4 w-12 bg-slate-200 rounded"></div>
-                      </div>
-                      <div className="h-12 w-full bg-slate-100 rounded-lg"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </>
-    );
+  if (isLoading) return <LoadingSpinner/>;
   if (error) return <div>Error loading reviews: {error.message}</div>;
 
   const StarRating = ({ rating, size = "w-4 h-4" }) => (
@@ -180,7 +112,7 @@ function ReviewsSection({ userId }) {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h3 className="text-2xl font-bold text-slate-900">
