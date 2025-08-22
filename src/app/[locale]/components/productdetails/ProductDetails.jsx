@@ -4,7 +4,7 @@ import ReviewsSection from "./components/ReviewData";
 import SkeletonLoader from "../SkeltonLoader";
 import NotFoundPage from "../NotFoundComponent";
 import { useTranslations } from "next-intl";
-import { useGetProductById } from '../../../../service/productService';
+import { useGetProductById } from '../../../../service/product';
 
 function ProductDetails({id}) {
   const {data, isLoading, isError} = useGetProductById(id);

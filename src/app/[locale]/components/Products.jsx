@@ -3,7 +3,7 @@ import { useTranslations } from "use-intl";
 import NotFoundPage from "./NotFoundComponent";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useGetAllProducts } from './../../../service/productService';
+import { useGetAllProducts } from '../../../service/product';
 function Products() {
   const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
   const t = useTranslations('products')
