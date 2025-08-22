@@ -464,7 +464,7 @@ function GuestCart() {
   // Handle adding to wishlist (guest users need to login)
   const handleAddToWishlist = (item) => {
     alert("Please login to add items to your wishlist");
-    router.push("/login");
+    router.push("/signin");
   };
 
   const handleApplyCoupon = () => {
@@ -491,12 +491,12 @@ function GuestCart() {
       console.error("Error saving cart state:", error);
     }
 
-    router.push("/login");
+    router.push("/signin");
   };
 
   // Continue shopping
   const handleContinueShopping = () => {
-    router.push("/products");
+    router.push("/productpage");
   };
 
   // Clear entire cart
@@ -695,7 +695,7 @@ function GuestCart() {
               Clear Cart
             </button>
             <button
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/signin")}
               className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors duration-200"
             >
               Login to Save
