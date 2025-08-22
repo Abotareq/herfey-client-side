@@ -1,16 +1,19 @@
 import Link from "next/link";
-import "./[locale]/globals.css"
+import "./[locale]/globals.css";
+import Image from "next/image";
+import background from "../../public/1234.jpg";
 function NotFound() {
   return (
     <div className="flex min-h-screen bg-white">
       {/* Sidebar Image */}
       <div className="hidden lg:block lg:w-1/2 relative">
-        <img
-          src="https://images.unsplash.com/photo-1549415697-8e9a0872f910?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        <Image
+          src={background}
           alt="Lost man in desert"
           className="h-full w-full object-cover"
+          layout="fill"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+        <div className="absolute inset-0 bg-black opacity-30"></div>
       </div>
 
       {/* Main content */}
@@ -26,12 +29,12 @@ function NotFound() {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/"
-              className="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Go back home
             </Link>
             <Link
-              href="/Contact"
+              href="/contact"
               className="text-sm font-semibold text-gray-900"
             >
               Contact support <span aria-hidden="true">&rarr;</span>
