@@ -3,6 +3,8 @@ import { useStores, useVendorStores } from "@/service/store";
 import Link from "next/link";
 import { useState } from "react";
 
+// Main component for Herafy Store Page
+
 export default function HerafyStorePage({ vendorOnly = false }) {
   // 🔹 filter + sort state
   const [filters, setFilters] = useState({
