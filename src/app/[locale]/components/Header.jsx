@@ -48,6 +48,7 @@ const { mutate: signOut, isLoading } = useSignOut();
     { name: "categories", href: "/categories" },
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },
+    {name: "products", href: '/products'}
   ];
   const { user,loading } = useAuth();
   const isActive = (path) => pathname === path;

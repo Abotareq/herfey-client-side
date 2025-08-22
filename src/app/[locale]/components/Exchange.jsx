@@ -2,6 +2,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import background from "../../../../public/policy.jpg";
+import { Link } from 'next/link';
 function Exchange() {
   const locale = useLocale();
   const isArabic = locale === "ar";
@@ -39,12 +40,12 @@ function Exchange() {
                 </p>
                 <p>
                   {t("p2")}{" "}
-                  <a
+                  <Link
                     href="mailto:support@herafy.com"
                     className="text-orange-600 underline"
                   >
                     {t("email")}
-                  </a>
+                  </Link>
                   .
                 </p>
                 <p>

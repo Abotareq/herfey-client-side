@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 function page() {
@@ -109,7 +110,7 @@ function page() {
 
               <div class="bg-gray-100 px-6 py-4">
                   <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                      <p class="text-slate-500 text-sm font-medium">Need help? <a href="javascript:void(0)" class="text-indigo-700 hover:underline">Contact us</a></p>
+                      <p class="text-slate-500 text-sm font-medium">Need help? <Link href="javascript:void(0)" class="text-indigo-700 hover:underline">Contact us</Link></p>
                       <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-[15px] py-2 px-4 rounded-lg max-sm:-order-1 cursor-pointer transition duration-200">
                           Download Invoice
                       </button>

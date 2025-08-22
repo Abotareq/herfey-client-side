@@ -19,7 +19,8 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogAction,
-} from "@/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog"; // shadcn/ui
+import { useTranslations } from "use-intl";
 
 export default function StoresSection() {
   const [showStoreForm, setShowStoreForm] = useState(false);
@@ -210,7 +211,7 @@ export default function StoresSection() {
     setSelectedStore(store);
     setModal("manage");
   };
-
+  const t = useTranslations('vendorstore')
   // Loading state
   if (loading) {
     return (
@@ -218,14 +219,14 @@ export default function StoresSection() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-gray-200">
           <div className="space-y-1">
             <h3 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-              My Stores
+              {t('title')}
             </h3>
-            <p className="text-gray-600 text-lg">Loading your stores...</p>
+            <p className="text-gray-600 text-lg">{t('loading')}</p>
           </div>
         </div>
         <div className="text-center py-16 bg-white rounded-3xl border border-gray-200 shadow-sm">
           <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading stores...</p>
+          <p className="text-gray-600">{t('loading')}</p>
         </div>
       </div>
     );
@@ -238,10 +239,10 @@ export default function StoresSection() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-gray-200">
         <div className="space-y-1">
           <h3 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-            My Stores
+            {t('title')}
           </h3>
           <p className="text-gray-600 text-lg">
-            Manage your stores and grow your business
+            {t('desc')}
           </p>
         </div>
         <button
@@ -261,7 +262,7 @@ export default function StoresSection() {
               d="M12 4v16m8-8H4"
             />
           </svg>
-          <span className="font-semibold">Add New Store</span>
+          <span className="font-semibold">{t('addstore')}</span>
         </button>
       </div>
 
@@ -320,7 +321,7 @@ export default function StoresSection() {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                    Store Name *
+                    {t('name')}
                   </label>
                   <input
                     type="text"
@@ -329,13 +330,13 @@ export default function StoresSection() {
                       setNewStore((prev) => ({ ...prev, name: e.target.value }))
                     }
                     className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-gray-400"
-                    placeholder="Enter your store name"
+                    placeholder={t('storename')}
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                    Description *
+                    {t('sdesc')}
                   </label>
                   <textarea
                     value={newStore.description}
@@ -353,7 +354,7 @@ export default function StoresSection() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                    Logo
+                    {t('Logo')}
                   </label>
                   <input
                     type="file"
@@ -370,12 +371,12 @@ export default function StoresSection() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                    Store Location
+                    {t('storelocation')}
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="block text-xs font-medium text-gray-600">
-                        Longitude
+                        {t('Longitude')}
                       </label>
                       <input
                         type="number"
@@ -399,7 +400,7 @@ export default function StoresSection() {
                     </div>
                     <div className="space-y-2">
                       <label className="block text-xs font-medium text-gray-600">
-                        Latitude
+                        {t('Latitude')}
                       </label>
                       <input
                         type="number"
@@ -424,7 +425,7 @@ export default function StoresSection() {
                   </div>
                   <div className="flex items-center justify-between mt-2">
                     <p className="text-xs text-gray-500">
-                      Enter coordinates for precise location mapping
+                      {t('location')}
                     </p>
                     <button
                       type="button"
@@ -487,13 +488,13 @@ export default function StoresSection() {
                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                       />
                     </svg>
-                    Store Address
+                    {t('Store Address')}
                   </h5>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-600">
-                        City
+                        {t('city')}
                       </label>
                       <input
                         type="text"
@@ -505,12 +506,12 @@ export default function StoresSection() {
                           }))
                         }
                         className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        placeholder="City name"
+                        placeholder={t('city')}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-600">
-                        Postal Code
+                        {t('postal')}
                       </label>
                       <input
                         type="text"
@@ -532,7 +533,7 @@ export default function StoresSection() {
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-600">
-                      Street Address
+                      {t('street')}
                     </label>
                     <input
                       type="text"
@@ -564,13 +565,13 @@ export default function StoresSection() {
                         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                       />
                     </svg>
-                    Store Policies
+                    {t('storepolicy')}
                   </h5>
 
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-600">
-                        Shipping Policy
+                        {t('policy')}
                       </label>
                       <input
                         type="text"
@@ -585,13 +586,13 @@ export default function StoresSection() {
                           }))
                         }
                         className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        placeholder="e.g., Free shipping on orders over $50"
+                        placeholder={t('policyp')}
                       />
                     </div>
 
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-600">
-                        Return Policy
+                        {t('return')}
                       </label>
                       <input
                         type="text"
@@ -606,7 +607,7 @@ export default function StoresSection() {
                           }))
                         }
                         className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        placeholder="e.g., 30-day return policy"
+                        placeholder={t('retrunp')}
                       />
                     </div>
                   </div>
@@ -620,7 +621,7 @@ export default function StoresSection() {
                 disabled={submitting}
                 className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 transform hover:scale-105 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Cancel
+                {t('cancel')}
               </button>
               <button
                 onClick={editingStore ? handleUpdateStore : handleAddStore}
@@ -630,12 +631,12 @@ export default function StoresSection() {
                 {submitting ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    {editingStore ? "Updating..." : "Creating..."}
+                    {editingStore ? t('Updating') : t('creating')}
                   </>
                 ) : editingStore ? (
-                  "Update Store"
+                  t('updates')
                 ) : (
-                  "Create Store"
+                  t("creates")
                 )}
               </button>
             </div>
@@ -663,10 +664,10 @@ export default function StoresSection() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No stores yet
+              {t('nostore')}
             </h3>
             <p className="text-gray-600 mb-6">
-              Get started by creating your first store
+              {t('getstarted')}
             </p>
             <button
               onClick={() => setShowStoreForm(true)}
@@ -685,7 +686,7 @@ export default function StoresSection() {
                   d="M12 4v16m8-8H4"
                 />
               </svg>
-              Create Your First Store
+              {t('firststore')}
             </button>
           </div>
         ) : (
@@ -788,15 +789,14 @@ export default function StoresSection() {
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogTitle>{t('sure')}</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This action cannot be undone. This will
-                              permanently delete this store.
+                              {t('refuseaction')}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel disabled={loading}>
-                              Cancel
+                              {t('Cancel')}
                             </AlertDialogCancel>
                             <AlertDialogAction
                               onClick={() => handleDeleteStore(store._id)}
@@ -985,7 +985,7 @@ export default function StoresSection() {
                           d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                         />
                       </svg>
-                      View Details
+                      {t('View Details')}
                     </button>
                     <button
                       onClick={() => handleManageStore(store)}
@@ -1010,7 +1010,7 @@ export default function StoresSection() {
                           d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                       </svg>
-                      Manage Store
+                      {t('Manage Store')}
                     </button>
                   </div>
                 </div>

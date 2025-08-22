@@ -2,6 +2,8 @@
 import { getAllStores, getVendorStores } from "@/service/store";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import SkeletonLoader from "./SkeltonLoader";
+import { useTranslations } from "use-intl";
 
 export default function HerafyStorePage({ vendorOnly = false }) {
   const [stores, setStores] = useState([]);
@@ -67,7 +69,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
       limit: 12,
     });
   };
-
+  const t = useTranslations('store')
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex flex-col lg:flex-row">
@@ -77,21 +79,21 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-8">
               <h3 className="text-slate-900 text-xl font-bold tracking-tight">
-                Filters
+                {t('filter')}
               </h3>
               <button
                 type="button"
                 onClick={clearFilters}
                 className="text-sm text-red-500 hover:text-red-600 font-semibold transition-colors duration-200 hover:underline focus:outline-none focus:ring-2 focus:ring-red-200 rounded px-2 py-1"
               >
-                Clear all
+                {t('clear')}
               </button>
             </div>
 
             {/* Search Filter */}
             <div className="mb-8">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
-                Search Store
+                {t('search')}
               </label>
               <div className="relative">
                 <input
@@ -122,7 +124,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Status Filter */}
             <div className="mb-8">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
-                Store Status
+                {t('status')}
               </label>
               <div className="relative">
                 <select
@@ -130,11 +132,11 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   onChange={(e) => updateFilter("status", e.target.value)}
                   className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
                 >
-                  <option value="">All Status</option>
-                  <option value="approved">Approved</option>
-                  <option value="pending">Pending</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="suspended">Suspended</option>
+                  <option value="">{t('all')}</option>
+                  <option value="approved">{t('approve')}</option>
+                  <option value="pending">{t('pending')}</option>
+                  <option value="rejected">{t('rejected')}</option>
+                  <option value="suspended">{t('suspended')}</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
@@ -156,7 +158,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Sort Filter */}
             <div className="mb-6">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
-                Sort By
+                {t('sort')}
               </label>
               <div className="relative">
                 <select
@@ -164,11 +166,11 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   onChange={(e) => updateFilter("sort", e.target.value)}
                   className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                  <option value="name">Name (A-Z)</option>
-                  <option value="products">Most Products</option>
-                  <option value="orders">Most Orders</option>
+                  <option value="newest">{t('new')}</option>
+                  <option value="oldest">{t('old')}</option>
+                  <option value="name">{t('name')}</option>
+                  <option value="products">{t('mostproducts')}</option>
+                  <option value="orders">{t('mostorders')}</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
@@ -190,7 +192,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Brand Filter */}
             <div className="mb-8">
               <label className="block text-slate-900 text-sm font-semibold mb-4">
-                Brand Selection
+                {t('brandselection')}
               </label>
               <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
                 {[
@@ -255,20 +257,21 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                 {vendorOnly ? "My Stores" : "All Stores"}
               </h1>
               <p className="text-slate-600 text-sm lg:text-base">
-                Discover and explore our collection of premium stores
+                {t('desc')}
               </p>
             </div>
 
             {loading ? (
-              <div className="flex flex-col items-center justify-center py-16">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-3 border-orange-500 mb-4"></div>
-                <p className="text-center text-gray-500 text-lg font-medium">
-                  Loading stores...
-                </p>
-                <p className="text-center text-gray-400 text-sm mt-1">
-                  Please wait while we fetch the latest data
-                </p>
-              </div>
+              // <div className="flex flex-col items-center justify-center py-16">
+              //   <div className="animate-spin rounded-full h-12 w-12 border-b-3 border-orange-500 mb-4"></div>
+              //   <p className="text-center text-gray-500 text-lg font-medium">
+              //     Loading stores...
+              //   </p>
+              //   <p className="text-center text-gray-400 text-sm mt-1">
+              //     Please wait while we fetch the latest data
+              //   </p>
+              // </div>
+              <SkeletonLoader />
             ) : stores.length === 0 ? (
               <div className="text-center py-16">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 max-w-md mx-auto">
@@ -288,11 +291,10 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     </svg>
                   </div>
                   <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                    No stores found
+                    {t('ostores')}
                   </h3>
                   <p className="text-slate-600 text-sm">
-                    Try adjusting your filters or search terms to find what
-                    you're looking for.
+                    {t('errormessage')}
                   </p>
                 </div>
               </div>
@@ -309,6 +311,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     {/* Image Container */}
                     <div className="relative overflow-hidden bg-gray-100">
                       <img
+                        src={store.logoUrl || "/5.jpg"}
                         src={store.logoUrl || "/6.jpg"}
                         alt={store.name}
                         className="w-full h-48 lg:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
@@ -330,7 +333,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                         href={`/store/${store._id}`}
                         className="inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-700 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
                       >
-                        <span>View Store</span>
+                        <span>{t('viewstore')}</span>
                         <svg
                           className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200"
                           fill="none"
