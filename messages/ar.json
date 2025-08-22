@@ -305,7 +305,9 @@
   "date": "عضو منذ",
   "profile": "الملف الشخصي",
   "address": "العناوين",
+  "order": "الطلبات",
   "review": "المراجعات"
+  
   },
   "vendorProfile": {
     "title": "معلومات البائع",
@@ -365,6 +367,54 @@
     "error": "لا يوجد كوبونات لعرضها",
     "edit": "تعديل الكوبون"
 },
+"orders": {
+    "myOrders": "طلباتي",
+    "desc": "عرض وإدارة سجل طلباتك.",
+    "allStatuses": "كل الحالات",
+    "loading": "جاري التحميل...",
+    "order": "طلب",
+    "viewDetails": "عرض التفاصيل",
+    "cancelOrder": "إلغاء الطلب",
+    "cancelling": "جاري الإلغاء...",
+    "areYouSure": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
+    "noOrdersFound": "لم يتم العثور على طلبات",
+    "noOrdersSubtext": "لم تقم بوضع أي طلبات بعد.",
+    "previous": "السابق",
+    "next": "التالي",
+    "pageInfo": "صفحة {page} من {pages}",
+    "statuses": {
+      "pending": "قيد الانتظار",
+      "paid": "مدفوع",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغى"
+    },
+    "yesCancel": "نعم، إلغاء",
+    "noKeep": "لا، إبقاء"
+  },
+
+"orderDetails": {
+  "title": "تفاصيل الطلب",
+  "backToOrders": "العودة إلى طلباتي",
+  "orderPlaced": "تم الطلب",
+  "processing": "قيد المعالجة",
+  "shipped": "تم الشحن",
+  "delivered": "تم التوصيل",
+  "shippingAddress": "عنوان الشحن",
+  "orderSummary": "ملخص الطلب",
+  "subtotal": "المجموع الفرعي",
+  "shippingFee": "رسوم الشحن",
+  "tax": "الضريبة",
+  "total": "المجموع الكلي",
+  "itemsInOrder": "المنتجات في هذا الطلب",
+  "product": "المنتج",
+  "quantity": "الكمية",
+  "price": "السعر",
+  "cancelPrompt": "لم تعد بحاجة لهذا الطلب؟ يمكنك إلغاؤه قبل أن تبدأ معالجته.",
+  "supportPrompt": "يتم تحضير هذا الطلب للشحن ولا يمكن إلغاؤه عبر الإنترنت. للمساعدة، يرجى الاتصال بفريق الدعم لدينا."
+},
+
 "vendorstore": {
   "title": "متاجري",
   "desc": "قم بإدارة متاجرك وإعداداتها",
