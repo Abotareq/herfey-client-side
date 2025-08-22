@@ -1,13 +1,12 @@
 "use client";
 import { useGetAllProducts } from "@/service/ProductService";
-import Link from "next/link";
 import { useTranslations } from "use-intl";
 import NotFoundPage from "./NotFoundComponent";
-
+import { useRouter } from "next/navigation";
 function Products() {
   const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
     const t = useTranslations('products')
-
+  const router = useRouter()
   if (isLoading) {
     return (
       <div className="flex justify-center">
@@ -71,7 +70,7 @@ function Products() {
           products.map((product, index) => {
             const colors = getProductColors(index);
             return (
-              <Link key={product._id} href={`/products/${product._id}`}>
+              <section key={product._id}>
                 <section className={`p-5 py-10 ${colors.bg} text-center transform duration-500 hover:-translate-y-2 cursor-pointer`}>
                   <img 
                     src={product.images || "/placeholder.png"} 
@@ -89,14 +88,58 @@ function Products() {
                     <p className="text-sm text-gray-600">{t('category')}: {product.category?.name}</p>
                     <p className="text-sm text-gray-600">{t('status')}: {product.status}</p>
                   </div>
-                  
+                  {/* variants */}
+                  {product.variants
+                    ?.filter((variant) => variant.name.toLowerCase() === "color")
+                      .map((variant) => (
+                          <div key={variant._id} className="mb-3">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Color:
+                            </label>
+                            <select defaultValue="" className="w-full border rounded-md p-2 text-sm">
+                              <option value="" disabled>
+                                Select Color
+                              </option>
+                              {variant.options?.map((option) => (
+                                <option key={option._id} value={option.value}>
+                                  {option.value}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          ))}
+                    {/** Size Dropdown */}
+                  {product.variants
+                      ?.filter((variant) => variant.name.toLowerCase() === "size")
+                      .map((variant) => (
+                        <div key={variant._id} className="mb-3">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Size:
+                          </label>
+                          <select defaultValue="" className="w-full border rounded-md p-2 text-sm">
+                            <option value="" disabled>
+                              Select Size
+                            </option>
+                            {variant.options?.map((option) => (
+                              <option key={option._id} value={option.value}>
+                                {option.value}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                    ))}
                   <h2 className="font-semibold mb-5">${product.basePrice}</h2>
-                  
+                  {/* product details */}
+                  <button 
+                  onClick={() => router.push(`/products/${product._id}`)}
+                  className={`p-2 px-6 ${colors.button} text-white rounded-md mr-3`}>
+                    produc details
+                  </button>
                   <button className={`p-2 px-6 ${colors.button} text-white rounded-md`}>
                     {t('cart')}
                   </button>
                 </section>
-              </Link>
+              </section>
             );
           })
         ) : (

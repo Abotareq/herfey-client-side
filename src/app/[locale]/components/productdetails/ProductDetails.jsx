@@ -87,7 +87,46 @@ function ProductDetails({id}) {
                   </h1>
                   <p className="text-gray-600 text-lg mt-2">{product.slug}</p>
                 </div>
-
+                  {/* variants */}
+                  {product.variants
+                    ?.filter((variant) => variant.name.toLowerCase() === "color")
+                      .map((variant) => (
+                          <div key={variant._id} className="mb-3">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Color:
+                            </label>
+                            <select defaultValue="" className="w-full border rounded-md p-2 text-sm">
+                              <option value="" disabled>
+                                Select Color
+                              </option>
+                              {variant.options?.map((option) => (
+                                <option key={option._id} value={option.value}>
+                                  {option.value}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          ))}
+                    {/** Size Dropdown */}
+                  {product.variants
+                      ?.filter((variant) => variant.name.toLowerCase() === "size")
+                      .map((variant) => (
+                        <div key={variant._id} className="mb-3">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Size:
+                          </label>
+                          <select defaultValue="" className="w-full border rounded-md p-2 text-sm">
+                            <option value="" disabled>
+                              Select Size
+                            </option>
+                            {variant.options?.map((option) => (
+                              <option key={option._id} value={option.value}>
+                                {option.value}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                    ))}
                 {/* Rating */}
                 <div className="flex items-center space-x-3">
                   <div className="flex space-x-1">
@@ -118,10 +157,9 @@ function ProductDetails({id}) {
                     ))}
                   </div>
                   <span className="text-gray-700 font-medium">
-                    {product.averageRating || '4.0'} ({product.reviewCount || '127'} t('review'))
+                    {product.averageRating || '4.0'} ({product.reviewCount || '127'} {t('review')})
                   </span>
                 </div>
-
                 {/* Price */}
                 <div className="flex items-center space-x-4">
                   <span className="text-4xl font-bold text-gray-900">
