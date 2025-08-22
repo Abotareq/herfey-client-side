@@ -1,13 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { StoreManagement } from "./StoreMangement";
 import StoreDetailsView from "./StoreView";
 import {
-  getVendorStores,
-  createStore,
-  updateStore,
-  deleteStore,
-} from "@/service/store"; // Adjust path as needed
+  useVendorStores,
+  useCreateStore,
+  useUpdateStore,
+  useDeleteStore,
+} from "@/service/store";
 
 import {
   AlertDialog,
@@ -19,16 +19,13 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogAction,
-} from "@/components/ui/alert-dialog"; // shadcn/ui
+} from "@/components/ui/alert-dialog";
+
 export default function StoresSection() {
-  const [userStores, setUserStores] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [showStoreForm, setShowStoreForm] = useState(false);
   const [editingStore, setEditingStore] = useState(null);
   const [modal, setModal] = useState(null); // 'details' or 'manage'
   const [selectedStore, setSelectedStore] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
   const [newStore, setNewStore] = useState({
     status: "pending",
     categorieCount: 0,
@@ -53,35 +50,39 @@ export default function StoresSection() {
     },
   });
 
-  // Load vendor stores on component mount
-  useEffect(() => {
-    fetchVendorStores();
-  }, []);
+  // React Query hooks
+  const {
+    data: vendorStoresData,
+    isLoading: loading,
+    error: fetchError,
+  } = useVendorStores();
 
-  const fetchVendorStores = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await getVendorStores();
-      setUserStores(response.stores || []);
-    } catch (err) {
-      console.error("Error fetching stores:", err);
-      setError("Failed to load stores. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const createStoreMutation = useCreateStore();
+  const updateStoreMutation = useUpdateStore();
+  const deleteStoreMutation = useDeleteStore();
+
+  // Extract stores from response
+  const userStores = vendorStoresData?.stores || vendorStoresData?.data?.stores || [];
+
+  // Combined error handling
+  const error = fetchError?.response?.data?.message || 
+                fetchError?.message || 
+                createStoreMutation.error?.response?.data?.message ||
+                createStoreMutation.error?.message ||
+                updateStoreMutation.error?.response?.data?.message ||
+                updateStoreMutation.error?.message ||
+                deleteStoreMutation.error?.response?.data?.message ||
+                deleteStoreMutation.error?.message ||
+                null;
+
+  const submitting = createStoreMutation.isPending || updateStoreMutation.isPending;
 
   const handleAddStore = async () => {
     if (!newStore.name || !newStore.description) {
-      setError("Please fill in all required fields.");
       return;
     }
 
     try {
-      setSubmitting(true);
-      setError(null);
-
       // Create FormData for file upload support
       const formData = new FormData();
 
@@ -99,14 +100,9 @@ export default function StoresSection() {
       formData.append("location", JSON.stringify(newStore.location));
       formData.append("policies", JSON.stringify(newStore.policies));
 
-      console.log("Creating store with data:", newStore);
-      const response = await createStore(formData);
-      console.log("Store created:", response.data);
-      if (response.data) {
-        setUserStores((prev) => [...prev, response.data]);
-      }
+      await createStoreMutation.mutateAsync(formData);
 
-      // Reset form
+      // Reset form on success
       setNewStore({
         name: "",
         description: "",
@@ -118,12 +114,6 @@ export default function StoresSection() {
       setShowStoreForm(false);
     } catch (err) {
       console.error("Error creating store:", err);
-      setError(
-        err.response?.data?.message ||
-          "Failed to create store. Please try again."
-      );
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -138,14 +128,10 @@ export default function StoresSection() {
 
   const handleUpdateStore = async () => {
     if (!newStore.name || !newStore.description) {
-      setError("Please fill in all required fields.");
       return;
     }
 
     try {
-      setSubmitting(true);
-      setError(null);
-
       // Create FormData for file upload support
       const formData = new FormData();
 
@@ -162,20 +148,13 @@ export default function StoresSection() {
       formData.append("address", JSON.stringify(newStore.address));
       formData.append("location", JSON.stringify(newStore.location));
       formData.append("policies", JSON.stringify(newStore.policies));
-      console.log("new update store", newStore);
-      const response = await updateStore(editingStore._id, formData);
 
-      // Update the store in the list
-      console.log("responce update", response);
-      if (response.data) {
-        setUserStores((prev) =>
-          prev.map((store) =>
-            store._id === editingStore._id ? response.data : store
-          )
-        );
-      }
+      await updateStoreMutation.mutateAsync({
+        storeId: editingStore._id,
+        formData,
+      });
 
-      // Reset form
+      // Reset form on success
       setNewStore({
         name: "",
         description: "",
@@ -187,12 +166,6 @@ export default function StoresSection() {
       setEditingStore(null);
     } catch (err) {
       console.error("Error updating store:", err);
-      setError(
-        err.response?.data?.message ||
-          "Failed to update store. Please try again."
-      );
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -203,41 +176,23 @@ export default function StoresSection() {
       description: "",
       logoUrl: null,
       address: { city: "", postalCode: "", street: "" },
-      location: { type: "point", coordinates: [0, 0] },
+      location: { type: "Point", coordinates: [0, 0] },
       policies: { shipping: "", returns: "" },
     });
     setShowStoreForm(false);
-    setError(null);
   };
 
   const handleDeleteStore = async (storeId) => {
     try {
-      setLoading(true);
-      setError(null);
-      await deleteStore(storeId);
-      setUserStores((prev) => prev.filter((store) => store._id !== storeId));
+      await deleteStoreMutation.mutateAsync(storeId);
     } catch (err) {
       console.error("Error deleting store:", err);
-      setError(
-        err.response?.data?.message ||
-          "Failed to delete store. Please try again."
-      );
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleUpdate = (updatedStore) => {
-    setUserStores((prev) =>
-      prev.map((store) =>
-        store._id === updatedStore._id
-          ? {
-              ...updatedStore,
-              updatedAt: new Date().toISOString(),
-            }
-          : store
-      )
-    );
+    // This will be handled automatically by React Query cache invalidation
+    console.log("Store updated:", updatedStore);
   };
 
   const setEditMode = (store) => {
@@ -326,24 +281,6 @@ export default function StoresSection() {
             />
           </svg>
           <p className="text-red-700">{error}</p>
-          <button
-            onClick={() => setError(null)}
-            className="ml-auto text-red-500 hover:text-red-700"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
         </div>
       )}
 
@@ -507,14 +444,7 @@ export default function StoresSection() {
                             },
                             (error) => {
                               console.error("Error getting location:", error);
-                              setError(
-                                "Could not get your current location. Please enter coordinates manually."
-                              );
                             }
-                          );
-                        } else {
-                          setError(
-                            "Geolocation is not supported by this browser."
                           );
                         }
                       }}
@@ -538,6 +468,7 @@ export default function StoresSection() {
                   </div>
                 </div>
               </div>
+              
               {/* Address & Policies */}
               <div className="space-y-6">
                 <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
@@ -616,6 +547,7 @@ export default function StoresSection() {
                     />
                   </div>
                 </div>
+
                 <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
                   <h5 className="font-semibold text-gray-900 flex items-center gap-2">
                     <svg
