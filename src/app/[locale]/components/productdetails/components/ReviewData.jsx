@@ -1,109 +1,98 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useState, useMemo } from "react";
+import { useTranslations } from "use-intl";
+import {
+  useFilterReviewsByProduct,
+  useGetReviewSummary,
+  useAddReview,
+} from "@/service/reviewService.js";
+import { useAuth } from "@/app/context/AuthContext.jsx"; // Hypothetical auth context
+import LoadingSpinner from "../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
 
-function ReviewsSection({ productRating = 4.2, totalReviews = 87 }) {
+function ReviewsSection({ productId }) {
+  const t = useTranslations("reviews");
+  const { user } = useAuth(); // Get authenticated user
   const [sortBy, setSortBy] = useState("newest");
   const [filterRating, setFilterRating] = useState("all");
-  const [showAllReviews, setShowAllReviews] = useState(false);
+  const [page, setPage] = useState(1);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviewData, setReviewData] = useState({
+    rating: 1,
+    comment: "",
+  });
+  const limit = 4;
 
-  const reviewsData = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      rating: 5,
-      date: "2 days ago",
-      verified: true,
-      title: "Perfect fit and amazing quality!",
-      review:
-        "I absolutely love this t-shirt! The fabric is incredibly soft and comfortable. The fit is perfect - not too tight, not too loose. I've washed it several times and it still looks brand new. Definitely worth every penny!",
-      helpful: 12,
-      size: "M",
-      avatar: "SJ",
-      images: [],
-    },
-    {
-      id: 2,
-      name: "Mike Chen",
-      rating: 4,
-      date: "1 week ago",
-      verified: true,
-      title: "Great quality, runs slightly large",
-      review:
-        "Really impressed with the quality of this shirt. The material feels premium and the stitching is excellent. Only reason I'm giving 4 stars instead of 5 is that it runs a bit large - I usually wear L but this M fits perfectly.",
-      helpful: 8,
-      size: "M",
-      avatar: "MC",
-      images: [],
-    },
-    {
-      id: 3,
-      name: "Emily Rodriguez",
-      rating: 5,
-      date: "2 weeks ago",
-      verified: true,
-      title: "Exceeded expectations!",
-      review:
-        "Ordered this as a gift for my boyfriend and he absolutely loves it. The color is vibrant, the fit is great, and it's held up really well after multiple washes. Fast shipping too!",
-      helpful: 15,
-      size: "L",
-      avatar: "ER",
-      images: [],
-    },
-    {
-      id: 4,
-      name: "David Park",
-      rating: 4,
-      date: "3 weeks ago",
-      verified: false,
-      title: "Good value for money",
-      review:
-        "Solid t-shirt for the price. Comfortable to wear and seems well-made. The only minor issue is that the neck can be a bit tight initially, but it loosens up after a few wears.",
-      helpful: 5,
-      size: "XL",
-      avatar: "DP",
-      images: [],
-    },
-    {
-      id: 5,
-      name: "Jessica Kim",
-      rating: 5,
-      date: "1 month ago",
-      verified: true,
-      title: "Love the soft fabric!",
-      review:
-        "This is my third purchase from this brand and they never disappoint. The fabric is so soft and breathable. Perfect for everyday wear or working out. Highly recommend!",
-      helpful: 9,
-      size: "S",
-      avatar: "JK",
-      images: [],
-    },
-    {
-      id: 6,
-      name: "Alex Thompson",
-      rating: 3,
-      date: "1 month ago",
-      verified: true,
-      title: "Decent shirt, color faded a bit",
-      review:
-        "Overall a decent t-shirt. Comfortable fit and good quality. However, after several washes, the color has faded slightly which is a bit disappointing for the price point.",
-      helpful: 3,
-      size: "L",
-      avatar: "AT",
-      images: [],
-    },
-  ];
+  const {
+    data: reviewsData,
+    isLoading,
+    error,
+  } = useFilterReviewsByProduct(productId, page, limit);
+  const { data: summaryData } = useGetReviewSummary(productId, "Product");
+  const addReviewMutation = useAddReview(productId);
 
-  const ratingDistribution = [
-    { stars: 5, count: 42, percentage: 48 },
-    { stars: 4, count: 28, percentage: 32 },
-    { stars: 3, count: 12, percentage: 14 },
-    { stars: 2, count: 3, percentage: 4 },
-    { stars: 1, count: 2, percentage: 2 },
-  ];
+  const reviews = useMemo(() => {
+    let result = reviewsData?.data?.review || [];
+    if (filterRating !== "all") {
+      result = result.filter(
+        (review) => review.rating === parseInt(filterRating)
+      );
+    }
+    return result.sort((a, b) => {
+      if (sortBy === "newest")
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortBy === "oldest")
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      if (sortBy === "highest") return b.rating - a.rating;
+      if (sortBy === "lowest") return a.rating - b.rating;
+      if (sortBy === "helpful") return (b.helpful || 0) - (a.helpful || 0);
+      return 0;
+    });
+  }, [reviewsData, filterRating, sortBy]);
 
-  const displayedReviews = showAllReviews
-    ? reviewsData
-    : reviewsData.slice(0, 4);
+  const ratingDistribution = useMemo(() => {
+    const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    (reviewsData?.data?.review || []).forEach((review) => {
+      counts[review.rating] = (counts[review.rating] || 0) + 1;
+    });
+    const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
+    return Object.entries(counts).map(([stars, count]) => ({
+      stars: parseInt(stars),
+      count,
+      percentage: total ? ((count / total) * 100).toFixed(0) : 0,
+    }));
+  }, [reviewsData]);
+
+  const pagination = reviewsData?.data?.pagination || {
+    totalReviews: reviews.length,
+    currentPage: page,
+    totalPages: Math.ceil(reviews.length / limit),
+  };
+
+  const handleAddReview = () => {
+    if (!user) return;
+    addReviewMutation.mutate(
+      {
+        entityId: productId,
+        entityType: "Product",
+        rating: reviewData.rating,
+        comment: reviewData.comment,
+      },
+      {
+        onSuccess: () => {
+          setReviewData({ rating: 1, comment: "" });
+          setShowReviewForm(false);
+          setPage(1); // Reset to first page to show new review
+        },
+        onError: (error) => {
+          alert(
+            t("error_submitting_review") +
+              ": " +
+              (error.response?.data?.data?.message || error.message)
+          );
+        },
+      }
+    );
+  };
 
   const StarRating = ({ rating, size = "w-4 h-4" }) => (
     <div className="flex items-center space-x-1">
@@ -121,6 +110,41 @@ function ReviewsSection({ productRating = 4.2, totalReviews = 87 }) {
     </div>
   );
 
+  const EditableStarRating = ({ rating, onChange }) => (
+    <div className="flex items-center space-x-1">
+      {[...Array(5)].map((_, i) => (
+        <button
+          key={i}
+          type="button"
+          onClick={() => onChange(i + 1)}
+          className="focus:outline-none"
+        >
+          <svg
+            className={`w-6 h-6 transition-colors ${
+              i < rating
+                ? "fill-amber-400 text-amber-400"
+                : "fill-slate-300 text-slate-300 hover:fill-amber-200"
+            }`}
+            viewBox="0 0 14 13"
+          >
+            <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+          </svg>
+        </button>
+      ))}
+      <span className="ml-2 text-sm font-medium text-slate-700">
+        {rating}/5
+      </span>
+    </div>
+  );
+
+  if (isLoading) return <LoadingSpinner />;
+  if (error)
+    return (
+      <div>
+        {t("error_loading_reviews")}: {error.message}
+      </div>
+    );
+
   return (
     <div className="mt-16 border-t border-slate-200 pt-16">
       <div className="max-w-6xl mx-auto px-4">
@@ -128,24 +152,23 @@ function ReviewsSection({ productRating = 4.2, totalReviews = 87 }) {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6">
           <div>
             <h2 className="text-3xl font-bold text-slate-900 mb-2">
-              Customer Reviews
+              {t("customer_reviews")}
             </h2>
-            <p className="text-slate-600">See what our customers are saying</p>
+            <p className="text-slate-600">{t("see_what_customers_say")}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            {/* Filter and Sort */}
             <div className="flex gap-3">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="highest">Highest Rated</option>
-                <option value="lowest">Lowest Rated</option>
-                <option value="helpful">Most Helpful</option>
+                <option value="newest">{t("newest_first")}</option>
+                <option value="oldest">{t("oldest_first")}</option>
+                <option value="highest">{t("highest_rated")}</option>
+                <option value="lowest">{t("lowest_rated")}</option>
+                <option value="helpful">{t("most_helpful")}</option>
               </select>
 
               <select
@@ -153,31 +176,103 @@ function ReviewsSection({ productRating = 4.2, totalReviews = 87 }) {
                 onChange={(e) => setFilterRating(e.target.value)}
                 className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="all">All Ratings</option>
-                <option value="5">5 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="2">2 Stars</option>
-                <option value="1">1 Star</option>
+                <option value="all">{t("all_ratings")}</option>
+                <option value="5">{t("5_stars")}</option>
+                <option value="4">{t("4_stars")}</option>
+                <option value="3">{t("3_stars")}</option>
+                <option value="2">{t("2_stars")}</option>
+                <option value="1">{t("1_star")}</option>
               </select>
             </div>
 
-            <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
-              Write a Review
-            </button>
+            {user ? (
+              <button
+                onClick={() => setShowReviewForm(true)}
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+              >
+                {t("write_review")}
+              </button>
+            ) : (
+              <button
+                disabled
+                className="px-6 py-3 bg-gray-400 text-white font-semibold rounded-xl opacity-50 cursor-not-allowed"
+              >
+                {t("login_to_review")}
+              </button>
+            )}
           </div>
         </div>
+
+        {/* Review Form Modal */}
+        {showReviewForm && user && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                {t("write_review")}
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    {t("rating")}
+                  </label>
+                  <EditableStarRating
+                    rating={reviewData.rating}
+                    onChange={(rating) =>
+                      setReviewData((prev) => ({ ...prev, rating }))
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    {t("comment")}
+                  </label>
+                  <textarea
+                    value={reviewData.comment}
+                    onChange={(e) =>
+                      setReviewData((prev) => ({
+                        ...prev,
+                        comment: e.target.value,
+                      }))
+                    }
+                    rows={4}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                    placeholder={t("review_comment_placeholder")}
+                  />
+                </div>
+              </div>
+              <div className="mt-6 flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowReviewForm(false)}
+                  className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+                >
+                  {t("cancel")}
+                </button>
+                <button
+                  onClick={handleAddReview}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  disabled={addReviewMutation.isLoading}
+                >
+                  {addReviewMutation.isLoading ? t("submitting") : t("submit")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Rating Summary */}
         <div className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-2xl p-8 mb-12 border border-slate-200">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="text-6xl font-bold text-slate-900 mb-2">
-                {productRating}
+                {summaryData?.data?.averageRating?.toFixed(1) || "N/A"}
               </div>
-              <StarRating rating={Math.floor(productRating)} size="w-6 h-6" />
+              <StarRating
+                rating={Math.floor(summaryData?.data?.averageRating || 0)}
+                size="w-6 h-6"
+              />
               <p className="text-slate-600 mt-2">
-                Based on {totalReviews} reviews
+                {t("based_on")} {summaryData?.data?.reviewCount || 0}{" "}
+                {t("reviews")}
               </p>
             </div>
 
@@ -185,7 +280,7 @@ function ReviewsSection({ productRating = 4.2, totalReviews = 87 }) {
               {ratingDistribution.map((rating) => (
                 <div key={rating.stars} className="flex items-center space-x-4">
                   <span className="text-sm font-medium text-slate-700 w-12">
-                    {rating.stars} star
+                    {rating.stars} {t("star")}
                   </span>
                   <div className="flex-1 bg-slate-200 rounded-full h-3">
                     <div
@@ -204,102 +299,123 @@ function ReviewsSection({ productRating = 4.2, totalReviews = 87 }) {
 
         {/* Individual Reviews */}
         <div className="space-y-8">
-          {displayedReviews.map((review) => (
-            <div
-              key={review.id}
-              className="bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                  {review.avatar}
-                </div>
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div
+                key={review._id}
+                className="bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                    {review.user?.name
+                      ? review.user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .slice(0, 2)
+                      : "AN"}
+                  </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
-                    <div className="flex items-center space-x-3 flex-wrap">
-                      <h4 className="font-semibold text-slate-900">
-                        {review.name}
-                      </h4>
-                      {review.verified && (
-                        <div className="flex items-center space-x-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
-                          <svg
-                            className="w-3 h-3"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span>Verified Purchase</span>
-                        </div>
-                      )}
-                      <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
-                        Size: {review.size}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+                      <div className="flex items-center space-x-3 flex-wrap">
+                        <h4 className="font-semibold text-slate-900">
+                          {review.user?.name || "Anonymous"}
+                        </h4>
+                        {review.verifiedPurchase && (
+                          <div className="flex items-center space-x-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
+                            <svg
+                              className="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            <span>{t("verified_purchase")}</span>
+                          </div>
+                        )}
+                      </div>
+                      <span className="text-sm text-slate-500">
+                        {new Date(review.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <span className="text-sm text-slate-500">
-                      {review.date}
-                    </span>
-                  </div>
 
-                  <div className="mb-3">
-                    <StarRating rating={review.rating} />
-                  </div>
+                    <div className="mb-3">
+                      <StarRating rating={review.rating} />
+                    </div>
 
-                  <h5 className="font-semibold text-slate-900 mb-2">
-                    {review.title}
-                  </h5>
-                  <p className="text-slate-600 leading-relaxed mb-4">
-                    {review.review}
-                  </p>
+                    <p className="text-slate-600 leading-relaxed mb-4">
+                      {review.comment || "No comment provided"}
+                    </p>
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-6">
-                      <button className="flex items-center space-x-2 text-slate-500 hover:text-blue-600 transition-colors group">
-                        <svg
-                          className="w-4 h-4 group-hover:scale-110 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V9a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
-                          />
-                        </svg>
-                        <span className="text-sm font-medium">
-                          Helpful ({review.helpful})
-                        </span>
-                      </button>
-                      <button className="text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium">
-                        Reply
-                      </button>
-                      <button className="text-slate-500 hover:text-red-600 transition-colors text-sm font-medium">
-                        Report
-                      </button>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-6">
+                        <button className="flex items-center space-x-2 text-slate-500 hover:text-blue-600 transition-colors group">
+                          <svg
+                            className="w-4 h-4 group-hover:scale-110 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V9a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+                            />
+                          </svg>
+                          <span className="text-sm font-medium">
+                            {t("helpful")} ({review.helpful || 0})
+                          </span>
+                        </button>
+                        <button className="text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium">
+                          {t("reply")}
+                        </button>
+                        <button className="text-slate-500 hover:text-red-600 transition-colors text-sm font-medium">
+                          {t("report")}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="text-center py-8">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                {t("no_reviews")}
+              </h3>
+              <p className="text-slate-600">{t("no_reviews_product")}</p>
             </div>
-          ))}
+          )}
         </div>
 
-        {/* Load More / Show Less Button */}
-        {reviewsData.length > 4 && (
-          <div className="text-center mt-12">
+        {/* Pagination */}
+        {pagination.totalPages > 1 && (
+          <div className="text-center mt-12 flex justify-center space-x-4">
             <button
-              onClick={() => setShowAllReviews(!showAllReviews)}
-              className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105"
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              disabled={page === 1}
+              className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
             >
-              {showAllReviews
-                ? "Show Less Reviews"
-                : `Load More Reviews (${reviewsData.length - 4} remaining)`}
+              {t("previous")}
+            </button>
+            <span className="px-4 py-3 text-slate-700">
+              {t("page")} {pagination.currentPage} {t("of")}{" "}
+              {pagination.totalPages}
+            </span>
+            <button
+              onClick={() =>
+                setPage((prev) => Math.min(prev + 1, pagination.totalPages))
+              }
+              disabled={page >= pagination.totalPages}
+              className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
+            >
+              {t("next")}
             </button>
           </div>
         )}
@@ -307,47 +423,32 @@ function ReviewsSection({ productRating = 4.2, totalReviews = 87 }) {
         {/* Review Summary Stats */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">94%</div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">
+              {summaryData?.data?.recommendPercentage?.toFixed(0) || 0}%
+            </div>
             <div className="text-slate-600 font-medium">
-              Recommend this product
+              {t("recommend_product")}
             </div>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-            <div className="text-3xl font-bold text-green-600 mb-2">4.8</div>
+            <div className="text-3xl font-bold text-green-600 mb-2">
+              {summaryData?.data?.averageRating?.toFixed(1) || "0.0"}
+            </div>
             <div className="text-slate-600 font-medium">
-              Average quality rating
+              {t("average_quality_rating")}
             </div>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-            <div className="text-3xl font-bold text-purple-600 mb-2">4.6</div>
-            <div className="text-slate-600 font-medium">Average fit rating</div>
+            <div className="text-3xl font-bold text-purple-600 mb-2">
+              {(summaryData?.data?.averageRating || 0).toFixed(1)}
+            </div>
+            <div className="text-slate-600 font-medium">
+              {t("average_fit_rating")}
+            </div>
           </div>
         </div>
 
         {/* Most Mentioned Keywords */}
-        <div className="mt-12 bg-slate-50 rounded-2xl p-8">
-          <h3 className="text-xl font-bold text-slate-900 mb-6">
-            Most Mentioned
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {[
-              { keyword: "Comfortable", count: 45 },
-              { keyword: "Soft fabric", count: 38 },
-              { keyword: "Great fit", count: 32 },
-              { keyword: "Good quality", count: 28 },
-              { keyword: "True to size", count: 24 },
-              { keyword: "Durable", count: 19 },
-              { keyword: "Breathable", count: 16 },
-            ].map((item) => (
-              <span
-                key={item.keyword}
-                className="bg-white px-4 py-2 rounded-full border border-slate-200 text-slate-700 text-sm font-medium hover:bg-blue-50 hover:border-blue-200 transition-colors cursor-pointer"
-              >
-                {item.keyword} ({item.count})
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

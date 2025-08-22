@@ -1,14 +1,9 @@
 "use client";
-import React, { useState } from 'react';
-import { useTranslations } from 'use-intl';
-import Link from 'next/link';
-import { 
-  useFilteredReviews, 
-  useDeleteReview, 
-  useUpdateReview 
-} from '@/service/reviewService';
-import LoadingSpinner from '../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx';
-
+import React, { useState } from "react";
+import { useTranslations } from "use-intl";
+import Link from "next/link";
+import { useGetUserReviews, useDeleteReview, useUpdateReview } from "@/service/reviewService";
+import LoadingSpinner from "../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
 
 function ReviewsSection({ userId }) {
   const t = useTranslations("reviews");
@@ -23,21 +18,19 @@ function ReviewsSection({ userId }) {
   });
 
   const filters = {
-    userId,
     page,
     entityType: filterType === "all" ? undefined : filterType,
-    sortBy:
-      sortBy === "highest" || sortBy === "lowest" ? "rating" : "createdAt",
+    sortBy: sortBy === "highest" || sortBy === "lowest" ? "rating" : "createdAt",
     order: sortBy === "newest" || sortBy === "highest" ? "desc" : "asc",
   };
 
-  const { data, isLoading, error } = useFilteredReviews(filters);
+  const { data, isLoading, error } = useGetUserReviews(userId, filters);
   const userReviews = data?.data?.reviews || [];
-  const pagination = data?.pagination || {};
+  const pagination = data?.pagination || { totalReviews: 0, totalPages: 1, currentPage: 1 };
 
   const deleteReviewMutation = useDeleteReview();
   const updateReviewMutation = useUpdateReview();
-
+console.log("userReviews", userReviews);
   const handleDeleteReview = (review) => {
     deleteReviewMutation.mutate({
       entityId: review.entityId,
@@ -65,17 +58,12 @@ function ReviewsSection({ userId }) {
     setEditingReview(null);
   };
 
-  if (isLoading) return <LoadingSpinner/>;
-  if (error) return <div>Error loading reviews: {error.message}</div>;
-
   const StarRating = ({ rating, size = "w-4 h-4" }) => (
     <div className="flex items-center space-x-1">
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
-          className={`${size} ${
-            i < rating ? "fill-amber-400" : "fill-slate-300"
-          }`}
+          className={`${size} ${i < rating ? "fill-amber-400" : "fill-slate-300"}`}
           viewBox="0 0 14 13"
         >
           <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
@@ -95,9 +83,7 @@ function ReviewsSection({ userId }) {
         >
           <svg
             className={`w-6 h-6 transition-colors ${
-              i < rating
-                ? "fill-amber-400 text-amber-400"
-                : "fill-slate-300 text-slate-300 hover:fill-amber-200"
+              i < rating ? "fill-amber-400 text-amber-400" : "fill-slate-300 text-slate-300 hover:fill-amber-200"
             }`}
             viewBox="0 0 14 13"
           >
@@ -105,19 +91,15 @@ function ReviewsSection({ userId }) {
           </svg>
         </button>
       ))}
-      <span className="ml-2 text-sm font-medium text-slate-700">
-        {rating}/5
-      </span>
+      <span className="ml-2 text-sm font-medium text-slate-700">{rating}/5</span>
     </div>
   );
 
   return (
-    <div className="space-y-6 ">
+    <div className="space-y-6">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h3 className="text-2xl font-bold text-slate-900">
-            {t("myreviews")}
-          </h3>
+          <h3 className="text-2xl font-bold text-slate-900">{t("myreviews")}</h3>
           <p className="text-slate-600">{t("desc")}</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
@@ -127,8 +109,8 @@ function ReviewsSection({ userId }) {
             className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="all">{t("all")}</option>
-            <option value="product">{t("products")}</option>
-            <option value="store">{t("stores")}</option>
+            <option value="Product">{t("products")}</option>
+            <option value="Store">{t("stores")}</option>
           </select>
           <select
             value={sortBy}
@@ -146,72 +128,47 @@ function ReviewsSection({ userId }) {
       {/* Statistics Section */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
-          <p className="text-2xl font-bold text-blue-600">
-            {pagination.totalReviews || 0}
-          </p>
+          <p className="text-2xl font-bold text-blue-600">{pagination.totalReviews || 0}</p>
           <p className="text-slate-600 text-sm">{t("total")}</p>
         </div>
         <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
           <p className="text-2xl font-bold text-green-600">
-            {
-              userReviews.filter(
-                (r) => r.entityType.toLowerCase() === "product"
-              ).length
-            }
+            {userReviews.filter((r) => r.entityType.toLowerCase() === "product").length}
           </p>
           <p className="text-slate-600 text-sm">{t("product")}</p>
         </div>
         <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
           <p className="text-2xl font-bold text-purple-600">
-            {
-              userReviews.filter((r) => r.entityType.toLowerCase() === "store")
-                .length
-            }
+            {userReviews.filter((r) => r.entityType.toLowerCase() === "store").length}
           </p>
           <p className="text-slate-600 text-sm">{t("store")}</p>
         </div>
         <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
           <p className="text-2xl font-bold text-amber-600">
-            {(
-              userReviews.reduce((acc, r) => acc + r.rating, 0) /
-              (userReviews.length || 1)
-            ).toFixed(1)}
+            {(userReviews.reduce((acc, r) => acc + r.rating, 0) / (userReviews.length || 1)).toFixed(1)}
           </p>
           <p className="text-slate-600 text-sm">{t("average")}</p>
         </div>
       </div>
 
-      {/* --- FIX: EDIT REVIEW MODAL UI --- */}
+      {/* Edit Review Modal */}
       {editingReview && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
-            <h3 className="text-xl font-semibold text-slate-900 mb-4">
-              {t("edit")}
-            </h3>
+            <h3 className="text-xl font-semibold text-slate-900 mb-4">{t("edit")}</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  {t("rate")}
-                </label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">{t("rate")}</label>
                 <EditableStarRating
                   rating={editReviewData.rating}
-                  onChange={(rating) =>
-                    setEditReviewData((prev) => ({ ...prev, rating }))
-                  }
+                  onChange={(rating) => setEditReviewData((prev) => ({ ...prev, rating }))}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  {t("comment")}
-                </label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">{t("comment")}</label>
                 <textarea
                   value={editReviewData.comment}
-                  onChange={(e) =>
-                    setEditReviewData((prev) => ({
-                      ...prev,
-                      comment: e.target.value,
-                    }))
-                  }
+                  onChange={(e) => setEditReviewData((prev) => ({ ...prev, comment: e.target.value }))}
                   rows={4}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                   placeholder="Share your thoughts..."
@@ -236,21 +193,18 @@ function ReviewsSection({ userId }) {
         </div>
       )}
 
-      {/* --- REVIEWS LIST --- */}
+      {/* Reviews List */}
       <div className="space-y-4">
         {userReviews.length > 0 ? (
           userReviews.map((review) => {
             const entityUrl = review.entityDetails?.slug
-              ? `/${review.entityType.toLowerCase()}s/${
-                  review.entityDetails.slug
-                }`
+              ? `/${review.entityType.toLowerCase()}s/${review.entityDetails.slug}`
               : "#";
 
             return (
               <Link href={entityUrl} key={review._id} passHref>
                 <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-500 transition-all duration-300 cursor-pointer">
                   <div className="flex items-start space-x-4">
-                    {/* Optional: Add entity image */}
                     {review.entityDetails?.images?.[0] && (
                       <img
                         src={review.entityDetails.images[0]}
@@ -265,11 +219,9 @@ function ReviewsSection({ userId }) {
                         className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                       />
                     )}
-
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          {/* --- FIX: DISPLAY ENTITY NAME --- */}
                           <h4 className="font-semibold text-slate-900 mb-1 hover:text-blue-600">
                             {review.entityDetails?.name || "Item Reviewed"}
                           </h4>
@@ -283,24 +235,17 @@ function ReviewsSection({ userId }) {
                             >
                               {review.entityType}
                             </span>
-                            {/* --- FIX: ACCESS PRICE/COUNT FROM entityDetails --- */}
-                            {review.entityType.toLowerCase() === "product" &&
-                              review.entityDetails?.basePrice && (
-                                <span className="text-slate-500 text-sm">
-                                  ${review.entityDetails.basePrice}
-                                </span>
-                              )}
-                            {review.entityType.toLowerCase() === "store" &&
-                              review.entityDetails?.productCount && (
-                                <span className="text-slate-500 text-sm">
-                                  {review.entityDetails.productCount}{" "}
-                                  {t("products")}
-                                </span>
-                              )}
+                            {review.entityType.toLowerCase() === "product" && review.entityDetails?.basePrice && (
+                              <span className="text-slate-500 text-sm">${review.entityDetails.basePrice}</span>
+                            )}
+                            {review.entityType.toLowerCase() === "store" && review.entityDetails?.productCount && (
+                              <span className="text-slate-500 text-sm">
+                                {review.entityDetails.productCount} {t("products")}
+                              </span>
+                            )}
                           </div>
                         </div>
                         <div className="flex items-center space-x-2 relative z-10">
-                          {/* --- FIX: FUNCTIONAL BUTTONS --- */}
                           <button
                             onClick={(e) => {
                               e.preventDefault();
@@ -349,14 +294,10 @@ function ReviewsSection({ userId }) {
                       </div>
                       <div className="flex items-center space-x-3 mb-3">
                         <StarRating rating={review.rating} />
-                        <span className="text-sm font-medium text-slate-700">
-                          {review.rating}/5
-                        </span>
+                        <span className="text-sm font-medium text-slate-700">{review.rating}/5</span>
                       </div>
                       {review.comment && (
-                        <p className="text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg">
-                          "{review.comment}"
-                        </p>
+                        <p className="text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg">"{review.comment}"</p>
                       )}
                     </div>
                   </div>
@@ -366,15 +307,34 @@ function ReviewsSection({ userId }) {
           })
         ) : (
           <div className="text-center py-12">
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">
-              {t("noreview")}
-            </h3>
-            <p className="text-slate-600">
-              You haven't written any reviews yet.
-            </p>
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">{t("noreview")}</h3>
+            <p className="text-slate-600">You haven't written any reviews yet.</p>
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      {pagination.totalPages > 1 && (
+        <div className="flex justify-center space-x-2 mt-6">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-slate-700">
+            Page {pagination.currentPage || page} of {pagination.totalPages || 1}
+          </span>
+          <button
+            onClick={() => setPage((prev) => Math.min(prev + 1, pagination.totalPages || 1))}
+            disabled={page === pagination.totalPages}
+            className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
