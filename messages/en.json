@@ -425,7 +425,8 @@
         "quantity": "Quantity",
         "addtocart": "Add to Cart",
         "fav": "Wishlist",
-        "review": "Reviews"
+        "review": "Reviews",
+        "details": "product details"
     },
     "store": {
         "filter": "Filters",
