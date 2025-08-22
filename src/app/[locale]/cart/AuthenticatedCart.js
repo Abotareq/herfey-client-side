@@ -10,11 +10,11 @@ import {
   clearGuestCart
 } from "../../../service/cart.js";
 import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 function AuthenticatedCart() {
   const [couponCode, setCouponCode] = useState("");
   const { user } = useAuth();
-  
   // Backend cart hooks
   const { 
     data: backendCart, 
@@ -27,7 +27,7 @@ function AuthenticatedCart() {
   const removeItemMutation = useRemoveItemFromCart();
   const addItemMutation = useAddItemToCart();
   const { mutateAsync: applyCoupon } = useApplyCoupon();
-
+  const router = useRouter()
   // Handle cart migration when user logs in
   useEffect(() => {
     const migrateGuestCart = async () => {
@@ -144,7 +144,7 @@ function AuthenticatedCart() {
 
   // Continue shopping
   const handleContinueShopping = () => {
-    window.location.href = '/products';
+    router.push('/productpage');
   };
   
   // Show loading state
@@ -256,8 +256,9 @@ function AuthenticatedCart() {
               const price = parseFloat(item.price) || 0;
               const quantity = parseInt(item.quantity) || 1;
               const image = item.product.images?.[0] || "https://readymadeui.com/images/placeholder.webp";
-              const color = item.variant?.value;
-              
+              const color = item.variant[0]?.value;
+              const size = item.variant[1]?.value;
+
               return (
                 <div 
                   key={itemId} 
@@ -318,6 +319,13 @@ function AuthenticatedCart() {
                           style={{ backgroundColor: color }}
                           title={`Color: ${color}`}
                         />
+                        {/* size */}
+                        {size && (
+                          <>
+                            <span className="text-sm text-gray-600">Size:</span>
+                            <span className="text-sm text-gray-800 font-medium">{size}</span>
+                          </>
+                        )}
                       </div>
                       
                       <div className="flex justify-between items-end">
