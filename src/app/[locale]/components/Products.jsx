@@ -72,9 +72,9 @@ function Products() {
         {products.length > 0 ? (
           products.map((product, index) => {
             const colors = getProductColors(index);
-            const isDisabled = 
-            (product.variant?.some((x) => x.name.toLowerCase() === "color") && !selectedColor) ||
-            (product.variant?.smoe((i) => i.name.toLowerCase() === 'size') && !selectedSize)
+            const isDisabled =
+                            (product.variants?.some((e) => e.name.toLowerCase() === "color") && !selectedColor) ||
+                            (product.variants?.some((i) => i.name.toLowerCase() === "size") && !selectedSize);
             return (
               <section key={product._id}>
                 <section className={`p-5 py-10 ${colors.bg} text-center transform duration-500 hover:-translate-y-2 cursor-pointer`}>
