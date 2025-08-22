@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useGetAllProducts } from '../../../service/product';
 function Products() {
-  const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
-  const t = useTranslations('products')
-
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isError } = useGetAllProducts({ page , limit:6 });
+  const t = useTranslations('products');
   
   const router = useRouter()
   if (isLoading) {
@@ -33,6 +33,7 @@ function Products() {
   }
 
   const products = data?.products || [];
+  const totalPages = data?.totalPages || 1;
  // Star rating component
   // const StarRating = ({ rating = 4 }) => {
   //   return (
@@ -115,6 +116,43 @@ function Products() {
           <NotFoundPage />
         )}
       </section>
+      {/* handle pagination */}
+     <div className="flex justify-center items-center gap-2 mt-10">
+        {/* Previous button */}
+        <button
+          onClick={() => setPage((p) => Math.max(p - 1, 1))}
+          disabled={page === 1}
+          className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white transition-colors duration-200 font-medium"
+        >
+          Previous
+        </button>
+        
+        {/* Page numbers */}
+        <div className="flex gap-1">
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i + 1)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                page === i + 1
+                  ? "bg-blue-600 text-white shadow-sm"
+                  : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+  
+          {/* Next button */}
+          <button
+            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+            disabled={page === totalPages}
+            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white transition-colors duration-200 font-medium"
+          >
+            Next
+          </button>
+        </div>
     </section>
   );
 }
