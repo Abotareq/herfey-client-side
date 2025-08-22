@@ -1,4 +1,3 @@
-
 "use client";
 import { getAllStores, getVendorStores } from "@/service/store";
 import Link from "next/link";
@@ -156,7 +155,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                 </div>
               </div>
             </div>
-              {/* Sort Filter */}
+            {/* Sort Filter */}
             <div className="mb-6">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
                 {t('sort')}
@@ -232,6 +231,27 @@ export default function HerafyStorePage({ vendorOnly = false }) {
         <div className="flex-1 bg-gray-50">
           <div className="p-6 lg:p-8">
             {/* Header */}
+            
+                      <Link
+                        href={`/store/add-products`}
+                        className="inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-700 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
+                      >
+                        <span>Add Products</span>
+                        <svg
+                          className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
+
             <div className="mb-8">
               <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
                 {vendorOnly ? "My Stores" : "All Stores"}
@@ -292,6 +312,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     <div className="relative overflow-hidden bg-gray-100">
                       <img
                         src={store.logoUrl || "/5.jpg"}
+                        src={store.logoUrl || "/6.jpg"}
                         alt={store.name}
                         className="w-full h-48 lg:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
                         loading="lazy"

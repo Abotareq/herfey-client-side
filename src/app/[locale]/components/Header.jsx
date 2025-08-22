@@ -68,7 +68,8 @@ const { mutate: signOut, isLoading } = useSignOut();
               <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button>
-              <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
+              <button  onClick={() => router.push(`/${currentLocale}/cart`)}
+              className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button>
             </div>
