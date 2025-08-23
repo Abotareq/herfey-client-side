@@ -223,7 +223,7 @@ console.log("userReviews", userReviews);
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <h4 className="font-semibold text-slate-900 mb-1 hover:text-blue-600">
-                            {review.entityDetails?.name || "Item Reviewed"}
+                            {review.entityDetails?.name || t('reviewed')}
                           </h4>
                           <div className="flex items-center space-x-2 mb-2">
                             <span
@@ -251,7 +251,7 @@ console.log("userReviews", userReviews);
                               e.preventDefault();
                               handleEditReview(review);
                             }}
-                            title="Edit review"
+                            title={t('edit')}
                             className="p-1 rounded-full hover:bg-slate-100"
                           >
                             <svg
@@ -273,7 +273,7 @@ console.log("userReviews", userReviews);
                               e.preventDefault();
                               handleDeleteReview(review);
                             }}
-                            title="Delete review"
+                            title={t('delete')}
                             className="p-1 rounded-full hover:bg-slate-100"
                           >
                             <svg
@@ -308,7 +308,7 @@ console.log("userReviews", userReviews);
         ) : (
           <div className="text-center py-12">
             <h3 className="text-lg font-semibold text-slate-900 mb-2">{t("noreview")}</h3>
-            <p className="text-slate-600">You haven't written any reviews yet.</p>
+            <p className="text-slate-600">{t('found')}</p>
           </div>
         )}
       </div>
@@ -321,7 +321,7 @@ console.log("userReviews", userReviews);
             disabled={page === 1}
             className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 disabled:opacity-50"
           >
-            Previous
+            {t('prev')}
           </button>
           <span className="px-4 py-2 text-slate-700">
             Page {pagination.currentPage || page} of {pagination.totalPages || 1}
@@ -331,7 +331,7 @@ console.log("userReviews", userReviews);
             disabled={page === pagination.totalPages}
             className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 disabled:opacity-50"
           >
-            Next
+            {t('next')}
           </button>
         </div>
       )}

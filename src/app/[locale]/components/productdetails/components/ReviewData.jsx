@@ -10,7 +10,7 @@ import { useAuth } from "@/app/context/AuthContext.jsx"; // Hypothetical auth co
 import LoadingSpinner from "../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
 
 function ReviewsSection({ productId }) {
-  const t = useTranslations("reviews");
+  const t = useTranslations("productreview");
   const { user } = useAuth(); // Get authenticated user
   const [sortBy, setSortBy] = useState("newest");
   const [filterRating, setFilterRating] = useState("all");
@@ -164,11 +164,11 @@ function ReviewsSection({ productId }) {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="newest">{t("newest_first")}</option>
-                <option value="oldest">{t("oldest_first")}</option>
-                <option value="highest">{t("highest_rated")}</option>
-                <option value="lowest">{t("lowest_rated")}</option>
-                <option value="helpful">{t("most_helpful")}</option>
+                <option value="newest">{t("new")}</option>
+                <option value="oldest">{t("old")}</option>
+                <option value="highest">{t("high")}</option>
+                <option value="lowest">{t("low")}</option>
+                <option value="helpful">{t("helpful")}</option>
               </select>
 
               <select
@@ -176,12 +176,12 @@ function ReviewsSection({ productId }) {
                 onChange={(e) => setFilterRating(e.target.value)}
                 className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="all">{t("all_ratings")}</option>
-                <option value="5">{t("5_stars")}</option>
-                <option value="4">{t("4_stars")}</option>
-                <option value="3">{t("3_stars")}</option>
-                <option value="2">{t("2_stars")}</option>
-                <option value="1">{t("1_star")}</option>
+                <option value="all">{t("all")}</option>
+                <option value="5">{t("5")}</option>
+                <option value="4">{t("4")}</option>
+                <option value="3">{t("3")}</option>
+                <option value="2">{t("2")}</option>
+                <option value="1">{t("1")}</option>
               </select>
             </div>
 
@@ -190,14 +190,14 @@ function ReviewsSection({ productId }) {
                 onClick={() => setShowReviewForm(true)}
                 className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                {t("write_review")}
+                {t("write")}
               </button>
             ) : (
               <button
                 disabled
                 className="px-6 py-3 bg-gray-400 text-white font-semibold rounded-xl opacity-50 cursor-not-allowed"
               >
-                {t("login_to_review")}
+                {t("login")}
               </button>
             )}
           </div>
@@ -208,7 +208,7 @@ function ReviewsSection({ productId }) {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-2xl p-6 w-full max-w-md">
               <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                {t("write_review")}
+                {t("write")}
               </h3>
               <div className="space-y-4">
                 <div>
@@ -236,7 +236,7 @@ function ReviewsSection({ productId }) {
                     }
                     rows={4}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
-                    placeholder={t("review_comment_placeholder")}
+                    placeholder={t("reviewplaceholder")}
                   />
                 </div>
               </div>
@@ -349,7 +349,7 @@ function ReviewsSection({ productId }) {
                     </div>
 
                     <p className="text-slate-600 leading-relaxed mb-4">
-                      {review.comment || "No comment provided"}
+                      {review.comment || t('no')}
                     </p>
 
                     <div className="flex items-center justify-between">
@@ -369,7 +369,7 @@ function ReviewsSection({ productId }) {
                             />
                           </svg>
                           <span className="text-sm font-medium">
-                            {t("helpful")} ({review.helpful || 0})
+                            {t("helpfulr")} ({review.helpful || 0})
                           </span>
                         </button>
                         <button className="text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium">
