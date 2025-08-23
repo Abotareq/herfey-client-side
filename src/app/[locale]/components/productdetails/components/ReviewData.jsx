@@ -387,7 +387,7 @@ function ReviewsSection({ productId }) {
           ) : (
             <div className="text-center py-8">
               <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                {t("no_reviews")}
+                {t("noreviews")}
               </h3>
               <p className="text-slate-600">{t("no_reviews_product")}</p>
             </div>
