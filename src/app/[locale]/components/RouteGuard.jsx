@@ -4,6 +4,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import SkeletonLoader from "./SkeltonLoader";
+import LoadingSpinner from "./ReusableComponents/LoadingSpinner/LoadingSpinner";
 
 export function RouteGuard({ children }) {
   const { user, loading } = useAuth();
@@ -18,7 +19,7 @@ export function RouteGuard({ children }) {
       userRole: user?.role,
     });
 
-    if (loading) return ;
+    if (loading) return;
 
     if (user) {
       console.log("User authenticated, role:", user.role);
@@ -65,9 +66,11 @@ export function RouteGuard({ children }) {
   }, [user, loading, pathname, router]);
 
   if (loading) {
-    return <div>
-      <SkeletonLoader />
-    </div>;
+    return (
+      <>
+        <LoadingSpinner />
+      </>
+    );
   }
 
   return children;

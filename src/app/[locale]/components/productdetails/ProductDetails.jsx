@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // 'use client';
 // import { useState } from "react";
 // import ReviewsSection from "./components/ReviewData";
@@ -264,10 +265,15 @@
 // export default ProductDetails;
 'use client';
 import { useState, useMemo, useEffect } from "react";
+=======
+"use client";
+import { useState } from "react";
+>>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
 import ReviewsSection from "./components/ReviewData";
 import SkeletonLoader from "../SkeltonLoader";
 import NotFoundPage from "../NotFoundComponent";
 import { useTranslations } from "next-intl";
+<<<<<<< HEAD
 import { useGetProductById } from '../../../../service/productService';
 import { useAddItemToCart } from "@/service/cart";
 import { addToGuestCart } from "@/service/cart";
@@ -288,10 +294,19 @@ function ProductDetails({id}) {
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
   const {data, isLoading, isError} = useGetProductById(id);
+=======
+import { useGetProductById } from "../../../../service/product";
+import ProductPageSkeleton from "./components/ProductPageSkeleton";
+
+function ProductDetails({ id }) {
+  const { data, isLoading, isError } = useGetProductById(id);
+
+>>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const t = useTranslations('products')
+  const t = useTranslations("products");
   const [selectColor, setSelectedColor] = useState("");
+<<<<<<< HEAD
   const [selectSize, setSelectedSize] = useState("")
   const addToCartMutation = useAddItemToCart();
 
@@ -337,15 +352,19 @@ function ProductDetails({id}) {
     return(
       <SkeletonLoader />
     )
+=======
+  const [selectSize, setSelectedSize] = useState("");
+  if (isLoading) {
+    return <ProductPageSkeleton />;
+>>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
   }
 
-  if(isError){
-    return(
-      <NotFoundPage />
-    )
+  if (isError) {
+    return <NotFoundPage />;
   }
 
   console.log(product);
+<<<<<<< HEAD
 
   const isDisabled =
     (product.variants?.some((e) => e.name.toLowerCase() === "color") && !selectColor) ||
@@ -379,6 +398,20 @@ function ProductDetails({id}) {
     }
   };
 
+=======
+  // Create array of images (using same image multiple times for demo)
+  const productImages = [
+    product.images,
+    product.images,
+    product.images,
+    product.images,
+  ].filter(Boolean);
+  const isDisabled =
+    (product.variants?.some((e) => e.name.toLowerCase() === "color") &&
+      !selectColor) ||
+    (product.variants?.some((i) => i.name.toLowerCase() === "size") &&
+      !selectSize);
+>>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -388,26 +421,26 @@ function ProductDetails({id}) {
             <div className="w-full lg:w-1/2 p-6">
               <div className="relative">
                 <div className="w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg mb-6">
-                  <img 
+                  <img
                     src={productImages[selectedImage] || product.images}
-                    alt={product.name} 
+                    alt={product.name}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                
+
                 {/* Thumbnail Images */}
                 <div className="flex gap-4 justify-center">
                   {productImages.map((image, index) => (
-                    <div 
+                    <div
                       key={index}
                       onClick={() => setSelectedImage(index)}
                       className={`w-20 h-20 rounded-xl overflow-hidden cursor-pointer border-4 transition-all duration-300 ${
-                        selectedImage === index 
-                          ? 'border-blue-500 shadow-lg scale-105' 
-                          : 'border-gray-200 hover:border-gray-300'
+                        selectedImage === index
+                          ? "border-blue-500 shadow-lg scale-105"
+                          : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
-                      <img 
+                      <img
                         src={image}
                         alt={`${product.name} ${index + 1}`}
                         className="w-full h-full object-cover"
@@ -424,13 +457,14 @@ function ProductDetails({id}) {
                 {/* Product Title & Category */}
                 <div>
                   <div className="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4">
-                    {product.category?.name || 'Product'}
+                    {product.category?.name || "Product"}
                   </div>
                   <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                     {product.name}
                   </h1>
                   <p className="text-gray-600 text-lg mt-2">{product.slug}</p>
                 </div>
+<<<<<<< HEAD
 
                 {/* color dropdown */}
                 {product.variants
@@ -480,6 +514,58 @@ function ProductDetails({id}) {
                       </div>
                   ))}
 
+=======
+                {/* color dropdown */}
+                {product.variants
+                  ?.filter((variant) => variant.name.toLowerCase() === "color")
+                  .map((variant) => (
+                    <div key={variant._id} className="mb-3">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Color:
+                      </label>
+                      <select
+                        defaultValue=""
+                        className="w-full border rounded-md p-2 text-sm"
+                        value={selectColor}
+                        onChange={(e) => setSelectedColor(e.target.value)}
+                      >
+                        <option value="" disabled>
+                          Select Color
+                        </option>
+                        {variant.options?.map((option) => (
+                          <option key={option._id} value={option.value}>
+                            {option.value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+                {/** Size Dropdown */}
+                {product.variants
+                  ?.filter((variant) => variant.name.toLowerCase() === "size")
+                  .map((variant) => (
+                    <div key={variant._id} className="mb-3">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Size:
+                      </label>
+                      <select
+                        defaultValue=""
+                        className="w-full border rounded-md p-2 text-sm"
+                        value={selectSize}
+                        onChange={(e) => setSelectedSize(e.target.value)}
+                      >
+                        <option value="" disabled>
+                          Select Size
+                        </option>
+                        {variant.options?.map((option) => (
+                          <option key={option._id} value={option.value}>
+                            {option.value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+>>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
                 {/* Rating */}
                 <div className="flex items-center space-x-3">
                   <div className="flex space-x-1">
@@ -487,13 +573,17 @@ function ProductDetails({id}) {
                       <svg
                         key={index}
                         className={`w-6 h-6 ${
-                          index < Math.round(product.averageRating || 4) 
-                            ? "text-yellow-400 fill-current" 
+                          index < Math.round(product.averageRating || 4)
+                            ? "text-yellow-400 fill-current"
                             : "text-gray-300"
                         }`}
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        fill={index < Math.round(product.averageRating || 4) ? "currentColor" : "none"}
+                        fill={
+                          index < Math.round(product.averageRating || 4)
+                            ? "currentColor"
+                            : "none"
+                        }
                         stroke="currentColor"
                       >
                         <path
@@ -510,7 +600,8 @@ function ProductDetails({id}) {
                     ))}
                   </div>
                   <span className="text-gray-700 font-medium">
-                    {product.averageRating || '4.0'} ({product.reviewCount || '127'} {t('review')})
+                    {product.averageRating || "4.0"} (
+                    {product.reviewCount || "127"} {t("review")})
                   </span>
                 </div>
 
@@ -533,45 +624,74 @@ function ProductDetails({id}) {
 
                 {/* Description */}
                 <div className="bg-gray-50 rounded-2xl p-6">
-                  <h3 className="font-semibold text-gray-900 mb-3">{t('desc')}: </h3>
+                  <h3 className="font-semibold text-gray-900 mb-3">
+                    {t("desc")}:{" "}
+                  </h3>
                   <p className="text-gray-700 leading-relaxed">
-                    {product.description || "This is a premium quality product designed with attention to detail and crafted for excellence."}
+                    {product.description ||
+                      "This is a premium quality product designed with attention to detail and crafted for excellence."}
                   </p>
                 </div>
 
                 {/* Status */}
                 <div className="flex items-center space-x-3">
-                  <span className="text-gray-700 font-medium">{t('status')}:</span>
-                  <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                    product.status === 'approved' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {product.status || 'Available'}
+                  <span className="text-gray-700 font-medium">
+                    {t("status")}:
+                  </span>
+                  <span
+                    className={`px-4 py-2 rounded-full text-sm font-medium ${
+                      product.status === "approved"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {product.status || "Available"}
                   </span>
                 </div>
 
                 {/* Quantity Selector */}
                 <div className="space-y-3">
                   <label className="block text-sm font-medium text-gray-900">
-                    {t('quantity')}:
+                    {t("quantity")}:
                   </label>
                   <div className="flex items-center space-x-4">
-                    <button 
+                    <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20 12H4"
+                        />
                       </svg>
                     </button>
-                    <span className="text-2xl font-bold w-16 text-center">{quantity}</span>
-                    <button 
+                    <span className="text-2xl font-bold w-16 text-center">
+                      {quantity}
+                    </span>
+                    <button
                       onClick={() => setQuantity(quantity + 1)}
                       className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -579,6 +699,7 @@ function ProductDetails({id}) {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
+<<<<<<< HEAD
                   {/* Add to Cart with Confirmation Dialog */}
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -618,19 +739,55 @@ function ProductDetails({id}) {
                     </AlertDialogContent>
                   </AlertDialog>
                   
-                  <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 border-2 border-gray-200 hover:border-gray-300">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+=======
+                  <button
+                    disabled={isDisabled}
+                    className={`flex-1 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                      isDisabled
+                        ? "bg-gray-400 cursor-not-allowed text-white"
+                        : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                    }`}
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6 0a2 2 0 100 4 2 2 0 000-4zm-6 0a2 2 0 100 4 2 2 0 000-4z"
+                      />
                     </svg>
-                    <span>{t('fav')}</span>
+                    <span>{t("addtocart")}</span>
+                  </button>
+
+>>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
+                  <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 border-2 border-gray-200 hover:border-gray-300">
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    <span>{t("fav")}</span>
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <ReviewsSection productId={product?._id} />
       </div>
-      <ReviewsSection />
     </div>
   );
 }

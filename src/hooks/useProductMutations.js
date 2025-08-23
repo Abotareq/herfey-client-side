@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createProductAPI } from '../service/productService.js';
+import { createProductAPI } from '../service/product.js';
 import { toast } from 'react-hot-toast'; 
 
 export const useCreateProduct = () => {
