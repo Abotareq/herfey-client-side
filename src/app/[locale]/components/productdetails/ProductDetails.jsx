@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // 'use client';
 // import { useState } from "react";
 // import ReviewsSection from "./components/ReviewData";
@@ -265,19 +265,15 @@
 // export default ProductDetails;
 'use client';
 import { useState, useMemo, useEffect } from "react";
-=======
-"use client";
-import { useState } from "react";
->>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
+
 import ReviewsSection from "./components/ReviewData";
-import SkeletonLoader from "../SkeltonLoader";
 import NotFoundPage from "../NotFoundComponent";
 import { useTranslations } from "next-intl";
-<<<<<<< HEAD
-import { useGetProductById } from '../../../../service/productService';
 import { useAddItemToCart } from "@/service/cart";
 import { addToGuestCart } from "@/service/cart";
 import { useAuth } from "../../../context/AuthContext";
+import ProductPageSkeleton from "./components/ProductPageSkeleton";
+import {useGetProductById} from "../../../../service/product"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -290,23 +286,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-function ProductDetails({id}) {
+  
+function ProductDetails({ id }) {
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
-  const {data, isLoading, isError} = useGetProductById(id);
-=======
-import { useGetProductById } from "../../../../service/product";
-import ProductPageSkeleton from "./components/ProductPageSkeleton";
-
-function ProductDetails({ id }) {
   const { data, isLoading, isError } = useGetProductById(id);
-
->>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const t = useTranslations("products");
   const [selectColor, setSelectedColor] = useState("");
-<<<<<<< HEAD
   const [selectSize, setSelectedSize] = useState("")
   const addToCartMutation = useAddItemToCart();
 
@@ -315,14 +303,7 @@ function ProductDetails({ id }) {
   }, []);
 
   const product = data?.data || {};
-  
-  // Create array of images (using same image multiple times for demo)
-  const productImages = useMemo(() => [
-    product.images,
-    product.images,
-    product.images,
-    product.images
-  ].filter(Boolean), [product.images]);
+
 
   // Create selectedVariants object from color and size selections
   const selectedVariants = useMemo(() => {
@@ -344,19 +325,10 @@ function ProductDetails({ id }) {
   }, [product, selectedVariants, quantity]);
 
   // Don't render auth-dependent content until mounted
-  if (!mounted) {
-    return <SkeletonLoader />
-  }
 
-  if(isLoading){
-    return(
-      <SkeletonLoader />
-    )
-=======
-  const [selectSize, setSelectedSize] = useState("");
   if (isLoading) {
     return <ProductPageSkeleton />;
->>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
+
   }
 
   if (isError) {
@@ -364,11 +336,6 @@ function ProductDetails({ id }) {
   }
 
   console.log(product);
-<<<<<<< HEAD
-
-  const isDisabled =
-    (product.variants?.some((e) => e.name.toLowerCase() === "color") && !selectColor) ||
-    (product.variants?.some((i) => i.name.toLowerCase() === "size") && !selectSize);
 
   const handleAddToCart = () => {
     const formattedVariants = Object.entries(selectedVariants).map(
@@ -398,7 +365,7 @@ function ProductDetails({ id }) {
     }
   };
 
-=======
+
   // Create array of images (using same image multiple times for demo)
   const productImages = [
     product.images,
@@ -406,12 +373,12 @@ function ProductDetails({ id }) {
     product.images,
     product.images,
   ].filter(Boolean);
+
   const isDisabled =
     (product.variants?.some((e) => e.name.toLowerCase() === "color") &&
       !selectColor) ||
     (product.variants?.some((i) => i.name.toLowerCase() === "size") &&
       !selectSize);
->>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -464,57 +431,6 @@ function ProductDetails({ id }) {
                   </h1>
                   <p className="text-gray-600 text-lg mt-2">{product.slug}</p>
                 </div>
-<<<<<<< HEAD
-
-                {/* color dropdown */}
-                {product.variants
-                  ?.filter((variant) => variant.name.toLowerCase() === "color")
-                    .map((variant) => (
-                        <div key={variant._id} className="mb-3">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Color:
-                          </label>
-                          <select defaultValue="" className="w-full border rounded-md p-2 text-sm"
-                          value={selectColor}
-                          onChange={(e) => setSelectedColor(e.target.value)}
-                          >
-                            <option value="" disabled>
-                              Select Color
-                            </option>
-                            {variant.options?.map((option) => (
-                              <option key={option._id} value={option.value}>
-                                {option.value} {option.priceModifier > 0 ? `(+$${option.priceModifier})` : ""}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        ))}
-
-                {/** Size Dropdown */}
-                {product.variants
-                    ?.filter((variant) => variant.name.toLowerCase() === "size")
-                    .map((variant) => (
-                      <div key={variant._id} className="mb-3">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Size:
-                        </label>
-                        <select defaultValue="" className="w-full border rounded-md p-2 text-sm"
-                        value={selectSize}
-                        onChange={(e) => setSelectedSize(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            Select Size
-                          </option>
-                          {variant.options?.map((option) => (
-                            <option key={option._id} value={option.value}>
-                              {option.value} {option.priceModifier > 0 ? `(+$${option.priceModifier})` : ""}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                  ))}
-
-=======
                 {/* color dropdown */}
                 {product.variants
                   ?.filter((variant) => variant.name.toLowerCase() === "color")
@@ -565,7 +481,7 @@ function ProductDetails({ id }) {
                       </select>
                     </div>
                   ))}
->>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
+
                 {/* Rating */}
                 <div className="flex items-center space-x-3">
                   <div className="flex space-x-1">
@@ -699,7 +615,6 @@ function ProductDetails({ id }) {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
-<<<<<<< HEAD
                   {/* Add to Cart with Confirmation Dialog */}
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -738,33 +653,6 @@ function ProductDetails({ id }) {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-                  
-=======
-                  <button
-                    disabled={isDisabled}
-                    className={`flex-1 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 shadow-lg ${
-                      isDisabled
-                        ? "bg-gray-400 cursor-not-allowed text-white"
-                        : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-                    }`}
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6 0a2 2 0 100 4 2 2 0 000-4zm-6 0a2 2 0 100 4 2 2 0 000-4z"
-                      />
-                    </svg>
-                    <span>{t("addtocart")}</span>
-                  </button>
-
->>>>>>> 7f2a103f859f03840b206d5dfb853b3a1224e4ab
                   <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 border-2 border-gray-200 hover:border-gray-300">
                     <svg
                       className="w-6 h-6"
