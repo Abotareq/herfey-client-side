@@ -478,7 +478,11 @@
         "addtocart": "Add to Cart",
         "fav": "Wishlist",
         "review": "Reviews",
-        "details": "product details"
+        "details": "product details",
+        "loading": "Loading...",
+        "error": "Failed to load products",
+        "Previous": "Previous",
+        "next": "Next"
     },
     "store": {
         "filter": "Filters",
