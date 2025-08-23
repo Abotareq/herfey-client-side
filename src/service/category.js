@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/api/category`;
+const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/category`;
 
 // Axios instance with default config
 const apiClient = axios.create({

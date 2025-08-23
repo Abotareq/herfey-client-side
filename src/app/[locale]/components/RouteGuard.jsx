@@ -30,12 +30,15 @@ export function RouteGuard({ children }) {
         return;
       }
 
-      if (user.role === "VENDOR") {
-        console.log(
-          "Redirecting VENDOR from customer-profile to vendor-profile"
-        );
-        router.push("/vendor-profile");
-        return;
+     if (user.role === "VENDOR") {
+        // Check if user is not already in vendor-profile or its nested routes
+        if (!pathname.includes("/vendor-profile")) {
+          console.log(
+            "Redirecting VENDOR to vendor-profile (not in vendor section)"
+          );
+          router.push("/vendor-profile");
+          return;
+        }
       }
 
       if (user.role === "CUSTOMER") {

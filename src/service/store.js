@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 /** ===================== HOOKS ===================== **/
-const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/api/store`;
+const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/store`;
 /** ===================== PUBLIC METHODS ===================== **/
 
 /**

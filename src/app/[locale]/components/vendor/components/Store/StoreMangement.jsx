@@ -1,9 +1,11 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
 // Store Management Component
 export function StoreManagement({ store, onUpdate, onClose }) {
   const [activeTab, setActiveTab] = useState('general')
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: store?.name || '',
     description: store?.description || '',
@@ -258,7 +260,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
               <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-2xl font-bold text-gray-900">Products Management</h3>
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                  <button
+                    onClick={() => router.push('/vendor-profile/add-products')}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
                     Add Product
                   </button>
                 </div>

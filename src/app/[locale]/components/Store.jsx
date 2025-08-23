@@ -2,6 +2,8 @@
 import { useStores, useVendorStores } from "@/service/store";
 import Link from "next/link";
 import { useState } from "react";
+import SkeletonLoader from "./SkeltonLoader";
+import NotFoundPage from "./NotFoundComponent";
 
 // Main component for Herafy Store Page
 
@@ -56,6 +58,17 @@ export default function HerafyStorePage({ vendorOnly = false }) {
     });
   };
 
+    // if(loading){
+    //   return(
+    //     <SkeletonLoader />
+    //   )
+    // }
+  
+    // if(error){
+    //   return(
+    //     <NotFoundPage />
+    //   )
+    // }
   // 🔹 Handle error state
   if (error) {
     return (
