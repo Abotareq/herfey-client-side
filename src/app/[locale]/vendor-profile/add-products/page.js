@@ -1,8 +1,9 @@
+import { useStoreContext } from "@/app/context/StoreContext.jsx";
 import CreateProductForm from "../../components/CreateProductForm.jsx";
 
 export default function CreateProductPage() {
 
-  const storeId = "689d9d82b8dc3b5131399ca2";
+  const {storeId} = useStoreContext();
   const categoryId = "68895bd225e59a1915813ce4";
 
   return (
