@@ -467,7 +467,8 @@
         "productcount": "Product Count",
         "storecount": "Stores Count",
         "parentcategory": "Parent Category",
-        "createdat": "Created At"
+        "createdat": "Created At",
+        "id": "ID"
     },
     "products": {
         "category": "Category",

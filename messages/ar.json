@@ -471,7 +471,8 @@
     "productcount": "عدد المنتجات",
     "storecount": "عدد المتاجر",
     "parentcategory": "الفئة الرئيسية",
-    "createdat": "تاريخ الإنشاء"
+    "createdat": "تاريخ الإنشاء",
+    "id": "ID"
   },
   "products": {
     "category": "الفئة",
