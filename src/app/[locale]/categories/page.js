@@ -45,9 +45,9 @@ function CategoryLinks() {
               className="cursor-pointer bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
             >
               <div className="w-64 h-64 relative overflow-hidden">
-                <Image
+                <img
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  src={item.image || "/1.jpg"} fill
+                  src={item.image || "/1.jpg"} 
                   alt={item.name || "Category"}
                 />
                 <div className="absolute inset-0 bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>
