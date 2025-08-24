@@ -1,10 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
-const LOADER_TEXT = "Herafy...";
+import { useTranslations } from 'use-intl';
 const TYPING_SPEED = 150; 
 
 const LoadingSpinner = () => {
   const [displayText, setDisplayText] = useState('');
+  const t = useTranslations('Herafy')
+  const LOADER_TEXT = t('Herafy');
 
   useEffect(() => {
     let currentIndex = 0;
