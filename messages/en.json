@@ -482,7 +482,13 @@
         "loading": "Loading...",
         "error": "Failed to load products",
         "Previous": "Previous",
-        "next": "Next"
+        "next": "Next",
+        "filter": "Filters",
+        "size": "Size",
+        "all": "All",
+        "min": "Min Price",
+        "max": "Max Price",
+        "color": "Color"
     },
     "store": {
         "filter": "Filters",
@@ -544,5 +550,15 @@
         "recommend_product": "Recommend Product",
         "average_quality_rating": "average quality ating",
         "average_fit_rating": "average fit rating"
+    },
+    "breadcrumbs": {
+        "home": "Home",
+        "products": "Products",
+        "details": "product-details",
+        "cart": "cart",
+        "checkout": "Checkout",
+        "categories": "Categories",
+        "contact": "Contact",
+        "store": "Store"
     }
 }

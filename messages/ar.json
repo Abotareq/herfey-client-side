@@ -484,9 +484,15 @@
     "review": "المراجعات",
     "details": "معلوامات المنتج",
     "loading": "يرجي الانتظار....",
-        "error": "فشل تحميل المنتجات",
-        "Previous": "السابق",
-        "next": "التالي"
+    "error": "فشل تحميل المنتجات",
+    "Previous": "السابق",
+    "next": "التالي",
+    "filter": "فلتر",
+    "size": "مقاس",
+    "all": "الكل",
+    "min": "اقل سعر",
+    "max": "اعلي سعر",
+    "color": "اللون"
   },
   "store": {
     "filter": "التصفية",
@@ -548,5 +554,15 @@
     "recommend_product": "أوصي بالمنتج",
     "average_quality_rating": "متوسط تقييم الجودة",
     "average_fit_rating": "متوسط تقييم الملاءمة"
-  }
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "product": "المنتجات",
+    "productdetails": "التفاصيل",
+    "cart": "العربة",
+    "checkout": "المدفوعات",
+    "categories": "التصنيفات",
+    "contact": "التواصل",
+    "store": "المتجر"
+    }
 }

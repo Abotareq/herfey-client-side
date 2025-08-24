@@ -4,6 +4,7 @@ import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
 import SkeletonLoader from "../components/SkeltonLoader";
 import NotFoundPage from "../components/NotFoundComponent";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
@@ -26,7 +27,9 @@ function CategoryLinks() {
   }
 
   return (
-    <div className="w-full bg-gray-100 p-8">
+    <div>
+      <Breadcrumbs />
+      <div className="w-full bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {categories.map((item) => (
@@ -93,6 +96,7 @@ function CategoryLinks() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }
