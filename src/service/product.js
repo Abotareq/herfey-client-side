@@ -13,6 +13,19 @@ const ProductAPI = axios.create({
     withCredentials: true
 })
 
+export const createProductAPI = async (formData) => {
+
+  try {
+    const response = await ProductAPI.post('/product', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'An unexpected error occurred');
+  }
+};
 // helper function Get All
 const getAllProducts = async(params = {}) => {
     const response = await ProductAPI.get('/product', {params});

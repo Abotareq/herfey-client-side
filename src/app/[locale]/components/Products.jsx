@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useGetAllProducts } from "../../../service/product";
 import Breadcrumbs from "./Breadcrumbs";
 
-function Products() {
+function Products({ customerStoreId }) {
   const [page, setPage] = useState(1);
   const [selectedFilters, setSelectedFilter] = useState({});
   const { data, isLoading, isError } = useGetAllProducts({ page, limit: 6,...selectedFilters });
