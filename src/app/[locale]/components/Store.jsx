@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import SkeletonLoader from "./SkeltonLoader";
 import NotFoundPage from "./NotFoundComponent";
+import Breadcrumbs from "./Breadcrumbs";
 
 // Main component for Herafy Store Page
 
@@ -88,7 +89,9 @@ export default function HerafyStorePage({ vendorOnly = false }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
+      <Breadcrumbs />
+      <div className="min-h-screen bg-gray-50">
       <div className="flex flex-col lg:flex-row">
         {/* Sidebar Filter */}
         <div className="w-full lg:w-80 lg:min-w-80 bg-white border-r border-gray-200 shadow-sm">
@@ -432,6 +435,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
           border-bottom-width: 3px;
         }
       `}</style>
+    </div>
     </div>
   );
 }

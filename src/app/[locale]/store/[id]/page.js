@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '@/service/store';
 import Image from 'next/image';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 // Main component for Store Details Page
 export default function StoreDetailsPage() {
@@ -235,7 +236,9 @@ export default function StoreDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
+      <Breadcrumbs />
+      <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -452,6 +455,7 @@ export default function StoreDetailsPage() {
 
       {/* Location Modal */}
       {showLocationModal && <LocationModal />}
+    </div>
     </div>
   );
 }

@@ -285,6 +285,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import Breadcrumbs from "../Breadcrumbs";
 
   
 function ProductDetails({ id }) {
@@ -380,7 +381,9 @@ function ProductDetails({ id }) {
     (product.variants?.some((i) => i.name.toLowerCase() === "size") &&
       !selectSize);
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+    <div>
+      <Breadcrumbs />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50"> 
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
           <div className="flex flex-wrap">
@@ -676,6 +679,7 @@ function ProductDetails({ id }) {
         </div>
         <ReviewsSection productId={product?._id} />
       </div>
+    </div>
     </div>
   );
 }
