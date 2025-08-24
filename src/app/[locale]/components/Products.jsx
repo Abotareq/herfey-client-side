@@ -3,19 +3,22 @@ import { useTranslations } from "use-intl";
 import NotFoundPage from "./NotFoundComponent";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useGetAllProducts } from '../../../service/product';
-function Products() {
-  const { data, isLoading, isError } = useGetAllProducts({ page: 1 });
-  const t = useTranslations('products')
+import { useGetAllProducts } from "../../../service/product";
+import Breadcrumbs from "./Breadcrumbs";
 
-  
-  const router = useRouter()
+function Products({ customerStoreId }) {
+  const [page, setPage] = useState(1);
+  const [selectedFilters, setSelectedFilter] = useState({});
+  const { data, isLoading, isError } = useGetAllProducts({ page, limit: 6,...selectedFilters });
+  const t = useTranslations("products");
+  const router = useRouter();
+
   if (isLoading) {
     return (
       <div className="flex justify-center">
         <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
           <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
-            loading...
+            {t('loading')}
           </div>
         </div>
       </div>
@@ -26,96 +29,198 @@ function Products() {
     return (
       <div className="flex justify-between">
         <div className="p-4 text-center">
-          <p className="text-red-500">Failed to load products</p>
+          <p className="text-red-500">{t('error')}</p>
         </div>
       </div>
     );
   }
 
   const products = data?.products || [];
- // Star rating component
-  // const StarRating = ({ rating = 4 }) => {
-  //   return (
-  //     <div className="space-x-1 flex justify-center mt-10">
-  //       {[1, 2, 3, 4, 5].map((star) => (
-  //         <svg
-  //           key={star}
-  //           className={`w-4 h-4 mx-px fill-current ${
-  //             star <= rating ? "text-orange-600" : "text-gray-300"
-  //           }`}
-  //           xmlns="http://www.w3.org/2000/svg"
-  //           viewBox="0 0 14 14"
-  //         >
-  //           <path d="M6.43 12l-2.36 1.64a1 1 0 0 1-1.53-1.11l.83-2.75a1 1 0 0 0-.35-1.09L.73 6.96a1 1 0 0 1 .59-1.8l2.87-.06a1 1 0 0 0 .92-.67l.95-2.71a1 1 0 0 1 1.88 0l.95 2.71c.13.4.5.66.92.67l2.87.06a1 1 0 0 1 .59 1.8l-2.3 1.73a1 1 0 0 0-.34 1.09l.83 2.75a1 1 0 0 1-1.53 1.1L7.57 12a1 1 0 0 0-1.14 0z"></path>
-  //         </svg>
-  //       ))}
-  //     </div>
-  //   );
-  // };
-
-  // Color options for different products
-  const getProductColors = (index) => {
-    const colors = [
-      { bg: "bg-purple-50", button: "bg-purple-500 hover:bg-purple-600" },
-      { bg: "bg-green-50", button: "bg-green-500 hover:bg-green-600" },
-      { bg: "bg-red-50", button: "bg-red-500 hover:bg-red-600" },
-      { bg: "bg-blue-50", button: "bg-blue-500 hover:bg-blue-600" },
-      { bg: "bg-yellow-50", button: "bg-yellow-500 hover:bg-yellow-600" },
-      { bg: "bg-indigo-50", button: "bg-indigo-500 hover:bg-indigo-600" },
-    ];
-    return colors[index % colors.length];
-  };
+  const totalPages = data?.totalPages || 1;
+  const handleFilter = (item, value) => {
+    setSelectedFilter((prev) => ({
+      ...prev,
+      [item]: value,
+    }));
+    setPage(1)
+  }
   return (
-    <section className="container mx-auto p-10 md:py-12 px-0 md:p-8 md:px-0">
-      <section className="p-5 md:p-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
-        {products.length > 0 ? (
-          products.map((product, index) => {
-            const colors = getProductColors(index);
-            return (
-              <section key={product._id}>
-                <section className={`p-5 py-10 ${colors.bg} text-center transform duration-500 hover:-translate-y-2 cursor-pointer`}>
-                  <img 
-                    src={product.images || "/placeholder.png"} 
-                    alt={product.name}
-                    className="w-full h-32 object-cover mx-auto"
-                  />
-                  
-                  {/* <StarRating rating={4} /> */}
-                  
-                  <h1 className="text-3xl my-5">{product.name}</h1>
-                  
-                  <p className="mb-5">{product.description}</p>
-                  
-                  <div className="mb-3">
-                    <p className="text-sm text-gray-600">{t('category')}: {product.category?.name}</p>
-                    <p className="text-sm text-gray-600">{t('status')}: {product.status}</p>
+    <div className="">
+      <Breadcrumbs className="text-center"/>
+      <div className="flex">
+    <aside className="w-64 p-4 border-r border-gray-200">
+  <h3 className="font-semibold mb-4">{t('filter')}</h3>
+  {/* Color Filter */}
+  <div className="mb-4">
+    <label className="block mb-1">{t('color')}</label>
+    <select
+      className="w-full border rounded-md p-2 text-sm"
+      value={selectedFilters.color || ""}
+      onChange={(e) => handleFilter("color", e.target.value)}
+    >
+      <option value="">{t('all')}</option>
+      {[...new Set(
+        products.flatMap((p) =>
+          p.variants
+            .filter((v) => v.name.toLowerCase() === "color")
+            .flatMap((v) => v.options.map((o) => o.value))
+        )
+      )].map((color) => (
+        <option key={color} value={color}>
+          {color}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Size Filter */}
+  <div className="mb-4">
+    <label className="block mb-1">{t('size')}</label>
+    <select
+      className="w-full border rounded-md p-2 text-sm"
+      value={selectedFilters.size || ""}
+      onChange={(e) => handleFilter("size", e.target.value)}
+    >
+      <option value="">{t('all')}</option>
+      {[...new Set(
+        products.flatMap((p) =>
+          p.variants
+            .filter((v) => v.name.toLowerCase() === "size")
+            .flatMap((v) => v.options.map((o) => o.value))
+        )
+      )].map((size) => (
+        <option key={size} value={size}>
+          {size}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Price Range */}
+  <div className="mb-4">
+    <label className="block mb-1">{t('min')}</label>
+    <input
+      type="number"
+      className="w-full border rounded-md p-2 text-sm"
+      value={selectedFilters.minPrice || ""}
+      onChange={(e) => handleFilter("minPrice", e.target.value)}
+    />
+  </div>
+
+  <div className="mb-4">
+    <label className="block mb-1">{t('max')}</label>
+    <input
+      type="number"
+      className="w-full border rounded-md p-2 text-sm"
+      value={selectedFilters.maxPrice || ""}
+      onChange={(e) => handleFilter("maxPrice", e.target.value)}
+    />
+  </div>
+</aside>
+
+      <section className="container mx-auto p-10 md:py-12 md:p-8">
+        {/* Product Grid */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <div
+                key={product._id}
+                className="group relative rounded-lg overflow-hidden shadow-lg cursor-pointer"
+                onClick={() => router.push(`/products/${product._id}`)}
+              >
+                {/* Product image */}
+                <img
+                  src={product.images || "/placeholder.png"}
+                  alt={product.name}
+                  className="w-full h-72 object-cover transform group-hover:scale-110 transition-transform duration-300"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 hover:bg-black/50 flex flex-col justify-between p-4">
+                  {/* Category & Status tags */}
+                  <div className="flex justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                      {t("category")}: {product.category?.name || "N/A"}
+                    </span>
+                    {/* <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                      {t("status")}: {product.status}
+                    </span> */}
                   </div>
-                  {/* variants */}
-                  
-                  <h2 className="font-semibold mb-5">${product.basePrice}</h2>
-                  {/* product details */}
-                  <button 
-                  onClick={() => router.push(`/products/${product._id}`)}
-                  className={`p-2 px-6 ${colors.button} text-white rounded-md mr-3`}>
-                    {t('details')}
-                  </button>
-                  <button 
-                    className='p-2 px-6 text-white rounded-md'
-                  >
-                    {t('cart')}
-                  </button>
-                </section>
-              </section>
-            );
-          })
-        ) : (
-          // <p className="col-span-full text-center text-gray-500">
-          //   No products found
-          // </p>
-          <NotFoundPage />
-        )}
+
+                  {/* Center Button */}
+                  <div className="flex-grow flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                    <button
+                      className="bg-blue-600 text-white rounded-full px-6 py-3 shadow-lg"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push(`/products/${product._id}`);
+                      }}
+                    >
+                      {t("details")}
+                    </button>
+                  </div>
+
+                  {/* Price */}
+                  <div className="flex justify-center opacity-0 group-hover:opacity-100 mb-6 transition-opacity duration-300">
+                    <div className="bg-white/70 px-5 py-2 rounded-full text-lg font-bold shadow-lg">
+                      ${product.basePrice}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom gradient info */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                  <h3 className="text-white text-lg font-bold text-center">
+                    {product.name}
+                  </h3>
+                </div>
+              </div>
+            ))
+          ) : (
+            <NotFoundPage />
+          )}
+        </section>
+
+        {/* Pagination */}
+        <div className="flex justify-center items-center gap-2 mt-10">
+          {/* Previous */}
+          <button
+            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            disabled={page === 1}
+            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+          >
+            {t('Previous')}
+          </button>
+
+          {/* Page Numbers */}
+          <div className="flex gap-1">
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i + 1)}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                  page === i + 1
+                    ? "bg-blue-600 text-white shadow-sm"
+                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+
+          {/* Next */}
+          <button
+            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+            disabled={page === totalPages}
+            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+          >
+            {t('next')}
+          </button>
+        </div>
       </section>
-    </section>
+    </div>
+    </div>
   );
 }
 

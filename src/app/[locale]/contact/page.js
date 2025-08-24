@@ -2,6 +2,7 @@ import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 import background from "../../../../public/contact.webp";
+import Breadcrumbs from "../components/Breadcrumbs";
 export const metadata = {
   title: "Contact Us - My Website",
   description: "Get in touch with us via phone, email, or our contact form.",
@@ -12,7 +13,9 @@ export default function ContactPage() {
   const isArabic = locale === "ar";
   const t = useTranslations("Contct");
   return (
-    <section className="py-24">
+    <div>
+      <Breadcrumbs />
+      <section className="py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 grid-cols-1">
           {/* Left side */}
@@ -153,5 +156,6 @@ export default function ContactPage() {
         </div>
       </div>
     </section>
+    </div>
   );
 }

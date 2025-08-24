@@ -11,6 +11,8 @@ import {
 } from "../../../service/cart.js";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
+import SkeletonLoader from "../components/SkeltonLoader.jsx";
+import NotFoundPage from "../components/NotFoundComponent.jsx";
 
 function AuthenticatedCart() {
   const [couponCode, setCouponCode] = useState("");
@@ -146,7 +148,17 @@ function AuthenticatedCart() {
   const handleContinueShopping = () => {
     router.push('/productpage');
   };
-  
+  if(cartLoading){
+        return(
+          <SkeletonLoader />
+        )
+      }
+    
+  if(cartError){
+        return(
+          <NotFoundPage />
+        )
+      }
   // Show loading state
   if (cartLoading) {
     return (

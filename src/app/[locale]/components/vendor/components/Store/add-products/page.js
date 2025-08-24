@@ -1,10 +1,10 @@
-import CreateProductForm from "../../components/CreateProductForm.jsx";
+import CreateProductForm from "../../../../CreateProductForm.jsx";
 
 export default function CreateProductPage() {
 
   const storeId = "689d9d82b8dc3b5131399ca2";
   const categoryId = "68895bd225e59a1915813ce4";
-
+  console.log("hi mina")
   return (
   
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-200 p-4 sm:p-6 md:p-8">

@@ -1,9 +1,12 @@
+"use client"
+import { useStoreContext } from "@/app/context/StoreContext"
 import Products from "../components/Products"
 
-function page() {
+function Page() {
+  const  customerStoreId = useStoreContext();
   return (
-    <Products />
+    <Products  customerStoreId={customerStoreId} />
   )
 }
 
-export default page
+export default Page
