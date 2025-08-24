@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
-
+import image1 from '@public/2.jpg'
+import Image from 'next/image.js'
 function page() {
   return (
 
@@ -57,7 +58,7 @@ function page() {
                       <div class="space-y-4">
                           <div class="flex items-start gap-4 max-sm:flex-col">
                               <div class="w-[70px] h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
-                                  <img src="https://readymadeui.com/images/watch1.webp" alt="Product" class="w-14 h-14 object-contain rounded-sm" />
+                                  <Image src={image1} alt="Product" class="w-14 h-14 object-contain rounded-sm" />
                               </div>
                               <div class="flex-1">
                                   <h4 class="text-sm font-medium text-slate-900">Stylish Golden Watch</h4>
@@ -71,7 +72,7 @@ function page() {
 
                           <div class="flex items-start gap-4 max-sm:flex-col max-sm:border-t max-sm:pt-4 max-sm:border-gray-300">
                               <div class="w-[70px] h-[70px] bg-gray-200 rounded-lg flex items-center justify-center shrink-0">
-                                  <img src="https://readymadeui.com/images/product14.webp" alt="Product" class="w-14 h-14 object-contain rounded-sm" />
+                                  <Image src={image1} alt="Product" class="w-14 h-14 object-contain rounded-sm" />
                               </div>
                               <div class="flex-1">
                                   <h4 class="text-sm font-medium text-slate-900">Velvet Sneaker</h4>

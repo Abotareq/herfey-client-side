@@ -1,6 +1,6 @@
 'use client'
 import { useGetAllProducts } from '@/service/product'
-import { useStoreContext } from '../../../../../context/AuthContext'
+import { useStoreContext } from '../../../../../context/StoreContext.jsx'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 

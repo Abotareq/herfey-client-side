@@ -6,6 +6,7 @@ import SkeletonLoader from "../components/SkeltonLoader";
 import NotFoundPage from "../components/NotFoundComponent";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useTranslations } from "use-intl";
+import Image from "next/image.js";
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
@@ -44,7 +45,7 @@ function CategoryLinks() {
               className="cursor-pointer bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
             >
               <div className="h-64 relative overflow-hidden">
-                <img
+                <Image
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   src={item.image || "/1.jpg"}
                   alt={item.name || "Category"}

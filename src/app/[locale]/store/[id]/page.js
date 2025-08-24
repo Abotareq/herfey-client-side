@@ -282,7 +282,7 @@ export default function StoreDetailsPage() {
               {/* Store Logo */}
               <div className="relative -mt-20">
                 <div className="w-24 h-24 bg-white rounded-xl shadow-lg border-4 border-white overflow-hidden">
-                  <img
+                  <Image
                     src={storeData.logoUrl || '/api/placeholder/96/96'}
                     alt={storeData.name}
                     className="w-full h-full object-cover"

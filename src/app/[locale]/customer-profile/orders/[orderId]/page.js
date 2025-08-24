@@ -7,6 +7,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../../../components/ReusableComponents/LoadingSpinner/LoadingSpinner.jsx';
 import { Icons } from '../../../components/ReusableComponents/SVG-Icons/SVG-Icons.jsx';
+import Image from 'next/image.js';
 
 
 const OrderStatusTracker = ({ status, t }) => {
@@ -44,7 +45,7 @@ const OrderItemsCard = ({ items, t }) => (
         </div>
         {items.map((item) => (
             <div key={item._id} className="flex items-start gap-4 py-4 border-b border-slate-200/50 last:border-b-0">
-                <img src={item.image} alt={item.name} className="w-20 h-20 rounded-lg object-cover border border-slate-200/50" />
+                <Image src={item.image} alt={item.name} className="w-20 h-20 rounded-lg object-cover border border-slate-200/50" />
                 <div className="flex-1">
                     <p className="font-semibold text-slate-800">{item.name}</p>
                     <p className="text-sm text-slate-500">{t('quantity')}: {item.quantity}</p>
