@@ -1,6 +1,7 @@
 'use client'
+import { useStoreContext } from '@/app/context/StoreContext'
 import { useGetAllProducts } from '@/service/product'
-import { useStoreContext } from '../../../../../context/AuthContext'
+
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
@@ -9,7 +10,7 @@ import { useState, useEffect } from 'react'
 export function StoreManagement({ store, onUpdate, onClose }) {
   const [activeTab, setActiveTab] = useState('general')
   const router = useRouter()
-  const { setStoreId, setCategoryId } = useStoreContext();
+  const { setStoreId } = useStoreContext();
   const [formData, setFormData] = useState({
     name: store?.name || '',
     description: store?.description || '',
@@ -68,7 +69,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
   ]
 
   // Process products data
-  const products = productsData?.data || []
+  const products = productsData?.products || []
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
@@ -386,8 +387,8 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                   )}
                                   <div>
                                     <div className="font-medium text-gray-900">{product.name}</div>
-                                    {product.category && (
-                                      <div className="text-sm text-gray-500">{product.category}</div>
+                                    {product.category.name && (
+                                      <div className="text-sm text-gray-500">{product.category.name}</div>
                                     )}
                                   </div>
                                 </div>

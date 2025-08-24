@@ -5,7 +5,8 @@ import { createContext, useContext, useState } from "react";
 const StoreContext = createContext();
 
 export function StoreProvider({ children }) {
-  const [storeId , customerStoreId, setStoreId ,setCustomerStoreId] = useState(null);
+  const [storeId , setStoreId] = useState(null);
+  const [customerStoreId , setCustomerStoreId] = useState(null);
 
   return (
     <StoreContext.Provider value={{ storeId, customerStoreId, setStoreId, setCustomerStoreId }}>
