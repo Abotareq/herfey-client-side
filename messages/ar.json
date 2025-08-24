@@ -4,7 +4,7 @@
         "articles": "المقالات",
         "categories": "التصنيفات",
         "contact": "اتصل بنا",
-        "store": "المتجر",
+        "store": "المتاجر",
         "signup": "مستخدم جديد",
         "signin": "تسجيل الدخول",
         "signout": "تسجيل الخروج",
@@ -558,7 +558,7 @@
   },
   "breadcrumbs": {
     "home": "الرئيسية",
-    "product": "المنتجات",
+    "products": "المنتجات",
     "productdetails": "التفاصيل",
     "cart": "العربة",
     "checkout": "المدفوعات",
