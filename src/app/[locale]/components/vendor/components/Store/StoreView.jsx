@@ -1,5 +1,5 @@
 "use client";
-import { useGetAllProducts } from "@/service/productService";
+import { useGetAllProducts } from "@/service/product.js";
 import { useFilterReviewsByStore } from "@/service/reviewService";
 import { useEffect, useState } from "react";
 

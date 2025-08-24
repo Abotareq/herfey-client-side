@@ -1,7 +1,7 @@
 import Link from "next/link";
-import "./[locale]/globals.css";
+import "./globals.css";
 import Image from "next/image";
-import background from "../../public/1234.jpg";
+import background from "@public/1234.jpg";
 function NotFound() {
   return (
     <div className="flex min-h-screen bg-white">
