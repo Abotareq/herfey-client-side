@@ -5,6 +5,7 @@ import { useState } from "react";
 import SkeletonLoader from "./SkeltonLoader";
 import { useTranslations } from "next-intl";
 import NotFoundPage from "./NotFoundComponent";
+import Image from "next/image";
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
@@ -18,8 +19,8 @@ function CategoryLinks() {
   // Handle loading state for categories
   if (loadingList) {
     return (
-    <SkeletonLoader />
-  )
+      <SkeletonLoader />
+    )
 
   }
   // Handle error state for categories
@@ -47,10 +48,12 @@ function CategoryLinks() {
               className="cursor-pointer bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
             >
               <div className="h-64 relative overflow-hidden">
-                <img
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  src={item.image || "/5.jpg"}
+                <Image
+                  src={item.image || "../../../../public/5.jpg"}
                   alt={item.name || "Category"}
+                  width={500}
+                  height={256} // height must be defined
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
