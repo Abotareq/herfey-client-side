@@ -13,8 +13,8 @@ export default function Home() {
       <SwiperComponent />
       <CategoryLinks />
 
-      <Services />
       <BetsSeller />
+      <Services />
     </>
   );
 }
