@@ -429,19 +429,14 @@
 //   );
 // }
 'use client';
-import { useGetAllProducts } from "@/service/product";
-import { useRouter } from "next/navigation";
 import DiscountedProducts from './DiscountedProducts';
 import TopRatedProducts from './TopRatedProducts';
-import MostRecentProducts from './MostRecentProducts'
-
-// Discounted Products Component
-
-
-
+import MostRecentProducts from './MostRecentProducts';
+import { useRouter } from "next/navigation";
 
 // Main BestSeller Component
 export default function BestSeller() {
+  const router = useRouter();
   return (
     <div className="w-full bg-gray-50 py-12 px-4">
       {/* Title Section */}
@@ -467,7 +462,13 @@ export default function BestSeller() {
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
               Browse through our complete catalog to find exactly what you're looking for
             </p>
-            <button className="bg-white text-blue-600 hover:text-blue-700 font-semibold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <button
+                    className="bg-orange-600 text-white rounded-full px-6 py-3 shadow-lg transform scale-90 group-hover:scale-100 transition-all duration-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/products`);
+                    }}
+                  >
               Browse All Products
             </button>
           </div>
