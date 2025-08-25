@@ -41,16 +41,15 @@ const { mutate: signOut, isLoading } = useSignOut();
     const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, "");
     router.push(`/${newLocale}${pathWithoutLocale}`);
   };
-
+    const { user,loading } = useAuth();
   const navigation = [
     { name: "home", href: "" },
-    { name: "articles", href: "/articles" },
+    ...(user ? [{ name: "favourite", href: "/fav" }] : []),
     { name: "categories", href: "/categories" },
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },
     {name: "products", href: '/products'}
   ];
-  const { user,loading } = useAuth();
   const isActive = (path) => pathname === path;
   const locale = useLocale()
   const isArabic = locale === 'ar';
@@ -65,9 +64,13 @@ const { mutate: signOut, isLoading } = useSignOut();
               <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button>
-              <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
+              {user && 
+              <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
+              onClick={() => router.push(`/${currentLocale}/fav`)}
+              >
                 <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button>
+              }
               <button  onClick={() => router.push(`/${currentLocale}/cart`)}
               className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
