@@ -35,15 +35,15 @@ export default function RecentlyAddedProducts() {
           .map((product, index) => (
             <div
               key={product._id}
-              className="group relative border border-gray-200 rounded-2xl p-4 bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1"
+              className="group relative border border-gray-200 rounded-2xl p-4 bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 w-full max-w-sm mx-auto"
               onClick={() => router.push(`/products/${product._id}`)}
             >
               {/* Product Image */}
-              <div className="relative overflow-hidden rounded-lg mb-4">
+              <div className="relative overflow-hidden rounded-lg mb-4 h-40">
                 <img
                   src={product.images?.[0]}
                   alt={product.name}
-                  className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 {/* Overlay on hover */}
                 <div className="absolute inset-0 flex items-center justify-center bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -60,8 +60,8 @@ export default function RecentlyAddedProducts() {
               </div>
 
               {/* Product Info */}
-              <div className="space-y-2">
-                <h4 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">
+              <div className="space-y-2 h-16">
+                <h4 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2 leading-tight">
                   {product.name}
                 </h4>
               </div>
