@@ -35,7 +35,7 @@ function CategoryLinks() {
 
   return (
     <div className="w-full bg-gray-100 p-8">
-      <h3 className="text-center mb-8 text-xl font-bold">Most used Categories</h3>
+      <h3 className="text-center mb-8 text-xl font-bold">{t('most')}</h3>
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {categories.map((item) => (

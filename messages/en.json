@@ -215,23 +215,7 @@
             "desc4": "Ready to answer all inquires",
             "desc5": "We will deliver to your doorstep wherever you are within 3 to 7 days"
         },
-        "BestSeller":{
-            "title": "Best Seller",
-            "name1": "Wood Products",
-            "name2": "Genuine Leather Products",
-            "name3": "Decoupage Products",
-            "title1": "Wooden Table",
-            "cat1": "Wood Products",
-            "title2": "Wooden Chair",
-            "title3": "Wooden Holder",
-            "title4": "Leather Bag",
-            "cat2": "Genuine Leather Products",
-            "title5": "Leather Purse",
-            "title6": "Decoupage Art - 1",
-            "title7": "Decoupage Art - 2",
-            "title8": "Decoupage Art - 3",
-            "cat3": "Decoupage Products"
-        },
+        
         "customer": {
             "title": "Personal Information",
             "username": "Username",
@@ -469,7 +453,8 @@
         "storecount": "Stores Count",
         "parentcategory": "Parent Category",
         "createdat": "Created At",
-        "id": "ID"
+        "id": "ID",
+        "most": "Most used Categories"
     },
     "products": {
         "category": "Category",
@@ -607,5 +592,40 @@
         "orders": "Orders",
         "categories": "Categories",
         "coupon": "Coupon Usage"
+    },
+    "productFilter": {
+        "filter": "Filter & Sort",
+        "sort": "Sort By",
+        "default": "Default",
+        "highestprice": "Highest Price",
+        "lowestprice": "Lowest Price",
+        "highestrate": "Highest Rating",
+        "mostsold": "Most Sold",
+        "store": "Store",
+        "allstores": "All Stores",
+        "clear": "Clear All Filters"
+    },
+    "BestSeller": {
+        "bestseller": "Bestsellers",
+        "desc": "Discover our most popular products, top deals, and newest arrivals",
+        "explore": "Explore More Products",
+        "exploredesc": "Browse through our complete catalog to find exactly what you're looking for",
+        "browseall": "Browse All Products",
+        "discountloading": "Loading discounted products...",
+        "errorloading": "Error loading discounted products.",
+        "discounterror": "No discounted products available.",
+        "discounttitle": "Discounted Products",
+        "discountdetails": "View Details",
+        "best": "Best Deal",
+        "loadingtop": "Loading top rated products...",
+        "errortop": "Error loading top rated products.",
+        "toperror": "No rated products available.",
+        "toptitlle": " Top Rated Products",
+        "top": "Top Rated",
+        "mostrecentloader": "Loading recent products...",
+        "errormost": "Error loading recent products.",
+        "mosterror": "No recent products available.",
+        "recent": "Recently Added",
+        "new": "New"
     }
 }

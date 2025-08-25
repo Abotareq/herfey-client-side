@@ -1,19 +1,20 @@
 'use client';
 import { useGetAllProducts } from "@/service/product";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 export default function DiscountedProducts() {
   const { data, isLoading, isError } = useGetAllProducts();
   const router = useRouter();
-
-  if (isLoading) return <div className="text-center py-8"><p>Loading discounted products...</p></div>;
-  if (isError) return <div className="text-center py-8"><p>Error loading discounted products.</p></div>;
+  const t = useTranslations('BestSeller')
+  if (isLoading) return <div className="text-center py-8"><p>{t('discountloading')}</p></div>;
+  if (isError) return <div className="text-center py-8"><p>{t('errorloading')}</p></div>;
 
   const products = data?.products || [];
   const discountedProducts = products.filter((product) => product.createdAt);
 
   if (discountedProducts.length === 0) {
-    return <div className="text-center py-8"><p>No discounted products available.</p></div>;
+    return <div className="text-center py-8"><p>{t('discounterror')}</p></div>;
   }
 
   return (
@@ -21,7 +22,7 @@ export default function DiscountedProducts() {
       {/* Section Header */}
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">
-          Discounted Products
+         {t('discounttitle')}
         </h3>
         <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-orange-600 rounded-full mx-auto"></div>
       </div>
@@ -52,7 +53,7 @@ export default function DiscountedProducts() {
                       router.push(`/products/${product._id}`);
                     }}
                   >
-                    View Details
+                    {t('discountdetails')}
                   </button>
                 </div>
               </div>
@@ -80,7 +81,7 @@ export default function DiscountedProducts() {
               {index === 0 && (
                 <div className="absolute top-3 left-3">
                   <div className="bg-gradient-to-r from-red-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                    Best Deal
+                    {t('best')}
                   </div>
                 </div>
               )}

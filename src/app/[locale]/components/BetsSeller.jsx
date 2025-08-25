@@ -433,19 +433,21 @@ import DiscountedProducts from './DiscountedProducts';
 import TopRatedProducts from './TopRatedProducts';
 import MostRecentProducts from './MostRecentProducts';
 import { useRouter } from "next/navigation";
+import { useTranslations } from 'next-intl';
 
 // Main BestSeller Component
 export default function BestSeller() {
   const router = useRouter();
+  const t = useTranslations('BestSeller')
   return (
     <div className="w-full bg-gray-50 py-12 px-4">
       {/* Title Section */}
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold mb-4 text-center text-gray-900">
-          Bestsellers
+          {t('bestseller')}
         </h2>
         <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          Discover our most popular products, top deals, and newest arrivals
+          {t('desc')}
         </p>
 
         {/* Products Grid */}
@@ -458,9 +460,9 @@ export default function BestSeller() {
         {/* Bottom CTA Section */}
         <div className="mt-16 text-center">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">Explore More Products</h3>
+            <h3 className="text-2xl font-bold mb-4">{t('explore')}</h3>
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              Browse through our complete catalog to find exactly what you're looking for
+              {t('exploredesc')}
             </p>
             <button
                     className="bg-orange-600 text-white rounded-full px-6 py-3 shadow-lg transform scale-90 group-hover:scale-100 transition-all duration-300"
@@ -469,7 +471,7 @@ export default function BestSeller() {
                       router.push(`/products`);
                     }}
                   >
-              Browse All Products
+              {t('browseall')}
             </button>
           </div>
         </div>

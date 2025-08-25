@@ -1,13 +1,15 @@
 'use client';
 import { useGetAllProducts } from "@/service/product";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 export default function TopRatedProducts() {
   const { data, isLoading, isError } = useGetAllProducts();
   const router = useRouter();
-
-  if (isLoading) return <div className="text-center py-8"><p>Loading top rated products...</p></div>;
-  if (isError) return <div className="text-center py-8"><p>Error loading top rated products.</p></div>;
+  const t = useTranslations('BestSeller')
+  
+  if (isLoading) return <div className="text-center py-8"><p>{t('loadingtop')}</p></div>;
+  if (isError) return <div className="text-center py-8"><p>{t('errortop')}</p></div>;
 
   const products = data?.products || [];
   const topRatedProducts = products
@@ -15,7 +17,7 @@ export default function TopRatedProducts() {
     .sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
 
   if (topRatedProducts.length === 0) {
-    return <div className="text-center py-8"><p>No rated products available.</p></div>;
+    return <div className="text-center py-8"><p>{t('toperror')}</p></div>;
   }
 
   return (
@@ -23,7 +25,7 @@ export default function TopRatedProducts() {
       {/* Section Header */}
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">
-          Top Rated Products
+          {t('toptitlle')}
         </h3>
         <div className="w-16 h-1 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full mx-auto"></div>
       </div>
@@ -54,7 +56,7 @@ export default function TopRatedProducts() {
                       router.push(`/products/${product._id}`);
                     }}
                   >
-                    View Details
+                    {t('discountdetails')}
                   </button>
                 </div>
               </div>
@@ -93,7 +95,7 @@ export default function TopRatedProducts() {
               {index === 0 && (
                 <div className="absolute top-3 left-3">
                   <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                    ⭐ Top Rated
+                    ⭐ {t('top')}
                   </div>
                 </div>
               )}

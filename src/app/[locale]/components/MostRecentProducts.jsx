@@ -1,13 +1,15 @@
 'use client';
 import { useGetAllProducts } from "@/service/product";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 export default function RecentlyAddedProducts() {
   const { data, isLoading, isError } = useGetAllProducts();
   const router = useRouter();
-
-  if (isLoading) return <div className="text-center py-8"><p>Loading recent products...</p></div>;
-  if (isError) return <div className="text-center py-8"><p>Error loading recent products.</p></div>;
+  const t = useTranslations('BestSeller')
+  
+  if (isLoading) return <div className="text-center py-8"><p>{t('mostrecentloader')}</p></div>;
+  if (isError) return <div className="text-center py-8"><p>{t('errormost')}</p></div>;
 
   const products = data?.products || [];
   const recentProducts = products
@@ -15,7 +17,7 @@ export default function RecentlyAddedProducts() {
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   if (recentProducts.length === 0) {
-    return <div className="text-center py-8"><p>No recent products available.</p></div>;
+    return <div className="text-center py-8"><p>{t('mosterror')}</p></div>;
   }
 
   return (
@@ -23,7 +25,7 @@ export default function RecentlyAddedProducts() {
       {/* Section Header */}
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">
-          Recently Added
+          {t('recent')}
         </h3>
         <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mx-auto"></div>
       </div>
@@ -54,7 +56,7 @@ export default function RecentlyAddedProducts() {
                       router.push(`/products/${product._id}`);
                     }}
                   >
-                    View Details
+                    {t('discountdetails')}
                   </button>
                 </div>
               </div>
@@ -79,7 +81,7 @@ export default function RecentlyAddedProducts() {
               {index === 0 && (
                 <div className="absolute top-3 left-3">
                   <div className="bg-gradient-to-r from-green-400 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                    🆕 New
+                    🆕 {t('new')}
                   </div>
                 </div>
               )}
