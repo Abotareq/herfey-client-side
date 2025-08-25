@@ -476,7 +476,12 @@
         "all": "All",
         "min": "Min Price",
         "max": "Max Price",
-        "color": "Color"
+        "color": "Color",
+        "cartq": "Do you want to add",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "sizeq": "Select Size",
+        "colorq": "Select Color"
     },
     
     "productreview": {
@@ -628,5 +633,12 @@
         "mosterror": "No recent products available.",
         "recent": "Recently Added",
         "new": "New"
+    },
+    "Fav": {
+        "title": "No favourites yet",
+        "desc": "Start adding some products!",
+        "myfav": "My Favourites",
+        "remove": "Remove from Favourites",
+        "fav": "Favourite"
     }
 }

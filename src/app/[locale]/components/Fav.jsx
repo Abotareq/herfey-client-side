@@ -1,30 +1,28 @@
 "use client";
 
 import { useFav } from "@/app/context/FavouriteContext";
+import { useTranslations } from "next-intl";
 
 export default function FavouritesPage() {
   const { fav, toggleFav } = useFav();
-
+    const t = useTranslations("Fav");
   if (fav.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <h2 className="text-2xl font-bold">No favourites yet ❤️</h2>
-        <p className="text-gray-500 mt-2">Start adding some products!</p>
+        <h2 className="text-2xl font-bold">{t('title')} ❤️</h2>
+        <p className="text-gray-500 mt-2">{t('desc')}</p>
       </div>
     );
   }
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
-      {/* Section Header */}
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">
-          My Favourites
+          {t('myfav')}
         </h3>
         <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-600 rounded-full mx-auto"></div>
       </div>
-
-      {/* Products Grid */}
       <div className="space-y-4">
         {fav.map((product, index) => (
           <div
@@ -47,29 +45,23 @@ export default function FavouritesPage() {
                     toggleFav(product);
                   }}
                 >
-                  Remove from Favourites
+                  {t('remove')}
                 </button>
               </div>
             </div>
-
-            {/* Product Info */}
             <div className="space-y-2 h-16">
               <h4 className="text-center text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2 leading-tight">
                 {product.name}
               </h4>
             </div>
-
-            {/* Price Badge */}
             <div className="absolute top-3 right-3">
               <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
                 {product.basePrice} EGP
               </div>
             </div>
-
-            {/* Favourite Badge */}
             <div className="absolute top-3 left-3">
               <div className="bg-gradient-to-r from-red-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                ❤️ Favourite
+                ❤️ {t('fav')}
               </div>
             </div>
           </div>

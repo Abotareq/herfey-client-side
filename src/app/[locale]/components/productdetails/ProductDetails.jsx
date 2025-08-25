@@ -442,7 +442,7 @@ function ProductDetails({ id }) {
                   .map((variant) => (
                     <div key={variant._id} className="mb-3">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Color:
+                        {t('color')}:
                       </label>
                       <select
                         defaultValue=""
@@ -451,7 +451,7 @@ function ProductDetails({ id }) {
                         onChange={(e) => setSelectedColor(e.target.value)}
                       >
                         <option value="" disabled>
-                          Select Color
+                          {t('colorq')}
                         </option>
                         {variant.options?.map((option) => (
                           <option key={option._id} value={option.value}>
@@ -467,7 +467,7 @@ function ProductDetails({ id }) {
                   .map((variant) => (
                     <div key={variant._id} className="mb-3">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Size:
+                        {t('size')}:
                       </label>
                       <select
                         defaultValue=""
@@ -476,7 +476,7 @@ function ProductDetails({ id }) {
                         onChange={(e) => setSelectedSize(e.target.value)}
                       >
                         <option value="" disabled>
-                          Select Size
+                          {t('sizeq')}
                         </option>
                         {variant.options?.map((option) => (
                           <option key={option._id} value={option.value}>
@@ -641,9 +641,9 @@ function ProductDetails({ id }) {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Add to Cart</AlertDialogTitle>
+                        <AlertDialogTitle>{t('cart')}</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Do you want to add <b>{product.name}</b> (x{quantity}) with:{" "}
+                          {t('cartq')} <b>{product.name}</b> (x{quantity}) with:{" "}
                           {Object.entries(selectedVariants)
                             .map(([name, value]) => `${name}: ${value}`)
                             .join(", ") || "No variants selected"}{" "}
@@ -651,9 +651,9 @@ function ProductDetails({ id }) {
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                         <AlertDialogAction onClick={handleAddToCart}>
-                          Confirm
+                          {t('confirm')}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
