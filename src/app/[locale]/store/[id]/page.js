@@ -24,6 +24,7 @@ import { useStore } from "@/service/store";
 import Image from "next/image";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useStoreContext } from "@/app/context/StoreContext";
+import { useTranslations } from "next-intl";
 
 // Main component for Store Details Page
 export default function StoreDetailsPage() {
