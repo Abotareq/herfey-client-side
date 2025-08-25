@@ -428,17 +428,51 @@
 //     </div>
 //   );
 // }
-import React from 'react'
+'use client';
+import { useGetAllProducts } from "@/service/product";
+import { useRouter } from "next/navigation";
+import DiscountedProducts from './DiscountedProducts';
+import TopRatedProducts from './TopRatedProducts';
+import MostRecentProducts from './MostRecentProducts'
 
-export default function BetsSeller() {
+// Discounted Products Component
+
+
+
+
+// Main BestSeller Component
+export default function BestSeller() {
   return (
-    <div>
-      <h2>Bestsellers</h2>
-      <ul>
-        <li>Product 1</li>
-        <li>Product 2</li>
-        <li>Product 3</li>
-      </ul>
+    <div className="w-full bg-gray-50 py-12 px-4">
+      {/* Title Section */}
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold mb-4 text-center text-gray-900">
+          Bestsellers
+        </h2>
+        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+          Discover our most popular products, top deals, and newest arrivals
+        </p>
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <DiscountedProducts />
+          <TopRatedProducts />
+          <MostRecentProducts />
+        </div>
+
+        {/* Bottom CTA Section */}
+        <div className="mt-16 text-center">
+          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">Explore More Products</h3>
+            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+              Browse through our complete catalog to find exactly what you're looking for
+            </p>
+            <button className="bg-white text-blue-600 hover:text-blue-700 font-semibold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
+              Browse All Products
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
