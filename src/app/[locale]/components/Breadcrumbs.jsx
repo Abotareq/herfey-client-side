@@ -4,6 +4,7 @@ import { usePathname } from "@/i18n/navigation";
 import { useGetProductById } from "@/service/product";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useStore } from "@/service/store";
 
 function Breadcrumbs() {
   const pathName = usePathname();
@@ -16,19 +17,29 @@ function Breadcrumbs() {
   // pathSegments = pathSegments.filter(
   //   (seg) => !/^\d+$/.test(seg) && !/^[a-f0-9]{10,}$/i.test(seg) // adjust regex to your case
   // );
-  const productId = pathSegments.length > 1 && pathSegments[0] === "products" ? pathSegments[1] : null;
+  const entityType = pathSegments[0] // store and product ids
+  const entityId = pathSegments.length > 1 ? pathSegments[1] : null;
 
-  // fetch product details to get product name
-    const {data} = useGetProductById(productId, {enabled: !!productId});
-    const product = data?.data || {};
-
-
-
+  // fetch the product details
+  const {data: productRes} = useGetProductById(entityType === "products" ? entityId : null, {
+    enabled: entityType === "products" && !!entityId,
+  })
+  // fetch the store details
+  const { data: storeRes } = useStore(
+  entityType === "store" ? entityId : null,
+  entityType === "store" && !!entityId 
+);
+  
+  const product = productRes?.data || null;
+  const store = storeRes || null;
+  console.log(`store data: ${store}`)
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
     let label;
-    if(segment === productId && product){
+    if(entityType === "products" && segment === entityId && product){
       label = product.name
+    }else if(entityType === "store" && segment === entityId && store){
+      label = store.name
     }else{
       label = t(segment, {
         default: segment.charAt(0).toUpperCase() + segment.slice(1),
