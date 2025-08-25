@@ -602,6 +602,10 @@
         "browsequestion": "Ready to explore this store?",
         "browsedesc": "Discover amazing products and great deals!",
         "browseproducts": "Browse Products",
-        "fail": "Failed to fetch store details"
+        "fail": "Failed to fetch store details",
+        "products": "Products",
+        "orders": "Orders",
+        "categories": "Categories",
+        "coupon": "Coupon Usage"
     }
 }

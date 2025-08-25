@@ -49,7 +49,7 @@ function Breadcrumbs() {
   });
 
   return (
-    <nav className="text-sm text-gray-600 my-4">
+    <nav className="mx- text-sm text-gray-600 my-4">
       <ol className="flex items-center space-x-2">
         <li>
           <Link href="/" className="text-orange-600 hover:underline">

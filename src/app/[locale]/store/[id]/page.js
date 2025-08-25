@@ -352,10 +352,10 @@ export default function StoreDetailsPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           {[
-            { icon: Package, label: 'Products', value: storeData.productCount || 0, color: 'orange' },
-            { icon: ShoppingBag, label: 'Orders', value: storeData.ordersCount || 0, color: 'green' },
-            { icon: Star, label: 'Categories', value: storeData.categorieCount || 0, color: 'blue' },
-            { icon: Users, label: 'Coupons Used', value: storeData.couponsUsed || 0, color: 'purple' }
+            { icon: Package, label: t('products'), value: storeData.productCount || 0, color: 'orange' },
+            { icon: ShoppingBag, label: t('orders'), value: storeData.ordersCount || 0, color: 'green' },
+            { icon: Star, label: t('categories'), value: storeData.categorieCount || 0, color: 'blue' },
+            { icon: Users, label: t('coupon'), value: storeData.couponsUsed || 0, color: 'purple' }
           ].map((stat, index) => (
             <div 
               key={index}
@@ -466,7 +466,7 @@ export default function StoreDetailsPage() {
         <div className={`bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl shadow-lg p-8 text-center text-white transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '700ms' }}>
           <h3 className="text-2xl font-bold mb-2">{t('browsequestion')}</h3>
           <p className="text-orange-100 mb-6">{t('browsedesc')}</p>
-          <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors">
+          <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors" onClick={() => handleBrowseStoreProducts(storeData._id)}>
             {t('browseproducts')}
           </button>
         </div>
