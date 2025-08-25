@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from "@/i18n/navigation";
+import { useGetProductById } from "@/service/product";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -11,16 +12,28 @@ function Breadcrumbs() {
   // split path
   let pathSegments = pathName.split("/").filter((e) => e);
 
-  // filter out IDs (numbers or long hashes)
-  pathSegments = pathSegments.filter(
-    (seg) => !/^\d+$/.test(seg) && !/^[a-f0-9]{10,}$/i.test(seg) // adjust regex to your case
-  );
+  // // filter out IDs (numbers or long hashes)
+  // pathSegments = pathSegments.filter(
+  //   (seg) => !/^\d+$/.test(seg) && !/^[a-f0-9]{10,}$/i.test(seg) // adjust regex to your case
+  // );
+  const productId = pathSegments.length > 1 && pathSegments[0] === "products" ? pathSegments[1] : null;
+
+  // fetch product details to get product name
+    const {data} = useGetProductById(productId, {enabled: !!productId});
+    const product = data?.data || {};
+
+
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
-    const label = t(segment, {
-      default: segment.charAt(0).toUpperCase() + segment.slice(1),
-    });
+    let label;
+    if(segment === productId && product){
+      label = product.name
+    }else{
+      label = t(segment, {
+        default: segment.charAt(0).toUpperCase() + segment.slice(1),
+      })
+    }
     return { href, label };
   });
 
