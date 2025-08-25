@@ -3,7 +3,10 @@ import { useStoreContext } from "@/app/context/StoreContext";
 import Products from "../components/Products";
 
 function Page() {
-  return <Products />;
+  const  {customerStoreId} = useStoreContext();
+  return (
+    <Products  customerStoreId={customerStoreId} />
+  )
 }
 
 export default Page;
