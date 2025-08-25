@@ -1,10 +1,8 @@
 'use client'
 import { useStoreContext } from '@/app/context/StoreContext'
 import { useGetAllProducts } from '@/service/product'
-
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
-
 
 // Store Management Component
 export function StoreManagement({ store, onUpdate, onClose }) {

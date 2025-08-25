@@ -9,6 +9,7 @@ import {
   clearGuestCart,
 } from "../../../service/cart.js";
 import { useRouter } from "next/navigation";
+import Image from "next/image.js";
 
 // Helper function to generate unique variant key
 const generateVariantKey = (productId, variants = []) => {
@@ -90,7 +91,9 @@ function GuestCart() {
   // Load guest cart on component mount
   useEffect(() => {
     loadGuestCart();
-  }, []);
+  // }, []);    //osama
+});
+
 
   // Helper function to remove duplicate items from cart
   const removeDuplicateItems = useCallback(() => {
@@ -766,7 +769,7 @@ function GuestCart() {
                         {/* Product Image */}
                         <div className="flex-shrink-0">
                           <div className="w-full sm:w-32 h-48 sm:h-32 relative group overflow-hidden rounded-lg">
-                            <img
+                            <Image
                               src={item.image}
                               alt={item.name}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
@@ -1089,7 +1092,7 @@ function GuestCart() {
                         { src: "https://readymadeui.com/images/american-express.webp", alt: "American Express" }
                       ].map((card, index) => (
                         <div key={index} className="p-2 bg-white rounded-lg shadow-sm border border-gray-200">
-                          <img src={card.src} alt={card.alt} className="h-6 object-contain" />
+                          <Image src={card.src} alt={card.alt} className="h-6 object-contain" />
                         </div>
                       ))}
                     </div>

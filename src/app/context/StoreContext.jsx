@@ -7,9 +7,10 @@ const StoreContext = createContext();
 export function StoreProvider({ children }) {
   const [storeId , setStoreId] = useState(null);
   const [customerStoreId , setCustomerStoreId] = useState(null);
-
   return (
-    <StoreContext.Provider value={{ storeId, customerStoreId, setStoreId, setCustomerStoreId }}>
+    <StoreContext.Provider
+      value={{ storeId, customerStoreId, setStoreId, setCustomerStoreId }}
+    >
       {children}
     </StoreContext.Provider>
   );
