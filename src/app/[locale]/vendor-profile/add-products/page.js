@@ -1,9 +1,11 @@
+"use client"
 import { useStoreContext } from "@/app/context/StoreContext.jsx";
 import CreateProductForm from "../../components/CreateProductForm.jsx";
 
 export default function CreateProductPage() {
 
   const {storeId} = useStoreContext();
+  console.log("Store ID in CreateProductPage:", storeId); // Debugging line
   const categoryId = "68895bd225e59a1915813ce4";
 
   return (
