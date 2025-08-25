@@ -75,7 +75,7 @@ const { mutate: signOut, isLoading } = useSignOut();
             </div>
             {/* Center - Logo (Hidden on sm and below) */}
             <div className="hidden sm:flex justify-center">
-              <div className="text-xl sm:text-2xl font-bold text-orange-500">
+              <div className="text-xl sm:text-2xl font-bold text-orange-500 cursor-pointer" onClick={() => router.push(`/${currentLocale}`)}>
                 {t2("herafy")}
                 <div className="w-10 sm:w-12 h-1 bg-orange-500 mx-auto mt-1"></div>
               </div>
@@ -153,7 +153,7 @@ const { mutate: signOut, isLoading } = useSignOut();
             </div>
             {/* Logo - Mobile */}
             <div className="sm:hidden col-span-2 flex justify-center py-2">
-              <div className="text-xl font-bold text-orange-500">
+              <div className="text-xl font-bold text-orange-500 cursor-pointer" onClick={() => router.push(`/${currentLocale}`)}>
                 {t2("herafy")}
                 <div className="w-10 h-1 bg-orange-500 mx-auto mt-1"></div>
               </div>

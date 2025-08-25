@@ -1,30 +1,29 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { 
-    ArrowLeft, 
-    MapPin, 
-    Package, 
-    ShoppingBag, 
-    Clock, 
-    RotateCcw, 
-    Star, 
-    Users, 
-    Loader, 
-    AlertCircle,
-    Heart,
-    Share,
-    Eye,
-    Truck,
-    Shield,
-    X,
-    Navigation
-} from 'lucide-react';
-import { useStore } from '@/service/store';
-import Image from 'next/image';
-import Breadcrumbs from '../../components/Breadcrumbs';
-import { useTranslations } from 'next-intl';
+"use client";
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  MapPin,
+  Package,
+  ShoppingBag,
+  Clock,
+  RotateCcw,
+  Star,
+  Users,
+  Loader,
+  AlertCircle,
+  Heart,
+  Share,
+  Eye,
+  Truck,
+  Shield,
+  X,
+  Navigation,
+} from "lucide-react";
+import { useStore } from "@/service/store";
+import Image from "next/image";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { useStoreContext } from "@/app/context/StoreContext";
 
 // Main component for Store Details Page
 export default function StoreDetailsPage() {
@@ -34,6 +33,7 @@ export default function StoreDetailsPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(false);
   const t = useTranslations('storedetails')
+  const { setCustomerStoreId, customerStoreId } = useStoreContext();
   // Extract store ID from params
   const storeId = params?.id;
 
@@ -42,7 +42,7 @@ export default function StoreDetailsPage() {
     data: storeData,
     isLoading: loading,
     error,
-    isError
+    isError,
   } = useStore(storeId);
 
   // Trigger animations after data loads
@@ -52,9 +52,13 @@ export default function StoreDetailsPage() {
       return () => clearTimeout(timer);
     }
   }, [storeData, loading]);
-
+  const handleBrowseStoreProducts = (storeId) => {
+    setCustomerStoreId((prev) => storeId);
+    console.log(customerStoreId);
+    router.push(`/products`);
+  };
   const handleBackToStores = () => {
-    router.push('/store');
+    router.push("/store");
   };
 
   const handleFavorite = () => {
@@ -79,33 +83,41 @@ export default function StoreDetailsPage() {
 
   const handleOpenGoogleMaps = () => {
     const address = `${storeData.address?.street}, ${storeData.address?.city}`;
-    const googleMapsUrl = `https://maps.google.com?q=${encodeURIComponent(address)}`;
-    window.open(googleMapsUrl, '_blank');
+    const googleMapsUrl = `https://maps.google.com?q=${encodeURIComponent(
+      address
+    )}`;
+    window.open(googleMapsUrl, "_blank");
   };
 
   const getStatusBadge = (status) => {
     const statusConfig = {
-      approved: { 
-        bg: 'bg-emerald-50 border-emerald-200', 
-        text: 'text-emerald-700',
-        dot: 'bg-emerald-500'
+      approved: {
+        bg: "bg-emerald-50 border-emerald-200",
+        text: "text-emerald-700",
+        dot: "bg-emerald-500",
       },
-      pending: { 
-        bg: 'bg-amber-50 border-amber-200', 
-        text: 'text-amber-700',
-        dot: 'bg-amber-500'
+      pending: {
+        bg: "bg-amber-50 border-amber-200",
+        text: "text-amber-700",
+        dot: "bg-amber-500",
       },
-      rejected: { 
-        bg: 'bg-red-50 border-red-200', 
-        text: 'text-red-700',
-        dot: 'bg-red-500'
-      }
+      rejected: {
+        bg: "bg-red-50 border-red-200",
+        text: "text-red-700",
+        dot: "bg-red-500",
+      },
     };
-    
-    const config = statusConfig[status] || { bg: 'bg-gray-50 border-gray-200', text: 'text-gray-700', dot: 'bg-gray-500' };
-    
+
+    const config = statusConfig[status] || {
+      bg: "bg-gray-50 border-gray-200",
+      text: "text-gray-700",
+      dot: "bg-gray-500",
+    };
+
     return (
-      <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${config.bg} ${config.text} transition-all duration-300`}>
+      <div
+        className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${config.bg} ${config.text} transition-all duration-300`}
+      >
         <div className={`w-2 h-2 rounded-full mr-2 ${config.dot}`}></div>
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </div>
@@ -113,10 +125,10 @@ export default function StoreDetailsPage() {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -135,16 +147,22 @@ export default function StoreDetailsPage() {
             </button>
           </div>
         </div>
-        
+
         <div className="p-6">
           <div className="space-y-4">
             <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-gray-900">{storeData?.name}</h4>
-                  <p className="text-gray-700 mt-1">{storeData?.address?.street}</p>
-                  <p className="text-gray-600">{storeData?.address?.city}, {storeData?.address?.postalCode}</p>
+                  <h4 className="font-semibold text-gray-900">
+                    {storeData?.name}
+                  </h4>
+                  <p className="text-gray-700 mt-1">
+                    {storeData?.address?.street}
+                  </p>
+                  <p className="text-gray-600">
+                    {storeData?.address?.city}, {storeData?.address?.postalCode}
+                  </p>
                 </div>
               </div>
             </div>
@@ -186,7 +204,6 @@ export default function StoreDetailsPage() {
   // Error state
   if (isError) {
     const errorMessage = error?.response?.data?.message || error?.message || t('fail');
-    
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full">

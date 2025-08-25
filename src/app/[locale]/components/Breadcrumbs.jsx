@@ -28,7 +28,7 @@ function Breadcrumbs() {
     <nav className="text-sm text-gray-600 my-4">
       <ol className="flex items-center space-x-2">
         <li>
-          <Link href="/" className="text-blue-600 hover:underline">
+          <Link href="/" className="text-orange-600 hover:underline">
             {t("home")}
           </Link>
         </li>

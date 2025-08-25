@@ -298,6 +298,7 @@ function ReviewsSection({ productId }) {
         </div>
 
         {/* Individual Reviews */}
+        {console.log(reviews[0].user.userName)}
         <div className="space-y-8">
           {reviews.length > 0 ? (
             reviews.map((review) => (
@@ -320,7 +321,8 @@ function ReviewsSection({ productId }) {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
                       <div className="flex items-center space-x-3 flex-wrap">
                         <h4 className="font-semibold text-slate-900">
-                          {review.user?.userName|| "Anonymous"}
+                          {review.user?.userName || "Anonymous"}
+
                         </h4>
                         {review.verifiedPurchase && (
                           <div className="flex items-center space-x-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
