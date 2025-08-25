@@ -5,10 +5,12 @@ import { useState } from "react";
 import SkeletonLoader from "./SkeltonLoader";
 import NotFoundPage from "./NotFoundComponent";
 import Breadcrumbs from "./Breadcrumbs";
+import { useTranslations } from "use-intl";
 
 // Main component for Herafy Store Page
 
 export default function HerafyStorePage({ vendorOnly = false }) {
+  const t = useTranslations('Store')
   // 🔹 filter + sort state
   const [filters, setFilters] = useState({
     search: "",
@@ -75,13 +77,13 @@ export default function HerafyStorePage({ vendorOnly = false }) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-2">Error Loading Stores</h2>
+          <h2 className="text-2xl font-bold text-red-600 mb-2">{t('error')}</h2>
           <p className="text-gray-600">{error.message || "Something went wrong"}</p>
           <button
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
           >
-            Retry
+            {t('retry')}
           </button>
         </div>
       </div>
@@ -99,26 +101,26 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-8">
               <h3 className="text-slate-900 text-xl font-bold tracking-tight">
-                Filters
+                {t('filters')}
               </h3>
               <button
                 type="button"
                 onClick={clearFilters}
                 className="text-sm text-red-500 hover:text-red-600 font-semibold transition-colors duration-200 hover:underline focus:outline-none focus:ring-2 focus:ring-red-200 rounded px-2 py-1"
               >
-                Clear all
+                {t('clearall')}
               </button>
             </div>
 
             {/* Search Filter */}
             <div className="mb-8">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
-                Search Store
+                {t('searchstore')}
               </label>
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search store..."
+                  placeholder={t('searchstoreplace')}
                   value={filters.search}
                   onChange={(e) => updateFilter("search", e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400"
@@ -144,7 +146,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Status Filter */}
             <div className="mb-8">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
-                Store Status
+                {t('storestatus')}
               </label>
               <div className="relative">
                 <select
@@ -152,11 +154,11 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   onChange={(e) => updateFilter("status", e.target.value)}
                   className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
                 >
-                  <option value="">All Status</option>
-                  <option value="approved">Approved</option>
-                  <option value="pending">Pending</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="suspended">Suspended</option>
+                  <option value="">{t('all')}</option>
+                  <option value="approved">{t('approved')}</option>
+                  <option value="pending">{t('pending')}</option>
+                  <option value="rejected">{t('rejected')}</option>
+                  <option value="suspended">{t('suspended')}</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
@@ -179,7 +181,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Sort Filter */}
             <div className="mb-6">
               <label className="block text-slate-900 text-sm font-semibold mb-3">
-                Sort By
+                {t('sort')}
               </label>
               <div className="relative">
                 <select
@@ -187,11 +189,11 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   onChange={(e) => updateFilter("sort", e.target.value)}
                   className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                  <option value="name">Name (A-Z)</option>
-                  <option value="products">Most Products</option>
-                  <option value="orders">Most Orders</option>
+                  <option value="newest">{t('new')}</option>
+                  <option value="oldest">{t('old')}</option>
+                  <option value="name">{t('name')}</option>
+                  <option value="products">{t('mostproduct')}</option>
+                  <option value="orders">{t('mostorders')}</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
@@ -214,7 +216,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Brand Filter */}
             <div className="mb-8">
               <label className="block text-slate-900 text-sm font-semibold mb-4">
-                Brand Selection
+                {t('brand')}
               </label>
               <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
                 {[
@@ -255,10 +257,10 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
-                {vendorOnly ? "My Stores" : "All Stores"}
+                {vendorOnly ? t("mystore") : t("allstores")}
               </h1>
               <p className="text-slate-600 text-sm lg:text-base">
-                Discover and explore our collection of premium stores
+                {t('desc')}
               </p>
             </div>
 
@@ -266,10 +268,10 @@ export default function HerafyStorePage({ vendorOnly = false }) {
               <div className="flex flex-col items-center justify-center py-16">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-3 border-orange-500 mb-4"></div>
                 <p className="text-center text-gray-500 text-lg font-medium">
-                  Loading stores...
+                  {t('loading')}
                 </p>
                 <p className="text-center text-gray-400 text-sm mt-1">
-                  Please wait while we fetch the latest data
+                  {t('waiting')}
                 </p>
               </div>
             ) : stores.length === 0 ? (
@@ -291,11 +293,10 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     </svg>
                   </div>
                   <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                    No stores found
+                    {t('no')}
                   </h3>
                   <p className="text-slate-600 text-sm">
-                    Try adjusting your filters or search terms to find what
-                    you're looking for.
+                    {t('nodesc')}
                   </p>
                 </div>
               </div>
@@ -333,7 +334,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                         href={`/store/${store._id || store.id}`}
                         className="inline-flex items-center justify-center w-full px-6 py-3 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-700 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
                       >
-                        <span>View Store</span>
+                        <span>{t('view')}</span>
                         <svg
                           className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200"
                           fill="none"
@@ -363,7 +364,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     disabled={filters.page === 1}
                     className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Previous
+                    {t('prev')}
                   </button>
                   <span className="px-4 py-2 text-sm bg-orange-500 text-white rounded-lg">
                     {filters.page} of {pagination.totalPages}
@@ -373,7 +374,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     disabled={filters.page === pagination.totalPages}
                     className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Next
+                    {t('next')}
                   </button>
                 </div>
               </div>
