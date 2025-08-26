@@ -483,7 +483,8 @@
      "cancel": "الغاء",
      "confirm": "ناكيد",
      "sizeq": "اختر المقاس",
-     "colorq": "اختر اللون"
+     "colorq": "اختر اللون",
+     "currency":"ج م"
   },
 
   "productreview": {

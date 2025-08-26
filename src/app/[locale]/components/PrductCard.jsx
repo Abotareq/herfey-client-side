@@ -2,10 +2,15 @@
 
 import React from "react";
 import Link from "next/link";  
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 
 function ProductCard({ product }) {
   const t = useTranslations("products");  
+
+  const locale = useLocale();
+  // const isArabic = locale==='ar';
+
+  // const currency = isArabic ? 'ج م' : 'EGP'
 
   const displayPrice = product.discountPrice > 0 ? product.discountPrice : product.basePrice;
   const originalPrice = product.basePrice;
@@ -40,13 +45,13 @@ function ProductCard({ product }) {
       </Link>
       <div className="mt-4 px-5 pb-5">
         <Link href={`/products/${product._id}`}>
-          <h5 className="text-xl tracking-tight text-slate-900">{product.name}</h5>
+          <h5 className="text-xl tracking-tight text-orange-900 capitalize font-semibold ">{product.name}</h5>
         </Link>
         <div className="mt-2 mb-5 flex items-center justify-between">
           <p>
-            <span className="text-3xl font-bold text-orange-500">${displayPrice}</span>
+            <span className="text-3xl font-bold text-orange-500"><span className="text-orange-950 text-sm">{t('currency')}</span>{displayPrice}</span>
             {hasDiscount && (
-              <span className="text-sm text-orange-500 line-through">${originalPrice}</span>
+              <span className="text-sm text-orange-500 line-through">EGP{originalPrice}</span>
             )}
           </p>
           <div className="flex items-center">

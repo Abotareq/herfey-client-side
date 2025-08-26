@@ -481,7 +481,9 @@
         "cancel": "Cancel",
         "confirm": "Confirm",
         "sizeq": "Select Size",
-        "colorq": "Select Color"
+        "colorq": "Select Color",
+        "currency":"EGP"
+
     },
     
     "productreview": {
