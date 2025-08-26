@@ -459,21 +459,46 @@ export default function BestSeller() {
 
         {/* Bottom CTA Section */}
         <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">{t('explore')}</h3>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              {t('exploredesc')}
-            </p>
-            <button
-                    className="bg-orange-600 text-white rounded-full px-6 py-3 shadow-lg transform scale-90 group-hover:scale-100 transition-all duration-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      router.push(`/products`);
-                    }}
-                  >
-              {t('browseall')}
-            </button>
+
+
+          <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl p-8 lg:p-12 text-white shadow-2xl shadow-orange-200">
+            {/* Background Pattern */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+
+            {/* Content */}
+            <div className="relative z-10 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-6 backdrop-blur-sm">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+
+              <h3 className="text-3xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent">
+                {t('explore')}
+              </h3>
+
+              <p className="text-orange-100 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+                {t('exploredesc')}
+              </p>
+
+              <button
+                className="group relative inline-flex items-center justify-center px-8 py-4 bg-white text-orange-600 font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 hover:scale-105"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(`/products`);
+                }}
+              >
+                <span className="relative z-10">{t('browseall')}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-white rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
           </div>
+
+
         </div>
       </div>
     </div>
