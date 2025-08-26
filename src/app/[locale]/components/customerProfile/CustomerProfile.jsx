@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import Customer from "./customercomponents/Profile";
 import AddressesSection from "./customercomponents/AdressSection";
-import ReviewsSection from "./customercomponents/ReviewSetcion";
 import { useTranslations } from "next-intl";
 import { useGetUserById } from "@/service/user";
 import { useAuth } from "@/app/context/AuthContext";
 import OrderSection from "./customercomponents/OrderSection.jsx";
+import ReviewsSectionInProfile from "./customercomponents/ReviewSectionInProfile";
 
 function CustomerProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -150,7 +150,7 @@ function CustomerProfile() {
         {activeTab === "profile" && <Customer />}
         {activeTab === "addresses" && <AddressesSection userData={userData} />}
         {activeTab === "orders" && <OrderSection  />}
-        {activeTab === "reviews" && <ReviewsSection userId={userId} />}
+        {activeTab === "reviews" && <ReviewsSectionInProfile userId={userId} />}
       </div>
     </div>
   );

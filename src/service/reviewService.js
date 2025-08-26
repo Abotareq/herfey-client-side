@@ -113,3 +113,16 @@ export const useAddReview = (productId) => {
     },
   });
 };
+
+
+export const useFilteredReviews = (filters) => {
+  const cleanFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, v]) => v != null)
+  );
+  const queryString = new URLSearchParams(cleanFilters).toString();
+  return useQuery({
+    queryKey: ["reviews", cleanFilters], 
+    queryFn: () => getRequest(`/review/filter?${queryString}`),
+    enabled: !!filters.userId, 
+  });
+};
