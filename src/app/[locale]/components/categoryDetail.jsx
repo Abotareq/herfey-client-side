@@ -21,6 +21,9 @@ export default function CategoryPage() {
   const category = data?.data?.category;
 
   return (
+    <>
+      a7a
+    </>
   /*   <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-2xl p-6 max-w-sm w-full">
         <h2 className="text-xl font-bold text-gray-800 mb-2">{category?.name}</h2>

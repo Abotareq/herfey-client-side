@@ -13,6 +13,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 import SkeletonLoader from "../components/SkeltonLoader.jsx";
 import NotFoundPage from "../components/NotFoundComponent.jsx";
+import Image from "next/image.js";
 
 function AuthenticatedCart() {
   const [couponCode, setCouponCode] = useState("");
@@ -288,7 +289,7 @@ function AuthenticatedCart() {
                   <div className="flex gap-6">
                     {/* Product Image */}
                     <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-50 transition-transform duration-300 group-hover:scale-105">
-                      <img
+                      <Image
                         src={image}
                         alt={productName}
                         className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
@@ -485,17 +486,17 @@ function AuthenticatedCart() {
             <div className="mt-8 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-600 text-center mb-4">Secure payments powered by</p>
               <div className="flex justify-center gap-4 opacity-60">
-                <img
+                <Image
                   src="https://readymadeui.com/images/master.webp"
                   alt="Mastercard"
                   className="h-8 object-contain transition-opacity duration-200 hover:opacity-100"
                 />
-                <img
+                <Image
                   src="https://readymadeui.com/images/visa.webp"
                   alt="Visa"
                   className="h-8 object-contain transition-opacity duration-200 hover:opacity-100"
                 />
-                <img
+                <Image
                   src="https://readymadeui.com/images/american-express.webp"
                   alt="American Express"
                   className="h-8 object-contain transition-opacity duration-200 hover:opacity-100"

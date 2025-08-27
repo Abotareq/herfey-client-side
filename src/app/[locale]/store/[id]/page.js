@@ -1,29 +1,30 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { 
-    ArrowLeft, 
-    MapPin, 
-    Package, 
-    ShoppingBag, 
-    Clock, 
-    RotateCcw, 
-    Star, 
-    Users, 
-    Loader, 
-    AlertCircle,
-    Heart,
-    Share,
-    Eye,
-    Truck,
-    Shield,
-    X,
-    Navigation
-} from 'lucide-react';
-import { useStore } from '@/service/store';
-import Image from 'next/image';
-import Breadcrumbs from '../../components/Breadcrumbs';
+"use client";
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  MapPin,
+  Package,
+  ShoppingBag,
+  Clock,
+  RotateCcw,
+  Star,
+  Users,
+  Loader,
+  AlertCircle,
+  Heart,
+  Share,
+  Eye,
+  Truck,
+  Shield,
+  X,
+  Navigation,
+} from "lucide-react";
+import { useStore } from "@/service/store";
+import Image from "next/image";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { useStoreContext } from "@/app/context/StoreContext";
+import { useTranslations } from "next-intl";
 
 // Main component for Store Details Page
 export default function StoreDetailsPage() {
@@ -32,7 +33,8 @@ export default function StoreDetailsPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(false);
-
+  const t = useTranslations('storedetails')
+  const { setCustomerStoreId, customerStoreId } = useStoreContext();
   // Extract store ID from params
   const storeId = params?.id;
 
@@ -41,7 +43,7 @@ export default function StoreDetailsPage() {
     data: storeData,
     isLoading: loading,
     error,
-    isError
+    isError,
   } = useStore(storeId);
 
   // Trigger animations after data loads
@@ -51,9 +53,13 @@ export default function StoreDetailsPage() {
       return () => clearTimeout(timer);
     }
   }, [storeData, loading]);
-
+  const handleBrowseStoreProducts = (storeId) => {
+    setCustomerStoreId((prev) => storeId);
+    console.log(customerStoreId);
+    router.push(`/products`);
+  };
   const handleBackToStores = () => {
-    router.push('/store');
+    router.push("/store");
   };
 
   const handleFavorite = () => {
@@ -78,33 +84,41 @@ export default function StoreDetailsPage() {
 
   const handleOpenGoogleMaps = () => {
     const address = `${storeData.address?.street}, ${storeData.address?.city}`;
-    const googleMapsUrl = `https://maps.google.com?q=${encodeURIComponent(address)}`;
-    window.open(googleMapsUrl, '_blank');
+    const googleMapsUrl = `https://maps.google.com?q=${encodeURIComponent(
+      address
+    )}`;
+    window.open(googleMapsUrl, "_blank");
   };
 
   const getStatusBadge = (status) => {
     const statusConfig = {
-      approved: { 
-        bg: 'bg-emerald-50 border-emerald-200', 
-        text: 'text-emerald-700',
-        dot: 'bg-emerald-500'
+      approved: {
+        bg: "bg-emerald-50 border-emerald-200",
+        text: "text-emerald-700",
+        dot: "bg-emerald-500",
       },
-      pending: { 
-        bg: 'bg-amber-50 border-amber-200', 
-        text: 'text-amber-700',
-        dot: 'bg-amber-500'
+      pending: {
+        bg: "bg-amber-50 border-amber-200",
+        text: "text-amber-700",
+        dot: "bg-amber-500",
       },
-      rejected: { 
-        bg: 'bg-red-50 border-red-200', 
-        text: 'text-red-700',
-        dot: 'bg-red-500'
-      }
+      rejected: {
+        bg: "bg-red-50 border-red-200",
+        text: "text-red-700",
+        dot: "bg-red-500",
+      },
     };
-    
-    const config = statusConfig[status] || { bg: 'bg-gray-50 border-gray-200', text: 'text-gray-700', dot: 'bg-gray-500' };
-    
+
+    const config = statusConfig[status] || {
+      bg: "bg-gray-50 border-gray-200",
+      text: "text-gray-700",
+      dot: "bg-gray-500",
+    };
+
     return (
-      <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${config.bg} ${config.text} transition-all duration-300`}>
+      <div
+        className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${config.bg} ${config.text} transition-all duration-300`}
+      >
         <div className={`w-2 h-2 rounded-full mr-2 ${config.dot}`}></div>
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </div>
@@ -112,10 +126,10 @@ export default function StoreDetailsPage() {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -125,7 +139,7 @@ export default function StoreDetailsPage() {
       <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-gray-100">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-gray-900">Store Location</h3>
+            <h3 className="text-xl font-bold text-gray-900">{t('location')}</h3>
             <button
               onClick={() => setShowLocationModal(false)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -134,16 +148,22 @@ export default function StoreDetailsPage() {
             </button>
           </div>
         </div>
-        
+
         <div className="p-6">
           <div className="space-y-4">
             <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-gray-900">{storeData?.name}</h4>
-                  <p className="text-gray-700 mt-1">{storeData?.address?.street}</p>
-                  <p className="text-gray-600">{storeData?.address?.city}, {storeData?.address?.postalCode}</p>
+                  <h4 className="font-semibold text-gray-900">
+                    {storeData?.name}
+                  </h4>
+                  <p className="text-gray-700 mt-1">
+                    {storeData?.address?.street}
+                  </p>
+                  <p className="text-gray-600">
+                    {storeData?.address?.city}, {storeData?.address?.postalCode}
+                  </p>
                 </div>
               </div>
             </div>
@@ -151,8 +171,8 @@ export default function StoreDetailsPage() {
             <div className="bg-gray-50 rounded-xl p-4 h-48 flex items-center justify-center">
               <div className="text-center">
                 <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-500">Interactive map would be integrated here</p>
-                <p className="text-sm text-gray-400">Using Google Maps, Mapbox, or similar service</p>
+                <p className="text-gray-500">{t('interactive')}</p>
+                <p className="text-sm text-gray-400">{t('ways')}</p>
               </div>
             </div>
 
@@ -161,7 +181,7 @@ export default function StoreDetailsPage() {
               className="w-full bg-orange-600 text-white py-3 px-4 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
             >
               <Navigation className="w-5 h-5" />
-              Open in Google Maps
+              {t('open')}
             </button>
           </div>
         </div>
@@ -175,8 +195,8 @@ export default function StoreDetailsPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <h3 className="text-xl font-semibold text-gray-800">Loading store details</h3>
-          <p className="text-gray-600 mt-2">Please wait while we fetch the information...</p>
+          <h3 className="text-xl font-semibold text-gray-800">{t('loading')}</h3>
+          <p className="text-gray-600 mt-2">{t('wait')}</p>
         </div>
       </div>
     );
@@ -184,8 +204,7 @@ export default function StoreDetailsPage() {
 
   // Error state
   if (isError) {
-    const errorMessage = error?.response?.data?.message || error?.message || 'Failed to fetch store details';
-    
+    const errorMessage = error?.response?.data?.message || error?.message || t('fail');
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full">
@@ -193,20 +212,20 @@ export default function StoreDetailsPage() {
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <AlertCircle className="w-8 h-8 text-red-600" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Something went wrong</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">{t('error')}</h2>
             <p className="text-gray-600 mb-6">{errorMessage}</p>
             <div className="flex gap-3">
               <button
                 onClick={handleBackToStores}
                 className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
               >
-                Back to Stores
+                {t('backtostores')}
               </button>
               <button
                 onClick={() => window.location.reload()}
                 className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
               >
-                Try Again
+                {t('tryagain')}
               </button>
             </div>
           </div>
@@ -223,12 +242,12 @@ export default function StoreDetailsPage() {
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Package className="w-8 h-8 text-gray-400" />
           </div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Store not found</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">{t('notfoundstore')}</h3>
           <button
             onClick={handleBackToStores}
             className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
           >
-            Back to Stores
+            {t('backtostores')}
           </button>
         </div>
       </div>
@@ -248,7 +267,7 @@ export default function StoreDetailsPage() {
               className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Stores</span>
+              <span className="font-medium">{t('backtostores')}</span>
             </button>
             <div className="flex items-center gap-3">
               <button
@@ -320,7 +339,7 @@ export default function StoreDetailsPage() {
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
-                        <span>Updated {formatDate(storeData.updatedAt)}</span>
+                        <span>{t('update')} {formatDate(storeData.updatedAt)}</span>
                       </div>
                     </div>
                   </div>
@@ -367,7 +386,7 @@ export default function StoreDetailsPage() {
           <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '400ms' }}>
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               <Shield className="w-5 h-5 text-orange-600" />
-              Store Policies
+              {t('storepolicy')}
             </h2>
             <div className="space-y-4">
               <div className="border border-gray-200 rounded-lg p-4">
@@ -376,8 +395,8 @@ export default function StoreDetailsPage() {
                     <Truck className="w-4 h-4 text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Shipping Policy</h3>
-                    <p className="text-gray-600 text-sm">{storeData.policies?.shipping || 'No shipping policy specified'}</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">{t('shipingpolicy')}</h3>
+                    <p className="text-gray-600 text-sm">{storeData.policies?.shipping || t('shippingerror')}</p>
                   </div>
                 </div>
               </div>
@@ -387,8 +406,8 @@ export default function StoreDetailsPage() {
                     <RotateCcw className="w-4 h-4 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Return Policy</h3>
-                    <p className="text-gray-600 text-sm">{storeData.policies?.returns || 'No return policy specified'}</p>
+                    <h3 className="font-semibold text-gray-900 mb-1">{t('returnpolicy')}</h3>
+                    <p className="text-gray-600 text-sm">{storeData.policies?.returns || t('returnerror')}</p>
                   </div>
                 </div>
               </div>
@@ -397,28 +416,28 @@ export default function StoreDetailsPage() {
 
           {/* Location Details */}
           <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '500ms' }}>
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Location Details</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6">{t('locationa')}</h2>
             <div className="space-y-4">
               <div className="border border-gray-200 rounded-lg p-4">
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">Full Address</label>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">{t('fulladdress')}</label>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-900 font-medium">{storeData.address?.street || 'N/A'}</span>
+                  <span className="text-gray-900 font-medium">{storeData.address?.street || t('na')}</span>
                   <button
                     onClick={handleViewLocation}
                     className="text-orange-600 hover:text-orange-700 text-sm font-medium"
                   >
-                    View Map
+                    {t('map')}
                   </button>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="border border-gray-200 rounded-lg p-4">
-                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">City</label>
-                  <p className="text-gray-900 font-medium">{storeData.address?.city || 'N/A'}</p>
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">{t('city')}</label>
+                  <p className="text-gray-900 font-medium">{storeData.address?.city || t('na')}</p>
                 </div>
                 <div className="border border-gray-200 rounded-lg p-4">
-                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">Postal Code</label>
-                  <p className="text-gray-900 font-medium">{storeData.address?.postalCode || 'N/A'}</p>
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">{t('postalcode')}</label>
+                  <p className="text-gray-900 font-medium">{storeData.address?.postalCode || t('na')}</p>
                 </div>
               </div>
             </div>
@@ -427,14 +446,14 @@ export default function StoreDetailsPage() {
 
         {/* Store Information */}
         <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '600ms' }}>
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Store Information</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{t('storeinfo')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="border border-gray-200 rounded-lg p-4">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">Store Slug</label>
-              <p className="text-gray-900 font-medium">{storeData.slug || 'N/A'}</p>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">{t('storeslug')}</label>
+              <p className="text-gray-900 font-medium">{storeData.slug || t('na')}</p>
             </div>
             <div className="border border-gray-200 rounded-lg p-4">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">Last Updated</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">{t('lastupdated')}</label>
               <div className="flex items-center gap-2 text-gray-900">
                 <Clock className="w-4 h-4 text-orange-600" />
                 <span className="font-medium">{formatDate(storeData.updatedAt)}</span>
@@ -445,10 +464,10 @@ export default function StoreDetailsPage() {
 
         {/* Call to Action */}
         <div className={`bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl shadow-lg p-8 text-center text-white transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '700ms' }}>
-          <h3 className="text-2xl font-bold mb-2">Ready to explore this store?</h3>
-          <p className="text-orange-100 mb-6">Discover amazing products and great deals!</p>
+          <h3 className="text-2xl font-bold mb-2">{t('browsequestion')}</h3>
+          <p className="text-orange-100 mb-6">{t('browsedesc')}</p>
           <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors">
-            Browse Products
+            {t('browseproducts')}
           </button>
         </div>
       </div>

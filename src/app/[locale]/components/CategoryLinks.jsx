@@ -5,6 +5,7 @@ import { useState } from "react";
 import SkeletonLoader from "./SkeltonLoader";
 import { useTranslations } from "next-intl";
 import NotFoundPage from "./NotFoundComponent";
+import image2 from '@public/5.jpg'
 
 function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
@@ -49,7 +50,7 @@ function CategoryLinks() {
               <div className="h-64 relative overflow-hidden">
                 <img
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  src={item.image || "/5.jpg"}
+                  src={item.image || "ffff"}
                   alt={item.name || "Category"}
                 />
                 <div className="absolute inset-0 bg-opacity-20 hover:bg-opacity-10 transition-all duration-300"></div>
