@@ -321,8 +321,11 @@ function ProductDetails({ id }) {
 
     // Send update to server
     updateUser.mutate(
-      { wishlist: newWishlist },
+      { userId: user.id || user._id, wishlist: newWishlist },
       {
+        onSuccess: (data) => {
+          console.log("Wishlist updated successfully:", data);
+        },
         onError: () => {
           // Revert on error
           setWishlist(wishlist);
