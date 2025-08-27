@@ -74,7 +74,7 @@ function GuestCart() {
   const router = useRouter();
 
   // Animate item addition/removal
-  const animateItem = (itemKey, type = "update") => {
+  const animateItem = useCallback((itemKey, type = "update") => {
     setAnimatingItems((prev) => new Set([...prev, itemKey]));
     setTimeout(
       () => {
@@ -86,14 +86,7 @@ function GuestCart() {
       },
       type === "remove" ? 500 : 300
     );
-  };
-
-  // Load guest cart on component mount
-  useEffect(() => {
-    loadGuestCart();
-  // }, []);    //osama
-});
-
+  }, []);
 
   // Helper function to remove duplicate items from cart
   const removeDuplicateItems = useCallback(() => {
@@ -151,8 +144,7 @@ function GuestCart() {
       const validatedCart = cleanedCart.map((item, index) => {
         // Extract product information - handle the actual structure from your data
         const product = item.product || {};
-        const productId =
-          product._id 
+        const productId = product._id;
 
         // Parse variant array into object for easier access
         const variantObj = {};
@@ -213,6 +205,11 @@ function GuestCart() {
     }
   }, [removeDuplicateItems]);
 
+  // FIX: Load guest cart on component mount with proper dependency array
+  useEffect(() => {
+    loadGuestCart();
+  }, []); // Empty dependency array - only runs once on mount
+
   // Calculate totals with error handling
   const calculateTotals = useCallback(() => {
     try {
@@ -243,7 +240,7 @@ function GuestCart() {
   const { subtotal, shipping, tax, total, discount } = calculateTotals();
 
   // Update item quantity with optimistic updates and error handling
-  const handleUpdateQuantity = async (item, newQuantity) => {
+  const handleUpdateQuantity = useCallback(async (item, newQuantity) => {
     console.log(
       "Updating quantity for item:",
       item,
@@ -306,10 +303,10 @@ function GuestCart() {
         return newSet;
       });
     }
-  };
+  }, [animateItem, loadGuestCart]);
 
   // Remove item from cart with confirmation
-  const handleRemoveItem = async (item) => {
+  const handleRemoveItem = useCallback(async (item) => {
     const itemKey = item.variantKey || item.id;
 
     if (
@@ -359,10 +356,10 @@ function GuestCart() {
         });
       }, 300);
     }
-  };
+  }, [animateItem, loadGuestCart]);
 
   // Helper function to add item to cart with proper variant handling
-  const handleAddToCart = async (
+  const handleAddToCart = useCallback(async (
     productData,
     selectedVariants = [],
     quantity = 1
@@ -435,7 +432,7 @@ function GuestCart() {
           price: productData.price || productData.basePrice || 0,
           quantity: quantity,
           variant: selectedVariants, // Array of {name: "Color", value: "Red"}
-          product: productId
+          product: productId,
         };
 
         console.log("New cart item to add:", cartItem);
@@ -457,30 +454,30 @@ function GuestCart() {
       console.error("Error adding to cart:", error);
       setError("Failed to add item to cart. Please try again.");
     }
-  };
+  }, [loadGuestCart]);
 
   // Handle adding current item again (for example, from wishlist or similar items)
-  const handleAddMoreOfSameItem = async (item) => {
+  const handleAddMoreOfSameItem = useCallback(async (item) => {
     await handleAddToCart(item.product, item.variant, 1);
-  };
+  }, [handleAddToCart]);
 
   // Handle adding to wishlist (guest users need to login)
-  const handleAddToWishlist = (item) => {
+  const handleAddToWishlist = useCallback((item) => {
     alert("Please login to add items to your wishlist");
     router.push("/signin");
-  };
+  }, [router]);
 
-  const handleApplyCoupon = () => {
+  const handleApplyCoupon = useCallback(() => {
     if (!couponCode.trim()) {
       alert("Please enter a coupon code");
       return;
     }
     alert("Please login to apply coupon codes");
     router.push("/login");
-  };
+  }, [couponCode, router]);
 
   // Handle checkout (redirect to login)
-  const handleCheckout = () => {
+  const handleCheckout = useCallback(() => {
     if (guestCartItems.length === 0) {
       alert("Your cart is empty");
       return;
@@ -495,15 +492,15 @@ function GuestCart() {
     }
 
     router.push("/signin");
-  };
+  }, [guestCartItems, router]);
 
   // Continue shopping
-  const handleContinueShopping = () => {
+  const handleContinueShopping = useCallback(() => {
     router.push("/productpage");
-  };
+  }, [router]);
 
   // Clear entire cart
-  const handleClearCart = () => {
+  const handleClearCart = useCallback(() => {
     if (!window.confirm("Are you sure you want to clear your entire cart?")) {
       return;
     }
@@ -515,10 +512,10 @@ function GuestCart() {
       console.error("Error clearing cart:", error);
       setError("Failed to clear cart. Please try again.");
     }
-  };
+  }, []);
 
   // Format variant display
-  const formatVariantInfo = (item) => {
+  const formatVariantInfo = useCallback((item) => {
     if (!Array.isArray(item.variant) || item.variant.length === 0) {
       return [];
     }
@@ -528,20 +525,20 @@ function GuestCart() {
       value: v.value,
       display: `${v.name}: ${v.value}`,
     }));
-  };
+  }, []);
 
   // Retry loading cart on error
-  const handleRetry = () => {
+  const handleRetry = useCallback(() => {
     setError(null);
     loadGuestCart();
-  };
+  }, [loadGuestCart]);
 
   // Debug function to check current state
-  const debugCurrentState = () => {
+  const debugCurrentState = useCallback(() => {
     console.log("Current guest cart items:", guestCartItems);
     console.log("Current updating items:", Array.from(updatingItems));
     console.log("Raw cart from service:", getGuestCart());
-  };
+  }, [guestCartItems, updatingItems]);
 
   // Add debug button in development
   const isDev = process.env.NODE_ENV === "development";
@@ -660,7 +657,8 @@ function GuestCart() {
           <div className="space-y-1">
             <h1 className="text-3xl font-bold text-gray-900">Shopping Cart</h1>
             <p className="text-gray-600">
-              {guestCartItems.length} item{guestCartItems.length !== 1 ? "s" : ""} in your cart
+              {guestCartItems.length} item
+              {guestCartItems.length !== 1 ? "s" : ""} in your cart
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -754,6 +752,7 @@ function GuestCart() {
                 const isUpdating = updatingItems.has(itemKey);
                 const isAnimating = animatingItems.has(itemKey);
                 const variantInfo = formatVariantInfo(item);
+                const imgSrc = item.image || "https://readymadeui.com/images/placeholder.webp";
 
                 return (
                   <div
@@ -770,13 +769,11 @@ function GuestCart() {
                         <div className="flex-shrink-0">
                           <div className="w-full sm:w-32 h-48 sm:h-32 relative group overflow-hidden rounded-lg">
                             <Image
-                              src={item.image}
+                              src={imgSrc}
                               alt={item.name}
+                              width={128}
+                              height={128}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                              onError={(e) => {
-                                e.target.src =
-                                  "https://readymadeui.com/images/placeholder.webp";
-                              }}
                             />
                             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
                           </div>
@@ -793,8 +790,12 @@ function GuestCart() {
                               {variantInfo.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mb-3">
                                   {variantInfo.map((variant, index) => (
-                                    <div key={index} className="flex items-center gap-2">
-                                      {variant.name.toLowerCase() === "color" ? (
+                                    <div
+                                      key={index}
+                                      className="flex items-center gap-2"
+                                    >
+                                      {variant.name.toLowerCase() ===
+                                      "color" ? (
                                         <div className="flex items-center gap-2 bg-orange-50 px-3 py-1.5 rounded-full border border-orange-200">
                                           <span className="text-sm font-medium text-orange-700">
                                             {variant.name}:
@@ -802,7 +803,8 @@ function GuestCart() {
                                           <div
                                             className="w-4 h-4 rounded-full border-2 border-white shadow-sm ring-1 ring-orange-200"
                                             style={{
-                                              backgroundColor: variant.value.toLowerCase(),
+                                              backgroundColor:
+                                                variant.value.toLowerCase(),
                                             }}
                                             title={variant.value}
                                           ></div>
@@ -839,7 +841,8 @@ function GuestCart() {
                                 </div>
                                 {item.quantity > 1 && (
                                   <div className="text-sm text-gray-600">
-                                    Subtotal: <span className="font-semibold text-orange-600">
+                                    Subtotal:{" "}
+                                    <span className="font-semibold text-orange-600">
                                       ${(item.price * item.quantity).toFixed(2)}
                                     </span>
                                   </div>
@@ -852,32 +855,60 @@ function GuestCart() {
                                   <button
                                     type="button"
                                     className="p-2 text-orange-600 hover:bg-orange-100 rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                                    onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
+                                    onClick={() =>
+                                      handleUpdateQuantity(
+                                        item,
+                                        item.quantity - 1
+                                      )
+                                    }
                                     disabled={item.quantity <= 1 || isUpdating}
                                     title="Decrease quantity"
                                   >
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                      <path fillRule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                                    <svg
+                                      className="w-4 h-4"
+                                      fill="currentColor"
+                                      viewBox="0 0 20 20"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                        clipRule="evenodd"
+                                      />
                                     </svg>
                                   </button>
-                                  
+
                                   <div className="min-w-[3rem] text-center px-2">
                                     {isUpdating ? (
                                       <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
                                     ) : (
-                                      <span className="font-semibold text-gray-900">{item.quantity}</span>
+                                      <span className="font-semibold text-gray-900">
+                                        {item.quantity}
+                                      </span>
                                     )}
                                   </div>
-                                  
+
                                   <button
                                     type="button"
                                     className="p-2 text-orange-600 hover:bg-orange-100 rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                                    onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
+                                    onClick={() =>
+                                      handleUpdateQuantity(
+                                        item,
+                                        item.quantity + 1
+                                      )
+                                    }
                                     disabled={isUpdating}
                                     title="Increase quantity"
                                   >
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                      <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                                    <svg
+                                      className="w-4 h-4"
+                                      fill="currentColor"
+                                      viewBox="0 0 20 20"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                        clipRule="evenodd"
+                                      />
                                     </svg>
                                   </button>
                                 </div>
@@ -886,13 +917,23 @@ function GuestCart() {
                                 <div className="flex items-center gap-2">
                                   <button
                                     type="button"
-                                    onClick={() => handleAddMoreOfSameItem(item)}
+                                    onClick={() =>
+                                      handleAddMoreOfSameItem(item)
+                                    }
                                     className="p-2 text-orange-600 hover:bg-orange-100 rounded-md transition-colors duration-200 disabled:opacity-50"
                                     title="Add one more"
                                     disabled={isUpdating}
                                   >
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                      <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                                    <svg
+                                      className="w-5 h-5"
+                                      fill="currentColor"
+                                      viewBox="0 0 20 20"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                        clipRule="evenodd"
+                                      />
                                     </svg>
                                   </button>
 
@@ -903,8 +944,18 @@ function GuestCart() {
                                     title="Add to wishlist"
                                     disabled={isUpdating}
                                   >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    <svg
+                                      className="w-5 h-5"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                      />
                                     </svg>
                                   </button>
 
@@ -915,8 +966,18 @@ function GuestCart() {
                                     title="Remove item"
                                     disabled={isUpdating}
                                   >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    <svg
+                                      className="w-5 h-5"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                      />
                                     </svg>
                                   </button>
                                 </div>
@@ -940,12 +1001,18 @@ function GuestCart() {
                 <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-white/20 rounded-lg">
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
                       </svg>
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-white">Order Summary</h2>
+                      <h2 className="text-2xl font-bold text-white">
+                        Order Summary
+                      </h2>
                       <p className="text-orange-100 text-sm">
                         {guestCartItems.length} items in cart
                       </p>
@@ -959,38 +1026,52 @@ function GuestCart() {
                   <div className="space-y-4">
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
                       <span className="text-gray-700">Subtotal</span>
-                      <span className="font-semibold text-gray-900">${subtotal.toFixed(2)}</span>
+                      <span className="font-semibold text-gray-900">
+                        ${subtotal.toFixed(2)}
+                      </span>
                     </div>
-                    
+
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
                       <span className="text-gray-700">Shipping</span>
-                      <span className="font-semibold text-gray-900">${shipping.toFixed(2)}</span>
+                      <span className="font-semibold text-gray-900">
+                        ${shipping.toFixed(2)}
+                      </span>
                     </div>
-                    
+
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
                       <span className="text-gray-700">Tax</span>
-                      <span className="font-semibold text-gray-900">${tax.toFixed(2)}</span>
+                      <span className="font-semibold text-gray-900">
+                        ${tax.toFixed(2)}
+                      </span>
                     </div>
 
                     {discount > 0 && (
                       <div className="flex justify-between items-center py-2 border-b border-gray-100">
                         <span className="text-green-700">Discount</span>
-                        <span className="font-semibold text-green-600">-${discount.toFixed(2)}</span>
+                        <span className="font-semibold text-green-600">
+                          -${discount.toFixed(2)}
+                        </span>
                       </div>
                     )}
 
                     {/* Total */}
                     <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
                       <div className="flex justify-between items-center">
-                        <span className="text-xl font-bold text-gray-900">Total</span>
-                        <span className="text-2xl font-bold text-orange-600">${total.toFixed(2)}</span>
+                        <span className="text-xl font-bold text-gray-900">
+                          Total
+                        </span>
+                        <span className="text-2xl font-bold text-orange-600">
+                          ${total.toFixed(2)}
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   {/* Coupon Section */}
                   <div className="space-y-3">
-                    <label className="text-sm font-semibold text-gray-800">Promo Code</label>
+                    <label className="text-sm font-semibold text-gray-800">
+                      Promo Code
+                    </label>
                     <div className="flex gap-2">
                       <input
                         type="text"
@@ -1010,8 +1091,16 @@ function GuestCart() {
                       </button>
                     </div>
                     <p className="text-xs text-orange-600 flex items-center gap-1">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      <svg
+                        className="w-3 h-3"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                       Login required for promo codes
                     </p>
@@ -1026,8 +1115,16 @@ function GuestCart() {
                       disabled={guestCartItems.length === 0}
                     >
                       <div className="flex items-center justify-center gap-2">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        <svg
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                         Login to Checkout
                       </div>
@@ -1046,30 +1143,52 @@ function GuestCart() {
                   <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="p-2 bg-orange-500 rounded-lg">
-                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-orange-800">Create Account</h3>
-                        <p className="text-xs text-orange-600">Unlock benefits</p>
+                        <h3 className="font-semibold text-orange-800">
+                          Create Account
+                        </h3>
+                        <p className="text-xs text-orange-600">
+                          Unlock benefits
+                        </p>
                       </div>
                     </div>
 
                     <ul className="space-y-2 mb-4">
                       {[
                         "Save cart across devices",
-                        "Apply discount codes", 
+                        "Apply discount codes",
                         "Track order history",
-                        "Faster checkout"
+                        "Faster checkout",
                       ].map((benefit, index) => (
                         <li key={index} className="flex items-center gap-2">
                           <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
-                            <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            <svg
+                              className="w-2.5 h-2.5 text-white"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           </div>
-                          <span className="text-sm text-orange-700">{benefit}</span>
+                          <span className="text-sm text-orange-700">
+                            {benefit}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -1084,15 +1203,35 @@ function GuestCart() {
 
                   {/* Payment Methods */}
                   <div className="text-center space-y-3">
-                    <p className="text-sm font-medium text-gray-600">We Accept</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      We Accept
+                    </p>
                     <div className="flex justify-center gap-4">
                       {[
-                        { src: "https://readymadeui.com/images/master.webp", alt: "Mastercard" },
-                        { src: "https://readymadeui.com/images/visa.webp", alt: "Visa" },
-                        { src: "https://readymadeui.com/images/american-express.webp", alt: "American Express" }
+                        {
+                          src: "https://readymadeui.com/images/master.webp",
+                          alt: "Mastercard",
+                        },
+                        {
+                          src: "https://readymadeui.com/images/visa.webp",
+                          alt: "Visa",
+                        },
+                        {
+                          src: "https://readymadeui.com/images/american-express.webp",
+                          alt: "American Express",
+                        },
                       ].map((card, index) => (
-                        <div key={index} className="p-2 bg-white rounded-lg shadow-sm border border-gray-200">
-                          <Image src={card.src} alt={card.alt} className="h-6 object-contain" />
+                        <div
+                          key={index}
+                          className="p-2 bg-white rounded-lg shadow-sm border border-gray-200"
+                        >
+                          <Image
+                            src={card.src}
+                            alt={card.alt}
+                            width={40}
+                            height={24}
+                            className="h-6 object-contain"
+                          />
                         </div>
                       ))}
                     </div>
@@ -1102,11 +1241,21 @@ function GuestCart() {
                   <div className="text-center border-t border-gray-200 pt-4">
                     <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2">
                       <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
-                        <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        <svg
+                          className="w-2.5 h-2.5 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       </div>
-                      <span className="text-xs font-medium text-green-700">Secure SSL Checkout</span>
+                      <span className="text-xs font-medium text-green-700">
+                        Secure SSL Checkout
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1118,6 +1267,5 @@ function GuestCart() {
     </div>
   );
 }
-
 
 export default GuestCart;
