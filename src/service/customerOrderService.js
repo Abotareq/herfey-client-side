@@ -10,11 +10,12 @@ const apiClient = axios.create({
 
 // ===== Helper functions =====
 const getRequest = async (endpoint) => (await apiClient.get(endpoint)).data.data.data;
+const postRequest = async (endpoint, data) => (await apiClient.post(endpoint, data)).data;
 const patchRequest = async (endpoint, data) => (await apiClient.patch(endpoint, data)).data.data.data;
-
 
 // ====== Order Hooks ======
 
+// Fetch user orders
 export const useGetUserOrders = (page = 1, limit = 10, status = '') =>
   useQuery({
     queryKey: ["userOrders", page, limit, status],
@@ -22,7 +23,7 @@ export const useGetUserOrders = (page = 1, limit = 10, status = '') =>
     keepPreviousData: true, 
   });
 
-
+// Fetch single order by ID
 export const useGetUserOrderById = (orderId) =>
   useQuery({
     queryKey: ["userOrder", orderId],
@@ -30,12 +31,25 @@ export const useGetUserOrderById = (orderId) =>
     enabled: !!orderId, 
   });
 
-
+// Cancel order
 export const useCancelOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (orderId) => patchRequest(`/order/${orderId}/cancel`),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userOrders"] });
+    },
+  });
+};
+
+// ===== Create Order Hook =====
+export const useCreateOrder = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (orderData) => postRequest("/order", orderData),
+    onSuccess: (newOrder) => {
+      // Invalidate orders list so it refreshes
+      console.log("new order",newOrder)
       queryClient.invalidateQueries({ queryKey: ["userOrders"] });
     },
   });
