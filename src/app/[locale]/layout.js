@@ -10,6 +10,7 @@ import ConditionalLayout from "./components/ConditionalLayout ";
 import { RouteGuard } from "./components/RouteGuard";
 import { Toaster } from 'react-hot-toast';
 import { StoreProvider } from "../context/StoreContext";
+import { CheckoutProvider } from "../context/CheckoutContext";
 import { FavouriteContext } from "../context/FavouriteContext";
 
 
@@ -54,8 +55,9 @@ export default async function RootLayout({ params, children }) {
           <Providers>
             <AuthProvider>
               <StoreProvider>
+              <CheckoutProvider>
+              <RouteGuard>
               <FavouriteContext>
-                <RouteGuard>
               <Toaster
                   position="top-center"
                   toastOptions={{
@@ -70,8 +72,9 @@ export default async function RootLayout({ params, children }) {
                 <ConditionalLayout locale={resolvedParams.locale}>
                   {children}
                 </ConditionalLayout>
+                 </FavouriteContext>
               </RouteGuard>
-              </FavouriteContext>
+              </CheckoutProvider>
             </StoreProvider>
           </AuthProvider>
         </Providers>

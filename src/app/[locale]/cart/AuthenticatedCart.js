@@ -138,16 +138,24 @@ function AuthenticatedCart() {
   
   // Handle checkout
   const handleCheckout = () => {
-    if (cartItems.length === 0) {
-      alert('Your cart is empty');
+    if (!user) {
+      alert("You must be logged in to proceed to checkout");
+      router.push("/signin");
       return;
     }
-    window.location.href = '/checkout';
+
+    if (cartItems.length === 0) {
+      alert("Your cart is empty");
+      return;
+    }
+
+    // redirect to checkout page
+    router.push("/checkout");
   };
 
   // Continue shopping
   const handleContinueShopping = () => {
-    router.push('/productpage');
+    router.push('/products');
   };
   if(cartLoading){
         return(
