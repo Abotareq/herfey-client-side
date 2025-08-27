@@ -15,17 +15,17 @@ export default function Header() {
   const pathname = usePathname();
   const t = useTranslations("Navbar");
   const t2 = useTranslations("Herafy");
-const { mutate: signOut, isLoading } = useSignOut();
-  
+  const { mutate: signOut, isLoading } = useSignOut();
+
   const handleSignOut = () => {
     console.log("Signing out...");
     signOut(
       {},
       {
         onSuccess: () => {
-        
+
           window.location.reload();
-          
+
         },
       }
     );
@@ -41,16 +41,15 @@ const { mutate: signOut, isLoading } = useSignOut();
     const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, "");
     router.push(`/${newLocale}${pathWithoutLocale}`);
   };
-
+  const { user, loading } = useAuth();
   const navigation = [
     { name: "home", href: "" },
-    { name: "articles", href: "/articles" },
+    ...(user ? [{ name: "favourite", href: "/fav" }] : []),
     { name: "categories", href: "/categories" },
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },
-    {name: "products", href: '/products'}
+    { name: "products", href: '/products' }
   ];
-  const { user,loading } = useAuth();
   const isActive = (path) => pathname === path;
   const locale = useLocale()
   const isArabic = locale === 'ar';
@@ -65,11 +64,15 @@ const { mutate: signOut, isLoading } = useSignOut();
               <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button>
-              <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-              </button>
-              <button  onClick={() => router.push(`/${currentLocale}/cart`)}
-              className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
+              {user &&
+                <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  onClick={() => router.push(`/${currentLocale}/fav`)}
+                >
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                </button>
+              }
+              <button onClick={() => router.push(`/${currentLocale}/cart`)}
+                className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button>
             </div>
@@ -83,37 +86,46 @@ const { mutate: signOut, isLoading } = useSignOut();
 
             {/* Right Side - Social Media Icons */}
             <div className='flex justify-end gap-2 max-w-full sm:gap-3'>
+              <select
+                onChange={(e) => handleLocaleChange(e.target.value)}
+                value={currentLocale}
+                className="appearance-none bg-orange-500 border rounded-md px-4 py-2 pr-8 text-white cursor-pointer shadow-sm hover:border-orange-500 "
+              >
+                {routing.locales.map((locale) => (
+                  <option key={locale} value={locale} >
+                    {locale.toUpperCase()}
+                  </option>
+                ))}
+              </select>
               {!user && !loading && (
 
                 <Link
                   href={`/${currentLocale}/signin`}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
-                    isActive(`/${currentLocale}/signin`)
-                      ? "bg-emerald-600 text-white"
-                      : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
-                  }`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${isActive(`/${currentLocale}/signin`)
+                      ? "bg-orange-600 text-white"
+                      : "text-gray-700 hover:bg-orange-100 hover:text-orange-600"
+                    }`}
                 >
                   {t("signin")}
                 </Link>
               )}
               {user && !loading && (
-                <div className="flex flex-start max-w-fit">
+                <div className="flex flex-start max-w-fit ">
                   <button
-                  onClick={handleSignOut}
-                  disabled={isLoading}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit text-gray-700 hover:bg-red-600 hover:text-emerald-100 ${
-                    isLoading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  {isLoading ? t("signing") : t("signout")}
-                </button>
+                    onClick={handleSignOut}
+                    disabled={isLoading}
+                    className={`cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit text-gray-700 hover:bg-red-600 hover:text-white ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    {isLoading ? t("signing") : t("signout")}
+                  </button>
                 </div>
               )}
-              {user&&!loading && <Link
+              {user && !loading && <Link
                 href={`/${currentLocale}/customer-profile`}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit`}
               >
-                <Image src="/1.10.svg" alt="customer" width={20} height={20}/>
+                <Image src="/1.10.svg" alt="customer" width={20} height={20} />
               </Link>}
             </div>
           </div>
@@ -161,43 +173,31 @@ const { mutate: signOut, isLoading } = useSignOut();
             {/* Desktop Navigation */}
 
             <nav className="hidden sm:block">
-              <div className="flex items-center justify-between space-x-4">
+              <div className="flex items-center justify-between mx-40 ">
                 {/* Nav items */}
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
                     href={`/${currentLocale}${item.href}`}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
-                      isActive(`/${currentLocale}${item.href}`)
-                        ? "bg-emerald-600 text-white"
-                        : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
-                    }`}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${isActive(`/${currentLocale}${item.href}`)
+                        ? "bg-orange-600 text-white"
+                        : "text-gray-700 hover:bg-orange-500 hover:text-white"
+                      }`}
                   >
                     {t(item.name)}
                   </Link>
                 ))}
 
                 {/* Language Switcher */}
-                <select
-                  onChange={(e) => handleLocaleChange(e.target.value)}
-                  value={currentLocale}
-                  className="appearance-none bg-white border border-gray-300 rounded-md px-4 py-2 pr-8 text-black cursor-pointer shadow-sm hover:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                >
-                  {routing.locales.map((locale) => (
-                    <option key={locale} value={locale}>
-                      {locale.toUpperCase()}
-                    </option>
-                  ))}
-                </select>
+
               </div>
             </nav>
           </div>
 
           {/* Mobile Navigation Menu */}
           <div
-            className={`sm:hidden transition-all duration-300 ease-in-out ${
-              isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            } overflow-hidden`}
+            className={`sm:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+              } overflow-hidden`}
           >
             <nav className="py-3 border-t border-gray-200">
               <div className="grid grid-cols-1 gap-1">
@@ -205,11 +205,10 @@ const { mutate: signOut, isLoading } = useSignOut();
                   <Link
                     key={item.name}
                     href={`/${currentLocale}${item.href}`}
-                    className={`py-2 px-3 rounded-md text-sm font-medium transition-colors ${
-                      isActive(`/${currentLocale}${item.href}`)
-                        ? "bg-emerald-600 text-white"
+                    className={`py-2 px-3 rounded-md text-sm font-medium transition-colors ${isActive(`/${currentLocale}${item.href}`)
+                        ? "bg-orange-600 text-white"
                         : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
-                    }`}
+                      }`}
                   >
                     {t(item.name)}
                   </Link>

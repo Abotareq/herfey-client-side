@@ -298,7 +298,77 @@ function AddressesSection() {
   }
 
   if (!user?.id) {
-    return <p>{t("loginaddress")}</p>;
+    return (
+      <>
+        {" "}
+        <div className="space-y-6">
+          {/* Header Skeleton */}
+          <div className="flex items-center justify-between">
+            <div className="h-8 w-40 bg-slate-200 rounded animate-pulse"></div>
+            <div className="h-10 w-32 bg-slate-200 rounded-lg animate-pulse"></div>
+          </div>
+
+          {/* Address Form Skeleton */}
+          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+            <div className="h-6 w-32 bg-slate-200 rounded animate-pulse mb-4"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {Array(6)
+                .fill()
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-12 w-full bg-slate-200 rounded-lg animate-pulse"
+                  ></div>
+                ))}
+            </div>
+            <div className="mt-4 flex items-center space-x-2">
+              <div className="h-4 w-4 bg-slate-200 rounded animate-pulse"></div>
+              <div className="h-4 w-24 bg-slate-200 rounded animate-pulse"></div>
+            </div>
+            <div className="mt-6 flex justify-end space-x-3">
+              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
+            </div>
+          </div>
+
+          {/* Address List Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {Array(2)
+              .fill()
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative"
+                >
+                  <div className="absolute top-4 right-4 h-5 w-16 bg-slate-200 rounded-full animate-pulse"></div>
+                  <div className="space-y-2">
+                    {Array(5)
+                      .fill()
+                      .map((_, i) => (
+                        <div
+                          key={i}
+                          className="h-4 w-3/4 bg-slate-200 rounded animate-pulse"
+                        ></div>
+                      ))}
+                  </div>
+                  <div className="mt-4 flex justify-between">
+                    <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
+                    <div className="flex space-x-2">
+                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          {/* No Addresses Skeleton (optional, shown when no addresses) */}
+          <div className="col-span-full text-center py-8">
+            <div className="h-4 w-64 mx-auto bg-slate-200 rounded animate-pulse"></div>
+          </div>
+        </div>
+      </>
+    );
   }
 
   if (userLoading) {
@@ -517,11 +587,9 @@ function AddressesSection() {
       {/* Address List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {addresses.length === 0 ? (
-          <div className="col-span-full text-center py-8 text-slate-500">
-            <p>
-              {t("noaddresses") ||
-                "No addresses found. Add your first address to get started."}
-            </p>
+          <div className="text-center py-12 bg-slate-50 rounded-lg">
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">{t('noAddressesFound')}</h3>
+            <p className="text-slate-600">{t('noAddressesSubtext')}</p>
           </div>
         ) : (
           addresses.map((address) => (

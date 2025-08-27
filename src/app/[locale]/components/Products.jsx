@@ -21,7 +21,7 @@ function Products() {
   const { customerStoreId, setCustomerStoreId } = useStoreContext();
   const t = useTranslations("products");
   const router = useRouter();
-
+  const t1 = useTranslations("productFilter")
   // useEffect to handle customerStoreId from context
   useEffect(() => {
     if (customerStoreId) {
@@ -300,21 +300,21 @@ console.log("Fetched products:", products);
       <Breadcrumbs className="text-center" />
       <div className="flex">
         <aside className="w-64 p-4 border-r border-gray-200">
-          <h3 className="font-semibold mb-4">Filter & Sort</h3>
+          <h3 className="font-semibold mb-4">{t1('filter')}</h3>
 
           {/* Sort Options */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">Sort By</label>
+            <label className="block mb-1 font-medium">{t1('sort')}</label>
             <select
               className="w-full border rounded-md p-2 text-sm"
               value={sortBy || ""}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="">Default</option>
-              <option value="price-high">Highest Price</option>
-              <option value="price-low">Lowest Price</option>
-              <option value="rating">Highest Rating</option>
-              <option value="sold">Most Sold</option>
+              <option value="">{t1('default')}</option>
+              <option value="price-high">{t1('highestprice')}</option>
+              <option value="price-low">{t1('lowestprice')}</option>
+              <option value="rating">{t1('highestrate')}</option>
+              <option value="sold">{t1('mostsold')}</option>
             </select>
           </div>
 
@@ -322,13 +322,13 @@ console.log("Fetched products:", products);
 
           {/* Store Filter */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">Store</label>
+            <label className="block mb-1 font-medium">{t1('store')}</label>
             <select
               className="w-full border rounded-md p-2 text-sm"
               value={selectedFilters.storeId || ""}
               onChange={(e) => handleFilter("storeId", e.target.value)}
             >
-              <option value="">All Stores</option>
+              <option value="">{t1('allstores')}</option>
               {storeOptions.map((store) => (
                 <option key={store.id} value={store.id}>
                   {store.name}
@@ -370,7 +370,7 @@ console.log("Fetched products:", products);
               setCustomerStoreId(null);
             }}
           >
-            Clear All Filters
+            {t1('clear')}
           </button>
         </aside>
 

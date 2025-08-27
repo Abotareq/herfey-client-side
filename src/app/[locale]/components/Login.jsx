@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useLocale, useTranslations } from "use-intl";
 import Image from "next/image";
 import background from "../../../../public/login.jpg";
-import { useSignIn } from "@/service/auth"; // adjust path if needed
+import { useSignIn, useGoogleSignIn } from "@/service/auth"; // adjust path if needed
 import { useRouter } from "next/navigation";
 
 export default function LogIn() {
@@ -16,7 +16,7 @@ export default function LogIn() {
 
   const signInMutation = useSignIn();
   const router = useRouter();
-
+  const googleSignInMutation = useGoogleSignIn();
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePassword = (password) => password.length >= 8;
 
@@ -44,7 +44,7 @@ export default function LogIn() {
   const t = useTranslations("Login");
   const t2 = useTranslations("Herafy");
   const locale = useLocale();
-  const isArabic = locale === 'ar';
+  const isArabic = locale === "ar";
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Left - Form */}
@@ -155,7 +155,10 @@ export default function LogIn() {
             </button>
             <button
               type="button"
-              onClick={() => alert("Google Sign-In Clicked!")}
+              onClick={() => {
+                googleSignInMutation.mutate();
+                alert("Google Sign-In Clicked!");
+              }}
               className="mt-4 w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg py-3 hover:bg-gray-50 transition"
             >
               <svg
@@ -207,7 +210,9 @@ export default function LogIn() {
               {t("guest")}
               <Link
                 href="/"
-                className={`ml-1 text-orange-500 hover:text-orange-600 font-semibold ${isArabic? 'pr-1' : ''}`}
+                className={`ml-1 text-orange-500 hover:text-orange-600 font-semibold ${
+                  isArabic ? "pr-1" : ""
+                }`}
               >
                 {t("guestl")}
               </Link>
