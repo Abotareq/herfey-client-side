@@ -12,12 +12,12 @@ export function RouteGuard({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    console.log("RouteGuard - Current state:", {
+/*     console.log("RouteGuard - Current state:", {
       user,
       loading,
       pathname,
       userRole: user?.role,
-    });
+    }); */
 
     if (loading) return;
 
@@ -26,7 +26,7 @@ export function RouteGuard({ children }) {
 
       // Check if pathname ends with signin/signup (ignoring locale)
       if (pathname.endsWith("/signin") || pathname.endsWith("/signup")) {
-        console.log("Redirecting authenticated user away from auth pages");
+       /*  console.log("Redirecting authenticated user away from auth pages"); */
         router.push("/");
         return;
       }
