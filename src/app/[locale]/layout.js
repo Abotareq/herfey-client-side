@@ -10,6 +10,7 @@ import ConditionalLayout from "./components/ConditionalLayout ";
 import { RouteGuard } from "./components/RouteGuard";
 import { Toaster } from 'react-hot-toast';
 import { StoreProvider } from "../context/StoreContext";
+import { CheckoutProvider } from "../context/CheckoutContext";
 
 
 const geistSans = Geist({
@@ -53,6 +54,7 @@ export default async function RootLayout({ params, children }) {
           <Providers>
             <AuthProvider>
               <StoreProvider>
+              <CheckoutProvider>
               <RouteGuard>
               <Toaster
                   position="top-center"
@@ -69,6 +71,7 @@ export default async function RootLayout({ params, children }) {
                   {children}
                 </ConditionalLayout>
               </RouteGuard>
+              </CheckoutProvider>
             </StoreProvider>
           </AuthProvider>
         </Providers>
