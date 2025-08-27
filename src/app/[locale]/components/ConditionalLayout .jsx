@@ -1,6 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
-import Header from "./Header";
+// import Header from "./Header";
+import Header from "./Navbar";
 import Footer from "./footer";
 
 export default function ConditionalLayout({ locale, children }) {

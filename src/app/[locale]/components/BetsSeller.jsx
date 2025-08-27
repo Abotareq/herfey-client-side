@@ -428,17 +428,79 @@
 //     </div>
 //   );
 // }
-import React from 'react'
+'use client';
+import DiscountedProducts from './DiscountedProducts';
+import TopRatedProducts from './TopRatedProducts';
+import MostRecentProducts from './MostRecentProducts';
+import { useRouter } from "next/navigation";
+import { useTranslations } from 'next-intl';
 
-export default function BetsSeller() {
+// Main BestSeller Component
+export default function BestSeller() {
+  const router = useRouter();
+  const t = useTranslations('BestSeller')
   return (
-    <div>
-      <h2>Bestsellers</h2>
-      <ul>
-        <li>Product 1</li>
-        <li>Product 2</li>
-        <li>Product 3</li>
-      </ul>
+    <div className="w-full bg-gray-50 py-12 px-4">
+      {/* Title Section */}
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-4xl font-bold mb-4 text-center text-gray-900">
+          {t('bestseller')}
+        </h2>
+        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+          {t('desc')}
+        </p>
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <DiscountedProducts />
+          <TopRatedProducts />
+          <MostRecentProducts />
+        </div>
+
+        {/* Bottom CTA Section */}
+        <div className="mt-16 text-center">
+
+
+          <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl p-8 lg:p-12 text-white shadow-2xl shadow-orange-200">
+            {/* Background Pattern */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+
+            {/* Content */}
+            <div className="relative z-10 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-6 backdrop-blur-sm">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+
+              <h3 className="text-3xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent">
+                {t('explore')}
+              </h3>
+
+              <p className="text-orange-100 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+                {t('exploredesc')}
+              </p>
+
+              <button
+                className="group relative inline-flex items-center justify-center px-8 py-4 bg-white text-orange-600 font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 hover:scale-105"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(`/products`);
+                }}
+              >
+                <span className="relative z-10">{t('browseall')}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-white rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
     </div>
-  )
+  );
 }

@@ -298,7 +298,7 @@ function ReviewsSection({ productId }) {
         </div>
 
         {/* Individual Reviews */}
-        {console.log(reviews[0].user.userName)}
+        {/* {console.log(reviews[0].user.userName)} */}
         <div className="space-y-8">
           {reviews.length > 0 ? (
             reviews.map((review) => (

@@ -11,6 +11,7 @@ import { RouteGuard } from "./components/RouteGuard";
 import { Toaster } from 'react-hot-toast';
 import { StoreProvider } from "../context/StoreContext";
 import { CheckoutProvider } from "../context/CheckoutContext";
+import { FavouriteContext } from "../context/FavouriteContext";
 
 
 const geistSans = Geist({
@@ -56,6 +57,7 @@ export default async function RootLayout({ params, children }) {
               <StoreProvider>
               <CheckoutProvider>
               <RouteGuard>
+              <FavouriteContext>
               <Toaster
                   position="top-center"
                   toastOptions={{
@@ -70,6 +72,7 @@ export default async function RootLayout({ params, children }) {
                 <ConditionalLayout locale={resolvedParams.locale}>
                   {children}
                 </ConditionalLayout>
+                 </FavouriteContext>
               </RouteGuard>
               </CheckoutProvider>
             </StoreProvider>

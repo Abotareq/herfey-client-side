@@ -286,6 +286,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Breadcrumbs from "../Breadcrumbs";
+import { useFav } from "@/app/context/FavouriteContext";
 
   
 function ProductDetails({ id }) {
@@ -298,13 +299,14 @@ function ProductDetails({ id }) {
   const [selectColor, setSelectedColor] = useState("");
   const [selectSize, setSelectedSize] = useState("")
   const addToCartMutation = useAddItemToCart();
-
+  const {fav, toggleFav} = useFav();
+  
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const product = data?.data || {};
-
+  const isFav = fav.some((p) => p._id === product._id)
 
   // Create selectedVariants object from color and size selections
   const selectedVariants = useMemo(() => {
@@ -440,7 +442,7 @@ function ProductDetails({ id }) {
                   .map((variant) => (
                     <div key={variant._id} className="mb-3">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Color:
+                        {t('color')}:
                       </label>
                       <select
                         defaultValue=""
@@ -449,7 +451,7 @@ function ProductDetails({ id }) {
                         onChange={(e) => setSelectedColor(e.target.value)}
                       >
                         <option value="" disabled>
-                          Select Color
+                          {t('colorq')}
                         </option>
                         {variant.options?.map((option) => (
                           <option key={option._id} value={option.value}>
@@ -465,7 +467,7 @@ function ProductDetails({ id }) {
                   .map((variant) => (
                     <div key={variant._id} className="mb-3">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Size:
+                        {t('size')}:
                       </label>
                       <select
                         defaultValue=""
@@ -474,7 +476,7 @@ function ProductDetails({ id }) {
                         onChange={(e) => setSelectedSize(e.target.value)}
                       >
                         <option value="" disabled>
-                          Select Size
+                          {t('sizeq')}
                         </option>
                         {variant.options?.map((option) => (
                           <option key={option._id} value={option.value}>
@@ -639,9 +641,9 @@ function ProductDetails({ id }) {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Add to Cart</AlertDialogTitle>
+                        <AlertDialogTitle>{t('cart')}</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Do you want to add <b>{product.name}</b> (x{quantity}) with:{" "}
+                          {t('cartq')} <b>{product.name}</b> (x{quantity}) with:{" "}
                           {Object.entries(selectedVariants)
                             .map(([name, value]) => `${name}: ${value}`)
                             .join(", ") || "No variants selected"}{" "}
@@ -649,29 +651,19 @@ function ProductDetails({ id }) {
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
                         <AlertDialogAction onClick={handleAddToCart}>
-                          Confirm
+                          {t('confirm')}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-                  <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 border-2 border-gray-200 hover:border-gray-300">
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                    <span>{t("fav")}</span>
-                  </button>
+                  {user && <button
+                    onClick={() => toggleFav(product)}
+                    className={`flex-1 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 border-2`}
+                  >
+                    <span>{isFav ? '❤️' : '🤍'}</span>
+                  </button>}
                 </div>
               </div>
             </div>

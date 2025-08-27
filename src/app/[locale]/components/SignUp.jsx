@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "use-intl";
 import Link from "next/link";
 import Image from "next/image";
 import background from "../../../../public/singup.jpg";
-import { useSignUp } from "@/service/auth.js";
+import { useSignUp, useGoogleSignIn } from "@/service/auth.js";
 import { useRouter } from "next/navigation";
 import {
   getGuestCart,
@@ -26,7 +26,7 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
-
+  const googleSignInMutation = useGoogleSignIn();
   const { mutateAsync: signUp, isPending } = useSignUp();
   const createOrUpdateCartMutation = useCreateOrUpdateCart();
 
@@ -87,7 +87,9 @@ function Signup() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
               <i className="fas fa-user-plus text-orange-500 fa-lg"></i>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800">{t("newacount")}</h2>
+            <h2 className="text-2xl font-bold text-gray-800">
+              {t("newacount")}
+            </h2>
             <p className="text-gray-600 mt-2">{t("details")}</p>
           </div>
 
@@ -225,9 +227,7 @@ function Signup() {
                 <button
                   type="button"
                   className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                  onClick={() =>
-                    setShowConfirmPassword(!showConfirmPassword)
-                  }
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   <i
                     className={
@@ -254,7 +254,46 @@ function Signup() {
             >
               {isPending ? `${t("signingup")}` : `${t("signUp")}`}
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                googleSignInMutation.mutate();
+                alert("Google Sign-In Clicked!");
+              }}
+              className="mt-4 w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg py-3 hover:bg-gray-50 transition"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false"
+                className="inline-block"
+              >
+                <defs />
+                <path
+                  fill="#EA4335"
+                  d="M24 9.5c3.9 0 7.1 1.4 9.4 3.3l7-7C35.3 2.1 30 0 24 0 14.7 0 6.9 5.4 3 13.2l8.2 6.4C12.6 13.3 17.7 9.5 24 9.5z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M46.5 24c0-1.6-.1-3.1-.4-4.6H24v9.1h12.7c-.6 3.4-2.7 6.3-5.8 8.1l9 7.1C43.7 39.8 46.5 32.7 46.5 24z"
+                />
+                <path
+                  fill="#4A90E2"
+                  d="M11.2 28.6A14.9 14.9 0 0 1 10 24c0-1.5.2-2.9.6-4.2L3.4 13.4C1.2 16.9 0 20.9 0 25c0 4.2 1.3 8 3.6 11.2l7.6-7.6z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M24 48c6.4 0 11.8-2.1 15.7-5.8l-7.6-6.1C29.3 36.1 26.8 37 24 37c-6.2 0-11.4-3.4-14-8.3l-7.6 5.9C6.9 42.6 14.7 48 24 48z"
+                />
+              </svg>
 
+              <span className="text-gray-700 font-medium">
+                {t2("goolgesignin")}
+              </span>
+            </button>
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
               {t("accountexists")}{" "}
@@ -301,4 +340,3 @@ function Signup() {
 }
 
 export default Signup;
-

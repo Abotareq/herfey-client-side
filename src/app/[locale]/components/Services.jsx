@@ -17,7 +17,7 @@ function Services() {
     { title: t("t5"), desc: t("desc5"), icon: Truck },
   ];
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 text-center mx-2 bg-white pt-[50px] pb-[40px] cursor-pointer">
+    <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 text-center mx-30 bg-white pt-[50px] pb-[40px] cursor-pointer">
       {services.map((index, i) => {
         const Icon = index.icon;
         return (
