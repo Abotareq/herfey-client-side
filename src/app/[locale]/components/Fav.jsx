@@ -1,79 +1,75 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import { useTranslations } from "next-intl";
-import { useGetUserById, useUpdateUser } from "@/service/user"; // Added missing import
+import { useGetUserWishlistById, useUpdateUser } from "@/service/user";
 import { Button } from "@/components/ui/button";
+import en from "zod/v4/locales/en.cjs";
 
 export default function FavouritesPage() {
-  const { user } = useAuth();
-  const [wishlist, setWishlist] = useState([]);
+  const { user, loading: authLoading } = useAuth();
+  const [wishlist, setWishlist] = useState(null);
+  const [userId, setUserId] = useState(null);
+
   const t = useTranslations("Fav");
-  const updateUser = useUpdateUser(); // Initialize the mutation
-  
-  // Fetch user data and initialize wishlist
-  const { data: userData, isLoading, isError } = useGetUserById(user?.id, {
-    enabled: !!user,
-    onSuccess: (data) => {
-      const userWishlist = data?.data?.user?.wishlist || [];
-      setWishlist(userWishlist);
-      console.log("Wishlist data loaded:", userWishlist); // This log should now appear
-    },
-  });
+  const updateUser = useUpdateUser();
+  const {
+    data: userData,
+    isLoading: userLoading,
+    isError,
+  } = useGetUserWishlistById(userId);
+  console.log("User wishlist data:", userData);
 
-  // Debug logs for component state
   useEffect(() => {
-    console.log("Component mounted. User:", user);
-    if (user && !isLoading && !isError) {
-      console.log("Wishlist state:", wishlist);
+    if (!authLoading && user?.id) {
+      setUserId(user.id);
     }
-  }, [user, isLoading, isError, wishlist]);
+  }, [authLoading, user]);
 
-  // Helper function to check if product is in wishlist
-  const isProductInWishlist = (productId) => {
-    return wishlist.includes(productId);
-  };
+  useEffect(() => {
+    setWishlist(userData?.data?.user?.wishlist || []);
+    console.log("Wishlist set to:", userData?.data?.wishlist || []);
+  }, [userData]);
+
+  const isProductInWishlist = (productId) =>
+    wishlist?.some((item) => item._id === productId) ?? false;
 
   const toggleWishlist = (productId) => {
     if (!user) return;
 
     const newWishlist = isProductInWishlist(productId)
-      ? wishlist.filter((id) => id !== productId)
-      : [...wishlist, productId];
+      ? wishlist.filter((item) => item._id !== productId)
+      : [...wishlist, { _id: productId }];
 
-    // Optimistic UI update
     setWishlist(newWishlist);
-    console.log("Updating wishlist to:", newWishlist); // Debug log
 
-    // Send update to server
+    const wishlistIds = newWishlist.map((item) => item._id || item);
+
     updateUser.mutate(
-      { wishlist: newWishlist },
+      { userId: user.id, wishlist: wishlistIds },
       {
         onError: (error) => {
           console.error("Wishlist update failed:", error);
-          // Revert on error
           setWishlist(wishlist);
         },
-        onSuccess: (data) => {
-          console.log("Wishlist updated successfully:", data);
-        }
       }
     );
   };
 
-  if (!user) {
+  if (authLoading || userLoading || (!wishlist && !isError)) {
     return (
-      <div className="flex flex-col items-center justify-center py-16">
-        <h2 className="text-2xl font-bold">{t("loginRequired")} 🔒</h2>
-        <p className="text-gray-500 mt-2">{t("loginToViewFav")}</p>
+      <div className="flex justify-center items-center py-16">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
       </div>
     );
   }
 
-  if (isLoading) {
+  if (!user && !authLoading) {
     return (
-      <div className="flex justify-center items-center py-16">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
+      <div className="flex flex-col items-center justify-center py-16">
+        <h2 className="text-2xl font-bold text-red-500">{t("error")} ❌</h2>
+        <p className="text-gray-500 mt-2">{t("errorLoadingFav")}</p>
       </div>
     );
   }
@@ -87,7 +83,7 @@ export default function FavouritesPage() {
     );
   }
 
-  if (wishlist.length === 0) {
+  if (wishlist && wishlist.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
         <h2 className="text-2xl font-bold">{t("title")} ❤️</h2>
@@ -103,38 +99,40 @@ export default function FavouritesPage() {
         <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-600 rounded-full mx-auto"></div>
       </div>
       <div className="space-y-4">
-        {wishlist.map((productId, index) => (
+        {wishlist.map((product) => (
           <div
-            key={productId}
+            key={product._id}
             className="group relative border border-gray-200 rounded-2xl p-4 bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 w-full max-w-sm mx-auto"
           >
-            {/* Product details would be fetched based on productId */}
             <div className="relative overflow-hidden rounded-lg mb-4 h-40">
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500">Product {productId}</span>
-              </div>
+              {product.images && product.images.length > 0 ? (
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-500">No Image</span>
+                </div>
+              )}
             </div>
             <div className="space-y-2 h-16">
               <h4 className="text-center text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2 leading-tight">
-                Product #{productId.substring(0, 6)}
+                {product.name || `Product #${product._id.substring(0, 6)}`}
               </h4>
-            </div>
-            <div className="absolute top-3 right-3">
-              <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
-                Price
-              </div>
-            </div>
-            <div className="absolute top-3 left-3">
-              <div className="bg-gradient-to-r from-red-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                ❤️ {t("fav")}
-              </div>
+              {product.basePrice && (
+                <p className="text-center text-gray-600 font-medium">
+                  ${product.basePrice}
+                </p>
+              )}
             </div>
             <Button
               variant="destructive"
               className="w-full mt-4"
               onClick={(e) => {
                 e.stopPropagation();
-                toggleWishlist(productId);
+                toggleWishlist(product._id);
               }}
               disabled={updateUser.isPending}
             >

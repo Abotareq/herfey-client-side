@@ -33,6 +33,9 @@ export const useGetUserById = (userId, Option = {}) => {
     queryFn: () => getRequest(`/users/${userId}`),
     enabled: !!userId,
     ...Option,
+    onSuccess: (data) => {
+      console.log("GetUserById success:", data);
+    },
     onError: (error) => {
       console.error(
         "GetUserById error:",
@@ -46,14 +49,13 @@ export const useUpdateUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, ...userData }) =>
-      patchRequest(`/users`, userData),
+    mutationFn: ({ userId, ...userData }) => patchRequest(`/users`, userData),
 
     onSuccess: (data, variables) => {
       queryClient.setQueryData(["user", variables.userId], (old) => ({
         ...old,
         // shape of data in backend
-        ...data.user, 
+        ...data.user,
         ...data,
       }));
 
@@ -83,6 +85,23 @@ export const useDeleteUser = () => {
     onError: (error) => {
       console.error(
         "DeleteUser error:",
+        error.response?.data?.message || error.message
+      );
+    },
+  });
+};
+export const useGetUserWishlistById = (userId, Option = {}) => {
+  return useQuery({
+    queryKey: ["wishlist", userId],
+    queryFn: () => getRequest(`/users/${userId}`),
+    enabled: !!userId,
+    ...Option,
+    onSuccess: (data) => {
+      console.log("GetUserWishlistById success:", data);
+    },
+    onError: (error) => {
+      console.error(
+        "GetUserById error:",
         error.response?.data?.message || error.message
       );
     },

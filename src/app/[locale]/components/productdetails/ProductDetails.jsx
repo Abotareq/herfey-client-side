@@ -264,12 +264,10 @@
 // export default ProductDetails;
 "use client";
 import { useState, useMemo, useEffect } from "react";
-
 import ReviewsSection from "./components/ReviewData";
 import NotFoundPage from "../NotFoundComponent";
 import { useTranslations } from "next-intl";
-import { useAddItemToCart } from "@/service/cart";
-import { addToGuestCart } from "@/service/cart";
+import { useAddItemToCart, addToGuestCart } from "@/service/cart";
 import { useAuth } from "../../../context/AuthContext";
 import ProductPageSkeleton from "./components/ProductPageSkeleton";
 import { useGetProductById } from "../../../../service/product";
@@ -285,10 +283,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Breadcrumbs from "../Breadcrumbs";
-import { useGetUserById, useUpdateUser } from "@/service/user";
+import { useGetUserWishlistById, useUpdateUser } from "@/service/user";
+
 function ProductDetails({ id }) {
   const [mounted, setMounted] = useState(false);
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { data, isLoading, isError } = useGetProductById(id);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -298,49 +297,61 @@ function ProductDetails({ id }) {
   const addToCartMutation = useAddItemToCart();
   const [wishlist, setWishlist] = useState([]);
   const updateUser = useUpdateUser();
+  const [userId, setUserId] = useState(null);
+  const { data: userData, isLoading: userLoading } =
+    useGetUserWishlistById(userId);
 
-  const { data: userData } = useGetUserById(user?.id, {
-    enabled: !!user,
-    onSuccess: (data) => {
-      setWishlist(data?.data?.user?.wishlist || []);
-    },
-  });
+  useEffect(() => {
+    if (!authLoading && user?.id) {
+      setUserId(user.id);
+    }
+  }, [authLoading, user]);
+
+  useEffect(() => {
+    if (userData?.data?.user?.wishlist) {
+      setWishlist(userData.data.user.wishlist);
+      console.log("Wishlist set to:", userData.data.user.wishlist);
+    } else {
+      setWishlist([]);
+    }
+  }, [userData]);
+
+  const isProductInWishlist = (productId) =>
+    wishlist?.some((item) => item._id === productId) ?? false;
 
   const toggleWishlist = (productId) => {
     if (!user) return;
 
-    // Check if THIS productId is in the wishlist (not relying on isFav)
-    const isCurrentlyInWishlist = wishlist.includes(productId);
-
+    const isCurrentlyInWishlist = isProductInWishlist(productId);
     const newWishlist = isCurrentlyInWishlist
-      ? wishlist.filter((id) => id !== productId)
-      : [...wishlist, productId];
+      ? wishlist.filter((item) => item._id !== productId)
+      : [...wishlist, { _id: productId }];
 
-    // Optimistic UI update
     setWishlist(newWishlist);
 
-    // Send update to server
+    const wishlistIds = newWishlist.map((item) => item._id);
+
     updateUser.mutate(
-      { userId: user.id || user._id, wishlist: newWishlist },
+      { userId: user.id, wishlist: wishlistIds },
       {
         onSuccess: (data) => {
           console.log("Wishlist updated successfully:", data);
         },
-        onError: () => {
-          // Revert on error
-          setWishlist(wishlist);
+        onError: (error) => {
+          console.error("Wishlist update failed:", error);
+          setWishlist(wishlist); // Revert on error
         },
       }
     );
   };
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const product = data?.data || {};
-  const isFav = wishlist.includes(product._id);
+  const isFav = isProductInWishlist(product._id);
 
-  // Create selectedVariants object from color and size selections
   const selectedVariants = useMemo(() => {
     const variants = {};
     if (selectColor) variants.Color = selectColor;
@@ -348,7 +359,6 @@ function ProductDetails({ id }) {
     return variants;
   }, [selectColor, selectSize]);
 
-  // Calculate final price with variant modifiers
   const finalPrice = useMemo(() => {
     let modifiers = 0;
     product.variants?.forEach((variant) => {
@@ -359,8 +369,6 @@ function ProductDetails({ id }) {
     return (product.basePrice + modifiers) * quantity;
   }, [product, selectedVariants, quantity]);
 
-  // Don't render auth-dependent content until mounted
-
   if (isLoading) {
     return <ProductPageSkeleton />;
   }
@@ -369,15 +377,12 @@ function ProductDetails({ id }) {
     return <NotFoundPage />;
   }
 
-  console.log(product);
-
   const handleAddToCart = () => {
     const formattedVariants = Object.entries(selectedVariants).map(
       ([name, value]) => ({ name, value })
     );
 
     if (user) {
-      // Authenticated: send to backend
       const item = {
         product: product._id,
         quantity,
@@ -385,7 +390,6 @@ function ProductDetails({ id }) {
       };
       addToCartMutation.mutate(item);
     } else {
-      // Guest: save to localStorage
       const item = {
         product: product,
         quantity,
@@ -399,7 +403,6 @@ function ProductDetails({ id }) {
     }
   };
 
-  // Create array of images (using same image multiple times for demo)
   const productImages = [
     product.images,
     product.images,
@@ -412,6 +415,7 @@ function ProductDetails({ id }) {
       !selectColor) ||
     (product.variants?.some((i) => i.name.toLowerCase() === "size") &&
       !selectSize);
+
   return (
     <div>
       <Breadcrumbs />
@@ -419,7 +423,6 @@ function ProductDetails({ id }) {
         <div className="container mx-auto px-4 py-8 max-w-6xl">
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <div className="flex flex-wrap">
-              {/* Image Section */}
               <div className="w-full lg:w-1/2 p-6">
                 <div className="relative">
                   <div className="w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg mb-6">
@@ -429,8 +432,6 @@ function ProductDetails({ id }) {
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   </div>
-
-                  {/* Thumbnail Images */}
                   <div className="flex gap-4 justify-center">
                     {productImages.map((image, index) => (
                       <div
@@ -452,11 +453,8 @@ function ProductDetails({ id }) {
                   </div>
                 </div>
               </div>
-
-              {/* Product Info Section */}
               <div className="w-full lg:w-1/2 p-6 lg:p-8">
                 <div className="space-y-6">
-                  {/* Product Title & Category */}
                   <div>
                     <div className="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4">
                       {product.category?.name || "Product"}
@@ -466,7 +464,6 @@ function ProductDetails({ id }) {
                     </h1>
                     <p className="text-gray-600 text-lg mt-2">{product.slug}</p>
                   </div>
-                  {/* color dropdown */}
                   {product.variants
                     ?.filter(
                       (variant) => variant.name.toLowerCase() === "color"
@@ -493,7 +490,6 @@ function ProductDetails({ id }) {
                         </select>
                       </div>
                     ))}
-                  {/** Size Dropdown */}
                   {product.variants
                     ?.filter((variant) => variant.name.toLowerCase() === "size")
                     .map((variant) => (
@@ -518,8 +514,6 @@ function ProductDetails({ id }) {
                         </select>
                       </div>
                     ))}
-
-                  {/* Rating */}
                   <div className="flex items-center space-x-3">
                     <div className="flex space-x-1">
                       {Array.from({ length: 5 }, (_, index) => (
@@ -543,7 +537,7 @@ function ProductDetails({ id }) {
                             fillRule="evenodd"
                             clipRule="evenodd"
                             d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 
-                            5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 
+                            5.404.434c1.164.093 1.636 1.545 .749 2.305l-4.117 3.527 
                             1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 
                             18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425
                             l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305
@@ -557,8 +551,6 @@ function ProductDetails({ id }) {
                       {product.reviewCount || "127"} {t("review")})
                     </span>
                   </div>
-
-                  {/* Price - Updated to show calculated final price */}
                   <div className="flex items-center space-x-4">
                     <span className="text-4xl font-bold text-gray-900">
                       ${finalPrice.toFixed(2)}
@@ -574,8 +566,6 @@ function ProductDetails({ id }) {
                       </span>
                     )}
                   </div>
-
-                  {/* Description */}
                   <div className="bg-gray-50 rounded-2xl p-6">
                     <h3 className="font-semibold text-gray-900 mb-3">
                       {t("desc")}:{" "}
@@ -585,8 +575,6 @@ function ProductDetails({ id }) {
                         "This is a premium quality product designed with attention to detail and crafted for excellence."}
                     </p>
                   </div>
-
-                  {/* Status */}
                   <div className="flex items-center space-x-3">
                     <span className="text-gray-700 font-medium">
                       {t("status")}:
@@ -601,8 +589,6 @@ function ProductDetails({ id }) {
                       {product.status || "Available"}
                     </span>
                   </div>
-
-                  {/* Quantity Selector */}
                   <div className="space-y-3">
                     <label className="block text-sm font-medium text-gray-900">
                       {t("quantity")}:
@@ -649,10 +635,7 @@ function ProductDetails({ id }) {
                       </button>
                     </div>
                   </div>
-
-                  {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                    {/* Add to Cart with Confirmation Dialog */}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <button
