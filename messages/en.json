@@ -533,7 +533,8 @@
         "checkout": "Checkout",
         "categories": "Categories",
         "contact": "Contact",
-        "store": "Store"
+        "store": "Store",
+        "fav": "Favourite"
     },
     "Store": {
         "error": "Error Loading Stores",

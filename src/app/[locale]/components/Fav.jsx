@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useGetUserWishlistById, useUpdateUser } from "@/service/user";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Breadcrumbs from "./Breadcrumbs";
 
 export default function FavouritesPage() {
   const { user, loading: authLoading } = useAuth();
@@ -47,7 +48,7 @@ export default function FavouritesPage() {
       { userId: user.id, wishlist: wishlistIds },
       {
         onError: () => {
-          setWishlist(wishlist); // revert on error
+          setWishlist(wishlist);
         },
       }
     );
@@ -110,6 +111,7 @@ export default function FavouritesPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Breadcrumbs />
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">{t("myfav")}</h3>
         <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-600 rounded-full mx-auto"></div>
