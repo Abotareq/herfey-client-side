@@ -166,12 +166,12 @@ function OrderDetailsPage() {
 
   const { mutate: cancelOrder, isLoading: isCancelling } = useCancelOrder({
     onSuccess: () => {
-      toast.success(tOrders("orderCancelledSuccess"));
+      toast.success(tOrders(t('ordercancelled')));
       refetch();
     },
     onError: (err) => {
       toast.error(
-        err.response?.data?.error || tOrders("orderCancellationFailed")
+        err.response?.data?.error || tOrders(t('error'))
       );
     },
   });

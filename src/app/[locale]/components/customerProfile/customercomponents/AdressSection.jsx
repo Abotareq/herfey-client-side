@@ -61,7 +61,7 @@ function AddressesSection() {
   const handleAddOrUpdate = () => {
     // Validation
     if (!newAddress.buildingNo || !newAddress.street || !newAddress.city) {
-      toast.error("Please fill in all required fields");
+      toast.error(t('errorf'));
       return;
     }
 
@@ -106,11 +106,11 @@ function AddressesSection() {
       { userId: user.id || user._id, addresses: cleanedAddresses },
       {
         onSuccess: () => {
-          toast.success("Address updated successfully");
+          toast.success(t("success"));
           resetForm();
         },
         onError: (error) => {
-          toast.error("Failed to update address:", error);
+          toast.error(t('erroru'), error);
         },
       }
     );
@@ -161,10 +161,10 @@ function AddressesSection() {
       { userId: user.id || user._id, addresses: updatedAddresses },
       {
         onSuccess: () => {
-          toast.success("Address deleted successfully");
+          toast.success(t('deletesucess'));
         },
         onError: (error) => {
-          toast.error("Failed to delete address:", error);
+          toast.error(t('deletef'), error);
         },
       }
     );
@@ -599,7 +599,9 @@ function AddressesSection() {
               className="bg-white rounded-2xl p-6 border shadow-sm relative"
             >
               {address.isDefault && (
-                <div className="absolute top-4 right-4 bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                <div className={`absolute top-4 ${
+                          isArabic ? "left-4" : "right-4"
+                        } bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium`}>
                   {t1("default")}
                 </div>
               )}

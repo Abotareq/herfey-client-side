@@ -75,8 +75,8 @@ function ProductDetails({ id }) {
         onSuccess: (data) => {
           toast.success(
             isCurrentlyInWishlist
-              ? "Product removed from wishlist successfully"
-              : "Product added to wishlist successfully"
+              ? t('producrremoved')
+              : t('productadded')
           );
         },
         onError: (error) => {
@@ -140,7 +140,7 @@ function ProductDetails({ id }) {
       };
       addToGuestCart(item);
       if (typeof window !== "undefined") {
-        toast.success("Item added to guest cart!");
+        toast.success(t('guestcart'));
       }
     }
   };
@@ -438,13 +438,13 @@ function ProductDetails({ id }) {
                             : ""
                         }`}
                       >
-                        <span>{isFav ? "❤️" : "🤍"}</span>
+                        <span>{isFav ? "🤍" : "❤️"}</span>
                         <span>
                           {updateUser.isPending
                             ? t("loading")
                             : isFav
-                            ? t("removeFavorite")
-                            : t("addToFavorites")}
+                            ? t("removefav")
+                            : t("addtofav")}
                         </span>
                       </button>
                     )}
@@ -456,7 +456,7 @@ function ProductDetails({ id }) {
           <ReviewsSection productId={product?._id} />
         </div>
       </div>
-      <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
+      <Toaster className={`absolute top-4 ${isArabic ? "left-4" : "right-4"}`} />
     </div>
   );
 }

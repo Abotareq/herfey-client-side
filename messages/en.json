@@ -62,10 +62,12 @@
         "newsignup": "Sign up",
         "worksentence": "Herafy – where the largest collection of handmade products meets passion and craft.",
         "guest": "process as a guest",
-        "guestl": "guest"
+        "guestl": "guest",
+        "successfully": "Logged in successfully!",
+        "failed": "Login failed",
+        "googlesign": "Google Sign-In Clicked!"
     },
     "Signup": {
-        
         "newacount": "Create Your Account",
         "details": "Please fill in your details",
         "firstname": " First Name",
@@ -87,7 +89,9 @@
         "join": "Join Us Today",
         "signin": "Sign in",
         "signingup": "Processing...",
-        "signUp": "Sign Up"
+        "signUp": "Sign Up",
+        "success": "Account created successfully!",
+        "fail": "Signup failed"
     },
     "Contct": {
         "title": "Contact us",
@@ -255,7 +259,12 @@
         "authloading": "Loading user session...",
         "loginaddress": "Please log in to view addresses",
         "loadingaddress": "Loading addresses...",
-        "error": "Error loading addresses"
+        "error": "Error loading addresses",
+        "errorf": "Please fill in all required fields",
+        "success": "Address updated successfully",
+        "erroru": "Failed to update address:",
+        "deletesucess": "Address deleted successfully",
+        "deletef": "Failed to delete address:"
     },
     "defaultaddress":{
         "building": "Building",
@@ -290,7 +299,13 @@
         "delete": "Delete review",
         "found": "You haven't written any reviews yet.",
         "prev": "Previous",
-        "next": "Next"
+        "next": "Next",
+        "successfully": "Review deleted successfully",
+        "fail": "Failed to delete review:",
+        "updates": "Review updated successfully",
+        "updatee": "Failed to update review:",
+        "succesd": "Review deleted successfully",
+        "failu": "Failed to delete review:"
     },
     "customerpage":{
         "date": "Member since",
@@ -343,7 +358,9 @@
     "quantity": "Quantity",
     "price": "Price",
     "cancelPrompt": "No longer need this order? You can cancel it before it begins processing.",
-    "supportPrompt": "This order is being prepared for shipment and can no longer be cancelled online. For assistance, please contact our support team."
+    "supportPrompt": "This order is being prepared for shipment and can no longer be cancelled online. For assistance, please contact our support team.",
+    "ordercancelled": "order Cancelled Successfully",
+    "error": "Failed to cancel order:"
   },
     "vendorProfile": {
         "title": "Vendor Information",
@@ -482,7 +499,14 @@
         "confirm": "Confirm",
         "sizeq": "Select Size",
         "colorq": "Select Color",
-        "currency":"EGP"
+        "currency":"EGP",
+        "addtofav": "Add to Wishlist",
+        "removefav": "Remove from Wishlist",
+        "producrremoved": "Product removed from wishlist successfully",
+        "productadded": "Product added to wishlist successfully",
+        "guestcart": "Item added to guest cart!",
+        "productcreated": "Product created successfully!",
+        "productfail": "Failed to create product:"
 
     },
     
@@ -523,7 +547,9 @@
         "next": "next",
         "recommend_product": "Recommend Product",
         "average_quality_rating": "average quality ating",
-        "average_fit_rating": "average fit rating"
+        "average_fit_rating": "average fit rating",
+        "errorreview": "Error submitting review",
+        "successreview": "Review submitted successfully"
     },
     "breadcrumbs": {
         "home": "Home",

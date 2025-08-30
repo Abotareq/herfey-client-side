@@ -47,10 +47,10 @@ function ReviewsSectionInProfile({ userId }) {
       },
       {
         onSuccess: () => {
-          toast.success("Review deleted successfully");
+          toast.success(t('successfully'));
         },
         onError: (error) => {
-          toast.error("Failed to delete review:", error);
+          toast.error(t('fail'), error);
         },
       }
     );
@@ -70,10 +70,10 @@ function ReviewsSectionInProfile({ userId }) {
       comment: editReviewData.comment,
     }, {
       onSuccess: () => {
-        toast.success("Review updated successfully");
+        toast.success(t('updates'));
       },
       onError: (error) => {
-        toast.error("Failed to update review:", error);
+        toast.error(t('updatee'), error);
       },
     });
     setEditingReview(null);
@@ -388,7 +388,7 @@ function ReviewsSectionInProfile({ userId }) {
               {t("noreview")}
             </h3>
             <p className="text-slate-600">
-              You haven't written any reviews yet.
+              {t('found')}
             </p>
           </div>
         )}

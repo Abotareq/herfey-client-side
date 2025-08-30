@@ -60,10 +60,10 @@ console.log("userReviews", userReviews);
       comment: editReviewData.comment,
     }, {
       onSuccess: () => {
-        toast.success("Review updated successfully");
+        toast.success(t('succesd'));
       },
       onError: (error) => {
-        toast.error("Failed to update review:", error);
+        toast.error(t('failu'), error);
       },
     });
     setEditingReview(null);

@@ -38,11 +38,13 @@ function Signup() {
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  const t = useTranslations("Signup");
+  const t2 = useTranslations("Login");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!passwordsMatch) {
-      toast.error("Passwords do not match!");
+      toast.error(t('wcpswword'));
       return;
     }
 
@@ -63,21 +65,20 @@ function Signup() {
           items: formattedItems,
           coupon: null,
         });
-        toast.success("Account created successfully!");
+        toast.success(t('success'));
         clearGuestCart();
       }
 
       // 3️⃣ Redirect
-      toast.success("Account created successfully!");
+      toast.success(t('success'));
 
       window.location.href = "/";
     } catch (err) {
-      toast.error(err.message || "Signup failed");
+      toast.error(err.message || t('fail'));
     }
   };
 
-  const t = useTranslations("Signup");
-  const t2 = useTranslations("Login");
+
   const locale = useLocale();
   const isArabic = locale === "ar";
 
@@ -299,7 +300,16 @@ function Signup() {
                 {t2("goolgesignin")}
               </span>
             </button>
-            <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
+            <Toaster
+                position={isArabic ? "top-left" : "top-right"}
+                toastOptions={{
+                  style: {
+                    direction: isArabic ? "rtl" : "ltr",
+                    textAlign: isArabic ? "right" : "left",
+                    fontFamily: isArabic ? "Tahoma, Cairo, sans-serif" : "Arial, sans-serif",
+                  },
+                }}
+              />
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
               {t("accountexists")}{" "}

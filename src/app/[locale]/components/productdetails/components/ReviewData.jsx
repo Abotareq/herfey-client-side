@@ -80,14 +80,14 @@ function ReviewsSection({ productId }) {
       },
       {
         onSuccess: () => {
-          toast.success(t("review_submitted"));
+          toast.success(t("successreview"));
           setReviewData({ rating: 1, comment: "" });
           setShowReviewForm(false);
           setPage(1); // Reset to first page to show new review
         },
         onError: (error) => {
           toast.error(
-            t("error_submitting_review") +
+            t("errorreview") +
               ": " +
               (error.response?.data?.data?.message || error.message)
           );
@@ -453,7 +453,7 @@ function ReviewsSection({ productId }) {
 
         {/* Most Mentioned Keywords */}
       </div>
-      <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
+      <Toaster className={`absolute top-4 ${isArabic ? "left-4" : "right-4"}`} />
     </div>
   );
 }
