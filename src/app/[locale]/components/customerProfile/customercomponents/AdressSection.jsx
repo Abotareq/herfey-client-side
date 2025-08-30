@@ -2,12 +2,14 @@
 import { useAuth } from "@/app/context/AuthContext";
 import { useUpdateUser, useGetUserById } from "@/service/user";
 import { useState } from "react";
-import { useTranslations } from "use-intl";
+import toast, { Toaster } from "react-hot-toast";
+import { useLocale, useTranslations } from "use-intl";
 
 function AddressesSection() {
   const t = useTranslations("address");
   const t1 = useTranslations("defaultaddress");
-
+  const locale =useLocale();
+  const isArabic = locale === "ar";
   const { user, loading: authLoading } = useAuth();
 
   // Fix 1: Only enable query when user ID is available
@@ -59,7 +61,7 @@ function AddressesSection() {
   const handleAddOrUpdate = () => {
     // Validation
     if (!newAddress.buildingNo || !newAddress.street || !newAddress.city) {
-      alert("Please fill in all required fields");
+      toast.error(t('errorf'));
       return;
     }
 
@@ -104,12 +106,11 @@ function AddressesSection() {
       { userId: user.id || user._id, addresses: cleanedAddresses },
       {
         onSuccess: () => {
-          console.log("Address updated successfully");
+          toast.success(t("success"));
           resetForm();
         },
         onError: (error) => {
-          console.error("Failed to update address:", error);
-          alert("Failed to update address. Please try again.");
+          toast.error(t('erroru'), error);
         },
       }
     );
@@ -160,11 +161,10 @@ function AddressesSection() {
       { userId: user.id || user._id, addresses: updatedAddresses },
       {
         onSuccess: () => {
-          console.log("Address deleted successfully");
+          toast.success(t('deletesucess'));
         },
         onError: (error) => {
-          console.error("Failed to delete address:", error);
-          alert("Failed to delete address. Please try again.");
+          toast.error(t('deletef'), error);
         },
       }
     );
@@ -212,11 +212,10 @@ function AddressesSection() {
       { userId: user.id || user._id, addresses: updatedAddresses },
       {
         onSuccess: () => {
-          console.log("Default address updated successfully");
+          toast.success("Default address updated successfully");
         },
         onError: (error) => {
-          console.error("Failed to set default address:", error);
-          alert("Failed to set default address. Please try again.");
+          toast.error("Failed to set default address:", error);
         },
       }
     );
@@ -588,8 +587,10 @@ function AddressesSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {addresses.length === 0 ? (
           <div className="text-center py-12 bg-slate-50 rounded-lg">
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">{t('noAddressesFound')}</h3>
-            <p className="text-slate-600">{t('noAddressesSubtext')}</p>
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+              {t("noAddressesFound")}
+            </h3>
+            <p className="text-slate-600">{t("noAddressesSubtext")}</p>
           </div>
         ) : (
           addresses.map((address) => (
@@ -598,7 +599,9 @@ function AddressesSection() {
               className="bg-white rounded-2xl p-6 border shadow-sm relative"
             >
               {address.isDefault && (
-                <div className="absolute top-4 right-4 bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                <div className={`absolute top-4 ${
+                          isArabic ? "left-4" : "right-4"
+                        } bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium`}>
                   {t1("default")}
                 </div>
               )}
@@ -655,6 +658,7 @@ function AddressesSection() {
             </div>
           ))
         )}
+        <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
       </div>
     </div>
   );

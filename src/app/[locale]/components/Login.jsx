@@ -7,6 +7,7 @@ import Image from "next/image";
 import background from "../../../../public/login.jpg";
 import { useSignIn, useGoogleSignIn } from "@/service/auth"; // adjust path if needed
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function LogIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +20,8 @@ export default function LogIn() {
   const googleSignInMutation = useGoogleSignIn();
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePassword = (password) => password.length >= 8;
-
+  const t = useTranslations("Login");
+  const t2 = useTranslations("Herafy");
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -29,20 +31,19 @@ export default function LogIn() {
       {
         onSuccess: (data) => {
           setLoading(false);
-          alert("Logged in successfully!");
+          toast.success(t('successfully'));
           // if backend sets cookies, session is set. If token returned it's stored by service.
           window.location.href = "/";
         },
         onError: (err) => {
           setLoading(false);
-          alert(err.message || "Login failed");
+          toast.error(err.message || t('failed'));
         },
       }
     );
   };
 
-  const t = useTranslations("Login");
-  const t2 = useTranslations("Herafy");
+  
   const locale = useLocale();
   const isArabic = locale === "ar";
   return (
@@ -157,7 +158,9 @@ export default function LogIn() {
               type="button"
               onClick={() => {
                 googleSignInMutation.mutate();
-                alert("Google Sign-In Clicked!");
+                toast(t('googlesign'), {
+                  icon: "ɢ 🔵🔴🟡🟢",
+                });
               }}
               className="mt-4 w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg py-3 hover:bg-gray-50 transition"
             >
@@ -193,7 +196,16 @@ export default function LogIn() {
                 {t("goolgesignin")}
               </span>
             </button>
-
+            <Toaster
+                position={isArabic ? "top-left" : "top-right"}
+                toastOptions={{
+                  style: {
+                    direction: isArabic ? "rtl" : "ltr",
+                    textAlign: isArabic ? "right" : "left",
+                    fontFamily: isArabic ? "Tahoma, Cairo, sans-serif" : "Arial, sans-serif",
+                  },
+                }}
+            />
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
               {t("signup")}{" "}

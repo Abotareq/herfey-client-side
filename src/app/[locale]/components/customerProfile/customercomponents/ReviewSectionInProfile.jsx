@@ -1,18 +1,19 @@
 "use client";
-import React, { useState } from 'react';
-import { useTranslations } from 'use-intl';
-import Link from 'next/link';
-import { 
-  useFilteredReviews, 
-  useDeleteReview, 
-  useUpdateReview 
-} from '@/service/reviewService';
-import LoadingSpinner from '../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx';
-
-
+import React, { useState } from "react";
+import { useTranslations } from "use-intl";
+import Link from "next/link";
+import {
+  useFilteredReviews,
+  useDeleteReview,
+  useUpdateReview,
+} from "@/service/reviewService";
+import LoadingSpinner from "../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
+import toast, { Toaster } from "react-hot-toast";
+import { useLocale } from "use-intl";
 function ReviewsSectionInProfile({ userId }) {
   const t = useTranslations("reviews");
 
+  const isArabic = useLocale() === "ar";
   const [filterType, setFilterType] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [page, setPage] = useState(1);
@@ -39,10 +40,20 @@ function ReviewsSectionInProfile({ userId }) {
   const updateReviewMutation = useUpdateReview();
 
   const handleDeleteReview = (review) => {
-    deleteReviewMutation.mutate({
-      entityId: review.entityId,
-      entityType: review.entityType,
-    });
+    deleteReviewMutation.mutate(
+      {
+        entityId: review.entityId,
+        entityType: review.entityType,
+      },
+      {
+        onSuccess: () => {
+          toast.success(t('successfully'));
+        },
+        onError: (error) => {
+          toast.error(t('fail'), error);
+        },
+      }
+    );
   };
 
   const handleEditReview = (review) => {
@@ -57,6 +68,13 @@ function ReviewsSectionInProfile({ userId }) {
       entityType: editingReview.entityType,
       rating: editReviewData.rating,
       comment: editReviewData.comment,
+    }, {
+      onSuccess: () => {
+        toast.success(t('updates'));
+      },
+      onError: (error) => {
+        toast.error(t('updatee'), error);
+      },
     });
     setEditingReview(null);
   };
@@ -65,7 +83,7 @@ function ReviewsSectionInProfile({ userId }) {
     setEditingReview(null);
   };
 
-  if (isLoading) return <LoadingSpinner/>;
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <div>Error loading reviews: {error.message}</div>;
 
   const StarRating = ({ rating, size = "w-4 h-4" }) => (
@@ -370,11 +388,12 @@ function ReviewsSectionInProfile({ userId }) {
               {t("noreview")}
             </h3>
             <p className="text-slate-600">
-              You haven't written any reviews yet.
+              {t('found')}
             </p>
           </div>
         )}
       </div>
+      <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
     </div>
   );
 }

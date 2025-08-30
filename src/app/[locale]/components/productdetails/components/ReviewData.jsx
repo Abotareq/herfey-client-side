@@ -8,7 +8,8 @@ import {
 } from "@/service/reviewService.js";
 import { useAuth } from "@/app/context/AuthContext.jsx"; // Hypothetical auth context
 import LoadingSpinner from "../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
-
+import toast, { Toaster } from "react-hot-toast";
+import { useLocale } from "use-intl";
 function ReviewsSection({ productId }) {
   const t = useTranslations("productreview");
   const { user } = useAuth(); // Get authenticated user
@@ -21,7 +22,7 @@ function ReviewsSection({ productId }) {
     comment: "",
   });
   const limit = 4;
-
+  const isArabic = useLocale() === "ar";
   const {
     data: reviewsData,
     isLoading,
@@ -79,13 +80,14 @@ function ReviewsSection({ productId }) {
       },
       {
         onSuccess: () => {
+          toast.success(t("successreview"));
           setReviewData({ rating: 1, comment: "" });
           setShowReviewForm(false);
           setPage(1); // Reset to first page to show new review
         },
         onError: (error) => {
-          alert(
-            t("error_submitting_review") +
+          toast.error(
+            t("errorreview") +
               ": " +
               (error.response?.data?.data?.message || error.message)
           );
@@ -322,7 +324,6 @@ function ReviewsSection({ productId }) {
                       <div className="flex items-center space-x-3 flex-wrap">
                         <h4 className="font-semibold text-slate-900">
                           {review.user?.userName || "Anonymous"}
-
                         </h4>
                         {review.verifiedPurchase && (
                           <div className="flex items-center space-x-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
@@ -351,7 +352,7 @@ function ReviewsSection({ productId }) {
                     </div>
 
                     <p className="text-slate-600 leading-relaxed mb-4">
-                      {review.comment || t('no')}
+                      {review.comment || t("no")}
                     </p>
 
                     <div className="flex items-center justify-between">
@@ -452,6 +453,7 @@ function ReviewsSection({ productId }) {
 
         {/* Most Mentioned Keywords */}
       </div>
+      <Toaster className={`absolute top-4 ${isArabic ? "left-4" : "right-4"}`} />
     </div>
   );
 }
