@@ -5,7 +5,7 @@ import { useState } from "react";
 import SkeletonLoader from "./SkeltonLoader";
 import NotFoundPage from "./NotFoundComponent";
 import Breadcrumbs from "./Breadcrumbs";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import Image from "next/image";
 // Main component for Herafy Store Page
 
@@ -20,7 +20,8 @@ export default function HerafyStorePage({ vendorOnly = false }) {
     page: 1,
     limit: 12,
   });
-
+  const locale = useLocale();
+  const isArabic = locale === "ar";
   // 🔹 Use React Query hooks based on vendorOnly prop
   const {
     data: storeData,
@@ -123,7 +124,8 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   placeholder={t('searchstoreplace')}
                   value={filters.search}
                   onChange={(e) => updateFilter("search", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400"
+                  className={`w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 
+                    ${isArabic ? 'pr-10' : 'pl-2'}`}
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
@@ -152,8 +154,8 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                 <select
                   value={filters.status}
                   onChange={(e) => updateFilter("status", e.target.value)}
-                  className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
-                >
+                  className= {`w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer
+                    ${isArabic ? 'pr-10' : 'pl-2'}`}                >
                   <option value="">{t('all')}</option>
                   <option value="approved">{t('approved')}</option>
                   <option value="pending">{t('pending')}</option>
@@ -187,7 +189,8 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                 <select
                   value={filters.sort}
                   onChange={(e) => updateFilter("sort", e.target.value)}
-                  className="w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer"
+                  className={`w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer
+                    ${isArabic ? 'pr-10': 'pl-2'}`}
                 >
                   <option value="newest">{t('new')}</option>
                   <option value="oldest">{t('old')}</option>
@@ -240,7 +243,8 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                     </div>
                     <label
                       htmlFor={brand.toLowerCase()}
-                      className="ml-3 text-slate-600 font-medium text-sm cursor-pointer group-hover:text-slate-800 transition-colors duration-200 select-none"
+                      className={`ml-3 text-slate-600 font-medium text-sm cursor-pointer group-hover:text-slate-800 transition-colors duration-200 select-none
+                        ${isArabic ? 'mr-2' : ''}`}
                     >
                       {brand}
                     </label>
