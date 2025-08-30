@@ -10,6 +10,7 @@ import {
 } from "../../../service/cart.js";
 import { useRouter } from "next/navigation";
 import Image from "next/image.js";
+import CartSkeleton from "./cartSkelton.jsx";
 
 // Helper function to generate unique variant key
 const generateVariantKey = (productId, variants = []) => {
@@ -545,26 +546,7 @@ function GuestCart() {
 
   // Show loading state with professional spinner
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col items-center justify-center min-h-96 space-y-8">
-            <div className="relative">
-              <div className="w-16 h-16 border-4 border-orange-100 rounded-full"></div>
-              <div className="absolute inset-0 w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-semibold text-gray-900">
-                Loading Your Cart
-              </h2>
-              <p className="text-gray-600">
-                Please wait while we fetch your items...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <CartSkeleton />;
   }
 
   // Enhanced error state

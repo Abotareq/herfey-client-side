@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import SkeletonLoader from "../components/SkeltonLoader.jsx";
 import NotFoundPage from "../components/NotFoundComponent.jsx";
 import Image from "next/image.js";
+import CartSkeleton from "./cartSkelton.jsx";
 
 function AuthenticatedCart() {
   const [couponCode, setCouponCode] = useState("");
@@ -169,23 +170,7 @@ function AuthenticatedCart() {
   }
   // Show loading state
   if (cartLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="relative">
-                <div className="w-12 h-12 border-4 border-orange-200 rounded-full animate-spin"></div>
-                <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
-              </div>
-              <span className="text-orange-800 font-medium">
-                Loading your cart...
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <CartSkeleton />;
   }
 
   // Show error state

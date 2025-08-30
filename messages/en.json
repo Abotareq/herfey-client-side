@@ -363,7 +363,8 @@
         "vendorsince": "Vendor since",
         "profilelabel": "Profile",
         "storeslabel": "Stores",
-        "couponslable": "Coupons",
+        "couponslabel": "Coupons",
+        "orderslabel":"orders",
         "store": "store"
     },
     "vendorCoupons":{

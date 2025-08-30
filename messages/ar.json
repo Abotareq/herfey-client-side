@@ -316,7 +316,8 @@
     "vendorsince": "بائع منذ",
     "profilelabel": "الملف الشخصي",
     "storeslabel": "المتاجر",
-    "couponslable": "الكوبونات",
+    "couponslabel": "الكوبونات",
+    "orderslabel":"الطلبات",
     "store": "المتجر"
   },
   "vendorCoupons": {
