@@ -95,8 +95,8 @@ export default function CheckoutStep2() {
         }
 
         // Redirect to confirmation page for COD
-        router.push("/checkout/confirmation?orderId=" + orderId);
-        
+        router.push(`/customer-profile/orders/${orderId}`);
+
       } else if (paymentMethod === "credit_card") {
         console.log("Processing credit card payment...");
         

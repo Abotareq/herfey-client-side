@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useGetPaymentBySessionId } from "@/service/payment";
+import PaymentSkeleton from "./paymentSkelton"
 import { 
   CheckCircle, 
   Clock, 
@@ -43,28 +44,21 @@ export default function PaymentSuccessPage() {
   useEffect(() => {
     if (!paymentId || paymentData?.payment[0]?.status === "completed") return;
     
-    const maxAttempts = 10; // Stop after 10 attempts (5 minutes)
+    const maxAttempts = 4; // Stop after 10 attempts (5 minutes)
     
     if (pollingAttempts >= maxAttempts) return;
     
     const intervalId = setInterval(() => {
       setPollingAttempts(prev => prev + 1);
       refetch();
-    }, 30000); // every 30 seconds
+    }, 10000); // every 30 seconds
 
     return () => clearInterval(intervalId);
   }, [paymentId, refetch, paymentData?.payment[0]?.status, pollingAttempts]);
 
   // Loading state
   if (isLoading) {
-    return (
-      <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-xl border border-orange-100">
-        <div className="flex items-center justify-center space-x-3">
-          <Loader2 className="animate-spin h-6 w-6 text-orange-500" />
-          <p className="text-gray-600">Checking payment status...</p>
-        </div>
-      </div>
-    );
+    return <PaymentSkeleton />
   }
 
   // Error state
@@ -218,7 +212,7 @@ export default function PaymentSuccessPage() {
       <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
         <button
           className="inline-flex items-center justify-center px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/products")}
         >
           <ShoppingBag className="w-4 h-4 mr-2" />
           Continue Shopping
@@ -227,10 +221,10 @@ export default function PaymentSuccessPage() {
         {paymentStatus === "completed" && (
           <button
             className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
-            onClick={() => router.push("/orders")}
+            onClick={() => router.push(`/customer-profile/orders/${order?._id}`)}
           >
             <Package className="w-4 h-4 mr-2" />
-            View Orders
+            View Order Details
           </button>
         )}
         

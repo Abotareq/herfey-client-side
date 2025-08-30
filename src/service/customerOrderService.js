@@ -22,12 +22,25 @@ export const useGetUserOrders = (page = 1, limit = 10, status = '') =>
     queryFn: () => getRequest(`/order?page=${page}&limit=${limit}&status=${status}`),
     keepPreviousData: true, 
   });
+export const useGetSellerOrders = (params) =>
+  useQuery({
+    queryKey: ["sellerOrders", params],
+    queryFn: () => getRequest(`/order/seller/orders?page=${params.page}&limit=${params.limit}&searchQuery=${params.searchQuery}&statusFilter=${params.statusFilter}`),
+    keepPreviousData: true, 
+  });
 
 // Fetch single order by ID
 export const useGetUserOrderById = (orderId) =>
   useQuery({
     queryKey: ["userOrder", orderId],
     queryFn: () => getRequest(`/order/${orderId}`),
+    enabled: !!orderId, 
+  });
+
+export const useGetSellerOrderById = (orderId) =>
+  useQuery({
+    queryKey: ["sellerOrder", orderId],
+    queryFn: () => getRequest(`/order/vendor/orders/${orderId}`),
     enabled: !!orderId, 
   });
 
@@ -51,6 +64,19 @@ export const useCreateOrder = () => {
       // Invalidate orders list so it refreshes
       console.log("new order",newOrder)
       queryClient.invalidateQueries({ queryKey: ["userOrders"] });
+    },
+  });
+};
+
+// ===== Update Vendor Order Status =====
+export const useUpdateVendorOrderStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ orderId, status }) =>
+      patchRequest(`/order/vendor/orders/${orderId}/status`, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sellerOrders"] });
+      queryClient.invalidateQueries({ queryKey: ["userOrders"] }); // optional refresh for user too
     },
   });
 };

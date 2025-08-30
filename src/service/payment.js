@@ -60,6 +60,18 @@ export const useUpdatePaymentStatus = () => {
   });
 };
 
+export const useUpdatePaymentStatusByOrderId = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, status }) => patchRequest(`/payments/order/${id}/status`, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allPayments"] });
+      queryClient.invalidateQueries({ queryKey: ["userPayments"] });
+      queryClient.invalidateQueries({ queryKey: ["sellerPayments"] });
+    },
+  });
+};
+
 // ---- Get payment by ID (Admin) ----
 export const useGetPaymentById = (paymentId) =>
   useQuery({
