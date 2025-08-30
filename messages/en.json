@@ -668,6 +668,7 @@
         "desc": "Start adding some products!",
         "myfav": "My Favourites",
         "remove": "Remove from Favourites",
-        "fav": "Favourite"
+        "fav": "Favourite",
+        "updating": "Updating..."
     }
 }
