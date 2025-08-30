@@ -4,7 +4,8 @@ import { useTranslations } from "use-intl";
 import Link from "next/link";
 import { useGetUserReviews, useDeleteReview, useUpdateReview } from "@/service/reviewService";
 import LoadingSpinner from "../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
-
+import toast,{Toaster} from "react-hot-toast";
+import useLocale from "use-intl";
 function ReviewsSection({ userId }) {
   const t = useTranslations("reviews");
 
@@ -23,7 +24,7 @@ function ReviewsSection({ userId }) {
     sortBy: sortBy === "highest" || sortBy === "lowest" ? "rating" : "createdAt",
     order: sortBy === "newest" || sortBy === "highest" ? "desc" : "asc",
   };
-
+const isArabic = useLocale() === "ar";
   const { data, isLoading, error } = useGetUserReviews(userId, filters);
   const userReviews = data?.data?.reviews || [];
   const pagination = data?.pagination || { totalReviews: 0, totalPages: 1, currentPage: 1 };
@@ -35,6 +36,13 @@ console.log("userReviews", userReviews);
     deleteReviewMutation.mutate({
       entityId: review.entityId,
       entityType: review.entityType,
+    }, {
+      onSuccess: () => {
+        toast.success("Review deleted successfully");
+      },
+      onError: (error) => {
+        toast.error("Failed to delete review:", error);
+      },
     });
   };
 
@@ -50,6 +58,13 @@ console.log("userReviews", userReviews);
       entityType: editingReview.entityType,
       rating: editReviewData.rating,
       comment: editReviewData.comment,
+    }, {
+      onSuccess: () => {
+        toast.success("Review updated successfully");
+      },
+      onError: (error) => {
+        toast.error("Failed to update review:", error);
+      },
     });
     setEditingReview(null);
   };
@@ -335,6 +350,7 @@ console.log("userReviews", userReviews);
           </button>
         </div>
       )}
+      <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
     </div>
   );
 }

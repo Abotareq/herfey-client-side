@@ -6,7 +6,7 @@ import SkeletonLoader from "./SkeltonLoader";
 import NotFoundPage from "./NotFoundComponent";
 import Breadcrumbs from "./Breadcrumbs";
 import { useTranslations } from "use-intl";
-
+import Image from "next/image";
 // Main component for Herafy Store Page
 
 export default function HerafyStorePage({ vendorOnly = false }) {

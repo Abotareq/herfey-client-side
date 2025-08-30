@@ -41,7 +41,6 @@ export const useGetUserReviews = (
 
 // Add a new review (customer only)
 
-
 // Update a review (customer only)
 export const useUpdateReview = () => {
   const queryClient = useQueryClient();
@@ -55,11 +54,12 @@ export const useUpdateReview = () => {
 };
 
 // Delete a review (customer only)
+
 export const useDeleteReview = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ entityId, entityType }) =>
-      deleteRequest("/review", { entityId, entityType }),
+      deleteRequest(`/review?entityId=${entityId}&entityType=${entityType}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userReviews"] });
     },
@@ -114,15 +114,14 @@ export const useAddReview = (productId) => {
   });
 };
 
-
 export const useFilteredReviews = (filters) => {
   const cleanFilters = Object.fromEntries(
     Object.entries(filters).filter(([_, v]) => v != null)
   );
   const queryString = new URLSearchParams(cleanFilters).toString();
   return useQuery({
-    queryKey: ["reviews", cleanFilters], 
+    queryKey: ["reviews", cleanFilters],
     queryFn: () => getRequest(`/review/filter?${queryString}`),
-    enabled: !!filters.userId, 
+    enabled: !!filters.userId,
   });
 };

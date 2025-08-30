@@ -12,6 +12,7 @@ import {
   clearGuestCart,
   useCreateOrUpdateCart,
 } from "@/service/cart";
+import toast, { Toaster } from "react-hot-toast";
 
 function Signup() {
   const router = useRouter();
@@ -41,7 +42,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!passwordsMatch) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
@@ -57,19 +58,21 @@ function Signup() {
           price: item.price,
           variant: item.variant || [],
         }));
-        console.log("Guest cart items:", formattedItems);
+        //console.log("Guest cart items:", formattedItems);
         await createOrUpdateCartMutation.mutateAsync({
           items: formattedItems,
           coupon: null,
         });
-
+        toast.success("Account created successfully!");
         clearGuestCart();
       }
 
       // 3️⃣ Redirect
-      router.push("/");
+      toast.success("Account created successfully!");
+
+      window.location.href = "/";
     } catch (err) {
-      alert(err.message || "Signup failed");
+      toast.error(err.message || "Signup failed");
     }
   };
 
@@ -258,7 +261,9 @@ function Signup() {
               type="button"
               onClick={() => {
                 googleSignInMutation.mutate();
-                alert("Google Sign-In Clicked!");
+                toast("Google Sign-In Clicked!", {
+                  icon: "ɢ 🔵🔴🟡🟢",
+                });
               }}
               className="mt-4 w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg py-3 hover:bg-gray-50 transition"
             >
@@ -294,6 +299,7 @@ function Signup() {
                 {t2("goolgesignin")}
               </span>
             </button>
+            <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
               {t("accountexists")}{" "}
