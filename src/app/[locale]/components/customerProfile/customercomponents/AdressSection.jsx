@@ -588,9 +588,9 @@ function AddressesSection() {
         {addresses.length === 0 ? (
           <div className="text-center py-12 bg-slate-50 rounded-lg">
             <h3 className="text-lg font-semibold text-slate-900 mb-2">
-              {t("noAddressesFound")}
+              {t("noaddress")}
             </h3>
-            <p className="text-slate-600">{t("noAddressesSubtext")}</p>
+            <p className="text-slate-600">{t("noaddresssubtext")}</p>
           </div>
         ) : (
           addresses.map((address) => (

@@ -26,7 +26,7 @@ function AuthenticatedCart() {
     error: cartError,
     refetch: refetchCart,
   } = useMyCart();
-
+  
   const updateCartMutation = useUpdateCart();
   const removeItemMutation = useRemoveItemFromCart();
   const addItemMutation = useAddItemToCart();
