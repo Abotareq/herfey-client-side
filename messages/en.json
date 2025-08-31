@@ -19,9 +19,9 @@
     "Footer": {
         "herafy": "Herafy",
         "phone": "+201507975526 / +201507975527",
-        "email":"info@herafy.net",
-        "support":"support@herafy.net",
-        "sales": "sales@herafy.net",
+        "email":"herafyecommerce@gmail.com",
+        "support":"herafyecommerce@gmail.com",
+        "sales": "herafyecommerce@gmail.com",
         "web":"herafy.net",
         "copy": "2025 Herafy. All rights reserved"
     },
@@ -96,7 +96,7 @@
     "Contct": {
         "title": "Contact us",
         "phone": "+201507975526",
-        "email": "info@herafy.net",
+        "email": "herafyecommerce@gmail.com",
         "nplace": "Name",
         "ePlace": "Email",
         "pplace": "Phone",
@@ -106,7 +106,10 @@
         "communication": "Preferred method of communication",
         "Ecommunication": "Email",
         "Pcommunucation": "Phone",
-        "Buttonsend": "Send"
+        "Buttonsend": "Send",
+        "sendalert": "Your Message has been sent",
+        "failalert": "Something went wrong, please try again later.",
+        "sending": "Sending..."
     },
     "FAQ": {
         "faq": "faqs",
@@ -672,7 +675,9 @@
         "myfav": "My Favourites",
         "remove": "Remove from Favourites",
         "fav": "Favourite",
-        "updating": "Updating..."
+        "updating": "Updating...",
+        "error": "No items added yet",
+        "errorLoadingFav": "Error loading favourite items"
     },
     "AuthenticatedCart": {
         "loadingcart": "Loading cart...",
