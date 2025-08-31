@@ -270,6 +270,7 @@
         "deletef": "Failed to delete address:",
         "noaddress": "No addresses found",
         "noaddresssubtext": "You haven't added any addresses yet."
+        
     },
     "defaultaddress":{
         "building": "Building",

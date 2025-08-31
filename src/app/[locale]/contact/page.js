@@ -35,10 +35,8 @@ export default function ContactPage() {
         process.env.NEXT_PUBLIC_EMAIL_TEMPELATE_ID,
         {
           name: formdata.name,
-          to_name: "Herafy",
-          from_email: formdata.email,
-          to_email: "herafyecommerce@gmail.com",
-          from_phone: formdata.phone,
+          email: formdata.email, 
+          phone: formdata.phone,
           message: formdata.message
         },
         process.env.NEXT_PUBLIC_EMAIL_PUBLIC_KEY
