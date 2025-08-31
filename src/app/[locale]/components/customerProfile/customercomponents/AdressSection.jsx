@@ -212,10 +212,10 @@ function AddressesSection() {
       { userId: user.id || user._id, addresses: updatedAddresses },
       {
         onSuccess: () => {
-          toast.success("Default address updated successfully");
+          toast.success(t('success'));
         },
         onError: (error) => {
-          toast.error("Failed to set default address:", error);
+          toast.error(t('erroru'), error);
         },
       }
     );

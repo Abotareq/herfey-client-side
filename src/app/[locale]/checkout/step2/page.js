@@ -319,8 +319,8 @@ export default function CheckoutStep2() {
           <div className="flex items-center justify-center space-x-3">
             <CheckCircle className="w-4 h-4 text-orange-600 animate-pulse" />
             <p className="text-sm text-orange-700 font-medium">
-              {createOrderMutation.isLoading && "Creating your order..."}
-              {createPaymentMutation.isLoading && "Setting up secure payment..."}
+              {createOrderMutation.isLoading && t('processing')}
+              {createPaymentMutation.isLoading && t('securepayment')}
             </p>
           </div>
         </div>

@@ -19,9 +19,9 @@
   "Footer": {
     "herafy": "حرفي",
     "phone": "201507975526+ / 201507975527+",
-    "email": "info@herafy.net",
-    "support": "support@herafy.net",
-    "sales": "sales@herafy.net",
+    "email": "herafyecommerce@gmail.com",
+    "support": "herafyecommerce@gmail.com",
+    "sales": "herafyecommerce@gmail.com",
     "web": "herafy.net",
     "copy": "2025 جميع الحقوق محفزظة حرفي"
   },
@@ -96,7 +96,7 @@
   "Contct": {
     "title": "تواصل معنا",
     "phone": "201507975526+",
-    "email": "info@herafy.net",
+    "email": "herafyecommerce@gmail.com",
     "nplace": "الاسم",
     "ePlace": "البريد الالكتروني",
     "pplace": "رقم الهاتف",
@@ -106,7 +106,10 @@
     "communication": "الطريقة المفضلة للتواصل",
     "Ecommunication": "البريد الإلكتروني",
     "Pcommunucation": "الهاتف",
-    "Buttonsend": "إرسال"
+    "Buttonsend": "إرسال",
+    "sendalert": "تم ارسال رسالتك",
+    "failalert": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا.",
+    "sending": "جاري الإرسال..."
   },
   "FAQ": {
     "faq": "الأسئلة الشائعة",
@@ -675,7 +678,9 @@
     "myfav": "مفضلتي",
     "remove": "ازالة من المفضلة",
     "fav": "المفضلة",
-    "updating": "جارٍ التحديث..."
+    "updating": "جارٍ التحديث...",
+    "error": "حدث خطأ أثناء تحميل المفضلة",
+    "errorLoadingFav": "فشل تحميل المنتجات المفضلة"
     },
     "AuthenticatedCart": {
         "loadingcart": "جاري تحميل سلة التسوق...",
