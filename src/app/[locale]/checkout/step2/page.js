@@ -6,13 +6,14 @@ import { useCreateOrder } from "@/service/customerOrderService";
 import { useCreatePayment } from "@/service/payment";
 import { useState, useEffect } from "react";
 import { CreditCard, Banknote, AlertTriangle, Info, ShoppingCart, Lock, CheckCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function CheckoutStep2() {
   const { paymentMethod, setPaymentMethod, state } = useCheckout();
   const router = useRouter();
   const [error, setError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-
+  const t = useTranslations('CheckoutStep2')
   const createOrderMutation = useCreateOrder();
   const createPaymentMutation = useCreatePayment();
 
@@ -49,7 +50,7 @@ export default function CheckoutStep2() {
       // Prepare order data
       const orderData = {
         useExisting: state.useExisting,
-        shippingAddress: state.useExisting ? "Profile Address" : state.newAddress,
+        shippingAddress: state.useExisting ? t('profileaddress') : state.newAddress,
       };
 
       console.log("Creating order with data:", orderData);
@@ -65,7 +66,7 @@ export default function CheckoutStep2() {
       }
 
       if (orderResult.status !== "success") {
-        throw new Error(orderResult.message || "Failed to create order");
+        throw new Error(orderResult.message || t('orderfailed'));
       }
 
       if (!orderResult.data || !orderResult.data._id) {
@@ -170,7 +171,7 @@ export default function CheckoutStep2() {
             <span className="text-white font-bold text-sm">2</span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-            Payment Method
+            {t('payment')}
           </h2>
         </div>
         <div className="w-full bg-orange-200 rounded-full h-2">
@@ -194,7 +195,7 @@ export default function CheckoutStep2() {
 
       {/* Payment Method Selection */}
       <div className="space-y-4 mb-8">
-        <h3 className="text-lg font-semibold text-orange-800 mb-4">Choose how you would like to pay</h3>
+        <h3 className="text-lg font-semibold text-orange-800 mb-4">{t('paymentchoice')}</h3>
         
         {/* Credit Card Option */}
         <label className="flex items-start space-x-4 p-5 border-2 border-orange-200 rounded-xl cursor-pointer hover:border-orange-300 hover:bg-orange-50/50 transition-all duration-200 group">
@@ -211,14 +212,14 @@ export default function CheckoutStep2() {
             <div className="flex items-center space-x-3 mb-2">
               <CreditCard className="w-5 h-5 text-orange-600" />
               <span className="font-semibold text-gray-800 group-hover:text-orange-700 transition-colors">
-                Credit Card (Stripe)
+                {t('card')}
               </span>
               <span className="px-3 py-1 bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700 text-xs font-medium rounded-full">
-                Secure
+                {t('secure')}
               </span>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Pay securely with your credit or debit card through our encrypted payment system
+              {t('security')}
             </p>
           </div>
         </label>
@@ -238,14 +239,14 @@ export default function CheckoutStep2() {
             <div className="flex items-center space-x-3 mb-2">
               <Banknote className="w-5 h-5 text-orange-600" />
               <span className="font-semibold text-gray-800 group-hover:text-orange-700 transition-colors">
-                Cash on Delivery (COD)
+                {t('cash')}
               </span>
               <span className="px-3 py-1 bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-700 text-xs font-medium rounded-full">
-                Popular
+                {t('popular')}
               </span>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Pay with cash when your order arrives at your doorstep - no online payment required
+              {t('cashdesc')}
             </p>
           </div>
         </label>
@@ -262,7 +263,7 @@ export default function CheckoutStep2() {
               <p className="text-amber-700 font-medium">
                 {!paymentMethod && "Please select a payment method to continue."}
                 {paymentMethod && !state.useExisting && (!state.newAddress || Object.keys(state.newAddress).length === 0) && 
-                  "Please go back and provide a shipping address."}
+                  t('warning')}
               </p>
             </div>
           </div>
@@ -274,11 +275,11 @@ export default function CheckoutStep2() {
         <div className="mb-8 p-6 bg-white/70 rounded-2xl border border-orange-100 shadow-sm">
           <h3 className="font-semibold text-orange-800 mb-3 flex items-center">
             <ShoppingCart className="w-5 h-5 mr-2 text-orange-600" />
-            Order Summary
+            {t('ordersummary')}
           </h3>
           <div className="flex items-center justify-between">
             <p className="text-gray-700">
-              <span className="font-medium">{state.cartItems.length}</span> item(s) in your cart
+              <span className="font-medium">{state.cartItems.length}</span> {t('items')}
             </p>
             <p className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
               ${state.totalAmount?.toFixed(2) || '0.00'}
@@ -303,12 +304,12 @@ export default function CheckoutStep2() {
           ? (
             <div className="flex items-center justify-center space-x-3">
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              <span>Processing your order...</span>
+              <span>{t('processing')}</span>
             </div>
           )
           : paymentMethod === "credit_card" 
-            ? "Continue to Secure Payment →" 
-            : "Confirm Order & Pay on Delivery →"
+            ? t('securepayment') 
+            : t('confirmorder')
         }
       </button>
 
@@ -329,7 +330,7 @@ export default function CheckoutStep2() {
       <div className="mt-6 text-center">
         <p className="text-xs text-gray-500 flex items-center justify-center space-x-1">
           <Lock className="w-3 h-3" />
-          <span>Your payment information is secure and encrypted</span>
+          <span>{t('desc')}</span>
         </p>
       </div>
     </div>

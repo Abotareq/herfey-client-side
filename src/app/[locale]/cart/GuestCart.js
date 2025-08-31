@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import Image from "next/image.js";
 import CartSkeleton from "./cartSkelton.jsx";
+import { useTranslations } from "next-intl";
 
 // Helper function to generate unique variant key
 const generateVariantKey = (productId, variants = []) => {
@@ -73,7 +74,7 @@ function GuestCart() {
   const [updatingItems, setUpdatingItems] = useState(new Set());
   const [animatingItems, setAnimatingItems] = useState(new Set());
   const router = useRouter();
-
+  const t = useTranslations('GuestCart');
   // Animate item addition/removal
   const animateItem = useCallback((itemKey, type = "update") => {
     setAnimatingItems((prev) => new Set([...prev, itemKey]));
@@ -166,7 +167,7 @@ function GuestCart() {
           // Normalized fields
           id: productId,
           productId: productId,
-          name: product.name || "Unknown Product",
+          name: product.name || t('unkownproduct'),
           description: product.description || "",
           price:
             parseFloat(item.price) ||
@@ -312,7 +313,7 @@ function GuestCart() {
 
     if (
       !window.confirm(
-        `Are you sure you want to remove "${item.name}" from your cart?`
+        `${t('alert')}${item.name}" ${t('cartalert')}`
       )
     ) {
       return;
@@ -447,7 +448,7 @@ function GuestCart() {
           selectedVariants.length > 0
             ? ` (${selectedVariants.map((v) => v.value).join(", ")})`
             : "";
-        alert(`Added "${productData.name}${variantText}" to cart!`);
+        alert(`${t('added')} "${productData.name}${variantText}" ${t('tocart')}`);
       }
 
       console.log("=== ADD TO CART END ===");
@@ -464,23 +465,23 @@ function GuestCart() {
 
   // Handle adding to wishlist (guest users need to login)
   const handleAddToWishlist = useCallback((item) => {
-    alert("Please login to add items to your wishlist");
+    alert(t('loginalert'));
     router.push("/signin");
   }, [router]);
 
   const handleApplyCoupon = useCallback(() => {
     if (!couponCode.trim()) {
-      alert("Please enter a coupon code");
+      alert(t('couponalert'));
       return;
     }
-    alert("Please login to apply coupon codes");
+    alert(t('logincouponalert'));
     router.push("/login");
   }, [couponCode, router]);
 
   // Handle checkout (redirect to login)
   const handleCheckout = useCallback(() => {
     if (guestCartItems.length === 0) {
-      alert("Your cart is empty");
+      alert(t('emptycart'));
       return;
     }
 
@@ -502,7 +503,7 @@ function GuestCart() {
 
   // Clear entire cart
   const handleClearCart = useCallback(() => {
-    if (!window.confirm("Are you sure you want to clear your entire cart?")) {
+    if (!window.confirm(t('removecart'))) {
       return;
     }
 
@@ -555,7 +556,7 @@ function GuestCart() {
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Shopping Cart
+            {t('shoppingcart')}
           </h1>
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
             <div className="w-20 h-20 mx-auto mb-6 text-red-400">
@@ -572,7 +573,7 @@ function GuestCart() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Something went wrong
+              {t('error')}
             </h3>
             <p className="text-gray-600 mb-8">{error}</p>
             <div className="flex justify-center gap-4">
@@ -580,13 +581,13 @@ function GuestCart() {
                 onClick={handleRetry}
                 className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
               >
-                Try Again
+                {t('tryagain')}
               </button>
               <button
                 onClick={handleContinueShopping}
                 className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               >
-                Continue Shopping
+                {t('continueshopping')}
               </button>
             </div>
           </div>
@@ -601,7 +602,7 @@ function GuestCart() {
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Shopping Cart
+            {t('shoppingcart')}
           </h1>
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
             <div className="w-24 h-24 mx-auto mb-6 text-gray-400">
@@ -614,16 +615,16 @@ function GuestCart() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Your cart is empty
+              {t('emptycart')}
             </h3>
             <p className="text-gray-600 mb-8">
-              Looks like you haven t added anything to your cart yet
+              {t('emptycartdesc')}
             </p>
             <button
               onClick={handleContinueShopping}
               className="px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
             >
-              Start Shopping
+              {t('startshopping')}
             </button>
           </div>
         </div>
@@ -637,15 +638,15 @@ function GuestCart() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
           <div className="space-y-1">
-            <h1 className="text-3xl font-bold text-gray-900">Shopping Cart</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{t('shoppingcart')}</h1>
             <p className="text-gray-600">
-              {guestCartItems.length} item
-              {guestCartItems.length !== 1 ? "s" : ""} in your cart
+              {guestCartItems.length} {t('item')}
+              {guestCartItems.length !== 1 ? "s" : ""} {t('cart')}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <div className="bg-orange-50 text-orange-700 px-3 py-1.5 rounded-full border border-orange-200 text-sm font-medium">
-              Guest Cart
+              {t('guestcart')}
             </div>
             {isDev && (
               <div className="flex gap-2">
@@ -654,7 +655,7 @@ function GuestCart() {
                   className="text-sm text-orange-600 hover:text-orange-700 underline transition-colors"
                   title="Debug - check console"
                 >
-                  Debug
+                  {t('debug')}
                 </button>
                 <button
                   onClick={() => {
@@ -667,7 +668,7 @@ function GuestCart() {
                   className="text-sm text-orange-600 hover:text-orange-700 underline transition-colors"
                   title="Remove duplicate items"
                 >
-                  Clean
+                  {t('clean')}
                 </button>
               </div>
             )}
@@ -675,13 +676,13 @@ function GuestCart() {
               onClick={handleClearCart}
               className="text-sm text-red-600 hover:text-red-700 underline transition-colors"
             >
-              Clear Cart
+              {t('clearcart')}
             </button>
             <button
               onClick={() => router.push("/signin")}
               className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors duration-200"
             >
-              Login to Save
+              {t('login')}
             </button>
           </div>
         </div>
@@ -817,7 +818,7 @@ function GuestCart() {
                                   </span>
                                   {item.quantity > 1 && (
                                     <span className="text-sm text-gray-500">
-                                      each
+                                      {t('each')}
                                     </span>
                                   )}
                                 </div>
@@ -844,7 +845,7 @@ function GuestCart() {
                                       )
                                     }
                                     disabled={item.quantity <= 1 || isUpdating}
-                                    title="Decrease quantity"
+                                    title={t('decrease')}
                                   >
                                     <svg
                                       className="w-4 h-4"
@@ -879,7 +880,7 @@ function GuestCart() {
                                       )
                                     }
                                     disabled={isUpdating}
-                                    title="Increase quantity"
+                                    title={t('increase')}
                                   >
                                     <svg
                                       className="w-4 h-4"
@@ -923,7 +924,7 @@ function GuestCart() {
                                     type="button"
                                     onClick={() => handleAddToWishlist(item)}
                                     className="p-2 text-pink-500 hover:bg-pink-100 rounded-md transition-colors duration-200 disabled:opacity-50"
-                                    title="Add to wishlist"
+                                    title={t('wishlist')}
                                     disabled={isUpdating}
                                   >
                                     <svg
@@ -945,7 +946,7 @@ function GuestCart() {
                                     type="button"
                                     onClick={() => handleRemoveItem(item)}
                                     className="p-2 text-red-500 hover:bg-red-100 rounded-md transition-colors duration-200 disabled:opacity-50"
-                                    title="Remove item"
+                                    title={t('remove')}
                                     disabled={isUpdating}
                                   >
                                     <svg
@@ -993,10 +994,10 @@ function GuestCart() {
                     </div>
                     <div>
                       <h2 className="text-2xl font-bold text-white">
-                        Order Summary
+                        {t('ordersummary')}
                       </h2>
                       <p className="text-orange-100 text-sm">
-                        {guestCartItems.length} items in cart
+                        {guestCartItems.length} {t('cartlength')}
                       </p>
                     </div>
                   </div>
@@ -1007,21 +1008,21 @@ function GuestCart() {
                   {/* Price Breakdown */}
                   <div className="space-y-4">
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-700">Subtotal</span>
+                      <span className="text-gray-700">{t('subtotal')}</span>
                       <span className="font-semibold text-gray-900">
                         ${subtotal.toFixed(2)}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-700">Shipping</span>
+                      <span className="text-gray-700">{t('shipping')}</span>
                       <span className="font-semibold text-gray-900">
                         ${shipping.toFixed(2)}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-700">Tax</span>
+                      <span className="text-gray-700">{t('tax')}</span>
                       <span className="font-semibold text-gray-900">
                         ${tax.toFixed(2)}
                       </span>
@@ -1040,7 +1041,7 @@ function GuestCart() {
                     <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
                       <div className="flex justify-between items-center">
                         <span className="text-xl font-bold text-gray-900">
-                          Total
+                          {t('total')}
                         </span>
                         <span className="text-2xl font-bold text-orange-600">
                           ${total.toFixed(2)}
@@ -1052,12 +1053,12 @@ function GuestCart() {
                   {/* Coupon Section */}
                   <div className="space-y-3">
                     <label className="text-sm font-semibold text-gray-800">
-                      Promo Code
+                      {t('promo')}
                     </label>
                     <div className="flex gap-2">
                       <input
                         type="text"
-                        placeholder="Login to apply codes"
+                        placeholder={t('loginplace')}
                         className="flex-1 border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 text-gray-500 cursor-not-allowed text-sm"
                         value={couponCode}
                         onChange={(e) => setCouponCode(e.target.value)}
@@ -1069,7 +1070,7 @@ function GuestCart() {
                         onClick={handleApplyCoupon}
                         disabled
                       >
-                        Apply
+                        {t('apply')}
                       </button>
                     </div>
                     <p className="text-xs text-orange-600 flex items-center gap-1">
@@ -1084,7 +1085,7 @@ function GuestCart() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Login required for promo codes
+                      {t('logintitle')}
                     </p>
                   </div>
 
@@ -1108,7 +1109,7 @@ function GuestCart() {
                             clipRule="evenodd"
                           />
                         </svg>
-                        Login to Checkout
+                        {t('logincheck')}
                       </div>
                     </button>
 
@@ -1117,7 +1118,7 @@ function GuestCart() {
                       className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200"
                       onClick={handleContinueShopping}
                     >
-                      Continue Shopping
+                      {t('continue')}
                     </button>
                   </div>
 
@@ -1139,10 +1140,10 @@ function GuestCart() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-orange-800">
-                          Create Account
+                          {t('createaccount')}
                         </h3>
                         <p className="text-xs text-orange-600">
-                          Unlock benefits
+                          {t('unlock')}
                         </p>
                       </div>
                     </div>
@@ -1179,14 +1180,14 @@ function GuestCart() {
                       onClick={() => router.push("/signup")}
                       className="w-full py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors duration-200 text-sm"
                     >
-                      Sign Up Now
+                      {t('signup')}
                     </button>
                   </div>
 
                   {/* Payment Methods */}
                   <div className="text-center space-y-3">
                     <p className="text-sm font-medium text-gray-600">
-                      We Accept
+                      {t('weaccept')}
                     </p>
                     <div className="flex justify-center gap-4">
                       {[
@@ -1236,7 +1237,7 @@ function GuestCart() {
                         </svg>
                       </div>
                       <span className="text-xs font-medium text-green-700">
-                        Secure SSL Checkout
+                        {t('securessl')}
                       </span>
                     </div>
                   </div>
