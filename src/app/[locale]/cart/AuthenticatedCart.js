@@ -15,6 +15,7 @@ import SkeletonLoader from "../components/SkeltonLoader.jsx";
 import NotFoundPage from "../components/NotFoundComponent.jsx";
 import Image from "next/image.js";
 import CartSkeleton from "./cartSkelton.jsx";
+import { useTranslations } from "next-intl";
 
 function AuthenticatedCart() {
   const [couponCode, setCouponCode] = useState("");
@@ -26,7 +27,7 @@ function AuthenticatedCart() {
     error: cartError,
     refetch: refetchCart,
   } = useMyCart();
-  
+  const t = useTranslations('AuthenticatedCart');
   const updateCartMutation = useUpdateCart();
   const removeItemMutation = useRemoveItemFromCart();
   const addItemMutation = useAddItemToCart();
@@ -143,13 +144,13 @@ function AuthenticatedCart() {
   // Handle checkout
   const handleCheckout = () => {
     if (!user) {
-      alert("You must be logged in to proceed to checkout");
+      alert(t('authalert'));
       router.push("/signin");
       return;
     }
 
     if (cartItems.length === 0) {
-      alert("Your cart is empty");
+      alert(t('emptycart'));
       return;
     }
 
@@ -180,7 +181,7 @@ function AuthenticatedCart() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-white rounded-2xl shadow-xl border border-orange-100 p-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">
-              Shopping Cart
+              {t('title')}
             </h1>
             <div className="bg-red-50 border border-red-200 rounded-lg p-6">
               <div className="flex items-start">
@@ -198,7 +199,7 @@ function AuthenticatedCart() {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-red-800 font-medium">Error loading cart</p>
+                  <p className="text-red-800 font-medium">{t('carterror')}</p>
                   <p className="text-red-600 text-sm mt-1">
                     {cartError.message}
                   </p>
@@ -206,7 +207,7 @@ function AuthenticatedCart() {
                     onClick={() => refetchCart()}
                     className="mt-4 inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                   >
-                    Try Again
+                    {t('tryagain')}
                   </button>
                 </div>
               </div>
@@ -224,7 +225,7 @@ function AuthenticatedCart() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-white rounded-2xl shadow-xl border border-orange-100 p-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-8">
-              Shopping Cart
+              {t('title')}
             </h1>
             <div className="text-center py-16">
               <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center">
@@ -237,10 +238,10 @@ function AuthenticatedCart() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Your cart is empty
+                {t('emptycart')}
               </h3>
               <p className="text-gray-600 mb-8">
-                Looks like you haven t added any items to your cart yet
+                {t('emptycartdesc')}
               </p>
               <button
                 type="button"
@@ -260,7 +261,7 @@ function AuthenticatedCart() {
                     d="M7 16l-4-4m0 0l4-4m-4 4h18"
                   />
                 </svg>
-                Continue Shopping
+                {t('continue')}
               </button>
             </div>
           </div>
@@ -275,15 +276,15 @@ function AuthenticatedCart() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Shopping Cart</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
             <p className="text-gray-600 mt-1">
               {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in
-              your cart
+              {t('cart')}
             </p>
           </div>
           <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg shadow-lg">
             <span className="text-sm font-medium">
-              Welcome, {user.name || user.email}
+              {t('welcome')} {user.name || user.email}
             </span>
           </div>
         </div>
@@ -371,7 +372,7 @@ function AuthenticatedCart() {
                       </div>
 
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-sm text-gray-600">Color:</span>
+                        <span className="text-sm text-gray-600">{t('color')}:</span>
                         <div
                           className="w-5 h-5 rounded-full border-2 border-white shadow-md ring-1 ring-gray-200"
                           style={{ backgroundColor: color }}
@@ -380,7 +381,7 @@ function AuthenticatedCart() {
                         {/* size */}
                         {size && (
                           <>
-                            <span className="text-sm text-gray-600">Size:</span>
+                            <span className="text-sm text-gray-600">{t('size')}:</span>
                             <span className="text-sm text-gray-800 font-medium">
                               {size}
                             </span>
@@ -415,7 +416,7 @@ function AuthenticatedCart() {
                             disabled={
                               quantity <= 1 || updateCartMutation.isLoading
                             }
-                            title="Decrease quantity"
+                            title={t('decrease')}
                           >
                             <svg
                               className="w-3 h-3"
@@ -441,7 +442,7 @@ function AuthenticatedCart() {
                               )
                             }
                             disabled={updateCartMutation.isLoading}
-                            title="Increase quantity"
+                            title={t('increase')}
                           >
                             <svg
                               className="w-3 h-3"
@@ -463,31 +464,31 @@ function AuthenticatedCart() {
           {/* Order Summary */}
           <div className="bg-white rounded-xl shadow-lg border border-orange-100 p-6 h-fit sticky top-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
-              Order Summary
+              {t('ordersummary')}
             </h2>
 
             <div className="space-y-4 mb-6">
               <div className="flex justify-between text-gray-600">
-                <span>Subtotal</span>
+                <span>{t('subtotal')}</span>
                 <span className="font-medium">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
-                <span>Shipping</span>
+                <span>{t('shipping')}</span>
                 <span className="font-medium">${shipping.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
-                <span>Tax</span>
+                <span>{t('tax')}</span>
                 <span className="font-medium">${tax.toFixed(2)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-green-600">
-                  <span>Discount</span>
+                  <span>{t('discount')}</span>
                   <span className="font-medium">-${discount.toFixed(2)}</span>
                 </div>
               )}
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-between text-lg font-bold text-gray-900">
-                  <span>Total</span>
+                  <span>{t('total')}</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
               </div>
@@ -496,12 +497,12 @@ function AuthenticatedCart() {
             {/* Coupon Section */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Coupon Code
+                {t('coupon')}
               </label>
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Enter coupon code"
+                  placeholder={t('couponplace')}
                   className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
@@ -516,7 +517,7 @@ function AuthenticatedCart() {
                     !couponCode.trim()
                   }
                 >
-                  Apply
+                  {t('apply')}
                 </button>
               </div>
             </div>
@@ -537,10 +538,10 @@ function AuthenticatedCart() {
                 removeItemMutation.isLoading ? (
                   <div className="flex items-center justify-center">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                    Updating...
+                    {t('update')}
                   </div>
                 ) : (
-                  "Proceed to Checkout"
+                  t('checkout')
                 )}
               </button>
 
@@ -549,14 +550,14 @@ function AuthenticatedCart() {
                 className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                 onClick={handleContinueShopping}
               >
-                Continue Shopping
+                {t('continue')}
               </button>
             </div>
 
             {/* Payment Icons */}
             <div className="mt-8 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-600 text-center mb-4">
-                Secure payments powered by
+                {t('securepayment')}
               </p>
               <div className="flex justify-center gap-4 opacity-60">
                 <Image

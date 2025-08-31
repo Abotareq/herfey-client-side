@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useCheckout } from "@/app/context/CheckoutContext";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function CheckoutStep1() {
   const { state, setUseExisting, setNewAddress } = useCheckout();
@@ -13,15 +14,15 @@ export default function CheckoutStep1() {
     postalCode: "",
     country: "Egypt",
   });
-
+  const t = useTranslations('CheckoutStep1');
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
-    if (!form.street.trim()) newErrors.street = "Street Address is required";
-    if (!form.city.trim()) newErrors.city = "City is required";
-    if (!form.postalCode.trim()) newErrors.postalCode = "Postal Code is required";
-    if (!form.country.trim()) newErrors.country = "Country is required";
+    if (!form.street.trim()) newErrors.street = t('streetrequire');
+    if (!form.city.trim()) newErrors.city = t('cityrequire');
+    if (!form.postalCode.trim()) newErrors.postalCode = t('postrequire');
+    if (!form.country.trim()) newErrors.country = t('countryrequire');
     return newErrors;
   };
 
@@ -46,7 +47,7 @@ export default function CheckoutStep1() {
             <span className="text-white font-bold text-sm">1</span>
           </div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-            Shipping Address
+            {t('title')}
           </h2>
         </div>
         <div className="w-full bg-orange-200 rounded-full h-2">
@@ -66,9 +67,9 @@ export default function CheckoutStep1() {
           />
           <div className="flex-1">
             <span className="text-gray-800 font-medium group-hover:text-orange-700 transition-colors">
-              Use existing address
+              {t('useexistingaddress')}
             </span>
-            <p className="text-sm text-gray-600 mt-1">Use the address from your profile</p>
+            <p className="text-sm text-gray-600 mt-1">{t('profileaddress')}</p>
           </div>
         </label>
 
@@ -82,9 +83,9 @@ export default function CheckoutStep1() {
           />
           <div className="flex-1">
             <span className="text-gray-800 font-medium group-hover:text-orange-700 transition-colors">
-              Use a new address
+              {t('usenewaddress')}
             </span>
-            <p className="text-sm text-gray-600 mt-1">Enter a different shipping address</p>
+            <p className="text-sm text-gray-600 mt-1">{t('differentshippingaddress')}</p>
           </div>
         </label>
       </div>
@@ -92,16 +93,16 @@ export default function CheckoutStep1() {
       {/* New Address Form with enhanced styling */}
       {!state.useExisting && (
         <div className="mt-8 space-y-6 border-t-2 border-orange-200 pt-6 bg-white/50 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold text-orange-800 mb-4">Enter New Address</h3>
+          <h3 className="text-lg font-semibold text-orange-800 mb-4">{t('newaddress')}</h3>
           
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Street Address
+                {t('street')}
               </label>
               <input
                 type="text"
-                placeholder="Enter your street address"
+                placeholder={t('streetplace')}
                 className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
                   errors.street 
                     ? "border-red-400 focus:border-red-500" 
@@ -120,11 +121,11 @@ export default function CheckoutStep1() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                City
+                {t('city')}
               </label>
               <input
                 type="text"
-                placeholder="Enter your city"
+                placeholder={t('cityplace')}
                 className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
                   errors.city 
                     ? "border-red-400 focus:border-red-500" 
@@ -143,11 +144,11 @@ export default function CheckoutStep1() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Postal Code
+                {t('postcode')}
               </label>
               <input
                 type="text"
-                placeholder="Enter your postal code"
+                placeholder={t('postplace')}
                 className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
                   errors.postalCode 
                     ? "border-red-400 focus:border-red-500" 
@@ -166,11 +167,11 @@ export default function CheckoutStep1() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Country
+                {t('country')}
               </label>
               <input
                 type="text"
-                placeholder="Enter your country"
+                placeholder={t('countryplace')}
                 className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
                   errors.country 
                     ? "border-red-400 focus:border-red-500" 
@@ -195,7 +196,7 @@ export default function CheckoutStep1() {
         onClick={handleContinue}
         className="mt-8 w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-amber-600 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/30"
       >
-        Continue to Payment Method →
+        {t('continuepayment')}
       </button>
     </div>
   );
