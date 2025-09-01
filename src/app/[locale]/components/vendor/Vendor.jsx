@@ -7,11 +7,13 @@ import { useTranslations } from "next-intl";
 import OrdersSection from "./components/orders/order";
 import { useAuth } from "@/app/context/AuthContext";
 import { useGetUserById } from "@/service/user";
+import { useSignOut } from "@/service/auth";
 
 function VendorProfile() {
   const [activeTab, setActiveTab] = useState("profile");
-  const { user, loading: authLoading } = useAuth(); // Include authLoading
+  const { user, loading: authLoading } = useAuth();
   const t = useTranslations("vendorProfile");
+  const { mutate: signOut, isLoading } = useSignOut();
 
   // Fetch user data
   const {
@@ -19,33 +21,17 @@ function VendorProfile() {
     isLoading: userLoading,
     error,
   } = useGetUserById(user?.id);
-  const [userCoupons, setUserCoupons] = useState([
-    {
-      _id: "coup1",
-      code: "TECH20",
-      type: "percentage",
-      value: 20,
-      minCartTotal: 100,
-      maxDiscount: 50,
-      expiryDate: "2024-12-31T23:59:59Z",
-      usageLimit: 100,
-      usedCount: 23,
-      active: true,
-    },
-    {
-      _id: "coup2",
-      code: "FIXED10",
-      type: "fixed",
-      value: 10,
-      minCartTotal: 50,
-      maxDiscount: null,
-      expiryDate: "2024-11-30T23:59:59Z",
-      usageLimit: 50,
-      usedCount: 12,
-      active: true,
-    },
-  ]);
 
+  const handleLogout = () => {
+    signOut(
+      {},
+      {
+        onSuccess: () => {
+          window.location.reload();
+        },
+      }
+    );
+  };
   const profileData = fetchedUserData?.data?.user ?? null;
 
   // Log for debugging
@@ -183,6 +169,12 @@ function VendorProfile() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 relative overflow-hidden">
+      <button
+        onClick={handleLogout}
+        className="absolute top-4 right-4 bg-orange-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-orange-700 transition-colors"
+      >
+        sign out
+      </button>
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-orange-200/30 to-orange-300/30 rounded-full blur-3xl"></div>
@@ -364,10 +356,7 @@ function VendorProfile() {
           )}
           {activeTab === "coupons" && (
             <div className="animate-fade-in">
-              <CouponsSection
-                userCoupons={userCoupons}
-                setUserCoupons={setUserCoupons}
-              />
+              <CouponsSection />
             </div>
           )}
           {activeTab === "orders" && (
