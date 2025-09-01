@@ -25,7 +25,7 @@ export const useGetUserOrders = (page = 1, limit = 10, status = '') =>
 export const useGetSellerOrders = (params) =>
   useQuery({
     queryKey: ["sellerOrders", params],
-    queryFn: () => getRequest(`/order/seller/orders?page=${params.page}&limit=${params.limit}&searchQuery=${params.searchQuery}&statusFilter=${params.statusFilter}`),
+    queryFn: () => getRequest(`/order/seller/orders?page=${params.page}&limit=${params.limit}&searchQuery=${params.searchQuery}&statusFilter=${params.statusFilter}&paymentMethodFilter=${params.paymentMethodFilter}`),
     keepPreviousData: true, 
   });
 
@@ -37,6 +37,16 @@ export const useGetUserOrderById = (orderId) =>
     enabled: !!orderId, 
   });
 
+export const useGetStoreOrdersByStoreId = (
+  storeId,
+  { page = 1, limit = 10 }
+) =>
+  useQuery({
+    queryKey: ["userOrder", storeId, page, limit],
+    queryFn: () =>
+      getRequest(`/order/store/${storeId}?page=${page}&limit=${limit}`),
+    enabled: !!storeId,
+  });
 export const useGetSellerOrderById = (orderId) =>
   useQuery({
     queryKey: ["sellerOrder", orderId],
