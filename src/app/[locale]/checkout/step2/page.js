@@ -50,7 +50,8 @@ export default function CheckoutStep2() {
       // Prepare order data
       const orderData = {
         useExisting: state.useExisting,
-        shippingAddress: state.useExisting ? t('profileaddress') : state.newAddress,
+        shippingAddress: state.useExisting ? "Profile Address" : state.newAddress,
+        paymentMethod
       };
 
       console.log("Creating order with data:", orderData);
@@ -137,8 +138,8 @@ export default function CheckoutStep2() {
       // Enhanced error handling
       let errorMessage = "Something went wrong during checkout.";
       
-      if (err?.response?.data?.message) {
-        errorMessage = err.response.data.message;
+      if (err?.response?.data?.error) {
+        errorMessage = err.response.data.error;
       } else if (err?.message) {
         errorMessage = err.message;
       } else if (typeof err === 'string') {

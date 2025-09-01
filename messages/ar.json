@@ -248,6 +248,7 @@
     "streetname": "اسم الشارع",
     "landmark": "أقرب معلم",
     "city": "المدينة",
+    "postalCode": "الرمز البريدي",
     "government": "المحافظة",
     "country": "الدولة",
     "type": "نوع العنوان",
@@ -426,7 +427,23 @@
     "cancelPrompt": "لم تعد بحاجة لهذا الطلب؟ يمكنك إلغاؤه قبل أن تبدأ معالجته.",
     "supportPrompt": "يتم تحضير هذا الطلب للشحن ولا يمكن إلغاؤه عبر الإنترنت. للمساعدة، يرجى الاتصال بفريق الدعم لدينا.",
     "ordercancelled": "تم الغاء الطلب بنجاح",
-    "error": "فسل إلغاء الطلب:"
+    "error": "فشل إلغاء الطلب:",
+    "creditCard": "بطاقة الائتمان",
+    "paymentMethod": "طريقة الدفع",
+    "paymentDueOnDelivery": "الدفع عند التسليم",
+    "paymentOnDeliveryInfo": "ستدفع عند وصول طلبك",
+    "paymentProcessed": "تمت معالجة الدفع بنجاح",
+    "awaitingPaymentConfirmation": "في انتظار تأكيد الدفع من البائع",
+    "orderCancelled": "تم إلغاء الطلب",
+    "orderCancelledMessage": "تم إلغاء هذا الطلب",
+    "orderWasCancelled": "تم إلغاء هذا الطلب",
+    "orderInProgress": "الطلب قيد المعالجة",
+    "each": "كل",
+    "cancelled": "ملغى",
+    "paymentConfirmed": "تم تأكيد الدفع",
+    "codPaymentReceived": "تم استلام الدفع النقدي من البائع",
+    "nextSteps": "ما هي الخطوات التالية؟",
+    "codPaymentProcessingMessage": "سيتم الآن معالجة طلبك وإعداده للشحن."
   },
 
   "vendorstore": {

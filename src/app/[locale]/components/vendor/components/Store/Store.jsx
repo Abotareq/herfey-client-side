@@ -46,6 +46,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useTranslations } from "use-intl";
 import StoreSkeleton, { StoreSkeletonSimple } from "./storeSkelton";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function StoresSection() {
   const [showStoreForm, setShowStoreForm] = useState(false);
@@ -91,17 +92,50 @@ export default function StoresSection() {
 
   const userStores = vendorStoresData?.stores || vendorStoresData?.data?.stores || [];
 
-  const error = fetchError?.response?.data?.message || 
+  const error = fetchError?.response?.data?.error || 
                 fetchError?.message || 
-                createStoreMutation.error?.response?.data?.message ||
+                createStoreMutation.error?.response?.data?.error ||
                 createStoreMutation.error?.message ||
-                updateStoreMutation.error?.response?.data?.message ||
+                updateStoreMutation.error?.response?.data?.error ||
                 updateStoreMutation.error?.message ||
-                deleteStoreMutation.error?.response?.data?.message ||
+                deleteStoreMutation.error?.response?.data?.error ||
                 deleteStoreMutation.error?.message ||
                 null;
 
   const submitting = createStoreMutation.isPending || updateStoreMutation.isPending;
+
+  // Custom toast styles with orange theme
+  const toastOptions = {
+    duration: 4000,
+    style: {
+      background: 'white',
+      color: '#1f2937',
+      border: '1px solid #fed7aa',
+      borderRadius: '16px',
+      fontSize: '14px',
+      fontWeight: '600',
+      padding: '12px 16px',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+    },
+    success: {
+      iconTheme: {
+        primary: '#ea580c',
+        secondary: 'white',
+      },
+    },
+    error: {
+      iconTheme: {
+        primary: '#dc2626',
+        secondary: 'white',
+      },
+    },
+    loading: {
+      iconTheme: {
+        primary: '#ea580c',
+        secondary: 'white',
+      },
+    },
+  };
 
   // Validation helper function
   const validateFormData = (data, isUpdate = false) => {
@@ -113,10 +147,10 @@ export default function StoresSection() {
   // Real-time field validation
   const handleFieldValidation = (fieldName, value) => {
     const validation = validateField(fieldName, value, !!editingStore);
-    
+    const error  = JSON.parse(validation.error);
     setValidationErrors(prev => ({
       ...prev,
-      [fieldName]: validation.isValid ? null : validation.error
+      [fieldName]: validation.isValid ? null : error[0].message
     }));
     
     return validation.isValid;
@@ -187,12 +221,12 @@ export default function StoresSection() {
         returns: newStore.policies?.returns || "",
       },
     };
-    console.log(storeData)
-    console.log(validateFormData(storeData, false))
     if (!validateFormData(storeData, false)) {
-      console.log("true")
+      toast.error("Please fill in all required fields correctly", toastOptions);
       return;
     }
+
+    const toastId = toast.loading("Creating your store...", toastOptions);
 
     try {
       const formData = new FormData();
@@ -223,8 +257,15 @@ export default function StoresSection() {
       setValidationErrors({});
       setFieldTouched({});
       setShowStoreForm(false);
+      
+      toast.success("Store created successfully! It's now pending approval.", { 
+        ...toastOptions, 
+        id: toastId 
+      });
     } catch (err) {
       console.error("Error creating store:", err);
+      const errorMessage = err?.response?.data?.error || err?.message || "Failed to create store";
+      toast.error(errorMessage, { ...toastOptions, id: toastId });
     }
   };
 
@@ -237,6 +278,7 @@ export default function StoresSection() {
     });
     setValidationErrors({});
     setFieldTouched({});
+    toast.success(`Editing ${store.name}`, toastOptions);
   };
 
   const handleUpdateStore = async () => {
@@ -272,8 +314,11 @@ export default function StoresSection() {
     };
 
     if (!validateFormData(storeData, true)) {
+      toast.error("Please fix the validation errors", toastOptions);
       return;
     }
+
+    const toastId = toast.loading("Updating store...", toastOptions);
 
     try {
       const formData = new FormData();
@@ -307,8 +352,12 @@ export default function StoresSection() {
       setValidationErrors({});
       setFieldTouched({});
       setEditingStore(null);
+      
+      toast.success("Store updated successfully!", { ...toastOptions, id: toastId });
     } catch (err) {
       console.error("Error updating store:", err);
+      const errorMessage = err?.response?.data?.error || err?.message || "Failed to update store";
+      toast.error(errorMessage, { ...toastOptions, id: toastId });
     }
   };
 
@@ -325,18 +374,26 @@ export default function StoresSection() {
     setValidationErrors({});
     setFieldTouched({});
     setShowStoreForm(false);
+    toast("Changes cancelled", toastOptions);
   };
 
   const handleDeleteStore = async (storeId) => {
+    const store = userStores.find(s => s._id === storeId);
+    const toastId = toast.loading(`Deleting ${store?.name || 'store'}...`, toastOptions);
+    
     try {
       await deleteStoreMutation.mutateAsync(storeId);
+      toast.success("Store deleted successfully", { ...toastOptions, id: toastId });
     } catch (err) {
       console.error("Error deleting store:", err);
+      const errorMessage = err?.response?.data?.error || err?.message || "Failed to delete store";
+      toast.error(errorMessage, { ...toastOptions, id: toastId });
     }
   };
 
   const handleUpdate = (updatedStore) => {
     console.log("Store updated:", updatedStore);
+    toast.success(`${updatedStore.name} updated successfully!`, toastOptions);
   };
 
   const setEditMode = (store) => {
@@ -350,11 +407,47 @@ export default function StoresSection() {
   const handleViewDetails = (store) => {
     setSelectedStore(store);
     setModal("details");
+    toast(`Viewing ${store.name} details`, toastOptions);
   };
 
   const handleManageStore = (store) => {
     setSelectedStore(store);
     setModal("manage");
+    toast(`Managing ${store.name}`, toastOptions);
+  };
+
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by this browser", toastOptions);
+      return;
+    }
+
+    const toastId = toast.loading("Getting your location...", toastOptions);
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        handleFieldChange('location', {
+          ...newStore.location,
+          coordinates: [position.coords.longitude, position.coords.latitude],
+        });
+        toast.success("Location updated successfully!", { ...toastOptions, id: toastId });
+      },
+      (error) => {
+        let errorMessage = "Failed to get location";
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = "Location access denied";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = "Location information unavailable";
+            break;
+          case error.TIMEOUT:
+            errorMessage = "Location request timed out";
+            break;
+        }
+        toast.error(errorMessage, { ...toastOptions, id: toastId });
+      }
+    );
   };
 
   // Helper function to render validation error
@@ -386,6 +479,15 @@ export default function StoresSection() {
 
   return (
     <div className="space-y-8 animate-fade-in">
+      {/* Toast Container */}
+      <Toaster
+        position="top-right"
+        toastOptions={toastOptions}
+        containerStyle={{
+          top: 80,
+        }}
+      />
+
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-orange-100">
         <div className="space-y-3">
@@ -554,16 +656,7 @@ export default function StoresSection() {
                     </p>
                     <button
                       type="button"
-                      onClick={() => {
-                        if (navigator.geolocation) {
-                          navigator.geolocation.getCurrentPosition((position) => {
-                            handleFieldChange('location', {
-                              ...newStore.location,
-                              coordinates: [position.coords.longitude, position.coords.latitude],
-                            });
-                          });
-                        }
-                      }}
+                      onClick={handleUseCurrentLocation}
                       className="text-sm text-orange-600 hover:text-orange-800 font-bold flex items-center gap-2 transition-colors duration-200 hover:bg-orange-50 px-3 py-1 rounded-lg"
                     >
                       <Navigation className="w-4 h-4" />
