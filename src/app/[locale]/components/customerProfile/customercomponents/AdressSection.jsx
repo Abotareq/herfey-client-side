@@ -35,6 +35,7 @@ function AddressesSection() {
   const [newAddress, setNewAddress] = useState({
     buildingNo: "",
     street: "",
+    postalCode: "",
     nearestLandMark: "",
     city: "",
     governorate: "",
@@ -48,6 +49,7 @@ function AddressesSection() {
       buildingNo: "",
       street: "",
       nearestLandMark: "",
+      postalCode: "",
       city: "",
       governorate: "",
       country: "Egypt",
@@ -60,7 +62,7 @@ function AddressesSection() {
 
   const handleAddOrUpdate = () => {
     // Validation
-    if (!newAddress.buildingNo || !newAddress.street || !newAddress.city) {
+    if (!newAddress.buildingNo || !newAddress.street || !newAddress.city  || !newAddress.postalCode || !newAddress.country) {
       toast.error(t('errorf'));
       return;
     }
@@ -126,6 +128,7 @@ function AddressesSection() {
           street,
           nearestLandMark,
           city,
+          postalCode,
           governorate,
           country,
           addressType,
@@ -138,6 +141,7 @@ function AddressesSection() {
           street,
           nearestLandMark,
           city,
+          postalCode,
           governorate,
           country,
           addressType,
@@ -178,6 +182,7 @@ function AddressesSection() {
         street,
         nearestLandMark,
         city,
+        postalCode,
         governorate,
         country,
         addressType,
@@ -189,6 +194,7 @@ function AddressesSection() {
         street,
         nearestLandMark,
         city,
+        postalCode,
         governorate,
         country,
         addressType,
@@ -507,6 +513,15 @@ function AddressesSection() {
               className="px-4 py-3 border rounded-lg"
             />
             <input
+              type="number"
+              value={newAddress.postalCode}
+              onChange={(e) =>
+                setNewAddress((prev) => ({ ...prev, postalCode: e.target.value }))
+              }
+              placeholder={t("postalCode")}
+              className="px-4 py-3 border rounded-lg"
+            />
+            <input
               type="text"
               value={newAddress.nearestLandMark}
               onChange={(e) =>
@@ -622,6 +637,9 @@ function AddressesSection() {
                 </p>
                 <p>
                   {t("government")}: {address.governorate}
+                </p>
+                <p>
+                  {t("postalCode")}: {address.postalCode}
                 </p>
                 <p>
                   {t("type")}: {address.addressType}
