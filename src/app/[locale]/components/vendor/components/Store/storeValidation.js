@@ -14,100 +14,136 @@ export const createStoreSchema = z.object({
 
   name: z
     .string({
-      required_error: "name is a required field",
-      invalid_type_error: "name should be a type of 'text'",
+      required_error: "Store name is required",
+      invalid_type_error: "Store name must be text",
     })
     .trim()
-    .min(3, { message: "name should have a minimum length of 3" })
-    .max(100, { message: "name should have a maximum length of 100" }),
+    .min(3, { message: "Store name must be at least 3 characters" })
+    .max(100, { message: "Store name cannot exceed 100 characters" }),
 
   description: z
     .string({
-      required_error: "description is a required field",
-      invalid_type_error: "description should be a type of 'text'",
+      required_error: "Store description is required",
+      invalid_type_error: "Store description must be text",
     })
     .trim()
-    .min(10, { message: "description should have a minimum length of 10" }),
+    .min(10, { message: "Description must be at least 10 characters" })
+    .max(1000, { message: "Description cannot exceed 1000 characters" }),
 
-  logoUrl: z.instanceof(File, { message: "Logo must be a file" }).optional(),
+  logoUrl: z
+    .instanceof(File, { message: "Logo must be a valid file" })
+    .optional(),
 
   status: z
     .enum(["pending", "approved", "rejected", "suspended"], {
-      invalid_type_error: "status should be a type of 'text'",
+      invalid_type_error: "Invalid status value",
     })
     .optional(),
 
   location: z
     .object({
-      type: z.enum(["Point"]).optional(),
+      type: z.enum(["Point"]).default("Point"),
       coordinates: z
-        .array(z.number())
-        .length(2, { message: "location.coordinates must have exactly 2 items" })
+        .array(z.number(), { message: "Coordinates must be numbers" })
+        .length(2, { message: "Location must have longitude and latitude" })
         .refine(
-          ([longitude, latitude]) =>
-            longitude >= -180 &&
-            longitude <= 180 &&
-            latitude >= -90 &&
-            latitude <= 90,
+          ([longitude, latitude]) => {
+            const isValidLng = longitude >= -180 && longitude <= 180;
+            const isValidLat = latitude >= -90 && latitude <= 90;
+            return isValidLng && isValidLat;
+          },
           {
-            message:
-              "location.coordinates[0] must be between -180 and 180, and coordinates[1] must be between -90 and 90",
+            message: "Invalid coordinates. Longitude: -180 to 180, Latitude: -90 to 90",
           }
-        )
-        .optional(),
+        ),
     })
     .optional(),
 
   address: z.object({
     city: z
       .string({
-        required_error: "address.city is required",
-        invalid_type_error: "address.city should be a type of 'text'",
+        required_error: "City is required",
+        invalid_type_error: "City must be text",
       })
       .trim()
-      .min(1, { message: "address.city cannot be empty" }),
+      .min(2, { message: "City name must be at least 2 characters" })
+      .max(100, { message: "City name cannot exceed 100 characters" }),
 
     postalCode: z
-      .union([z.string(), z.number()], {
-        required_error: "address.postalCode is required",
-      })
-      .transform((val) => {
-        const num = typeof val === "string" ? parseInt(val, 10) : val;
-        if (isNaN(num)) throw new Error("address.postalCode must be a valid number");
-        return num;
+      .union([z.string(), z.number()])
+      .transform((val) => String(val).trim())
+      .refine((val) => val.length > 0, { message: "Postal code is required" })
+      .refine((val) => /^[A-Za-z0-9\s-]{3,10}$/.test(val), { 
+        message: "Postal code must be 3-10 characters (letters, numbers, spaces, hyphens only)" 
       }),
 
     street: z
       .string({
-        required_error: "address.street is required",
-        invalid_type_error: "address.street should be a type of 'text'",
+        required_error: "Street address is required",
+        invalid_type_error: "Street address must be text",
       })
       .trim()
-      .min(1, { message: "address.street cannot be empty" }),
+      .min(5, { message: "Street address must be at least 5 characters" })
+      .max(200, { message: "Street address cannot exceed 200 characters" }),
   }),
 
   policies: z
     .object({
-      shipping: z.string().optional(),
-      returns: z.string().optional(),
+      shipping: z
+        .string()
+        .trim()
+        .max(500, { message: "Shipping policy cannot exceed 500 characters" })
+        .optional(),
+      returns: z
+        .string()
+        .trim()
+        .max(500, { message: "Returns policy cannot exceed 500 characters" })
+        .optional(),
     })
     .optional(),
 });
 
-// Update Store Validation Schema = كل الحقول optional
-export const updateStoreSchema = createStoreSchema.partial();
+// Update Store Validation Schema - all fields optional except critical ones
+export const updateStoreSchema = createStoreSchema.partial({
+  address: true,
+  location: true,
+  policies: true,
+}).extend({
+  // Keep address validation when provided
+  address: z.object({
+    city: z
+      .string()
+      .trim()
+      .min(2, { message: "City name must be at least 2 characters" })
+      .max(100, { message: "City name cannot exceed 100 characters" })
+      .optional(),
+    postalCode: z
+      .union([z.string(), z.number()])
+      .transform((val) => String(val).trim())
+      .refine((val) => val.length === 0 || /^[A-Za-z0-9\s-]{3,10}$/.test(val), { 
+        message: "Postal code must be 3-10 characters if provided" 
+      })
+      .optional(),
+    street: z
+      .string()
+      .trim()
+      .min(0)
+      .max(200, { message: "Street address cannot exceed 200 characters" })
+      .optional(),
+  }).optional(),
+});
 
 // ----------------------------
 // Utility functions
 // ----------------------------
 const formatZodError = (error) => {
-  if (error instanceof ZodError) {
+  if (error instanceof ZodError && error.errors && Array.isArray(error.errors)) {
     return error.errors.map((err) => ({
       field: err.path.join("."),
       message: err.message,
     }));
   }
-  return [{ field: "unknown", message: "Unexpected validation error" }];
+  return [{ field: "unknown", message: error?.message || "Unexpected validation error" }];
 };
 
 export const validateCreateStore = (data) => {
@@ -135,12 +171,17 @@ export const validateStoreForm = (formData, isUpdate = false) => {
     const validatedData = schema.parse(formData);
     return { isValid: true, data: validatedData, errors: {} };
   } catch (error) {
+    const formattedErrors = formatZodError(error);
+    const errorMap = {};
+    
+    formattedErrors.forEach((err) => {
+      errorMap[err.field] = err.message;
+    });
+
     return {
       isValid: false,
       data: null,
-      errors: Object.fromEntries(
-        formatZodError(error).map((err) => [err.field, err.message])
-      ),
+      errors: errorMap,
     };
   }
 };
@@ -149,23 +190,134 @@ export const validateStoreForm = (formData, isUpdate = false) => {
 // Field-level validation
 // ----------------------------
 const fieldValidationSchemas = {
-  name: z.string().trim().min(3).max(100),
-  description: z.string().trim().min(10),
-  logoUrl: z.instanceof(File, { message: "Logo must be a file" }),
-  status: z.enum(["pending", "approved", "rejected", "suspended"]).optional(),
+  name: z
+    .string()
+    .trim()
+    .min(3, { message: "Store name must be at least 3 characters" })
+    .max(100, { message: "Store name cannot exceed 100 characters" }),
+    
+  description: z
+    .string()
+    .trim()
+    .min(10, { message: "Description must be at least 10 characters" })
+    .max(1000, { message: "Description cannot exceed 1000 characters" }),
+    
+    logoUrl: z
+    .instanceof(File, { message: "Logo must be a valid file" })
+    .optional(),
+    
+  status: z
+    .enum(["pending", "approved", "rejected", "suspended"], {
+      message: "Invalid status value"
+    })
+    .optional(),
+    
+  "address.city": z
+    .string()
+    .trim()
+    .min(2, { message: "City name must be at least 2 characters" })
+    .max(100, { message: "City name cannot exceed 100 characters" }),
+    
+  "address.postalCode": z
+    .union([z.string(), z.number()])
+    .transform((val) => String(val).trim())
+    .refine((val) => val.length > 0, { message: "Postal code is required" })
+    .refine((val) => /^[A-Za-z0-9\s-]{3,10}$/.test(val), { 
+      message: "Invalid postal code format" 
+    }),
+    
+  "address.street": z
+    .string()
+    .trim()
+    .min(5, { message: "Street address must be at least 5 characters" })
+    .max(200, { message: "Street address cannot exceed 200 characters" }),
+    
+  "location.coordinates": z
+    .array(z.number())
+    .length(2, { message: "Location must have longitude and latitude" })
+    .refine(
+      ([longitude, latitude]) => {
+        if (longitude === 0 && latitude === 0) return true; // Allow default values
+        const isValidLng = longitude >= -180 && longitude <= 180;
+        const isValidLat = latitude >= -90 && latitude <= 90;
+        return isValidLng && isValidLat;
+      },
+      { message: "Invalid coordinates" }
+    )
+    .optional(),
+    
+  "policies.shipping": z
+    .string()
+    .trim()
+    .max(500, { message: "Shipping policy cannot exceed 500 characters" })
+    .optional(),
+    
+  "policies.returns": z
+    .string()
+    .trim()
+    .max(500, { message: "Returns policy cannot exceed 500 characters" })
+    .optional(),
 };
 
-export const validateField = (fieldName, value) => {
+export const validateField = (fieldName, value, isUpdate = false) => {
   try {
-    if (fieldValidationSchemas[fieldName]) {
-      fieldValidationSchemas[fieldName].parse(value);
+    // Handle empty values for update mode
+    if (isUpdate && (value === "" || value === null || value === undefined)) {
       return { isValid: true, error: null };
     }
 
-    // complex fields (address, location, policies) are validated only in full form
+    // Get the appropriate schema for this field
+    const schema = fieldValidationSchemas[fieldName];
+    
+    if (!schema) {
+      return { isValid: true, error: null };
+    }
+
+    // Special handling for file inputs
+    if (fieldName === "logoUrl" && value instanceof FileList) {
+      value = value[0] || null;
+    }
+
+    // Parse the value with the schema
+    schema.parse(value);
     return { isValid: true, error: null };
+    
   } catch (error) {
-    const formatted = formatZodError(error);
-    return { isValid: false, error: formatted[0]?.message || "Invalid value" };
+    // Handle both ZodError and regular errors
+    if (error instanceof ZodError) {
+      const formatted = formatZodError(error);
+      return { 
+        isValid: false, 
+        error: formatted[0]?.message || "Invalid value" 
+      };
+    } else {
+      // Handle other types of errors (like transform errors)
+      return {
+        isValid: false,
+        error: error?.message || "Invalid value"
+      };
+    }
   }
+};
+
+// ----------------------------
+// Helper functions for the React component
+// ----------------------------
+export const getFieldRequiredStatus = (fieldName, isUpdate = false) => {
+  if (isUpdate) return false; // All fields optional in update mode
+  
+  const requiredFields = [
+    'name',
+    'description',
+    'address.city',
+    'address.postalCode', 
+    'address.street'
+  ];
+  
+  return requiredFields.includes(fieldName);
+};
+
+export const getValidationMessage = (fieldName, value, isUpdate = false) => {
+  const validation = validateField(fieldName, value, isUpdate);
+  return validation.error;
 };
