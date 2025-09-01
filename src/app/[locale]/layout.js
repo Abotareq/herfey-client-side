@@ -40,7 +40,7 @@ export default async function RootLayout({ params, children }) {
   }
 
   const messages = await getMessages();
-
+  
   return (
     <html
       lang={resolvedParams.locale}
@@ -58,8 +58,8 @@ export default async function RootLayout({ params, children }) {
               <CheckoutProvider>
               <RouteGuard>
               <FavouriteContext>
-              <Toaster
-                  position="top-center"
+              {/* <Toaster
+                  position={resolvedParams.locale === "ar"  ? "top-left" : "top-right"}
                   toastOptions={{
                     success: {
                       duration: 3000,
@@ -68,7 +68,7 @@ export default async function RootLayout({ params, children }) {
                       duration: 5000,
                     },
                   }}
-                />
+                /> */}
                 <ConditionalLayout locale={resolvedParams.locale}>
                   {children}
                 </ConditionalLayout>

@@ -6,6 +6,7 @@ import background from "../../../../public/contact.webp";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ContactPage() {
   const locale = useLocale();
@@ -42,12 +43,11 @@ export default function ContactPage() {
         process.env.NEXT_PUBLIC_EMAIL_PUBLIC_KEY
       );
       setLoading(false);
-      alert(t('sendalert'));
+      toast.success(t('sendalert'));
       setFormData({ name: "", email: "", message: "", phone: "" });
     } catch (error) {
       setLoading(false);
-      console.log(error);
-      alert(t('failalert'));
+      toast.error(t('failalert', error));
     }
   };
 
@@ -171,6 +171,15 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      <Toaster  
+      position={isArabic ? "top-left" : "top-right"}
+      // toastOptions={{
+      //   style: {
+      //     textAlign: isArabic ? "right" : "left",
+      //     fontFamily: isArabic ? "Tahoma, Cairo, sans-serif" : "Arial, sans-serif",
+      //   },
+      // }}
+      />
     </div>
   );
 }
