@@ -10,6 +10,7 @@ export default function ConditionalLayout({ locale, children }) {
   const excludedRoutes = [
     `/${locale}/signin`,
     `/${locale}/signup`,
+    `/${locale}/vendor-profile`,
     // Add other routes as needed
   ];
   

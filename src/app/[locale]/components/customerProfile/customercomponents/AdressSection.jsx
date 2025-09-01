@@ -218,10 +218,10 @@ function AddressesSection() {
       { userId: user.id || user._id, addresses: updatedAddresses },
       {
         onSuccess: () => {
-          toast.success("Default address updated successfully");
+          toast.success(t('success'));
         },
         onError: (error) => {
-          toast.error("Failed to set default address:", error);
+          toast.error(t('erroru'), error);
         },
       }
     );
@@ -603,9 +603,9 @@ function AddressesSection() {
         {addresses.length === 0 ? (
           <div className="text-center py-12 bg-slate-50 rounded-lg">
             <h3 className="text-lg font-semibold text-slate-900 mb-2">
-              {t("noAddressesFound")}
+              {t("noaddress")}
             </h3>
-            <p className="text-slate-600">{t("noAddressesSubtext")}</p>
+            <p className="text-slate-600">{t("noaddresssubtext")}</p>
           </div>
         ) : (
           addresses.map((address) => (
