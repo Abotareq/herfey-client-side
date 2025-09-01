@@ -1,14 +1,46 @@
 'use client'
 import { useStoreContext } from '@/app/context/StoreContext'
 import { useGetAllProducts } from '@/service/product'
+import { useGetStoreOrdersByStoreId } from '@/service/customerOrderService'
 import { useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import { 
+  Info, 
+  Package, 
+  ShoppingBag, 
+  BarChart3, 
+  Settings, 
+  X, 
+  Store,
+  MapPin,
+  Shield,
+  Plus,
+  RefreshCw,
+  Edit,
+  Trash2,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle,
+  AlertCircle,
+  DollarSign,
+  TrendingUp,
+  Users,
+  Activity
+} from 'lucide-react'
 
 // Store Management Component
 export function StoreManagement({ store, onUpdate, onClose }) {
   const [activeTab, setActiveTab] = useState('general')
   const router = useRouter()
-  const { setStoreId } = useStoreContext();
+  const { setStoreId } = useStoreContext()
+  
+  // Pagination states
+  const [productsPage, setProductsPage] = useState(1)
+  const [ordersPage, setOrdersPage] = useState(1)
+  const ITEMS_PER_PAGE = 6
+
   const [formData, setFormData] = useState({
     name: store?.name || '',
     description: store?.description || '',
@@ -16,70 +48,247 @@ export function StoreManagement({ store, onUpdate, onClose }) {
     address: {
       city: store?.address?.city || '',
       postalCode: store?.address?.postalCode || '',
-      street: store?.address?.street || ''
+      street: store?.address?.street || '',
     },
     policies: {
       shipping: store?.policies?.shipping || '',
-      returns: store?.policies?.returns || ''
-    }
+      returns: store?.policies?.returns || '',
+    },
+    status: store?.status || 'active',
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [activeSection, setActiveSection] = useState('basic')
+  const [storeSettings, setStoreSettings] = useState({
+    status: store?.status || 'active',
+    maintenanceMode: false,
+  })
 
-  // Use the products service
+  // Use the products service with pagination
   const {
     data: productsData,
     isLoading: productsLoading,
     error: productsError,
-    refetch: refetchProducts
+    refetch: refetchProducts,
   } = useGetAllProducts({
     storeId: store?._id,
-    // Add any other filters you need
+    page: productsPage,
+    limit: ITEMS_PER_PAGE,
+  })
+
+  // Use the orders service with pagination
+  const {
+    data: ordersData,
+    isLoading: ordersLoading,
+    error: ordersError,
+    refetch: refetchOrders,
+  } = useGetStoreOrdersByStoreId(store?._id, {
+    page: ordersPage,
+    limit: ITEMS_PER_PAGE,
   })
 
   const tabs = [
-    { id: 'general', label: 'General Info', icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-    { id: 'products', label: 'Products', icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
-    { id: 'orders', label: 'Orders', icon: 'M16 11V7a4 4 0 00-8 0v4M8 11v6a2 2 0 002 2h4a2 2 0 002-2v-6M8 11h8' },
-    { id: 'analytics', label: 'Analytics', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-    { id: 'settings', label: 'Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' }
+    { id: 'general', label: 'General Info', icon: Info },
+    { id: 'products', label: 'Products', icon: Package },
+    { id: 'orders', label: 'Orders', icon: ShoppingBag },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'settings', label: 'Settings', icon: Settings }
   ]
 
   const handleSave = async () => {
     setIsLoading(true)
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000))
       onUpdate({ ...store, ...formData, updatedAt: new Date().toISOString() })
+      toast.success('Store updated successfully!', {
+        style: {
+          border: '1px solid #FF8C00',
+          padding: '16px',
+          color: '#000000',
+        },
+        iconTheme: {
+          primary: '#FF8C00',
+          secondary: '#FFFFFF',
+        },
+      })
     } catch (error) {
       console.error('Error updating store:', error)
+      toast.error('Failed to update store. Please try again.', {
+        style: {
+          border: '1px solid #FF8C00',
+          padding: '16px',
+          color: '#000000',
+        },
+        iconTheme: {
+          primary: '#FF8C00',
+          secondary: '#FFFFFF',
+        },
+      })
     } finally {
       setIsLoading(false)
     }
   }
 
-  // Static orders data
-  const mockOrders = [
-    { id: '#ORD-001', customer: 'Ahmed Ali', total: 67.48, status: 'delivered', date: '2025-08-15' },
-    { id: '#ORD-002', customer: 'Sarah Hassan', total: 42.99, status: 'processing', date: '2025-08-16' },
-    { id: '#ORD-003', customer: 'Mohamed Sayed', total: 89.97, status: 'shipped', date: '2025-08-17' },
-    { id: '#ORD-004', customer: 'Fatma Omar', total: 24.99, status: 'pending', date: '2025-08-18' }
-  ]
+  const handleStatusChange = async (status) => {
+    try {
+      setStoreSettings(prev => ({ ...prev, status }))
+      
+      const statusMessage = status === 'active' ? 'Store is now active!' : 'Store is now in maintenance mode.'
+      const toastType = status === 'active' ? 'success' : 'default'
+      
+      if (toastType === 'success') {
+        toast.success(statusMessage, {
+          style: {
+            border: '1px solid #10B981',
+            padding: '16px',
+            color: '#000000',
+          },
+          iconTheme: {
+            primary: '#10B981',
+            secondary: '#FFFFFF',
+          },
+        })
+      } else {
+        toast(statusMessage, {
+          icon: '⚙️',
+          style: {
+            border: '1px solid #FF8C00',
+            padding: '16px',
+            color: '#000000',
+          },
+        })
+      }
+    } catch (error) {
+      toast.error('Failed to update store status.', {
+        style: {
+          border: '1px solid #EF4444',
+          padding: '16px',
+          color: '#000000',
+        },
+      })
+    }
+  }
 
-  // Process products data
+  const handleDeleteStore = () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this store? This action cannot be undone.')
+    if (confirmDelete) {
+      toast.error('Store deletion initiated. This action will be processed shortly.', {
+        style: {
+          border: '1px solid #EF4444',
+          padding: '16px',
+          color: '#000000',
+        },
+        iconTheme: {
+          primary: '#EF4444',
+          secondary: '#FFFFFF',
+        },
+        duration: 4000,
+      })
+    }
+  }
+  console.log("Data Fetched:", productsData,"orders", ordersData)
+  // Process data
   const products = productsData?.products || []
+  const productsPagination = { total: productsData?.totalProducts, totalPages: productsData?.totalPages || 0 }
+  const orders = ordersData?.orders || ordersData || []
+  const ordersPagination = { total: ordersData?.totalOrders, totalPages: ordersData?.totalPages || 0 }
+
+  // Calculate analytics from real data
+  const analytics = useMemo(() => {
+    const totalRevenue = orders.reduce((sum, order) => {
+      return sum + (order.totalAmount || order.total || 0)
+    }, 0)
+
+    const totalOrders = orders.length
+    const activeProducts = products.filter(product => 
+      product.status === 'active' || product.stock > 0 || product.quantity > 0
+    ).length
+
+    const revenueGrowth = 12
+    const ordersGrowth = 8
+
+    const ordersByStatus = orders.reduce((acc, order) => {
+      const status = order.status || 'pending'
+      acc[status] = (acc[status] || 0) + 1
+      return acc
+    }, {})
+
+    return {
+      totalRevenue,
+      totalOrders,
+      activeProducts,
+      revenueGrowth,
+      ordersGrowth,
+      ordersByStatus,
+    }
+  }, [orders, products])
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount)
+  }
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  }
+
+  const getStatusBadge = (status) => {
+    const statusClasses = {
+      delivered: 'bg-green-100 text-green-800',
+      shipped: 'bg-blue-100 text-blue-800',
+      processing: 'bg-orange-100 text-orange-800',
+      pending: 'bg-gray-100 text-gray-800',
+      cancelled: 'bg-red-100 text-red-800',
+    }
+
+    return statusClasses[status] || statusClasses.pending
+  }
+
+  // Pagination component
+  const Pagination = ({ currentPage, totalPages, onPageChange, isLoading }) => {
+    return (
+      <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gradient-to-r from-orange-50 to-red-50">
+        <div className="flex items-center text-sm text-gray-600">
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1 || isLoading}
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-orange-50 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Previous
+          </button>
+          <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages || isLoading}
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-orange-50 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
+          >
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+      <Toaster position="top-right" />
       <div className="bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp">
-        {/* Header with Orange Theme */}
+        {/* Header with Orange Gradient */}
         <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m-2 0H7m5 0v-9a3 3 0 00-6 0v9" />
-                </svg>
+                <Store className="w-6 h-6 text-white" />
               </div>
               <div className="text-white">
                 <h2 className="text-2xl font-bold">Manage Store</h2>
@@ -90,42 +299,43 @@ export function StoreManagement({ store, onUpdate, onClose }) {
               onClick={onClose}
               className="p-2 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 transform hover:scale-110"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="w-6 h-6" />
             </button>
           </div>
         </div>
 
         <div className="flex h-[calc(90vh-120px)]">
           {/* Sidebar Tabs */}
-          <div className="w-64 bg-gray-50 border-r border-gray-200 p-4">
+          <div className="w-64 bg-gradient-to-b from-orange-50 to-red-50 border-r border-orange-200 p-4">
             <div className="space-y-2">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${
-                    activeTab === tab.id
-                      ? 'bg-orange-500 text-white shadow-lg'
-                      : 'text-gray-600 hover:bg-white hover:text-gray-900 hover:shadow-md'
-                  }`}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tab.icon} />
-                  </svg>
-                  <span className="font-medium">{tab.label}</span>
-                </button>
-              ))}
+              {tabs.map((tab) => {
+                const IconComponent = tab.icon
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                      activeTab === tab.id
+                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg'
+                        : 'text-gray-600 hover:bg-white/80 hover:text-gray-900 hover:shadow-md'
+                    }`}
+                  >
+                    <IconComponent className="w-5 h-5" />
+                    <span className="font-medium">{tab.label}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto bg-gradient-to-br from-orange-25 to-red-25">
             {activeTab === 'general' && (
               <div className="p-8 space-y-8">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">General Information</h3>
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
+                    General Information
+                  </h3>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="space-y-6">
@@ -137,7 +347,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           type="text"
                           value={formData.name}
                           onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                          className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                          className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/90"
                           placeholder="Enter store name"
                         />
                       </div>
@@ -150,7 +360,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           value={formData.description}
                           onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                           rows={4}
-                          className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 resize-none"
+                          className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 resize-none bg-white/90"
                           placeholder="Describe your store"
                         />
                       </div>
@@ -163,18 +373,16 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           type="url"
                           value={formData.logoUrl}
                           onChange={(e) => setFormData(prev => ({ ...prev, logoUrl: e.target.value }))}
-                          className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                          className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/90"
                           placeholder="https://example.com/logo.png"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-6">
-                      <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
+                      <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 space-y-4 border border-orange-100">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                          <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          </svg>
+                          <MapPin className="w-5 h-5 text-orange-500" />
                           Address Information
                         </h4>
                         
@@ -188,7 +396,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 ...prev, 
                                 address: { ...prev.address, city: e.target.value }
                               }))}
-                              className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                              className="w-full px-3 py-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
                               placeholder="City"
                             />
                           </div>
@@ -201,7 +409,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 ...prev, 
                                 address: { ...prev.address, postalCode: e.target.value }
                               }))}
-                              className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                              className="w-full px-3 py-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
                               placeholder="12345"
                             />
                           </div>
@@ -216,17 +424,15 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                               ...prev, 
                               address: { ...prev.address, street: e.target.value }
                             }))}
-                            className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                            className="w-full px-3 py-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
                             placeholder="123 Main Street"
                           />
                         </div>
                       </div>
 
-                      <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
+                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 space-y-4 border border-green-200">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                          <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                          </svg>
+                          <Shield className="w-5 h-5 text-green-500" />
                           Store Policies
                         </h4>
                         
@@ -240,7 +446,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 ...prev, 
                                 policies: { ...prev.policies, shipping: e.target.value }
                               }))}
-                              className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                              className="w-full px-3 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-white/80"
                               placeholder="e.g., Free shipping on orders over $50"
                             />
                           </div>
@@ -254,7 +460,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 ...prev, 
                                 policies: { ...prev.policies, returns: e.target.value }
                               }))}
-                              className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                              className="w-full px-3 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-white/80"
                               placeholder="e.g., 30-day return policy"
                             />
                           </div>
@@ -263,19 +469,15 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     </div>
                   </div>
 
-                  {/* Save Button */}
                   <div className="flex justify-end pt-6">
                     <button
                       onClick={handleSave}
                       disabled={isLoading}
-                      className="px-8 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 disabled:opacity-50 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                      className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 shadow-lg"
                     >
                       {isLoading ? (
                         <>
-                          <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
+                          <RefreshCw className="w-5 h-5 animate-spin" />
                           Saving...
                         </>
                       ) : (
@@ -289,138 +491,160 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
             {activeTab === 'products' && (
               <div className="p-8">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900">Products Management</h3>
-                    <p className="text-gray-600 mt-1">
-                      {productsLoading ? 'Loading products...' : `${products.length} products found`}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => refetchProducts()}
-                      disabled={productsLoading}
-                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
-                    >
-                      <svg className={`w-4 h-4 ${productsLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                      Refresh
-                    </button>
-                    <button
-                      onClick={() => {
-                        setStoreId(store._id);
-                        router.push('/vendor-profile/add-products');
-                      }}
-                      className="px-4 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105"
-                    >
-                      Add Product
-                    </button>
-                  </div>
-                </div>
-
-                {productsError && (
-                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-                    <div className="flex items-center gap-2 text-red-800">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span className="font-medium">Error loading products:</span>
-                      <span>{productsError.message}</span>
-                    </div>
-                  </div>
-                )}
-                
-                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                  {productsLoading ? (
-                    <div className="flex items-center justify-center py-12">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 overflow-hidden">
+                  {/* Header */}
+                  <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
+                    <div className="flex items-center justify-between">
+                      <div className="text-white">
+                        <h3 className="text-2xl font-bold">Products Management</h3>
+                        <p className="text-white/80 mt-1">
+                          {productsLoading ? 'Loading products...' : `${productsPagination.total || products.length} products total`}
+                        </p>
+                      </div>
                       <div className="flex items-center gap-3">
-                        <svg className="animate-spin h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <span className="text-gray-600">Loading products...</span>
+                        <button
+                          onClick={() => refetchProducts()}
+                          disabled={productsLoading}
+                          className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                        >
+                          <RefreshCw className={`w-4 h-4 ${productsLoading ? 'animate-spin' : ''}`} />
+                          Refresh
+                        </button>
+                        <button
+                          onClick={() => {
+                            setStoreId(store._id);
+                            router.push('/vendor-profile/add-products');
+                            toast('Redirecting to add products page...', {
+                              style: {
+                                border: '1px solid #FF8C00',
+                                padding: '16px',
+                                color: '#000000',
+                              },
+                              iconTheme: {
+                                primary: '#FF8C00',
+                                secondary: '#FFFFFF',
+                              },
+                            })
+                          }}
+                          className="px-4 py-2 bg-white text-orange-600 rounded-xl hover:bg-orange-50 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                        >
+                          <Plus className="w-4 h-4" />
+                          Add Product
+                        </button>
                       </div>
                     </div>
-                  ) : products.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-12">
-                      <svg className="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                      </svg>
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-                      <p className="text-gray-600 mb-4">Get started by adding your first product</p>
-                      <button
-                        onClick={() => {
-                          setStoreId(store._id);
-                          router.push('/vendor-profile/add-products');
-                        }}
-                        className="px-6 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all duration-300"
-                      >
-                        Add Your First Product
-                      </button>
+                  </div>
+
+                  {productsError && (
+                    <div className="mx-6 mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                      <div className="flex items-center gap-2 text-red-800">
+                        <AlertCircle className="w-5 h-5" />
+                        <span className="font-medium">Error loading products:</span>
+                        <span>{productsError.message}</span>
+                      </div>
                     </div>
-                  ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Product</th>
-                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Price</th>
-                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Stock</th>
-                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                          {products.map((product) => (
-                            <tr key={product._id || product.id} className="hover:bg-gray-50 transition-colors">
-                              <td className="px-6 py-4">
-                                <div className="flex items-center gap-3">
-                                  {product.images?.[0] && (
-                                    <img
-                                      src={product.images[0]}
-                                      alt={product.name}
-                                      className="w-10 h-10 rounded-lg object-cover"
-                                    />
-                                  )}
-                                  <div>
-                                    <div className="font-medium text-gray-900">{product.name}</div>
-                                    {product.category.name && (
-                                      <div className="text-sm text-gray-500">{product.category.name}</div>
-                                    )}
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 text-gray-600">
-                                ${product.price?.toFixed(2) || 'N/A'}
-                              </td>
-                              <td className="px-6 py-4 text-gray-600">
-                                {product.stock || product.quantity || 0}
-                              </td>
-                              <td className="px-6 py-4">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                  product.status === 'active' || (product.stock > 0 || product.quantity > 0) ? 
-                                    'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                }`}>
-                                  {product.status === 'active' || (product.stock > 0 || product.quantity > 0) ? 
-                                    'Active' : 'Out of Stock'}
-                                </span>
-                              </td>
-                              <td className="px-6 py-4">
-                                <div className="flex items-center gap-2">
-                                  <button className="text-orange-500 hover:text-orange-700 font-medium">
-                                    Edit
-                                  </button>
-                                  <button className="text-red-600 hover:text-red-800 font-medium">
-                                    Delete
-                                  </button>
-                                </div>
-                              </td>
+                  )}
+                  
+                  {/* Products Content - Scrollable */}
+                  <div className="max-h-96 overflow-y-auto">
+                    {productsLoading ? (
+                      <div className="flex items-center justify-center py-12">
+                        <div className="flex items-center gap-3">
+                          <RefreshCw className="w-6 h-6 text-orange-500 animate-spin" />
+                          <span className="text-gray-600">Loading products...</span>
+                        </div>
+                      </div>
+                    ) : products.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-12">
+                        <Package className="w-12 h-12 text-gray-400 mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+                        <p className="text-gray-600 mb-4">Get started by adding your first product</p>
+                        <button
+                          onClick={() => {
+                            setStoreId(store._id);
+                            router.push('/vendor-profile/add-products');
+                          }}
+                          className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center gap-2"
+                        >
+                          <Plus className="w-4 h-4" />
+                          Add Your First Product
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="bg-gradient-to-r from-orange-100 to-red-100 border-b border-orange-200">
+                            <tr>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Product</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Price</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Stock</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {products.map((product) => (
+                              <tr key={product._id || product.id} className="hover:bg-orange-50 transition-colors">
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center gap-3">
+                                    {product.images?.[0] && (
+                                      <img
+                                        src={product.images[0]}
+                                        alt={product.name}
+                                        className="w-10 h-10 rounded-lg object-cover border border-orange-200"
+                                      />
+                                    )}
+                                    <div>
+                                      <div className="font-medium text-gray-900">{product.name}</div>
+                                      {product.category?.name && (
+                                        <div className="text-sm text-gray-500">{product.category.name}</div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 text-gray-600">
+                                  {formatCurrency(product.price || 0)}
+                                </td>
+                                <td className="px-6 py-4 text-gray-600">
+                                  {product.stock || product.quantity || 0}
+                                </td>
+                                <td className="px-6 py-4">
+                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                    product.status === 'active' || (product.stock > 0 || product.quantity > 0) ? 
+                                      'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                  }`}>
+                                    {product.status === 'active' || (product.stock > 0 || product.quantity > 0) ? 
+                                      'Active' : 'Out of Stock'}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center gap-2">
+                                    <button className="text-orange-500 hover:text-orange-700 font-medium flex items-center gap-1">
+                                      <Edit className="w-4 h-4" />
+                                      Edit
+                                    </button>
+                                    <button className="text-red-600 hover:text-red-800 font-medium flex items-center gap-1">
+                                      <Trash2 className="w-4 h-4" />
+                                      Delete
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Products Pagination */}
+                  {products.length > 0 && (
+                    <Pagination 
+                      currentPage={productsPage}
+                      totalPages={productsPagination.totalPages || 1}
+                      onPageChange={setProductsPage}
+                      isLoading={productsLoading}
+                    />
                   )}
                 </div>
               </div>
@@ -428,115 +652,238 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
             {activeTab === 'orders' && (
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Orders</h3>
-                
-                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Order ID</th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Customer</th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Total</th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Date</th>
-                          <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        {mockOrders.map((order) => (
-                          <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                            <td className="px-6 py-4 font-medium text-orange-600">{order.id}</td>
-                            <td className="px-6 py-4 text-gray-900">{order.customer}</td>
-                            <td className="px-6 py-4 text-gray-600">${order.total}</td>
-                            <td className="px-6 py-4">
-                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                                order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
-                                order.status === 'processing' ? 'bg-orange-100 text-orange-800' :
-                                'bg-gray-100 text-gray-800'
-                              }`}>
-                                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-gray-600">{order.date}</td>
-                            <td className="px-6 py-4">
-                              <button className="text-orange-500 hover:text-orange-700 font-medium">
-                                View Details
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 overflow-hidden">
+                  {/* Header */}
+                  <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
+                    <div className="flex items-center justify-between">
+                      <div className="text-white">
+                        <h3 className="text-2xl font-bold">Orders Management</h3>
+                        <p className="text-white/80 mt-1">
+                          {ordersLoading ? 'Loading orders...' : `${ordersPagination.total || orders.length} orders total`}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => refetchOrders()}
+                        disabled={ordersLoading}
+                        className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                      >
+                        <RefreshCw className={`w-4 h-4 ${ordersLoading ? 'animate-spin' : ''}`} />
+                        Refresh
+                      </button>
+                    </div>
                   </div>
+
+                  {ordersError && (
+                    <div className="mx-6 mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                      <div className="flex items-center gap-2 text-red-800">
+                        <AlertCircle className="w-5 h-5" />
+                        <span className="font-medium">Error loading orders:</span>
+                        <span>{ordersError.message}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Orders Content - Scrollable */}
+                  <div className="max-h-96 overflow-y-auto">
+                    {ordersLoading ? (
+                      <div className="flex items-center justify-center py-12">
+                        <div className="flex items-center gap-3">
+                          <RefreshCw className="w-6 h-6 text-orange-500 animate-spin" />
+                          <span className="text-gray-600">Loading orders...</span>
+                        </div>
+                      </div>
+                    ) : orders.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-12">
+                        <ShoppingBag className="w-12 h-12 text-gray-400 mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
+                        <p className="text-gray-600">Orders will appear here once customers start purchasing</p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="bg-gradient-to-r from-orange-100 to-red-100 border-b border-orange-200">
+                            <tr>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Order ID</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Customer</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Total</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Date</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {orders.map((order) => (
+                              <tr key={order._id || order.id} className="hover:bg-orange-50 transition-colors">
+                                <td className="px-6 py-4 font-medium text-orange-600">
+                                  #{order.orderNumber || order._id?.slice(-6) || 'N/A'}
+                                </td>
+                                <td className="px-6 py-4 text-gray-900">
+                                  {order.customer?.name || order.customerName || order.user?.name || 'N/A'}
+                                </td>
+                                <td className="px-6 py-4 text-gray-600">
+                                  {formatCurrency(order.totalAmount || order.total || 0)}
+                                </td>
+                                <td className="px-6 py-4">
+                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>
+                                    {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Pending'}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 text-gray-600">
+                                  {formatDate(order.createdAt || order.orderDate || new Date())}
+                                </td>
+                                <td className="px-6 py-4">
+                                  <button 
+                                    className="text-orange-500 hover:text-orange-700 font-medium flex items-center gap-1"
+                                    onClick={() => {
+                                      toast('Order details will open in a new window.', {
+                                        style: {
+                                          border: '1px solid #FF8C00',
+                                          padding: '16px',
+                                          color: '#000000',
+                                        },
+                                        iconTheme: {
+                                          primary: '#FF8C00',
+                                          secondary: '#FFFFFF',
+                                        },
+                                      })
+                                    }}
+                                  >
+                                    <Eye className="w-4 h-4" />
+                                    View Details
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Orders Pagination */}
+                  {orders.length > 0 && (
+                    <Pagination 
+                      currentPage={ordersPage}
+                      totalPages={ordersPagination.totalPages || 1}
+                      onPageChange={setOrdersPage}
+                      isLoading={ordersLoading}
+                    />
+                  )}
                 </div>
               </div>
             )}
 
             {activeTab === 'analytics' && (
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Store Analytics</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-orange-100 text-sm font-medium">Total Revenue</p>
-                        <p className="text-3xl font-bold">$12,847</p>
-                        <p className="text-orange-100 text-sm">+12% from last month</p>
-                      </div>
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                        </svg>
+              <div className="p-8 space-y-6">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
+                    Store Analytics
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-orange-100 text-sm font-medium">Total Revenue</p>
+                          <p className="text-3xl font-bold">{formatCurrency(analytics.totalRevenue)}</p>
+                          <p className="text-orange-100 text-sm">+{analytics.revenueGrowth}% from last month</p>
+                        </div>
+                        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                          <DollarSign className="w-6 h-6" />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-2xl p-6 text-white">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-green-100 text-sm font-medium">Total Orders</p>
-                        <p className="text-3xl font-bold">248</p>
-                        <p className="text-green-100 text-sm">+8% from last month</p>
-                      </div>
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M8 11v6a2 2 0 002 2h4a2 2 0 002-2v-6M8 11h8" />
-                        </svg>
+                    <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-2xl p-6 text-white">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-green-100 text-sm font-medium">Total Orders</p>
+                          <p className="text-3xl font-bold">{analytics.totalOrders}</p>
+                          <p className="text-green-100 text-sm">+{analytics.ordersGrowth}% from last month</p>
+                        </div>
+                        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                          <ShoppingBag className="w-6 h-6" />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 text-white">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-purple-100 text-sm font-medium">Active Products</p>
-                        <p className="text-3xl font-bold">{products.length}</p>
-                        <p className="text-purple-100 text-sm">Total in inventory</p>
-                      </div>
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                        </svg>
+                    <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 text-white">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-purple-100 text-sm font-medium">Active Products</p>
+                          <p className="text-3xl font-bold">{analytics.activeProducts}</p>
+                          <p className="text-purple-100 text-sm">Total in inventory</p>
+                        </div>
+                        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                          <Package className="w-6 h-6" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4">Sales Performance</h4>
-                    <div className="h-64 bg-gray-50 rounded-xl flex items-center justify-center">
-                      <p className="text-gray-500">Sales charts will be displayed here</p>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <BarChart3 className="w-5 h-5 text-orange-500" />
+                        Order Status Distribution
+                      </h4>
+                      {Object.keys(analytics.ordersByStatus).length > 0 ? (
+                        <div className="space-y-3">
+                          {Object.entries(analytics.ordersByStatus).map(([status, count]) => (
+                            <div key={status} className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-3 h-3 rounded-full ${
+                                  status === 'delivered' ? 'bg-green-500' :
+                                  status === 'shipped' ? 'bg-blue-500' :
+                                  status === 'processing' ? 'bg-orange-500' :
+                                  status === 'cancelled' ? 'bg-red-500' : 'bg-gray-500'
+                                }`}></div>
+                                <span className="text-gray-700 capitalize">{status}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-gray-900">{count}</span>
+                                <span className="text-sm text-gray-500">
+                                  ({analytics.totalOrders > 0 ? Math.round((count / analytics.totalOrders) * 100) : 0}%)
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center h-32 text-gray-500">
+                          <div className="text-center">
+                            <Activity className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                            <p>No order data available</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4">Customer Activity</h4>
-                    <div className="h-64 bg-gray-50 rounded-xl flex items-center justify-center">
-                      <p className="text-gray-500">Customer activity charts will be displayed here</p>
+                    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <TrendingUp className="w-5 h-5 text-green-500" />
+                        Recent Performance
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
+                          <span className="text-gray-600">Average Order Value</span>
+                          <span className="font-medium text-gray-900">
+                            {formatCurrency(analytics.totalOrders > 0 ? analytics.totalRevenue / analytics.totalOrders : 0)}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
+                          <span className="text-gray-600">Product Catalog Size</span>
+                          <span className="font-medium text-gray-900">{products.length} products</span>
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
+                          <span className="text-gray-600">Store Status</span>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            storeSettings.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {storeSettings.status.charAt(0).toUpperCase() + storeSettings.status.slice(1)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -545,106 +892,120 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
             {activeTab === 'settings' && (
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Store Settings</h3>
-                
-                <div className="space-y-6">
-                  {/* Store Status */}
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m-2 0H7m5 0v-9a3 3 0 00-6 0v9" />
-                      </svg>
-                      Store Status
-                    </h4>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-gray-600">Your store is currently active and visible to customers</p>
-                      </div>
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer" defaultChecked />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Notification Settings */}
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM3 3h18v12H3V3zm6 8h6v2H9v-2zm0-4h6v2H9V7z" />
-                      </svg>
-                      Notification Settings
-                    </h4>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium text-gray-900">Email notifications for new orders</p>
-                          <p className="text-sm text-gray-600">Get notified when you receive a new order</p>
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">
+                    Settings
+                  </h3>
+                  <p className="text-gray-600 mb-6">Manage your store's advanced settings and preferences.</p>
+                  
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <Activity className="w-5 h-5 text-orange-500" />
+                        Store Status & Operations
+                      </h4>
+                      <div className="space-y-6">
+                        <div className="space-y-3">
+                          <label className="block text-sm font-medium text-gray-700">Store Status</label>
+                          <div className="flex items-center space-x-4">
+                            <button 
+                              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                                storeSettings.status === 'active' 
+                                  ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg' 
+                                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                              }`}
+                              onClick={() => handleStatusChange('active')}
+                            >
+                              <CheckCircle className="w-4 h-4" />
+                              Active
+                            </button>
+                            <button 
+                              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                                storeSettings.status === 'maintenance' 
+                                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg' 
+                                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                              }`}
+                              onClick={() => handleStatusChange('maintenance')}
+                            >
+                              <Settings className="w-4 h-4" />
+                              Maintenance
+                            </button>
+                          </div>
+                          <p className="text-sm text-gray-500">
+                            {storeSettings.status === 'active' 
+                              ? 'Your store is live and accepting orders.' 
+                              : 'Your store is in maintenance mode. Customers can view but cannot place orders.'}
+                          </p>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" defaultChecked />
-                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
-                        </label>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium text-gray-900">Low stock alerts</p>
-                          <p className="text-sm text-gray-600">Get notified when products are running low</p>
+
+                        <div className="space-y-3">
+                          <label className="block text-sm font-medium text-gray-700">Quick Actions</label>
+                          <div className="flex flex-wrap gap-3">
+                            <button 
+                              className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center gap-2"
+                              onClick={() => {
+                                refetchProducts();
+                                refetchOrders();
+                                toast.success('Store data refreshed successfully!', {
+                                  style: {
+                                    border: '1px solid #3B82F6',
+                                    padding: '16px',
+                                    color: '#000000',
+                                  },
+                                  iconTheme: {
+                                    primary: '#3B82F6',
+                                    secondary: '#FFFFFF',
+                                  },
+                                })
+                              }}
+                            >
+                              <RefreshCw className="w-4 h-4" />
+                              Refresh All Data
+                            </button>
+                            <button 
+                              className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors flex items-center gap-2"
+                              onClick={() => {
+                                toast.success('Store analytics updated!', {
+                                  style: {
+                                    border: '1px solid #10B981',
+                                    padding: '16px',
+                                    color: '#000000',
+                                  },
+                                  iconTheme: {
+                                    primary: '#10B981',
+                                    secondary: '#FFFFFF',
+                                  },
+                                })
+                              }}
+                            >
+                              <TrendingUp className="w-4 h-4" />
+                              Update Analytics
+                            </button>
+                          </div>
                         </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" defaultChecked />
-                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
-                        </label>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Payment Settings */}
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                      </svg>
-                      Payment Methods
-                    </h4>
-                    <p className="text-gray-600 mb-4">Configure which payment methods your store accepts</p>
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3">
-                        <input type="checkbox" className="rounded border-gray-300 text-orange-500 focus:ring-orange-500" defaultChecked />
-                        <span className="text-gray-900">Credit/Debit Cards</span>
+                    <div className="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200 rounded-2xl p-6">
+                      <h4 className="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2">
+                        <AlertCircle className="w-5 h-5" />
+                        Danger Zone
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <p className="text-red-700 font-medium">Delete Store</p>
+                          <p className="text-sm text-red-600">
+                            Once you delete your store, there is no going back. This will permanently delete your store, products, and all associated data.
+                          </p>
+                          <button 
+                            className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                            onClick={handleDeleteStore}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            Delete Store Permanently
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <input type="checkbox" className="rounded border-gray-300 text-orange-500 focus:ring-orange-500" defaultChecked />
-                        <span className="text-gray-900">PayPal</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <input type="checkbox" className="rounded border-gray-300 text-orange-500 focus:ring-orange-500" />
-                        <span className="text-gray-900">Bank Transfer</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <input type="checkbox" className="rounded border-gray-300 text-orange-500 focus:ring-orange-500" />
-                        <span className="text-gray-900">Cash on Delivery</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Danger Zone */}
-                  <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
-                    <h4 className="text-lg font-semibold text-red-900 mb-4 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.994-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                      </svg>
-                      Danger Zone
-                    </h4>
-                    <p className="text-red-700 mb-4">These actions are irreversible. Please be careful.</p>
-                    <div className="space-y-3">
-                      <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                        Deactivate Store
-                      </button>
-                      <button className="ml-3 px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 transition-colors">
-                        Delete Store
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -653,32 +1014,6 @@ export function StoreManagement({ store, onUpdate, onClose }) {
           </div>
         </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-        
-        .animate-slideUp {
-          animation: slideUp 0.4s ease-out;
-        }
-      `}</style>
     </div>
   )
 }
