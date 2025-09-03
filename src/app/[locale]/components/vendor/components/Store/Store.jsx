@@ -512,7 +512,7 @@ export default function StoresSection() {
         <div className="bg-red-50 border border-red-200 rounded-2xl p-5 flex items-start gap-4">
           <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-semibold text-red-800 mb-1">Error</h4>
+            <h4 className="font-semibold text-red-800 mb-1">{t('error')}</h4>
             <p className="text-red-700">{error}</p>
           </div>
         </div>
@@ -523,7 +523,7 @@ export default function StoresSection() {
         <div className="bg-red-50 border border-red-200 rounded-2xl p-5 flex items-start gap-4">
           <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-semibold text-red-800 mb-2">Please fix the following errors:</h4>
+            <h4 className="font-semibold text-red-800 mb-2">{t('errordesc')}:</h4>
             <ul className="text-red-700 text-sm space-y-1">
               {Object.entries(validationErrors).map(([field, error]) => 
                 error && (
@@ -548,12 +548,12 @@ export default function StoresSection() {
               </div>
               <div>
                 <h4 className="text-3xl font-bold text-slate-800">
-                  {editingStore ? "Edit Store" : "Create New Store"}
+                  {editingStore ? t('edit') : t('create')}
                 </h4>
                 <p className="text-slate-600 text-lg mt-1">
                   {editingStore
-                    ? "Update your store information and settings"
-                    : "Fill in the details to create your professional store"}
+                    ? t('update')
+                    : t('fillstores')}
                 </p>
               </div>
             </div>
@@ -588,7 +588,7 @@ export default function StoresSection() {
                     onBlur={(e) => handleFieldBlur('description', e.target.value)}
                     rows={5}
                     className={getInputBorderClass('description', "w-full px-5 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300 hover:border-slate-300 resize-none text-lg")}
-                    placeholder="Describe your store and what makes it unique..."
+                    placeholder={t('descplace')}
                   />
                   {renderFieldError('description')}
                 </div>
@@ -660,7 +660,7 @@ export default function StoresSection() {
                       className="text-sm text-orange-600 hover:text-orange-800 font-bold flex items-center gap-2 transition-colors duration-200 hover:bg-orange-50 px-3 py-1 rounded-lg"
                     >
                       <Navigation className="w-4 h-4" />
-                      Use Current Location
+                      {t('locationu')}
                     </button>
                   </div>
                 </div>
@@ -877,7 +877,7 @@ export default function StoresSection() {
                       <button
                         onClick={() => handleEditStore(store)}
                         className="p-3 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 transform hover:scale-110 shadow-lg"
-                        title="Edit store"
+                        title={t('edit')}
                       >
                         <Edit3 className="w-5 h-5" />
                       </button>
@@ -925,25 +925,25 @@ export default function StoresSection() {
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     {[
                       {
-                        label: "Products",
+                        label: t('products'),
                         value: store.productCount || 0,
                         color: "orange",
                         icon: Package,
                       },
                       {
-                        label: "Orders",
+                        label: t('orders'),
                         value: store.ordersCount || 0,
                         color: "green",
                         icon: ShoppingBag,
                       },
                       {
-                        label: "Categories",
+                        label: t('categories'),
                         value: store.categorieCount || 0,
                         color: "purple",
                         icon: Grid3x3,
                       },
                       {
-                        label: "Coupons",
+                        label: t('Coupons'),
                         value: store.couponsUsed || 0,
                         color: "blue",
                         icon: Tag,

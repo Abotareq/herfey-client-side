@@ -173,7 +173,7 @@ function VendorProfile() {
         onClick={handleLogout}
         className="absolute top-4 right-4 bg-orange-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-orange-700 transition-colors"
       >
-        sign out
+        {t('signout')}
       </button>
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">

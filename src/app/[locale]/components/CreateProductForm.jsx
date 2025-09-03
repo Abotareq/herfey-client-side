@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -8,27 +8,29 @@ import { useCreateProduct } from '../../../hooks/useProductMutations.js';
 import { useGetAllCategories } from '../../../service/category'; 
 import { useStoreContext } from '../../context/StoreContext'; 
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
+const t = useTranslations('createproduct')
 // --- Zod Schema Definitions 
 const optionSchema = z.object({
-    value: z.string().min(1, 'Option value is required'),
+    value: z.string().min(1, t('option')),
     priceModifier: z.preprocess((a) => parseFloat(String(a) || '0'), z.number().min(0).optional().default(0)),
-    stock: z.preprocess((a) => parseInt(String(a), 10), z.number().min(0, 'Stock cannot be negative')),
-    sku: z.string().min(1, 'SKU is required'),
+    stock: z.preprocess((a) => parseInt(String(a), 10), z.number().min(0, t('stock'))),
+    sku: z.string().min(1, t('sku')),
 });
 
 const variantSchema = z.object({
-    name: z.string().min(1, 'Variant name is required'),
-    options: z.array(optionSchema).min(1, 'At least one option is required'),
+    name: z.string().min(1, t('variantname')),
+    options: z.array(optionSchema).min(1, t('desc')),
 });
 
 const productSchema = z.object({
-    name: z.string().min(3, 'Name must be at least 3 characters'),
-    description: z.string().min(10, 'Description must be at least 10 characters'),
-    basePrice: z.preprocess((a) => parseFloat(String(a)), z.number().min(0.01, 'A valid base price is required')),
-    category: z.string().min(1, 'Please select a category'),
-    images: z.any().refine((files) => files?.length > 0, 'At least one image is required'),
-    variants: z.array(variantSchema).min(1, 'At least one variant is required'),
+    name: z.string().min(3, t('namew')),
+    description: z.string().min(10, t('desw')),
+    basePrice: z.preprocess((a) => parseFloat(String(a)), z.number().min(0.01, t('pricew'))),
+    category: z.string().min(1, t('categoryw')),
+    images: z.any().refine((files) => files?.length > 0, t('imagew')),
+    variants: z.array(variantSchema).min(1, t('variantw')),
 });
 
 
@@ -57,6 +59,7 @@ const FormError = ({ message }) => <p className="mt-2 text-sm text-red-600 flex 
 
 // --- FieldArrayOptions Sub-component  
 const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
+    const t = useTranslations('createproduct')
     const { fields, append, remove } = useFieldArray({ control, name: `variants.${variantIndex}.options` });
     const getOptionError = (index, field) => errors.variants?.[variantIndex]?.options?.[index]?.[field]?.message;
     
@@ -66,21 +69,21 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
                 <div key={option.id} className="relative bg-slate-50/50 rounded-lg border border-slate-200/80 p-4 group">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                          <div>
-                            <label className={labelClass}>Value{requiredStar}</label>
+                            <label className={labelClass}>{t('value')}{requiredStar}</label>
                             <input {...register(`variants.${variantIndex}.options.${optionIndex}.value`)} placeholder="e.g., Red, Large" className={inputClass(getOptionError(optionIndex, 'value'))} />
                             {getOptionError(optionIndex, 'value') && <FormError message={getOptionError(optionIndex, 'value')} />}
                         </div>
                         <div>
-                            <label className={labelClass}>SKU{requiredStar}</label>
+                            <label className={labelClass}>{t('SKU')}{requiredStar}</label>
                             <input {...register(`variants.${variantIndex}.options.${optionIndex}.sku`)} placeholder="e.g., VASE-RED-LG" className={inputClass(getOptionError(optionIndex, 'sku'))} />
                             {getOptionError(optionIndex, 'sku') && <FormError message={getOptionError(optionIndex, 'sku')} />}
                         </div>
                         <div>
-                            <label className={labelClass}>Price Modifier (EGP)</label>
+                            <label className={labelClass}>{t('pricemodifier')} ({t('egp')})</label>
                             <input {...register(`variants.${variantIndex}.options.${optionIndex}.priceModifier`)} type="number" min="0" step="0.01" placeholder="0.00" className={inputClass(getOptionError(optionIndex, 'priceModifier'))} />
                         </div>
                         <div>
-                            <label className={labelClass}>Stock{requiredStar}</label>
+                            <label className={labelClass}>{t('stockf')}{requiredStar}</label>
                             <input {...register(`variants.${variantIndex}.options.${optionIndex}.stock`)} type="number" min="0" placeholder="0" className={inputClass(getOptionError(optionIndex, 'stock'))} />
                             {getOptionError(optionIndex, 'stock') && <FormError message={getOptionError(optionIndex, 'stock')} />}
                         </div>
@@ -93,7 +96,7 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
             <button type="button" onClick={() => append({ value: '', priceModifier: 0, stock: 10, sku: '' })} className="group w-full text-center px-4 py-2.5 rounded-lg bg-orange-100 border border-orange-200 text-orange-700 transition-all duration-300 hover:bg-orange-200 hover:border-orange-300 active:scale-[0.98]">
                 <span className="relative flex items-center justify-center space-x-2 font-semibold text-sm">
                     <Icons.Plus className="w-4 h-4" />
-                    <span>Add Option</span>
+                    <span>{t('add')}</span>
                 </span>
             </button>
         </div>
@@ -103,6 +106,7 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
 //*!     ###############################   Main Component 333333333333333333333333333
  
 export default function CreateProductForm() {
+    const t = useTranslations('createproduct')
     const { storeId } = useStoreContext();
     const { mutate: createProduct, isPending: submitting } = useCreateProduct();
     const { data: categories = [], isLoading: loading } = useGetAllCategories();
@@ -174,7 +178,7 @@ export default function CreateProductForm() {
             <div className="fixed inset-0 bg-slate-100 z-50 flex items-center justify-center">
                 <div className="flex items-center space-x-4">
                     <Icons.Loader className="w-10 h-10 text-orange-500" />
-                    <span className="text-slate-600 font-medium">Loading form data...</span>
+                    <span className="text-slate-600 font-medium">{t('loading')}</span>
                 </div>
             </div>
         );
@@ -189,12 +193,12 @@ export default function CreateProductForm() {
                             <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/20">
                                 <Icons.Document className="w-6 h-6 text-white" />
                             </div>
-                            <h1 className="text-xl font-bold text-slate-800">Create New Product</h1>
+                            <h1 className="text-xl font-bold text-slate-800">{t('newproduct')}</h1>
                         </div>
                         <button onClick={onCancel} className="group px-4 py-2 rounded-lg bg-white text-slate-700 transition-all duration-300 hover:bg-slate-100 active:scale-95 border border-slate-300">
                             <span className="relative flex items-center space-x-2 text-sm font-medium">
                                 <Icons.Back className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                                <span>Back</span>
+                                <span>{t('back')}</span>
                             </span>
                         </button>
                     </div>
@@ -209,28 +213,28 @@ export default function CreateProductForm() {
                                     <div className="p-3 rounded-xl bg-orange-100">
                                         <Icons.Document className="w-6 h-6 text-orange-600" />
                                     </div>
-                                    <h2 className="text-xl font-semibold text-slate-800">Basic Information</h2>
+                                    <h2 className="text-xl font-semibold text-slate-800">{t('basicinfo')}</h2>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="md:col-span-2">
-                                        <label className={labelClass}>Product Name{requiredStar}</label>
+                                        <label className={labelClass}>{t('pname')}{requiredStar}</label>
                                         <input {...register('name')} placeholder="e.g., Premium Wireless Headphones" className={inputClass(errors.name)} />
                                         {errors.name && <FormError message={errors.name.message} />}
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className={labelClass}>Description{requiredStar}</label>
+                                        <label className={labelClass}>{t('pdesc')}{requiredStar}</label>
                                         <textarea {...register('description')} rows="4" placeholder="Describe the product..." className={`${inputClass(errors.description)} min-h-[100px]`} />
                                         {errors.description && <FormError message={errors.description.message} />}
                                     </div>
                                     <div>
-                                        <label className={labelClass}>Base Price (EGP){requiredStar}</label>
+                                        <label className={labelClass}>{t('pprice')} ({t('egp')}){requiredStar}</label>
                                         <input {...register('basePrice')} type="number" min="0.01" step="0.01" placeholder="0.00" className={inputClass(errors.basePrice)} />
                                         {errors.basePrice && <FormError message={errors.basePrice.message} />}
                                     </div>
                                     <div>
-                                        <label className={labelClass}>Category{requiredStar}</label>
+                                        <label className={labelClass}>{t('category')}{requiredStar}</label>
                                         <select {...register('category')} className={inputClass(errors.category)} defaultValue="">
-                                            <option value="" disabled>Select a category</option>
+                                            <option value="" disabled>{t('selectcategory')}</option>
                                             {categories.map((cat) => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
                                         </select>
                                         {errors.category && <FormError message={errors.category.message} />}
@@ -246,12 +250,12 @@ export default function CreateProductForm() {
                                     <div className="p-3 rounded-xl bg-orange-100">
                                         <Icons.Image className="w-6 h-6 text-orange-600" />
                                     </div>
-                                    <h2 className="text-xl font-semibold text-slate-800">Product Images</h2>
+                                    <h2 className="text-xl font-semibold text-slate-800">{t('productimage')}</h2>
                                 </div>
                                 <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center transition-colors hover:border-orange-500 hover:bg-slate-50/50 cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                                     <Icons.Upload className="mx-auto" />
                                     <p className="mt-2 text-sm text-slate-600">
-                                        <span className="font-semibold text-orange-600">Click to upload</span> or drag and drop
+                                        <span className="font-semibold text-orange-600">{t('upload')}</span> {t('dragdrop')}
                                     </p>
                                     <p className="text-xs text-slate-500 mt-1">PNG, JPG, WEBP up to 10MB</p>
                                     <input ref={fileInputRef} type="file" multiple onChange={handleFileChange} accept="image/*" className="sr-only" />
@@ -277,13 +281,13 @@ export default function CreateProductForm() {
                                     <div className="p-3 rounded-xl bg-orange-100">
                                         <Icons.Variant className="w-6 h-6 text-orange-600" />
                                     </div>
-                                    <h2 className="text-xl font-semibold text-slate-800">Product Variants</h2>
+                                    <h2 className="text-xl font-semibold text-slate-800">{t('product')}</h2>
                                 </div>
                                 <div className="space-y-6">
                                     {variants.map((variant, index) => (
                                         <div key={variant.id} className="bg-white/50 rounded-xl border border-slate-200 p-5">
                                             <div className="flex justify-between items-center mb-4">
-                                                <label className={labelClass}>Variant Type{requiredStar} <span className="text-xs font-normal text-slate-500">(e.g., Color, Size)</span></label>
+                                                <label className={labelClass}>{t('varianttype')}{requiredStar} <span className="text-xs font-normal text-slate-500">({t('ex')})</span></label>
                                                 {variants.length > 1 && (
                                                     <button type="button" onClick={() => removeVariant(index)} className="text-slate-500 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-50"><Icons.X className="w-5 h-5" /></button>
                                                 )}
@@ -295,7 +299,7 @@ export default function CreateProductForm() {
                                         </div>
                                     ))}
                                     <button type="button" onClick={() => addVariant({ name: '', options: [{ value: '', priceModifier: '', stock: '', sku: '' }] })} className="w-full border-2 border-dashed border-slate-300 text-slate-600 rounded-lg py-3 font-semibold text-sm hover:border-orange-500 hover:text-orange-600 transition-colors flex items-center justify-center gap-2">
-                                        <Icons.Plus className="w-4 h-4" /> Add Another Variant Type
+                                        <Icons.Plus className="w-4 h-4" /> {t('addvariant')}
                                     </button>
                                 </div>
                             </div>
@@ -304,10 +308,10 @@ export default function CreateProductForm() {
                         {/* Actions */}
                         <div className="pt-6 flex flex-col sm:flex-row justify-end items-center gap-4">
                             <button type="button" onClick={onCancel} className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 transition-all">
-                               Cancel 
+                               {t('cancel')} 
                            </button>
                            <button type="submit" disabled={submitting} className="w-full sm:w-auto px-6 py-3.5 text-white rounded-lg transition-all duration-300 shadow-lg shadow-orange-500/30 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center space-x-2 font-semibold">
-                               {submitting ? <><Icons.Loader className="w-5 h-5" /><span>Creating...</span></> : <><Icons.Check className="w-5 h-5" /><span>Create Product</span></>}
+                               {submitting ? <><Icons.Loader className="w-5 h-5" /><span>{t('creating')}</span></> : <><Icons.Check className="w-5 h-5" /><span>{t('createproduct')}</span></>}
                            </button>
                        </div>
                     </form>
@@ -318,7 +322,7 @@ export default function CreateProductForm() {
                     <div className="fixed inset-0  backdrop-blur-sm flex items-center justify-center z-50">
                         <div className="bg-white rounded-xl p-6 flex items-center space-x-4">
                             <Icons.Loader className="w-8 h-8 text-orange-500" />
-                            <span className="text-orange-500 font-medium">Creating product...</span>
+                            <span className="text-orange-500 font-medium">{t('creatingproduct')}</span>
                         </div>
                     </div>
                 )}
