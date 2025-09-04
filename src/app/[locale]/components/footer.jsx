@@ -34,8 +34,6 @@ const Footer = () => {
               >
                 {t("phone")}
               </div>
-              <div className="hover:text-orange-400 transition-transform duration-300 hover:scale-105">{t("email")}</div>
-              <div className="hover:text-orange-400 transition-transform duration-300 hover:scale-105">{t("support")}</div>
               <div className="hover:text-orange-400 transition-transform duration-300 hover:scale-105">{t("sales")}</div>
               <div className="font-semibold hover:text-orange-400 transition-transform duration-300 hover:scale-105">{t("web")}</div>
             </div>

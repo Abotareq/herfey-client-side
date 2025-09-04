@@ -44,7 +44,6 @@ export default function Header() {
   const { user, loading } = useAuth();
   const navigation = [
     { name: "home", href: "" },
-    ...(user ? [{ name: "favourite", href: "/fav" }] : []),
     { name: "categories", href: "/categories" },
     { name: "contact", href: "/contact" },
     { name: "store", href: "/store" },

@@ -46,7 +46,7 @@ function AuthenticatedCart() {
           for (const item of guestCart) {
             console.log("item", item);
             const { product, quantity, price, variant } = item;
-            addItemMutation.mutate({ product: product._id, quantity, variant });
+            addItemMutation.mutate({ product: product?._id, quantity, variant });
           }
 
           // Clear guest cart after successful migration
@@ -93,11 +93,11 @@ function AuthenticatedCart() {
       const updatedItems = backendCart.items.map((item) => ({
         ...item,
         quantity:
-          item._id === itemId || item.id === itemId
+          item?._id === itemId || item.id === itemId
             ? newQuantity
             : item.quantity,
         price: item.price,
-        product: item.product._id,
+        product: item.product?._id,
       }));
 
       const updateCart = {
@@ -120,7 +120,7 @@ function AuthenticatedCart() {
         ...item,
         quantity: item.quantity,
         price: item.price,
-        product: item.product._id,
+        product: item.product?._id,
       }));
 
       await applyCoupon({
@@ -163,15 +163,11 @@ function AuthenticatedCart() {
     router.push("/products");
   };
   if (cartLoading) {
-    return <SkeletonLoader />;
+    return <CartSkeleton />;
   }
 
   if (cartError) {
     return <NotFoundPage />;
-  }
-  // Show loading state
-  if (cartLoading) {
-    return <CartSkeleton />;
   }
 
   // Show error state
@@ -284,7 +280,7 @@ function AuthenticatedCart() {
           </div>
           <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg shadow-lg">
             <span className="text-sm font-medium">
-              {t('welcome')} {user.name || user.email}
+              {t('welcome')} {user?.userName || user.email}
             </span>
           </div>
         </div>
@@ -293,13 +289,13 @@ function AuthenticatedCart() {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item, index) => {
-              const itemId = item._id;
-              const productId = item.product._id;
-              const productName = item.product.name;
+              const itemId = item?._id;
+              const productId = item.product?._id;
+              const productName = item.product?.name;
               const price = parseFloat(item.price) || 0;
               const quantity = parseInt(item.quantity) || 1;
               const image =
-                item.product.images?.[0] ||
+                item.product?.images?.[0] ||
                 "https://readymadeui.com/images/placeholder.webp";
               const color = item.variant[0]?.value;
               const size = item.variant[1]?.value;
@@ -315,7 +311,7 @@ function AuthenticatedCart() {
                     <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-50 transition-transform duration-300 group-hover:scale-105">
                       <Image
                         src={image}
-                        alt={productName}
+                        alt={productName || "product"}
                         width={96}
                         height={96}
                         className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"

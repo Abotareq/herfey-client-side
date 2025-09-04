@@ -1,9 +1,11 @@
-import Exchange from "../components/Exchange";
+import { Exchange } from "../components/Exchange";
 
+// Page component
 export const metadata = {
-    title: "Exchange & Return",
-    description: "Exchange abd return page"
-}
+  title: "Exchange & Return",
+  description: "Exchange and return page",
+};
+
 export default function ExchangeReturnPolicy() {
-    return <Exchange />
+  return <Exchange />;
 }

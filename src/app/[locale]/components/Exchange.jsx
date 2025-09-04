@@ -2,8 +2,9 @@
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import background from "../../../../public/policy.jpg";
-import { Link } from 'next/link';
-function Exchange() {
+import Link from "next/link"; 
+
+export function Exchange() {  
   const locale = useLocale();
   const isArabic = locale === "ar";
   const t = useTranslations("Exchange");
@@ -62,5 +63,3 @@ function Exchange() {
     </section>
   );
 }
-
-export default Exchange;

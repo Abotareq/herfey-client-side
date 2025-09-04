@@ -1,6 +1,7 @@
 "use client";
 import { useLocale, useTranslations } from "next-intl";
-
+import Image from "next/image";
+import background from "../../../../public/12.jpg"
 function Terms() {
   const locale = useLocale();
   const isArabic = locale === "ar";
@@ -12,10 +13,11 @@ function Terms() {
 
           {/* Left Image */}
           <div className="w-full lg:w-1/2">
-            <img
-              src="https://images.unsplash.com/photo-1607083206968-13611e3e97c1"
-              alt="Terms & Conditions"
-              className="w-full rounded-xl object-cover"
+            <Image 
+            src={background}
+            width={600}
+            height={800}
+            alt="terms and condiotions image"
             />
           </div>
 
