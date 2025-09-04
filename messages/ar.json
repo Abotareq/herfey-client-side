@@ -964,7 +964,12 @@
   "pricemodifier": "تعديل السعر",
   "stockf": "المخزون",
   "category": "فئة",
-  "creatingproduct": "جارٍ إنشاء المنتج..."
+  "creatingproduct": "جارٍ إنشاء المنتج...",
+  "valueplaceholder": "مثال: أحمر، صغير",
+  "skuplaceholder": "مثال: SKU12345",
+  "pnamelcaeholder": "مثال: كنبة منزلية مريحة",
+  "descplaceholder": "صف منتجك....",
+  "variantplaceholder": "ادخل نوع المتغير من المنتج"
 },
 "StoreDetailsView": {
   "overview": "نظرة عامة",

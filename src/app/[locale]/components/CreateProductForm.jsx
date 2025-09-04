@@ -70,12 +70,12 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                          <div>
                             <label className={labelClass}>{t('value')}{requiredStar}</label>
-                            <input {...register(`variants.${variantIndex}.options.${optionIndex}.value`)} placeholder="e.g., Red, Large" className={inputClass(getOptionError(optionIndex, 'value'))} />
+                            <input {...register(`variants.${variantIndex}.options.${optionIndex}.value`)} placeholder={t('valueplaceholder')} className={inputClass(getOptionError(optionIndex, 'value'))} />
                             {getOptionError(optionIndex, 'value') && <FormError message={getOptionError(optionIndex, 'value')} />}
                         </div>
                         <div>
                             <label className={labelClass}>{t('SKU')}{requiredStar}</label>
-                            <input {...register(`variants.${variantIndex}.options.${optionIndex}.sku`)} placeholder="e.g., VASE-RED-LG" className={inputClass(getOptionError(optionIndex, 'sku'))} />
+                            <input {...register(`variants.${variantIndex}.options.${optionIndex}.sku`)} placeholder={t('skuplaceholder')} className={inputClass(getOptionError(optionIndex, 'sku'))} />
                             {getOptionError(optionIndex, 'sku') && <FormError message={getOptionError(optionIndex, 'sku')} />}
                         </div>
                         <div>
@@ -218,12 +218,12 @@ export default function CreateProductForm() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="md:col-span-2">
                                         <label className={labelClass}>{t('pname')}{requiredStar}</label>
-                                        <input {...register('name')} placeholder="e.g., Premium Wireless Headphones" className={inputClass(errors.name)} />
+                                        <input {...register('name')} placeholder={t('pnamelcaeholder')} className={inputClass(errors.name)} />
                                         {errors.name && <FormError message={errors.name.message} />}
                                     </div>
                                     <div className="md:col-span-2">
                                         <label className={labelClass}>{t('pdesc')}{requiredStar}</label>
-                                        <textarea {...register('description')} rows="4" placeholder="Describe the product..." className={`${inputClass(errors.description)} min-h-[100px]`} />
+                                        <textarea {...register('description')} rows="4" placeholder={t('descplaceholder')} className={`${inputClass(errors.description)} min-h-[100px]`} />
                                         {errors.description && <FormError message={errors.description.message} />}
                                     </div>
                                     <div>
@@ -292,7 +292,7 @@ export default function CreateProductForm() {
                                                     <button type="button" onClick={() => removeVariant(index)} className="text-slate-500 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-50"><Icons.X className="w-5 h-5" /></button>
                                                 )}
                                             </div>
-                                            <input {...register(`variants.${index}.name`)} placeholder="Variant Name" className={inputClass(errors.variants?.[index]?.name)} />
+                                            <input {...register(`variants.${index}.name`)} placeholder={t('variantplaceholder')} className={inputClass(errors.variants?.[index]?.name)} />
                                             {errors.variants?.[index]?.name && <FormError message={errors.variants[index].name.message} />}
                                             <hr className="my-5 border-slate-200" />
                                             <FieldArrayOptions control={control} register={register} variantIndex={index} errors={errors} />

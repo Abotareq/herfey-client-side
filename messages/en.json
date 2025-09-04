@@ -963,7 +963,12 @@
         "pricemodifier": "Price Modifier",
         "stockf": "Stock",
         "category": "Category",
-        "creatingproduct": "Creating product..."
+        "creatingproduct": "Creating product...",
+        "valueplaceholder": "e.g., Red, Large",
+        "skuplaceholder": "e.g., VASE-RED-LG",
+        "pnamelcaeholder": "e.g.,Homemade Sofa",
+        "descplaceholder": "Describe the product...",
+        "variantplaceholder": "Variant Name"
     },
     "StoreDetailsView": {
         "overview": "Overview",
