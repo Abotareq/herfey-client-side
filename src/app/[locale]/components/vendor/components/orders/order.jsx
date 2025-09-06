@@ -364,7 +364,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
               ) : (
                 <>
                   <XCircle className="w-4 h-4" />
-                  {t('cancelOrder')}
+                  {t('cancel')}
                 </>
               )}
             </Button>

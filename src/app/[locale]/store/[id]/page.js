@@ -25,6 +25,7 @@ import Image from "next/image";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useStoreContext } from "@/app/context/StoreContext";
 import { useTranslations } from "next-intl";
+import { StoreSkeletonSimple } from "../../components/vendor/components/Store/storeSkelton";
 
 // Main component for Store Details Page
 export default function StoreDetailsPage() {
@@ -191,15 +192,7 @@ export default function StoreDetailsPage() {
 
   // Loading state
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <h3 className="text-xl font-semibold text-gray-800">{t('loading')}</h3>
-          <p className="text-gray-600 mt-2">{t('wait')}</p>
-        </div>
-      </div>
-    );
+    return <StoreSkeletonSimple />;
   }
 
   // Error state
