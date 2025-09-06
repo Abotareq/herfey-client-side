@@ -207,7 +207,7 @@ function ReviewsSection({ productId }) {
 
         {/* Review Form Modal */}
         {showReviewForm && user && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-2xl p-6 w-full max-w-md">
               <h3 className="text-xl font-semibold text-slate-900 mb-4">
                 {t("write")}
@@ -453,7 +453,9 @@ function ReviewsSection({ productId }) {
 
         {/* Most Mentioned Keywords */}
       </div>
-      <Toaster className={`absolute top-4 ${isArabic ? "left-4" : "right-4"}`} />
+      <Toaster
+        className={`absolute top-4 ${isArabic ? "left-4" : "right-4"}`}
+      />
     </div>
   );
 }

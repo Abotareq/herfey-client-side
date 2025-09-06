@@ -47,10 +47,10 @@ function ReviewsSectionInProfile({ userId }) {
       },
       {
         onSuccess: () => {
-          toast.success(t('successfully'));
+          toast.success(t("successfully"));
         },
         onError: (error) => {
-          toast.error(t('fail'), error);
+          toast.error(t("fail"), error);
         },
       }
     );
@@ -63,19 +63,22 @@ function ReviewsSectionInProfile({ userId }) {
 
   const handleUpdateReview = () => {
     if (!editingReview) return;
-    updateReviewMutation.mutate({
-      entityId: editingReview.entityId,
-      entityType: editingReview.entityType,
-      rating: editReviewData.rating,
-      comment: editReviewData.comment,
-    }, {
-      onSuccess: () => {
-        toast.success(t('updates'));
+    updateReviewMutation.mutate(
+      {
+        entityId: editingReview.entityId,
+        entityType: editingReview.entityType,
+        rating: editReviewData.rating,
+        comment: editReviewData.comment,
       },
-      onError: (error) => {
-        toast.error(t('updatee'), error);
-      },
-    });
+      {
+        onSuccess: () => {
+          toast.success(t("updates"));
+        },
+        onError: (error) => {
+          toast.error(t("updatee"), error);
+        },
+      }
+    );
     setEditingReview(null);
   };
 
@@ -201,7 +204,7 @@ function ReviewsSectionInProfile({ userId }) {
 
       {/* --- FIX: EDIT REVIEW MODAL UI --- */}
       {editingReview && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
             <h3 className="text-xl font-semibold text-slate-900 mb-4">
               {t("edit")}
@@ -387,9 +390,7 @@ function ReviewsSectionInProfile({ userId }) {
             <h3 className="text-lg font-semibold text-slate-900 mb-2">
               {t("noreview")}
             </h3>
-            <p className="text-slate-600">
-              {t('found')}
-            </p>
+            <p className="text-slate-600">{t("found")}</p>
           </div>
         )}
       </div>
