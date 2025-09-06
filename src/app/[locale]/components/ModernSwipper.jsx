@@ -17,8 +17,8 @@ import "swiper/css/effect-fade";
 import { FreeMode, Navigation, Thumbs, Autoplay, EffectFade } from "swiper/modules";
 
 // Import your images here
-import swip1 from "@public/swipper/swip1 ar.jpg";
-import swip2 from "@public/swipper/swip2 ar.jpg";
+import swip1 from "@public/swipper/swip1 ar 2.jpg";
+import swip2 from "@public/swipper/swip2 ar 2.jpg";
 import swip3 from "@public/swipper/swip3 ar.jpg";
 import swip4 from "@public/swipper/swip4 ar.jpg";
 import Image from "next/image";

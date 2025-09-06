@@ -124,101 +124,109 @@ export default function HerafyStorePage({ vendorOnly = false }) {
     return pages;
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        {/* Breadcrumbs Skeleton */}
-        <div className="text-center py-4">
-          <div className="h-4 bg-gray-200 rounded w-64 mx-auto animate-pulse"></div>
-        </div>
+ if (loading) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
+      {/* Breadcrumbs Skeleton */}
+      <div className="text-center py-4">
+        <div className="h-4 bg-orange-200 rounded w-64 mx-auto animate-pulse shadow-sm"></div>
+      </div>
 
-        <div className="flex">
-          {/* Sidebar Skeleton */}
-          <aside className="w-64 p-4 border-r border-gray-200 bg-white">
-            {/* Filter & Sort Title */}
-            <div className="h-6 bg-gray-200 rounded w-32 mb-4 animate-pulse"></div>
+      <div className="flex">
+        {/* Sidebar Skeleton */}
+        <aside className="w-64 p-4 border-r border-orange-200 bg-gradient-to-b from-orange-50 to-white">
+          {/* Filter & Sort Title */}
+          <div className="h-6 bg-orange-200 rounded w-32 mb-4 animate-pulse shadow-sm"></div>
 
-            {/* Sort Options */}
-            <div className="mb-4">
-              <div className="h-4 bg-gray-200 rounded w-16 mb-1 animate-pulse"></div>
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-md animate-pulse"></div>
+          {/* Sort Options */}
+          <div className="mb-4">
+            <div className="h-4 bg-orange-200 rounded w-16 mb-1 animate-pulse"></div>
+            <div className="h-10 bg-orange-50 border border-orange-200 rounded-md animate-pulse shadow-sm"></div>
+          </div>
+
+          <hr className="my-4 border-orange-200" />
+
+          {/* Filter Options Skeleton */}
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} className="mb-4">
+              <div className="h-4 bg-orange-200 rounded w-20 mb-1 animate-pulse"></div>
+              <div className="h-10 bg-orange-50 border border-orange-200 rounded-md animate-pulse shadow-sm"></div>
             </div>
+          ))}
 
-            <hr className="my-4" />
+          {/* Clear Button Skeleton */}
+          <div className="h-10 bg-orange-100 border border-orange-300 rounded-md mt-4 animate-pulse shadow-sm"></div>
+        </aside>
 
-            {/* Filter Options Skeleton */}
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="mb-4">
-                <div className="h-4 bg-gray-200 rounded w-20 mb-1 animate-pulse"></div>
-                <div className="h-10 bg-gray-100 border border-gray-200 rounded-md animate-pulse"></div>
-              </div>
-            ))}
+        {/* Main Content */}
+        <section className="container mx-auto p-10 md:py-12 md:p-8 flex-1">
+          {/* Products Grid Skeleton */}
+          <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+              <div
+                key={item}
+                className="relative rounded-lg overflow-hidden shadow-lg bg-white border border-orange-100"
+              >
+                {/* Product Image Skeleton */}
+                <div className="w-full h-72 bg-gradient-to-br from-orange-200 to-orange-300 animate-pulse"></div>
 
-            {/* Clear Button Skeleton */}
-            <div className="h-10 bg-gray-100 border border-gray-200 rounded-md mt-4 animate-pulse"></div>
-          </aside>
+                {/* Product Info Skeleton */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orange-900/80 to-transparent">
+                  <div className="h-5 bg-orange-100/70 rounded w-3/4 mx-auto animate-pulse shadow-sm"></div>
+                </div>
 
-          {/* Main Content */}
-          <section className="container mx-auto p-10 md:py-12 md:p-8 flex-1">
-            {/* Products Grid Skeleton */}
-            <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                <div
-                  key={item}
-                  className="relative rounded-lg overflow-hidden shadow-lg bg-white"
-                >
-                  {/* Product Image Skeleton */}
-                  <div className="w-full h-72 bg-gray-200 animate-pulse"></div>
-
-                  {/* Product Info Skeleton */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <div className="h-5 bg-gray-300/50 rounded w-3/4 mx-auto animate-pulse"></div>
+                {/* Overlay Content Skeleton */}
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-900/60 to-orange-500/20 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-all duration-300">
+                  {/* Top Tags */}
+                  <div className="flex justify-between">
+                    <div className="h-6 bg-orange-200/70 rounded-full w-20 animate-pulse shadow-sm backdrop-blur-sm"></div>
                   </div>
 
-                  {/* Overlay Content Skeleton */}
-                  <div className="absolute inset-0 bg-black/50 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    {/* Top Tags */}
-                    <div className="flex justify-between">
-                      <div className="h-6 bg-white/20 rounded-full w-20 animate-pulse"></div>
-                    </div>
+                  {/* Center Button */}
+                  <div className="flex-grow flex items-center justify-center">
+                    <div className="h-12 bg-orange-400/60 rounded-full w-24 animate-pulse shadow-lg backdrop-blur-sm border border-orange-300/50"></div>
+                  </div>
 
-                    {/* Center Button */}
-                    <div className="flex-grow flex items-center justify-center">
-                      <div className="h-12 bg-blue-600/50 rounded-full w-24 animate-pulse"></div>
-                    </div>
-
-                    {/* Price */}
-                    <div className="flex justify-center mb-6">
-                      <div className="h-10 bg-white/70 rounded-full w-20 animate-pulse"></div>
-                    </div>
+                  {/* Price */}
+                  <div className="flex justify-center mb-6">
+                    <div className="h-10 bg-orange-100/80 rounded-full w-20 animate-pulse shadow-md backdrop-blur-sm"></div>
                   </div>
                 </div>
-              ))}
-            </section>
-
-            {/* Pagination Skeleton */}
-            <div className="flex justify-center items-center gap-2 mt-10">
-              {/* Previous Button */}
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-lg w-20 animate-pulse"></div>
-
-              {/* Page Numbers */}
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((page) => (
-                  <div
-                    key={page}
-                    className="h-10 w-10 bg-gray-100 border border-gray-200 rounded-lg animate-pulse"
-                  ></div>
-                ))}
               </div>
-
-              {/* Next Button */}
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-lg w-16 animate-pulse"></div>
-            </div>
+            ))}
           </section>
-        </div>
+
+          {/* Pagination Skeleton */}
+          <div className="flex justify-center items-center gap-2 mt-10">
+            {/* Previous Button */}
+            <div className="h-10 bg-orange-100 border border-orange-200 rounded-lg w-20 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
+
+            {/* Page Numbers */}
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((page) => (
+                <div
+                  key={page}
+                  className="h-10 w-10 bg-orange-100 border border-orange-200 rounded-lg animate-pulse shadow-sm hover:bg-orange-200 transition-colors"
+                ></div>
+              ))}
+            </div>
+
+            {/* Next Button */}
+            <div className="h-10 bg-orange-100 border border-orange-200 rounded-lg w-16 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
+          </div>
+
+          {/* Loading Indicator */}
+          <div className="fixed bottom-8 right-8 z-50">
+            <div className="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-orange-200 rounded-full px-4 py-2 shadow-lg">
+              <div className="w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
+              <span className="text-orange-600 text-sm font-medium">Loading products...</span>
+            </div>
+          </div>
+        </section>
       </div>
-    );
-  }
+    </div>
+  );
+}
   // 🔹 Handle error state
   if (error) {
     return (

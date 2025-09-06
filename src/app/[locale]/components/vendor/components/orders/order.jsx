@@ -31,18 +31,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import OrdersSkeleton from "./orderSkelton";
+import { useTranslations } from "next-intl";
 
 // Credit Card Order Component
 const CreditCardOrderActions = ({ order, updateStatus, router }) => {
+  const t = useTranslations('VendorOrder')
   const getNextStatus = (currentStatus) => {
+    
     const statusFlow = {
-      paid: "processing",
+      // paid: "processing",
       processing: "shipped",
       shipped: "delivered",
     };
     return statusFlow[currentStatus];
   };
-
+  
   const getStatusAction = (status) => {
     const actions = {
       paid: "Accept Order",
@@ -87,18 +90,18 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
       });
     }
   };
-
+  
   return (
     <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 hover:from-blue-100 hover:to-blue-150 transition-all duration-300">
       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <CreditCard className="w-4 h-4 text-blue-600" />
-        Credit Card Payment
+        {t('cridit')}
       </h4>
       <div className="flex flex-col gap-3">
         <Button
           onClick={() => {
             router.push(`/vendor-profile/orders/${order._id}`);
-            toast("Opening order details...", {
+            toast(t('orderdetails'), {
               style: {
                 border: "1px solid #FF8C00",
                 padding: "16px",
@@ -115,7 +118,7 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
           className="w-full justify-start gap-2 hover:bg-white hover:shadow-sm transition-all duration-200 bg-white"
         >
           <Eye className="w-4 h-4" />
-          View Details
+          {t('view')}
         </Button>
 
         {order.status !== "delivered" && order.status !== "cancelled" && (
@@ -139,7 +142,7 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
         <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-lg">
           <div className="flex items-center gap-2 text-green-700 text-xs font-medium">
             <CheckCircle className="w-3 h-3" />
-            Payment Confirmed
+            {t('confirmed')}
           </div>
         </div>
       </div>
@@ -149,6 +152,7 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
 
 // Cash on Delivery Order Component - Improved with React Query Refetch
 const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, refetch }) => {
+  const t = useTranslations('VendorOrder')
   const getNextStatus = (currentStatus) => {
     const statusFlow = {
       pending: "processing",
@@ -174,7 +178,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
         status: "completed",
       });
       
-      toast.success('Payment confirmed successfully!', {
+      toast.success(t('paymentsuccess'), {
         style: {
           border: '1px solid #10B981',
           padding: '16px',
@@ -190,7 +194,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
       await refetch();
       
     } catch (error) {
-      toast.error('Failed to confirm payment. Please try again.', {
+      toast.error(t('paymentfail'), {
         style: {
           border: '1px solid #EF4444',
           padding: '16px',
@@ -241,7 +245,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
   };
 
   const handleCancelOrder = async () => {
-    const confirmCancel = window.confirm('Are you sure you want to cancel this order? This action cannot be undone.');
+    const confirmCancel = window.confirm(t('question'));
     if (confirmCancel) {
       try {
         await updateStatus.mutateAsync({
@@ -249,7 +253,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           status: "cancelled",
         });
         
-        toast.success('Order cancelled successfully!', {
+        toast.success(t('ordercancel'), {
           style: {
             border: '1px solid #EF4444',
             padding: '16px',
@@ -264,7 +268,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
         // No refetch here - let React Query handle automatic updates
         
       } catch (error) {
-        toast.error('Failed to cancel order. Please try again.', {
+        toast.error(t('ordercancelerror'), {
           style: {
             border: '1px solid #EF4444',
             padding: '16px',
@@ -283,7 +287,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
     <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 hover:from-orange-100 hover:to-orange-150 transition-all duration-300">
       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <Banknote className="w-4 h-4 text-orange-600" />
-        Cash on Delivery
+        {t('cash')}
       </h4>
       <div className="flex flex-col gap-3">
         {/* View Details Button - Always visible */}
@@ -307,7 +311,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           className="w-full justify-start gap-2 hover:bg-white hover:shadow-sm transition-all duration-200 bg-white"
         >
           <Eye className="w-4 h-4" />
-          View Details
+          {t('view')}
         </Button>
         
         {/* Order Progress Buttons - From pending to delivered */}
@@ -343,7 +347,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
               ) : (
                 <>
                   <DollarSign className="w-4 h-4" />
-                  Confirm Payment Received
+                  {t('confirm')}
                 </>
               )}
             </Button>
@@ -360,7 +364,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
               ) : (
                 <>
                   <XCircle className="w-4 h-4" />
-                  Cancel Order
+                  {t('cancel')}
                 </>
               )}
             </Button>
@@ -372,7 +376,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           <div className="p-2 bg-amber-50 border border-amber-200 rounded-lg">
             <div className="flex items-center gap-2 text-amber-700 text-xs font-medium">
               <AlertCircle className="w-3 h-3" />
-              Order Pending - Click Accept Order to start processing
+              {t('pending')}
             </div>
           </div>
         )}
@@ -381,7 +385,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
             <div className="flex items-center gap-2 text-blue-700 text-xs font-medium">
               <Package className="w-3 h-3" />
-              Order Processing - Preparing for shipment
+              {t('processing')}
             </div>
           </div>
         )}
@@ -390,7 +394,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           <div className="p-2 bg-purple-50 border border-purple-200 rounded-lg">
             <div className="flex items-center gap-2 text-purple-700 text-xs font-medium">
               <Truck className="w-3 h-3" />
-              Order Shipped - On its way to customer
+              {t('shipped')}
             </div>
           </div>
         )}
@@ -399,7 +403,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
             <div className="flex items-center gap-2 text-blue-700 text-xs font-medium">
               <CheckCircle className="w-3 h-3" />
-              Order Delivered - Awaiting payment confirmation
+              {t('delivered')}
             </div>
           </div>
         )}
@@ -408,7 +412,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           <div className="p-2 bg-red-50 border border-red-200 rounded-lg">
             <div className="flex items-center gap-2 text-red-700 text-xs font-medium">
               <XCircle className="w-3 h-3" />
-              Order Cancelled
+              {t('ocancel')}
             </div>
           </div>
         )}
@@ -418,7 +422,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           <div className="p-2 bg-green-50 border border-green-200 rounded-lg">
             <div className="flex items-center gap-2 text-green-700 text-xs font-medium">
               <CheckCircle className="w-3 h-3" />
-              Payment Confirmed - Order Complete
+              {t('pconfirm')}
             </div>
           </div>
         )}
@@ -428,6 +432,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
 };
 
 export default function OrdersSection() {
+  const t = useTranslations("VendorOrder")
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("all");
   const [paymentMethodFilter, setPaymentMethodFilter] = useState("all");
@@ -443,7 +448,7 @@ export default function OrdersSection() {
     statusFilter,
     paymentMethodFilter,
   });
-
+  
   // Update order status mutation
   const updateStatus = useUpdateVendorOrderStatus();
 
@@ -542,13 +547,13 @@ export default function OrdersSection() {
             <Package className="w-8 h-8 text-red-600" />
           </div>
           <div className="text-red-600 text-lg font-semibold mb-2">
-            Failed to load orders
+            {t('failedloadingo')}
           </div>
           <p className="text-red-500 text-sm">
-            Please check your connection and try again.
+            {t('faildesc')}
           </p>
           <Button className="mt-4" onClick={handleRefresh}>
-            Try Again
+            {t('tryagain')}
           </Button>
         </div>
       </div>
@@ -560,17 +565,16 @@ export default function OrdersSection() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-gradient-to-br from-orange-10 to-orange-30 min-h-screen">
-      <Toaster position="top-right" />
 
       {/* Header */}
       <div className="mb-8 animate-fade-in">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-orange-600 mb-2 tracking-tight">
-              Order Management
+              {t('ordermanage')}
             </h1>
             <p className="text-gray-600">
-              Track and manage all your customer orders efficiently
+              {t('ordermanagdesc')}
             </p>
           </div>
 
@@ -579,7 +583,7 @@ export default function OrdersSection() {
               variant="outline"
               className="flex items-center gap-2 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 hover:shadow-sm"
               onClick={() => {
-                toast("Export functionality will be available soon.", {
+                toast(t('exportf'), {
                   style: {
                     border: "1px solid #FF8C00",
                     padding: "16px",
@@ -593,7 +597,7 @@ export default function OrdersSection() {
               }}
             >
               <Download className="w-4 h-4" />
-              Export
+              {t('export')}
             </Button>
             <Button
               variant="outline"
@@ -601,7 +605,7 @@ export default function OrdersSection() {
               onClick={handleRefresh}
             >
               <Filter className="w-4 h-4" />
-              Refresh
+              {t('refresh')}
             </Button>
           </div>
         </div>
@@ -627,13 +631,13 @@ export default function OrdersSection() {
             }}
             className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
           >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="paid">Paid</option>
-            <option value="processing">Processing</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
+            <option value="all">{t('all')}</option>
+            <option value="pending">{t('pendings')}</option>
+            <option value="paid">{t('paid')}</option>
+            <option value="processing">{t('processings')}</option>
+            <option value="shipped">{t('shipped')}</option>
+            <option value="delivered">{t('delivereds')}</option>
+            <option value="cancelled">{t('cancells')}</option>
           </select>
 
           <select
@@ -644,9 +648,9 @@ export default function OrdersSection() {
             }}
             className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
           >
-            <option value="all">All Payment Methods</option>
-            <option value="credit_card">Credit Card</option>
-            <option value="cash_on_delivery">Cash on Delivery</option>
+            <option value="all">{t('allpayment')}</option>
+            <option value="credit_card">{t('creditcard')}</option>
+            <option value="cash_on_delivery">{t('cash')}</option>
           </select>
         </div>
       </div>
@@ -695,7 +699,7 @@ export default function OrdersSection() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 mb-1">
-                  Credit Card Orders
+                  {t('criditcardorders')}
                 </p>
                 <p className="text-3xl font-bold text-blue-600">
                   {orders.filter((order) => isCreditCardOrder(order)).length}
@@ -713,7 +717,7 @@ export default function OrdersSection() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 mb-1">
-                  Cash on Delivery Orders
+                  {t('cashorders')}
                 </p>
                 <p className="text-3xl font-bold text-orange-600">
                   {orders.filter((order) => isCODOrder(order)).length}
@@ -736,11 +740,10 @@ export default function OrdersSection() {
                 <Package className="w-12 h-12 text-gray-300" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No orders found
+                {t('noorders')}
               </h3>
               <p className="text-gray-500 max-w-md mx-auto">
-                Orders will appear here when customers make purchases. Your
-                dashboard will show all order details and status updates.
+                {t('noordersdesc')}
               </p>
             </CardContent>
           </Card>
@@ -778,13 +781,13 @@ export default function OrdersSection() {
                             {isCODOrder && (
                               <span className="flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
                                 <Banknote className="w-3 h-3" />
-                                COD
+                                {t('cod')}
                               </span>
                             )}
                             {isCreditCardOrder && (
                               <span className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
                                 <CreditCard className="w-3 h-3" />
-                                Card
+                                {t('card')}
                               </span>
                             )}
                           </h3>
@@ -799,7 +802,7 @@ export default function OrdersSection() {
                               <MapPin className="w-4 h-4" />
                               {order.user?.userName ||
                                 order.user?.name ||
-                                "Unknown Customer"}
+                                t('unkown')}
                             </span>
                           </div>
                         </div>
@@ -831,35 +834,35 @@ export default function OrdersSection() {
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300">
                         <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                           <DollarSign className="w-4 h-4" />
-                          Order Summary
+                          {t('ordersummary')}
                         </h4>
                         <div className="space-y-3 text-sm">
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">Items:</span>
+                            <span className="text-gray-600">{t('Items')}:</span>
                             <span className="font-medium px-2 py-1 bg-white rounded-lg">
-                              {order.orderItems?.length || 0} items
+                              {order.orderItems?.length || 0} {t('items')}
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">Subtotal:</span>
+                            <span className="text-gray-600">{t('subtotal')}:</span>
                             <span className="font-medium">
                               ${order.subtotal?.toFixed(2) || "0.00"}
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">Shipping:</span>
+                            <span className="text-gray-600">{t('shipping')}:</span>
                             <span className="font-medium">
                               ${order.shippingFee?.toFixed(2) || "0.00"}
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">Tax:</span>
+                            <span className="text-gray-600">{t('tax')}:</span>
                             <span className="font-medium">
                               ${order.tax?.toFixed(2) || "0.00"}
                             </span>
                           </div>
                           <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-                            <span className="text-gray-600">Total Amount:</span>
+                            <span className="text-gray-600">{t('total')}:</span>
                             <span className="font-bold text-xl text-green-600 flex items-center gap-1">
                               <DollarSign className="w-5 h-5" />
                               {order.totalAmount?.toFixed(2) || "0.00"}
@@ -871,7 +874,7 @@ export default function OrdersSection() {
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300">
                         <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                           <Package className="w-4 h-4" />
-                          Products
+                          {t('products')}
                         </h4>
                         <div className="flex gap-2 overflow-x-auto pb-2">
                           {order.orderItems?.slice(0, 4).map((item, index) => (
@@ -928,11 +931,11 @@ export default function OrdersSection() {
           <CardContent className="p-6">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-sm text-gray-600 font-medium">
-                Showing page{" "}
-                <span className="font-bold text-gray-900">{page}</span> of{" "}
+                {t('show')}{" "}
+                <span className="font-bold text-gray-900">{page}</span> {t('of')}{" "}
                 <span className="font-bold text-gray-900">{totalPages}</span>
                 <span className="text-gray-400 ml-2">
-                  ({data?.totalOrders || 0} total orders)
+                  ({data?.totalOrders || 0} {t('totalorders')})
                 </span>
               </div>
 
@@ -944,7 +947,7 @@ export default function OrdersSection() {
                   onClick={() => setPage(1)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  First
+                  {t('first')}
                 </Button>
                 <Button
                   variant="outline"
@@ -953,7 +956,7 @@ export default function OrdersSection() {
                   onClick={() => setPage((p) => p - 1)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  Previous
+                  {t('prev')}
                 </Button>
 
                 <div className="flex items-center gap-1">
@@ -964,7 +967,7 @@ export default function OrdersSection() {
                     return (
                       <Button
                         key={pageNum}
-                        variant={pageNum === page ? "default" : "outline"}
+                        variant={pageNum === page ? t('default') : t('outline')}
                         size="sm"
                         onClick={() => setPage(pageNum)}
                         className="w-10 h-10 p-0 transition-all duration-200 hover:scale-110"
@@ -982,7 +985,7 @@ export default function OrdersSection() {
                   onClick={() => setPage((p) => p + 1)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  Next
+                  {t('next')}
                 </Button>
                 <Button
                   variant="outline"
@@ -991,7 +994,7 @@ export default function OrdersSection() {
                   onClick={() => setPage(totalPages)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  Last
+                  {t('last')}
                 </Button>
               </div>
             </div>

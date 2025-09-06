@@ -1,26 +1,27 @@
 "use client";
 import { useGetAllProducts } from "@/service/product";
 import { useFilterReviewsByStore } from "@/service/reviewService";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 // Store Details View Component
 export default function StoreDetailsView({ store, onClose, onEdit }) {
   const [activeSection, setActiveSection] = useState("overview");
-
+  const t = useTranslations('StoreDetailsView')
   const sections = [
     {
       id: "overview",
-      label: "Overview",
+      label: t('overview'),
       icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
     },
     {
       id: "products",
-      label: "Products",
+      label: t('products'),
       icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
     },
     {
       id: "reviews",
-      label: "Reviews",
+      label: t('reviews'),
       icon: "M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z",
     },
   ];
@@ -189,7 +190,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                   />
                 </svg>
-                <span className="font-medium">Edit Store</span>
+                <span className="font-medium">{t('editstore')}</span>
               </button>
             </div>
           </div>
@@ -202,25 +203,25 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   {[
                     {
-                      label: "Total Products",
+                      label: t('total'),
                       value: currentStore?.productCount || 0,
                       color: "orange",
                       icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
                     },
                     {
-                      label: "Total Orders",
+                      label: t('orders'),
                       value: currentStore?.ordersCount || 0,
                       color: "red",
                       icon: "M16 11V7a4 4 0 00-8 0v4M8 11v6a2 2 0 002 2h4a2 2 0 002-2v-6M8 11h8",
                     },
                     {
-                      label: "Categories",
+                      label: t('categories'),
                       value: currentStore?.categorieCount || 0,
                       color: "yellow",
                       icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
                     },
                     {
-                      label: "Coupons Used",
+                      label: t('coupons'),
                       value: currentStore?.couponsUsed || 0,
                       color: "orange",
                       icon: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z",
@@ -293,12 +294,12 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      Store Information
+                      {t('info')}
                     </h3>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between py-3 border-b border-gray-100">
                         <span className="text-gray-600 font-medium">
-                          Status
+                          {t('status')}
                         </span>
                         <span
                           className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
@@ -328,7 +329,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                       </div>
                       <div className="flex items-center justify-between py-3 border-b border-gray-100">
                         <span className="text-gray-600 font-medium">
-                          Store Slug
+                          {t('slug')}
                         </span>
                         <span className="text-gray-900 font-mono text-sm bg-gray-50 px-2 py-1 rounded">
                           {currentStore?.slug}
@@ -336,7 +337,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                       </div>
                       <div className="flex items-center justify-between py-3 border-b border-gray-100">
                         <span className="text-gray-600 font-medium">
-                          Last Updated
+                          {t('updated')}
                         </span>
                         <span className="text-gray-900">
                           {formatDate(currentStore?.updatedAt)}
@@ -368,7 +369,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                           d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                         />
                       </svg>
-                      Location & Address
+                      {t('location')}
                     </h3>
                     <div className="space-y-4">
                       <div className="p-4 bg-orange-50 rounded-xl">
@@ -388,7 +389,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                           </svg>
                           <div>
                             <p className="font-semibold text-gray-900">
-                              Street Address
+                              {t('street')}
                             </p>
                             <p className="text-gray-700">
                               {currentStore?.address?.street}
@@ -400,7 +401,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="p-4 bg-orange-50 rounded-xl">
                           <p className="font-semibold text-gray-900 mb-1">
-                            City
+                            {t('city')}
                           </p>
                           <p className="text-gray-700 capitalize">
                             {currentStore?.address?.city}
@@ -408,7 +409,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                         </div>
                         <div className="p-4 bg-red-50 rounded-xl">
                           <p className="font-semibold text-gray-900 mb-1">
-                            Postal Code
+                            {t('postal')}
                           </p>
                           <p className="text-gray-700">
                             {currentStore?.address?.postalCode}
@@ -435,7 +436,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                       />
                     </svg>
-                    Store Policies
+                    {t('store')}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="p-4 bg-orange-50 rounded-xl">
@@ -457,7 +458,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                         </div>
                         <div>
                           <h4 className="font-semibold text-gray-900 mb-2">
-                            Shipping Policy
+                            {t('shipping')}
                           </h4>
                           <p className="text-gray-700">
                             {currentStore?.policies?.shipping}
@@ -484,7 +485,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                         </div>
                         <div>
                           <h4 className="font-semibold text-gray-900 mb-2">
-                            Return Policy
+                            {t('retrun')}
                           </h4>
                           <p className="text-gray-700">
                             {currentStore?.policies?.returns}
@@ -501,14 +502,14 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
               <div className="flex-1 overflow-y-auto p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-2xl font-bold text-gray-900">
-                    Store Products
+                    {t('storep')}
                   </h3>
                   <span className="text-sm text-gray-600">
-                    Showing{" "}
+                    {t('showing')}{" "}
                     {Array.isArray(productsRes?.products)
                       ? productsRes.products.length
                       : 0}{" "}
-                    products
+                    {t('productsp')}
                   </span>
                 </div>
 
@@ -589,7 +590,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                                 }`}
                               >
                                 {product.status?.charAt(0).toUpperCase() +
-                                  product.status?.slice(1) || "Unknown"}
+                                  product.status?.slice(1) || t('unkown')}
                               </span>
                             </div>
 
@@ -672,12 +673,12 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                                         className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded"
                                       >
                                         {variant.name}:{" "}
-                                        {variant.options?.length || 0} options
+                                        {variant.options?.length || 0} {t('options')}
                                       </span>
                                     ))}
                                   {product.variants.length > 2 && (
                                     <span className="text-xs text-gray-500">
-                                      +{product.variants.length - 2} more
+                                      +{product.variants.length - 2} {t('more')}
                                     </span>
                                   )}
                                 </div>
@@ -704,8 +705,8 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                                       (o) => o.stock > 0 || o.stock === -1
                                     )
                                   )
-                                    ? "In Stock"
-                                    : "Out of Stock"}
+                                    ? t('instock')
+                                    : t('outofstock')}
                                 </span>
                               </div>
                               <span className="text-gray-500">
@@ -737,11 +738,10 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                         </svg>
                       </div>
                       <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                        No Products Available
+                        {t('noproducts')}
                       </h4>
                       <p className="text-gray-600">
-                        Products will appear here once they are added to the
-                        store.
+                        {t('noproductdesc')}
                       </p>
                     </div>
                   </div>
@@ -753,7 +753,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
               <div className="flex-1 overflow-y-auto p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-2xl font-bold text-gray-900">
-                    Customer Reviews
+                    {t('custoerrevews')}
                   </h3>
                   {reviewsRes?.data.review && reviewsRes.data.review.length > 0 && (
                     <div className="flex items-center gap-2">
@@ -762,7 +762,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                       </span>
                       <div className="flex">{renderStars(Math.floor(averageRating || 0))}</div>
                       <span className="text-sm text-gray-600">
-                        ({reviewsRes.data.review.length} reviews)
+                        ({reviewsRes.data.review.length} {t('reviews')})
                       </span>
                     </div>
                   )}
@@ -820,7 +820,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                               />
                             </svg>
                             <span className="text-sm text-gray-700">
-                              Product: <span className="font-medium">{review.product.name}</span>
+                              {t('prduct')}: <span className="font-medium">{review.product.name}</span>
                             </span>
                           </div>
                         )}
@@ -829,7 +829,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                     {/* Review Summary */}
                     <div className="mt-8 bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">
-                        Review Summary
+                        {t('reviewsummary')}
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         {[5, 4, 3, 2, 1].map((stars) => {
@@ -883,10 +883,10 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                         </svg>
                       </div>
                       <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                        No Reviews Available
+                        {t('noreviews')}
                       </h4>
                       <p className="text-gray-600">
-                        Customer reviews will appear here once products receive feedback.
+                        {t('noreviewsdesc')}
                       </p>
                     </div>
                   </div>

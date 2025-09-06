@@ -1,4 +1,5 @@
 'use client'
+import { useTranslations } from 'next-intl'
 import { useStoreContext } from '@/app/context/StoreContext'
 import { useGetAllProducts } from '@/service/product'
 import { useGetStoreOrdersByStoreId } from '@/service/customerOrderService'
@@ -30,12 +31,13 @@ import {
   Activity
 } from 'lucide-react'
 
+
 // Store Management Component
 export function StoreManagement({ store, onUpdate, onClose }) {
   const [activeTab, setActiveTab] = useState('general')
   const router = useRouter()
   const { setStoreId } = useStoreContext()
-  
+  const t = useTranslations('StoreManagement')
   // Pagination states
   const [productsPage, setProductsPage] = useState(1)
   const [ordersPage, setOrdersPage] = useState(1)
@@ -86,11 +88,11 @@ export function StoreManagement({ store, onUpdate, onClose }) {
   })
 
   const tabs = [
-    { id: 'general', label: 'General Info', icon: Info },
-    { id: 'products', label: 'Products', icon: Package },
-    { id: 'orders', label: 'Orders', icon: ShoppingBag },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'settings', label: 'Settings', icon: Settings }
+    { id: 'general', label: t('generalinfot'), icon: Info },
+    { id: 'products', label: t('productst'), icon: Package },
+    { id: 'orders', label: t('torders'), icon: ShoppingBag },
+    { id: 'analytics', label: t('analyticst'), icon: BarChart3 },
+    { id: 'settings', label: t('settingst'), icon: Settings }
   ]
 
   const handleSave = async () => {
@@ -98,7 +100,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000))
       onUpdate({ ...store, ...formData, updatedAt: new Date().toISOString() })
-      toast.success('Store updated successfully!', {
+      toast.success(t('success'), {
         style: {
           border: '1px solid #FF8C00',
           padding: '16px',
@@ -111,7 +113,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
       })
     } catch (error) {
       console.error('Error updating store:', error)
-      toast.error('Failed to update store. Please try again.', {
+      toast.error(t('fail'), {
         style: {
           border: '1px solid #FF8C00',
           padding: '16px',
@@ -131,8 +133,8 @@ export function StoreManagement({ store, onUpdate, onClose }) {
     try {
       setStoreSettings(prev => ({ ...prev, status }))
       
-      const statusMessage = status === 'active' ? 'Store is now active!' : 'Store is now in maintenance mode.'
-      const toastType = status === 'active' ? 'success' : 'default'
+      const statusMessage = status === 'active' ? t('storeactive') : t('storemain')
+      const toastType = status === 'active' ? t('suucessstore') : t('default')
       
       if (toastType === 'success') {
         toast.success(statusMessage, {
@@ -157,7 +159,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
         })
       }
     } catch (error) {
-      toast.error('Failed to update store status.', {
+      toast.error(t('taostfail'), {
         style: {
           border: '1px solid #EF4444',
           padding: '16px',
@@ -168,9 +170,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
   }
 
   const handleDeleteStore = () => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this store? This action cannot be undone.')
+    const confirmDelete = window.confirm(t('window'))
     if (confirmDelete) {
-      toast.error('Store deletion initiated. This action will be processed shortly.', {
+      toast.error(t('toasterror'), {
         style: {
           border: '1px solid #EF4444',
           padding: '16px',
@@ -254,7 +256,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
       <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gradient-to-r from-orange-50 to-red-50">
         <div className="flex items-center text-sm text-gray-600">
           <span>
-            Page {currentPage} of {totalPages}
+            {t('page')} {currentPage} of {totalPages}
           </span>
         </div>
         <div className="flex items-center space-x-2">
@@ -264,14 +266,14 @@ export function StoreManagement({ store, onUpdate, onClose }) {
             className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-orange-50 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
           >
             <ChevronLeft className="w-4 h-4" />
-            Previous
+            {t('prev')}
           </button>
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages || isLoading}
             className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-orange-50 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
           >
-            Next
+            {t('next')}
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -281,7 +283,6 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-      <Toaster position="top-right" />
       <div className="bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden animate-slideUp">
         {/* Header with Orange Gradient */}
         <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 px-8 py-6">
@@ -291,7 +292,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                 <Store className="w-6 h-6 text-white" />
               </div>
               <div className="text-white">
-                <h2 className="text-2xl font-bold">Manage Store</h2>
+                <h2 className="text-2xl font-bold">{t('managestore')}</h2>
                 <p className="text-white/80">{store?.name}</p>
               </div>
             </div>
@@ -334,40 +335,40 @@ export function StoreManagement({ store, onUpdate, onClose }) {
               <div className="p-8 space-y-8">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
                   <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
-                    General Information
+                    {t('generalinfo')}
                   </h3>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="space-y-6">
                       <div className="space-y-2">
                         <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                          Store Name
+                          {t('storename')}
                         </label>
                         <input
                           type="text"
                           value={formData.name}
                           onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                           className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/90"
-                          placeholder="Enter store name"
+                          placeholder={t('storenameplace')}
                         />
                       </div>
                       
                       <div className="space-y-2">
                         <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                          Description
+                          {t('description')}
                         </label>
                         <textarea
                           value={formData.description}
                           onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                           rows={4}
                           className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 resize-none bg-white/90"
-                          placeholder="Describe your store"
+                          placeholder={t('deecplace')}
                         />
                       </div>
 
                       <div className="space-y-2">
                         <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                          Logo URL
+                          {t('logurl')}
                         </label>
                         <input
                           type="url"
@@ -383,12 +384,12 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 space-y-4 border border-orange-100">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
                           <MapPin className="w-5 h-5 text-orange-500" />
-                          Address Information
+                          {t('addressinfo')}
                         </h4>
                         
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-600">City</label>
+                            <label className="block text-sm font-medium text-gray-600">{t('city')}</label>
                             <input
                               type="text"
                               value={formData.address.city}
@@ -397,11 +398,11 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 address: { ...prev.address, city: e.target.value }
                               }))}
                               className="w-full px-3 py-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
-                              placeholder="City"
+                              placeholder={t('city')}
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-600">Postal Code</label>
+                            <label className="block text-sm font-medium text-gray-600">{t('postalcode')}</label>
                             <input
                               type="text"
                               value={formData.address.postalCode}
@@ -416,7 +417,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                         </div>
                         
                         <div className="space-y-2">
-                          <label className="block text-sm font-medium text-gray-600">Street Address</label>
+                          <label className="block text-sm font-medium text-gray-600">{t('streetaddress')}</label>
                           <input
                             type="text"
                             value={formData.address.street}
@@ -433,12 +434,12 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 space-y-4 border border-green-200">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
                           <Shield className="w-5 h-5 text-green-500" />
-                          Store Policies
+                          {t('storeploicies')}
                         </h4>
                         
                         <div className="space-y-4">
                           <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-600">Shipping Policy</label>
+                            <label className="block text-sm font-medium text-gray-600">{t('shipping')}</label>
                             <input
                               type="text"
                               value={formData.policies.shipping}
@@ -447,12 +448,12 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 policies: { ...prev.policies, shipping: e.target.value }
                               }))}
                               className="w-full px-3 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-white/80"
-                              placeholder="e.g., Free shipping on orders over $50"
+                              placeholder={t('shippigplace')}
                             />
                           </div>
                           
                           <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-600">Return Policy</label>
+                            <label className="block text-sm font-medium text-gray-600">{t('return')}</label>
                             <input
                               type="text"
                               value={formData.policies.returns}
@@ -461,7 +462,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 policies: { ...prev.policies, returns: e.target.value }
                               }))}
                               className="w-full px-3 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-white/80"
-                              placeholder="e.g., 30-day return policy"
+                              placeholder={t('example')}
                             />
                           </div>
                         </div>
@@ -478,10 +479,10 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       {isLoading ? (
                         <>
                           <RefreshCw className="w-5 h-5 animate-spin" />
-                          Saving...
+                          t('saving')
                         </>
                       ) : (
-                        'Save Changes'
+                        t('saves')
                       )}
                     </button>
                   </div>
@@ -496,9 +497,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                   <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
                     <div className="flex items-center justify-between">
                       <div className="text-white">
-                        <h3 className="text-2xl font-bold">Products Management</h3>
+                        <h3 className="text-2xl font-bold">{t('productmanage')}</h3>
                         <p className="text-white/80 mt-1">
-                          {productsLoading ? 'Loading products...' : `${productsPagination.total || products.length} products total`}
+                          {productsLoading ? t('loading') : `${productsPagination.total || products.length} ${t('producttotal')}`}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
@@ -508,13 +509,13 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
                         >
                           <RefreshCw className={`w-4 h-4 ${productsLoading ? 'animate-spin' : ''}`} />
-                          Refresh
+                          {t('refreshb')}
                         </button>
                         <button
                           onClick={() => {
                             setStoreId(store._id);
                             router.push('/vendor-profile/add-products');
-                            toast('Redirecting to add products page...', {
+                            toast(t('toastw'), {
                               style: {
                                 border: '1px solid #FF8C00',
                                 padding: '16px',
@@ -529,7 +530,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           className="px-4 py-2 bg-white text-orange-600 rounded-xl hover:bg-orange-50 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" />
-                          Add Product
+                          {t('addb')}
                         </button>
                       </div>
                     </div>
@@ -539,7 +540,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="mx-6 mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
                       <div className="flex items-center gap-2 text-red-800">
                         <AlertCircle className="w-5 h-5" />
-                        <span className="font-medium">Error loading products:</span>
+                        <span className="font-medium">{t('error')}:</span>
                         <span>{productsError.message}</span>
                       </div>
                     </div>
@@ -551,14 +552,14 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       <div className="flex items-center justify-center py-12">
                         <div className="flex items-center gap-3">
                           <RefreshCw className="w-6 h-6 text-orange-500 animate-spin" />
-                          <span className="text-gray-600">Loading products...</span>
+                          <span className="text-gray-600">{t('loading')}</span>
                         </div>
                       </div>
                     ) : products.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12">
                         <Package className="w-12 h-12 text-gray-400 mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-                        <p className="text-gray-600 mb-4">Get started by adding your first product</p>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">{t('noproducts')}</h3>
+                        <p className="text-gray-600 mb-4">{t('desc')}</p>
                         <button
                           onClick={() => {
                             setStoreId(store._id);
@@ -567,7 +568,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" />
-                          Add Your First Product
+                          {t('add')}
                         </button>
                       </div>
                     ) : (
@@ -575,11 +576,11 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                         <table className="w-full">
                           <thead className="bg-gradient-to-r from-orange-100 to-red-100 border-b border-orange-200">
                             <tr>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Product</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Price</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Stock</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('product')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('price')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('stock')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('pstatus')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('pstatus')}</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200">
@@ -621,11 +622,11 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                   <div className="flex items-center gap-2">
                                     <button className="text-orange-500 hover:text-orange-700 font-medium flex items-center gap-1">
                                       <Edit className="w-4 h-4" />
-                                      Edit
+                                      {t('pedit')}
                                     </button>
                                     <button className="text-red-600 hover:text-red-800 font-medium flex items-center gap-1">
                                       <Trash2 className="w-4 h-4" />
-                                      Delete
+                                      {t('pdelete')}
                                     </button>
                                   </div>
                                 </td>
@@ -657,9 +658,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                   <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
                     <div className="flex items-center justify-between">
                       <div className="text-white">
-                        <h3 className="text-2xl font-bold">Orders Management</h3>
+                        <h3 className="text-2xl font-bold">{t('porders')}</h3>
                         <p className="text-white/80 mt-1">
-                          {ordersLoading ? 'Loading orders...' : `${ordersPagination.total || orders.length} orders total`}
+                          {ordersLoading ? t('loadingorders') : `${ordersPagination.total || orders.length} ${t('orderst')}`}
                         </p>
                       </div>
                       <button
@@ -668,7 +669,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                         className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
                       >
                         <RefreshCw className={`w-4 h-4 ${ordersLoading ? 'animate-spin' : ''}`} />
-                        Refresh
+                        {t('brefresh')}
                       </button>
                     </div>
                   </div>
@@ -677,7 +678,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="mx-6 mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
                       <div className="flex items-center gap-2 text-red-800">
                         <AlertCircle className="w-5 h-5" />
-                        <span className="font-medium">Error loading orders:</span>
+                        <span className="font-medium">{t('orderserror')}:</span>
                         <span>{ordersError.message}</span>
                       </div>
                     </div>
@@ -689,14 +690,14 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       <div className="flex items-center justify-center py-12">
                         <div className="flex items-center gap-3">
                           <RefreshCw className="w-6 h-6 text-orange-500 animate-spin" />
-                          <span className="text-gray-600">Loading orders...</span>
+                          <span className="text-gray-600">{t('loadingorders')}</span>
                         </div>
                       </div>
                     ) : orders.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12">
                         <ShoppingBag className="w-12 h-12 text-gray-400 mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
-                        <p className="text-gray-600">Orders will appear here once customers start purchasing</p>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">{t('oderserror')}</h3>
+                        <p className="text-gray-600">{t('noordersdesc')}</p>
                       </div>
                     ) : (
                       <div className="overflow-x-auto">
@@ -704,28 +705,28 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           <thead className="bg-gradient-to-r from-orange-100 to-red-100 border-b border-orange-200">
                             <tr>
                               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Order ID</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Customer</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Total</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Date</th>
-                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('customer')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('total')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('status')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('date')}</th>
+                              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('actions')}</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200">
                             {orders.map((order) => (
                               <tr key={order._id || order.id} className="hover:bg-orange-50 transition-colors">
                                 <td className="px-6 py-4 font-medium text-orange-600">
-                                  #{order.orderNumber || order._id?.slice(-6) || 'N/A'}
+                                  #{order.orderNumber || order._id?.slice(-6) || t('na')}
                                 </td>
                                 <td className="px-6 py-4 text-gray-900">
-                                  {order.customer?.name || order.customerName || order.user?.name || 'N/A'}
+                                  {order.customer?.name || order.customerName || order.user?.name || t('na')}
                                 </td>
                                 <td className="px-6 py-4 text-gray-600">
                                   {formatCurrency(order.totalAmount || order.total || 0)}
                                 </td>
                                 <td className="px-6 py-4">
                                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(order.status)}`}>
-                                    {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Pending'}
+                                    {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || t('pending')}
                                   </span>
                                 </td>
                                 <td className="px-6 py-4 text-gray-600">
@@ -749,7 +750,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                     }}
                                   >
                                     <Eye className="w-4 h-4" />
-                                    View Details
+                                    {t('details')}
                                   </button>
                                 </td>
                               </tr>
@@ -777,16 +778,16 @@ export function StoreManagement({ store, onUpdate, onClose }) {
               <div className="p-8 space-y-6">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
                   <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
-                    Store Analytics
+                    {t('storeanalysis')}
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-orange-100 text-sm font-medium">Total Revenue</p>
+                          <p className="text-orange-100 text-sm font-medium">{t('totalrevenue')}</p>
                           <p className="text-3xl font-bold">{formatCurrency(analytics.totalRevenue)}</p>
-                          <p className="text-orange-100 text-sm">+{analytics.revenueGrowth}% from last month</p>
+                          <p className="text-orange-100 text-sm">+{analytics.revenueGrowth}% {t('percent')}</p>
                         </div>
                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                           <DollarSign className="w-6 h-6" />
@@ -797,9 +798,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-2xl p-6 text-white">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-green-100 text-sm font-medium">Total Orders</p>
+                          <p className="text-green-100 text-sm font-medium">{t('orders')}</p>
                           <p className="text-3xl font-bold">{analytics.totalOrders}</p>
-                          <p className="text-green-100 text-sm">+{analytics.ordersGrowth}% from last month</p>
+                          <p className="text-green-100 text-sm">+{analytics.ordersGrowth}% {t('percent')}</p>
                         </div>
                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                           <ShoppingBag className="w-6 h-6" />
@@ -810,9 +811,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 text-white">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-purple-100 text-sm font-medium">Active Products</p>
+                          <p className="text-purple-100 text-sm font-medium">{t('active')}</p>
                           <p className="text-3xl font-bold">{analytics.activeProducts}</p>
-                          <p className="text-purple-100 text-sm">Total in inventory</p>
+                          <p className="text-purple-100 text-sm">{t('totslinvetory')}</p>
                         </div>
                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                           <Package className="w-6 h-6" />
@@ -825,7 +826,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <BarChart3 className="w-5 h-5 text-orange-500" />
-                        Order Status Distribution
+                        {t('order')}
                       </h4>
                       {Object.keys(analytics.ordersByStatus).length > 0 ? (
                         <div className="space-y-3">
@@ -853,7 +854,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                         <div className="flex items-center justify-center h-32 text-gray-500">
                           <div className="text-center">
                             <Activity className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                            <p>No order data available</p>
+                            <p>{t('noorder')}</p>
                           </div>
                         </div>
                       )}
@@ -862,21 +863,21 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-green-500" />
-                        Recent Performance
+                       {t('recent')}
                       </h4>
                       <div className="space-y-4">
                         <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
-                          <span className="text-gray-600">Average Order Value</span>
+                          <span className="text-gray-600">{t('value')}</span>
                           <span className="font-medium text-gray-900">
                             {formatCurrency(analytics.totalOrders > 0 ? analytics.totalRevenue / analytics.totalOrders : 0)}
                           </span>
                         </div>
                         <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
-                          <span className="text-gray-600">Product Catalog Size</span>
-                          <span className="font-medium text-gray-900">{products.length} products</span>
+                          <span className="text-gray-600">{t('catchingsize')}</span>
+                          <span className="font-medium text-gray-900">{products.length} {t('products')}</span>
                         </div>
                         <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
-                          <span className="text-gray-600">Store Status</span>
+                          <span className="text-gray-600">{t('storestats')}</span>
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             storeSettings.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                           }`}>
@@ -894,19 +895,19 @@ export function StoreManagement({ store, onUpdate, onClose }) {
               <div className="p-8">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
                   <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">
-                    Settings
+                    {t('settings')}
                   </h3>
-                  <p className="text-gray-600 mb-6">Manage your store's advanced settings and preferences.</p>
+                  <p className="text-gray-600 mb-6">{t('settingsdesc')}</p>
                   
                   <div className="space-y-6">
                     <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <Activity className="w-5 h-5 text-orange-500" />
-                        Store Status & Operations
+                        {t('storestatus')}
                       </h4>
                       <div className="space-y-6">
                         <div className="space-y-3">
-                          <label className="block text-sm font-medium text-gray-700">Store Status</label>
+                          <label className="block text-sm font-medium text-gray-700">{t('stores')}</label>
                           <div className="flex items-center space-x-4">
                             <button 
                               className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
@@ -917,7 +918,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                               onClick={() => handleStatusChange('active')}
                             >
                               <CheckCircle className="w-4 h-4" />
-                              Active
+                              {t('Active')}
                             </button>
                             <button 
                               className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
@@ -928,25 +929,25 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                               onClick={() => handleStatusChange('maintenance')}
                             >
                               <Settings className="w-4 h-4" />
-                              Maintenance
+                              {t('maintaince')}
                             </button>
                           </div>
                           <p className="text-sm text-gray-500">
                             {storeSettings.status === 'active' 
-                              ? 'Your store is live and accepting orders.' 
-                              : 'Your store is in maintenance mode. Customers can view but cannot place orders.'}
+                              ? t('livestore') 
+                              : t('storemaintance')}
                           </p>
                         </div>
 
                         <div className="space-y-3">
-                          <label className="block text-sm font-medium text-gray-700">Quick Actions</label>
+                          <label className="block text-sm font-medium text-gray-700">{t('quickactions')}</label>
                           <div className="flex flex-wrap gap-3">
                             <button 
                               className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center gap-2"
                               onClick={() => {
                                 refetchProducts();
                                 refetchOrders();
-                                toast.success('Store data refreshed successfully!', {
+                                toast.success(t('storedata'), {
                                   style: {
                                     border: '1px solid #3B82F6',
                                     padding: '16px',
@@ -960,12 +961,12 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                               }}
                             >
                               <RefreshCw className="w-4 h-4" />
-                              Refresh All Data
+                              {t('refresh')}
                             </button>
                             <button 
                               className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors flex items-center gap-2"
                               onClick={() => {
-                                toast.success('Store analytics updated!', {
+                                toast.success(t('storeanaysis'), {
                                   style: {
                                     border: '1px solid #10B981',
                                     padding: '16px',
@@ -979,7 +980,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                               }}
                             >
                               <TrendingUp className="w-4 h-4" />
-                              Update Analytics
+                              {t('update')}
                             </button>
                           </div>
                         </div>
@@ -989,20 +990,20 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200 rounded-2xl p-6">
                       <h4 className="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2">
                         <AlertCircle className="w-5 h-5" />
-                        Danger Zone
+                        {t('dangerzone')}
                       </h4>
                       <div className="space-y-4">
                         <div className="space-y-2">
-                          <p className="text-red-700 font-medium">Delete Store</p>
+                          <p className="text-red-700 font-medium">{t('delete')}</p>
                           <p className="text-sm text-red-600">
-                            Once you delete your store, there is no going back. This will permanently delete your store, products, and all associated data.
+                           {t('deletedesc')}
                           </p>
                           <button 
                             className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
                             onClick={handleDeleteStore}
                           >
                             <Trash2 className="w-4 h-4" />
-                            Delete Store Permanently
+                            {t('permently')}
                           </button>
                         </div>
                       </div>

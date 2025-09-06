@@ -43,7 +43,7 @@ function Privacy() {
                 <p>
                   {t("p4")}{" "}
                   <Link
-                    href="mailto:support@herafy.com"
+                    href="mailto:herafyecommerce@gmail.com"
                     className="text-orange-600 underline"
                   >
                     {t("link")}

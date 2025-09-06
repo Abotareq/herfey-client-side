@@ -676,7 +676,6 @@ function AddressesSection() {
             </div>
           ))
         )}
-        <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
       </div>
     </div>
   );

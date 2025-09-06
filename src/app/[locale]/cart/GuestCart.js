@@ -146,7 +146,7 @@ function GuestCart() {
       const validatedCart = cleanedCart.map((item, index) => {
         // Extract product information - handle the actual structure from your data
         const product = item.product || {};
-        const productId = product._id;
+        const productId = product?._id;
 
         // Parse variant array into object for easier access
         const variantObj = {};
@@ -376,7 +376,7 @@ function GuestCart() {
       const freshCart = getGuestCart();
       console.log("Fresh cart from storage:", freshCart);
 
-      const productId = productData._id || productData.id;
+      const productId = productData?._id || productData?.id;
       console.log("Product ID to match:", productId);
 
       // Check in fresh cart data instead of state (to avoid timing issues)
@@ -498,7 +498,7 @@ function GuestCart() {
 
   // Continue shopping
   const handleContinueShopping = useCallback(() => {
-    router.push("/productpage");
+    router.push("/products");
   }, [router]);
 
   // Clear entire cart

@@ -300,16 +300,6 @@ function Signup() {
                 {t2("goolgesignin")}
               </span>
             </button>
-            <Toaster
-                position={isArabic ? "top-left" : "top-right"}
-                toastOptions={{
-                  style: {
-                    direction: isArabic ? "rtl" : "ltr",
-                    textAlign: isArabic ? "right" : "left",
-                    fontFamily: isArabic ? "Tahoma, Cairo, sans-serif" : "Arial, sans-serif",
-                  },
-                }}
-              />
             {/* Switch */}
             <p className="mt-6 text-center text-gray-600">
               {t("accountexists")}{" "}

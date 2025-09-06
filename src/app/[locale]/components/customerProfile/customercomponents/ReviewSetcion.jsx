@@ -414,7 +414,6 @@ function ReviewsSection({ userId }) {
           </button>
         </div>
       )}
-      <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
     </div>
   );
 }
