@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -10,31 +10,34 @@ import { useStoreContext } from '../../context/StoreContext';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-const t = useTranslations('createproduct')
-// --- Zod Schema Definitions 
-const optionSchema = z.object({
-    value: z.string().min(1, t('option')),
-    priceModifier: z.preprocess((a) => parseFloat(String(a) || '0'), z.number().min(0).optional().default(0)),
-    stock: z.preprocess((a) => parseInt(String(a), 10), z.number().min(0, t('stock'))),
-    sku: z.string().min(1, t('sku')),
-});
+// --- Zod Schema Factory ---
+const getProductSchema = (t) => {
+    const optionSchema = z.object({
+        value: z.string().min(1, t('option')),
+        priceModifier: z.preprocess((a) => parseFloat(String(a) || '0'), z.number().min(0).optional().default(0)),
+        stock: z.preprocess((a) => parseInt(String(a), 10), z.number().min(0, t('stock'))),
+        sku: z.string().min(1, t('sku')),
+    });
 
-const variantSchema = z.object({
-    name: z.string().min(1, t('variantname')),
-    options: z.array(optionSchema).min(1, t('desc')),
-});
+    const variantSchema = z.object({
+        name: z.string().min(1, t('variantname')),
+        options: z.array(optionSchema).min(1, t('desc')),
+    });
 
-const productSchema = z.object({
-    name: z.string().min(3, t('namew')),
-    description: z.string().min(10, t('desw')),
-    basePrice: z.preprocess((a) => parseFloat(String(a)), z.number().min(0.01, t('pricew'))),
-    category: z.string().min(1, t('categoryw')),
-    images: z.any().refine((files) => files?.length > 0, t('imagew')),
-    variants: z.array(variantSchema).min(1, t('variantw')),
-});
+    const productSchema = z.object({
+        name: z.string().min(3, t('namew')),
+        description: z.string().min(10, t('desw')),
+        basePrice: z.preprocess((a) => parseFloat(String(a)), z.number().min(0.01, t('pricew'))),
+        category: z.string().min(1, t('categoryw')),
+        images: z.any().refine((files) => files?.length > 0, t('imagew')),
+        variants: z.array(variantSchema).min(1, t('variantw')),
+    });
+
+    return productSchema;
+};
 
 
-// --- Icon Set  
+// --- Icon Set  ---
 const Icons = {
     Document: (p) => <svg {...p} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
     Back: (p) => <svg {...p} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>,
@@ -49,7 +52,7 @@ const Icons = {
 };
 
 
-// --- Reusable Class Strings & Helper Components  
+// --- Reusable Class Strings & Helper Components  ---
 const getErrorClass = (hasError) => hasError ? 'border-red-500 ring-red-500/50' : 'border-slate-200 focus:border-orange-500 focus:ring-orange-500';
 const inputClass = (hasError) => `block w-full px-4 py-3 text-base bg-white/80 border text-slate-900 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 placeholder:text-slate-400 ${getErrorClass(hasError)}`;
 const labelClass = "block text-sm font-semibold text-slate-700 mb-2";
@@ -57,9 +60,8 @@ const requiredStar = <span className="text-red-500 ml-1">*</span>;
 const FormError = ({ message }) => <p className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><Icons.Alert className="w-4 h-4" />{message}</p>;
 
 
-// --- FieldArrayOptions Sub-component  
-const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
-    const t = useTranslations('createproduct')
+// --- FieldArrayOptions Sub-component  ---
+const FieldArrayOptions = ({ control, register, variantIndex, errors, t }) => { // ✅ Takes `t` as a prop
     const { fields, append, remove } = useFieldArray({ control, name: `variants.${variantIndex}.options` });
     const getOptionError = (index, field) => errors.variants?.[variantIndex]?.options?.[index]?.[field]?.message;
     
@@ -68,7 +70,7 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
             {fields.map((option, optionIndex) => (
                 <div key={option.id} className="relative bg-slate-50/50 rounded-lg border border-slate-200/80 p-4 group">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                         <div>
+                        <div>
                             <label className={labelClass}>{t('value')}{requiredStar}</label>
                             <input {...register(`variants.${variantIndex}.options.${optionIndex}.value`)} placeholder={t('valueplaceholder')} className={inputClass(getOptionError(optionIndex, 'value'))} />
                             {getOptionError(optionIndex, 'value') && <FormError message={getOptionError(optionIndex, 'value')} />}
@@ -103,10 +105,10 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors }) => {
     );
 };
 
-//*!     ###############################   Main Component 333333333333333333333333333
- 
+
+// --- Main Component  ---
 export default function CreateProductForm() {
-    const t = useTranslations('createproduct')
+    const t = useTranslations('createproduct'); 
     const { storeId } = useStoreContext();
     const { mutate: createProduct, isPending: submitting } = useCreateProduct();
     const { data: categories = [], isLoading: loading } = useGetAllCategories();
@@ -114,8 +116,11 @@ export default function CreateProductForm() {
     const fileInputRef = useRef(null);
     const router = useRouter();
 
+    
+    const productSchema = useMemo(() => getProductSchema(t), [t]);
+
     const { register, handleSubmit, control, formState: { errors, isValid }, watch, reset, setValue } = useForm({
-        resolver: zodResolver(productSchema),
+        resolver: zodResolver(productSchema), // ✅ Use the memoized schema
         defaultValues: {
             name: '', description: '', basePrice: '', category: '', images: [],
             variants: [{ name: 'Color', options: [{ value: '', priceModifier: 0, stock: 10, sku: '' }] }],
@@ -295,7 +300,13 @@ export default function CreateProductForm() {
                                             <input {...register(`variants.${index}.name`)} placeholder={t('variantplaceholder')} className={inputClass(errors.variants?.[index]?.name)} />
                                             {errors.variants?.[index]?.name && <FormError message={errors.variants[index].name.message} />}
                                             <hr className="my-5 border-slate-200" />
-                                            <FieldArrayOptions control={control} register={register} variantIndex={index} errors={errors} />
+                                            <FieldArrayOptions 
+                                                control={control} 
+                                                register={register} 
+                                                variantIndex={index} 
+                                                errors={errors} 
+                                                t={t} 
+                                            />
                                         </div>
                                     ))}
                                     <button type="button" onClick={() => addVariant({ name: '', options: [{ value: '', priceModifier: '', stock: '', sku: '' }] })} className="w-full border-2 border-dashed border-slate-300 text-slate-600 rounded-lg py-3 font-semibold text-sm hover:border-orange-500 hover:text-orange-600 transition-colors flex items-center justify-center gap-2">
@@ -313,7 +324,7 @@ export default function CreateProductForm() {
                            <button type="submit" disabled={submitting} className="w-full sm:w-auto px-6 py-3.5 text-white rounded-lg transition-all duration-300 shadow-lg shadow-orange-500/30 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center space-x-2 font-semibold">
                                {submitting ? <><Icons.Loader className="w-5 h-5" /><span>{t('creating')}</span></> : <><Icons.Check className="w-5 h-5" /><span>{t('createproduct')}</span></>}
                            </button>
-                       </div>
+                        </div>
                     </form>
                 </main>
 

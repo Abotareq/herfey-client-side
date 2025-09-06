@@ -959,7 +959,7 @@
   "addvariant": "إضافة نوع متغير آخر",
   "cancel": "إلغاء",
   "creating": "جاري الإنشاء...",
-  "createproduct": "إنشاء المنتج",
+  "createproduct": "إضافة المنتج",
   "stock": "المخزون لا يجب ان يكون بالسالب",
   "value": "القيمة",
   "SKU": "رمز SKU مطلوب",
@@ -969,7 +969,7 @@
   "creatingproduct": "جارٍ إنشاء المنتج...",
   "valueplaceholder": "مثال: أحمر، صغير",
   "skuplaceholder": "مثال: SKU12345",
-  "pnamelcaeholder": "مثال: كنبة منزلية مريحة",
+  "pnamelcaeholder": "مثال: سجادة يدوية",
   "descplaceholder": "صف منتجك....",
   "variantplaceholder": "ادخل نوع المتغير من المنتج"
 },
