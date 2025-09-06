@@ -58,7 +58,7 @@ export default async function RootLayout({ params, children }) {
               <CheckoutProvider>
               <RouteGuard>
               <FavouriteContext>
-              {/* <Toaster
+              <Toaster
                   position={resolvedParams.locale === "ar"  ? "top-left" : "top-right"}
                   toastOptions={{
                     success: {
@@ -68,7 +68,7 @@ export default async function RootLayout({ params, children }) {
                       duration: 5000,
                     },
                   }}
-                /> */}
+                />
                 <ConditionalLayout locale={resolvedParams.locale}>
                   {children}
                 </ConditionalLayout>

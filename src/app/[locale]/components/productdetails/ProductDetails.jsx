@@ -456,7 +456,6 @@ function ProductDetails({ id }) {
           <ReviewsSection productId={product?._id} />
         </div>
       </div>
-      <Toaster className={`absolute top-4 ${isArabic ? "left-4" : "right-4"}`} />
     </div>
   );
 }

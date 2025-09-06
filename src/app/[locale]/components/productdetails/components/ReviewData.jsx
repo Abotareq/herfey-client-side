@@ -453,7 +453,6 @@ function ReviewsSection({ productId }) {
 
         {/* Most Mentioned Keywords */}
       </div>
-      <Toaster className={`absolute top-4 ${isArabic ? "left-4" : "right-4"}`} />
     </div>
   );
 }

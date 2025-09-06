@@ -350,7 +350,6 @@ console.log("userReviews", userReviews);
           </button>
         </div>
       )}
-      <Toaster position={`${isArabic ? "top-right" : "top-left"}`} />
     </div>
   );
 }

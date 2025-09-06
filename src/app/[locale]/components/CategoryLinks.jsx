@@ -38,7 +38,7 @@ function CategoryLinks() {
       <h3 className="text-center mb-8 text-xl font-bold">{t('most')}</h3>
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {categories.map((item) => (
+          {categories.slice(0, 3).map((item) => (
             <Link
               key={item._id}
               href={{

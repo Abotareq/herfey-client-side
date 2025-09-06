@@ -565,7 +565,6 @@ export default function OrdersSection() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-gradient-to-br from-orange-10 to-orange-30 min-h-screen">
-      <Toaster position="top-right" />
 
       {/* Header */}
       <div className="mb-8 animate-fade-in">

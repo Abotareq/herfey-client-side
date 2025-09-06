@@ -480,13 +480,6 @@ export default function StoresSection() {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Toast Container */}
-      <Toaster
-        position="top-right"
-        toastOptions={toastOptions}
-        containerStyle={{
-          top: 80,
-        }}
-      />
 
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-orange-100">
