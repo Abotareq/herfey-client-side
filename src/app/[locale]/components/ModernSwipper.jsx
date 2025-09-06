@@ -14,14 +14,34 @@ import "swiper/css/free-mode";
 import "swiper/css/effect-fade";
 
 // import required modules
-import { FreeMode, Navigation, Thumbs, Autoplay, EffectFade } from "swiper/modules";
+import {
+  FreeMode,
+  Navigation,
+  Thumbs,
+  Autoplay,
+  EffectFade,
+} from "swiper/modules";
 
 // Import your images here
-import swip1 from "@public/swipper/swip1 ar 2.jpg";
-import swip2 from "@public/swipper/swip2 ar 2.jpg";
-import swip3 from "@public/swipper/swip3 ar.jpg";
-import swip4 from "@public/swipper/swip4 ar.jpg";
+import swip1a from "@public/swipper/swip1 ar.jpg";
+import swip1e from "@public/swipper/swip1 en.jpg";
+
+import swip2a from "@public/swipper/swip2 ar.jpg";
+import swip2e from "@public/swipper/swip2 en.jpg";
+
+import swip3a from "@public/swipper/swip3 ar.jpg";
+import swip3e from "@public/swipper/swip3 en.jpg";
+
+import swip4a from "@public/swipper/swip4 ar.jpg";
+import swip4e from "@public/swipper/swip4 en.jpg";
+
+// Each variable contains two images
+const swip1 = [swip1a, swip1e];
+const swip2 = [swip2a, swip2e];
+const swip3 = [swip3a, swip3e];
+const swip4 = [swip4a, swip4e];
 import Image from "next/image";
+import { useLocale } from "next-intl";
 
 // A custom CSS style to enhance the navigation arrows
 const swiperNavStyle = `
@@ -55,7 +75,7 @@ const swiperNavStyle = `
 
 export default function ModernImageSwiper() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+  const isArabic = useLocale() === "ar";
   const swiperImages = [swip1, swip2, swip3, swip4];
 
   return (
@@ -64,7 +84,7 @@ export default function ModernImageSwiper() {
 
       {/* Main Swiper */}
       <Swiper
-        effect={'fade'}
+        effect={"fade"}
         loop={true}
         spaceBetween={10}
         navigation={true}
@@ -83,7 +103,7 @@ export default function ModernImageSwiper() {
           <SwiperSlide key={`main-${index}`} className="main-swiper-slide">
             <div className="relative w-full">
               <Image
-                src={src}
+                src={src[isArabic ? 0 : 1]} // Choose image based on locale
                 alt={`Main gallery image ${index + 1}`}
                 // Remove fill prop and use width/height for natural dimensions
                 width={1920}
@@ -129,7 +149,7 @@ export default function ModernImageSwiper() {
           >
             <div className="relative w-full h-full">
               <Image
-                src={src}
+                src={src[isArabic ? 0 : 1]} // Choose image based on locale
                 alt={`Thumbnail image ${index + 1}`}
                 fill
                 className="object-cover"
