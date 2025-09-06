@@ -18,7 +18,16 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
   const codStatuses = ["pending", "processing", "shipped", "delivered"];
   
   const statuses = paymentMethod === "cash_on_delivery" ? codStatuses : creditCardStatuses;
-  const currentStatusIndex = statuses.indexOf(status);
+  
+  // For COD: when status is "paid", it means delivered + paid
+  // For Credit Card: status follows normal flow
+  let currentStatusIndex;
+  if (paymentMethod === "cash_on_delivery" && status === "paid") {
+    // For COD "paid" status, show as completed delivery
+    currentStatusIndex = 3; // delivered index
+  } else {
+    currentStatusIndex = statuses.indexOf(status);
+  }
 
   const getStatusLabel = (s) => {
     const statusLabels = {
@@ -35,7 +44,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
   // Handle cancelled orders
   if (status === "cancelled") {
     return (
-      <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-md">
+      <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200/50 shadow-md">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 text-red-500 mb-2">
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -49,11 +58,11 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
     );
   }
 
-  // Handle COD order with confirmed payment (status becomes "paid")
+  // Handle COD order with confirmed payment (status is "paid" = delivered + paid)
   if (paymentMethod === "cash_on_delivery" && status === "paid") {
     return (
-      <div className="bg-gradient-to-r from-orange-400 via-orange-500 to-amber-500 rounded-2xl p-6 border border-orange-200 shadow-lg">
-        {/* Payment Confirmation Header */}
+      <div className="bg-gradient-to-r from-orange-300 via-orange-500 to-orange-300 rounded-2xl p-6 border border-green-200 shadow-lg">
+        {/* Delivery & Payment Confirmation Header */}
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-3 text-white mb-3">
             <div className="relative">
@@ -66,8 +75,8 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
               <div className="absolute inset-0 w-12 h-12 bg-white/10 rounded-full animate-ping"></div>
             </div>
             <div className="text-left">
-              <h3 className="text-xl font-bold text-white">{t("paymentConfirmed")}</h3>
-              <p className="text-orange-100 text-sm">{t("codPaymentReceived")}</p>
+              <h3 className="text-xl font-bold text-white">{t("orderCompleted")}</h3>
+              <p className="text-green-100 text-sm">{t("deliveredAndPaid")}</p>
             </div>
           </div>
         </div>
@@ -82,61 +91,38 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
               </svg>
             </div>
             <span className="text-sm font-medium text-white/90">
-              {t("cashOnDelivery")}
+              {t("cashOnDelivery")} - {t("paymentReceived")}
             </span>
           </div>
         </div>
         
-        {/* Status Progress for COD Paid Orders */}
+        {/* Completed Status Progress */}
         <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-          <ol className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm font-medium">
-            {/* Payment Confirmed Step */}
-            <li className="flex flex-col items-center gap-2">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-orange-500 shadow-md">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <span className="text-white font-semibold text-center">
-                {t("paymentConfirmed")}
-              </span>
-            </li>
-
-            {/* Processing Step */}
-            <li className="flex flex-col items-center gap-2">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-white/50 bg-white/10">
-                <div className="w-4 h-4 rounded-full bg-white/50" />
-              </div>
-              <span className="text-white/70 text-center">
-                {t("processing")}
-              </span>
-            </li>
-
-            {/* Shipped Step */}
-            <li className="flex flex-col items-center gap-2">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-white/30 bg-white/5">
-                <div className="w-4 h-4 rounded-full bg-white/30" />
-              </div>
-              <span className="text-white/50 text-center">
-                {t("shipped")}
-              </span>
-            </li>
+          <ol className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm font-medium">
+            {codStatuses.map((s, index) => (
+              <li key={s} className="flex flex-col items-center gap-2">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-green-500 shadow-md">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <span className="text-white font-semibold text-center">
+                  {getStatusLabel(s)}
+                </span>
+              </li>
+            ))}
           </ol>
           
-          {/* Next Steps Info */}
+          {/* Payment Confirmation */}
           <div className="mt-4 p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-            <div className="flex items-start gap-3">
-              <svg className="w-5 h-5 text-white/80 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"/>
-              </svg>
-              <div>
-                <p className="text-white/90 text-sm font-medium mb-1">
-                  {t("nextSteps")}
-                </p>
-                <p className="text-white/70 text-xs">
-                  {t("codPaymentProcessingMessage")}
-                </p>
+            <div className="flex items-center justify-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-green-500">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                  <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd"/>
+                </svg>
               </div>
+              <span className="text-white font-medium">{t("paymentConfirmed")}</span>
             </div>
           </div>
         </div>
@@ -146,7 +132,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
 
   // Regular status tracker for other cases
   return (
-    <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-md">
+    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-orange-500">
@@ -161,7 +147,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
               </svg>
             }
           </span>
-          <span className="text-sm font-medium text-slate-600">
+          <span className="text-sm font-medium text-slate-700">
             {paymentMethod === "cash_on_delivery" ? t("cashOnDelivery") : t("creditCard")}
           </span>
         </div>
@@ -181,8 +167,8 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
                 isCompleted 
                   ? "bg-orange-500 border-orange-500" 
                   : isActive 
-                    ? "border-orange-500 bg-orange-50" 
-                    : "border-slate-300 bg-white"
+                    ? "border-orange-500 bg-orange-100" 
+                    : "border-orange-300 bg-white"
               }`}>
                 {isCompleted ? (
                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -190,12 +176,12 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
                   </svg>
                 ) : (
                   <div className={`w-3 h-3 rounded-full ${
-                    isActive ? "bg-orange-500" : "bg-slate-300"
+                    isActive ? "bg-orange-500" : "bg-orange-300"
                   }`} />
                 )}
               </div>
               <span className={`${
-                isActive ? "text-slate-800 font-semibold" : "text-slate-400"
+                isActive ? "text-slate-800 font-semibold" : "text-slate-500"
               }`}>
                 {getStatusLabel(s)}
               </span>
@@ -204,9 +190,9 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
         })}
       </ol>
       
-      {/* Additional payment status for COD delivered orders (not paid) */}
+      {/* Additional payment status for COD delivered orders (awaiting payment) */}
       {paymentMethod === "cash_on_delivery" && status === "delivered" && (
-        <div className="mt-6 pt-4 border-t border-slate-200/50">
+        <div className="mt-6 pt-4 border-t border-orange-200/50">
           <div className="flex items-center gap-3 text-sm">
             <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-amber-400 bg-amber-50">
               <div className="w-2 h-2 rounded-full bg-amber-400" />
@@ -218,9 +204,10 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
     </div>
   );
 };
+
 //  Order Items Card ---
 const OrderItemsCard = ({ items, t }) => (
-  <div className="lg:col-span-2 bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-md space-y-4">
+  <div className="lg:col-span-2 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md space-y-4">
     <div className="flex items-center gap-3">
       <span className="text-orange-500">{Icons.package}</span>
       <h4 className="font-semibold text-slate-800 text-lg">
@@ -230,22 +217,22 @@ const OrderItemsCard = ({ items, t }) => (
     {items.map((item) => (
       <div
         key={item._id}
-        className="flex items-start gap-4 py-4 border-b border-slate-200/50 last:border-b-0"
+        className="flex items-start gap-4 py-4 border-b border-orange-200/50 last:border-b-0"
       >
         <div className="relative w-20 h-20">
           <Image
             src={item.image}
             alt={item.name}
             fill
-            className="rounded-lg object-cover border border-slate-200/50"
+            className="rounded-lg object-cover border border-orange-200/50"
           />
         </div>
         <div className="flex-1">
           <p className="font-semibold text-slate-800">{item.name}</p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-600">
             {t("quantity")}: {item.quantity}
           </p>
-          <p className="text-sm text-slate-600 font-medium">
+          <p className="text-sm text-slate-700 font-medium">
             ${item.price.toFixed(2)} {t("each")}
           </p>
         </div>
@@ -269,14 +256,14 @@ const OrderSidebar = ({
   tOrders,
 }) => (
   <div className="space-y-6">
-    <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-md">
+    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-500">{Icons.location}</span>
         <h4 className="font-semibold text-slate-800 text-lg">
           {t("shippingAddress")}
         </h4>
       </div>
-      <address className="not-italic text-slate-600">
+      <address className="not-italic text-slate-700">
         {order.shippingAddress.street}
         <br />
         {order.shippingAddress.city}, {order.shippingAddress.postalCode}
@@ -286,7 +273,7 @@ const OrderSidebar = ({
     </div>
 
     {/* Payment Method Info */}
-    <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-md">
+    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-500">
           {order.paymentMethod === "cash_on_delivery" ? 
@@ -305,18 +292,22 @@ const OrderSidebar = ({
         </h4>
       </div>
       <div className="space-y-2">
-        <p className="text-slate-600">
+        <p className="text-slate-700">
           {order.paymentMethod === "cash_on_delivery" ? t("cashOnDelivery") : t("creditCard")}
         </p>
         {order.paymentMethod === "cash_on_delivery" && (
           <div className={`text-sm px-3 py-2 rounded-lg ${
-            order.status === "delivered" 
-              ? "bg-amber-50 text-amber-700 border border-amber-200"
-              : "bg-blue-50 text-blue-700 border border-blue-200"
+            order.status === "paid" 
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : order.status === "delivered" 
+                ? "bg-amber-50 text-amber-700 border border-amber-200"
+                : "bg-blue-50 text-blue-700 border border-blue-200"
           }`}>
-            {order.status === "delivered" 
-              ? t("paymentDueOnDelivery")
-              : t("paymentOnDeliveryInfo")
+            {order.status === "paid" 
+              ? t("paymentCompleted")
+              : order.status === "delivered" 
+                ? t("paymentDueOnDelivery")
+                : t("paymentOnDeliveryInfo")
             }
           </div>
         )}
@@ -328,14 +319,14 @@ const OrderSidebar = ({
       </div>
     </div>
 
-    <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-md">
+    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-500">{Icons.receipt}</span>
         <h4 className="font-semibold text-slate-800 text-lg">
           {t("orderSummary")}
         </h4>
       </div>
-      <div className="space-y-2 text-slate-600">
+      <div className="space-y-2 text-slate-700">
         <div className="flex justify-between">
           <span>{t("subtotal")}</span>
           <span>${order.subtotal.toFixed(2)}</span>
@@ -348,7 +339,7 @@ const OrderSidebar = ({
           <span>{t("tax")}</span>
           <span>${order.tax.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between font-bold text-slate-800 text-lg pt-2 border-t border-slate-200/50 mt-2">
+        <div className="flex justify-between font-bold text-slate-800 text-lg pt-2 border-t border-orange-200/50 mt-2">
           <span>{t("total")}</span>
           <span>${order.totalAmount.toFixed(2)}</span>
         </div>
@@ -356,7 +347,7 @@ const OrderSidebar = ({
     </div>
 
     {/* Action Card */}
-    <div className="bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-md text-center">
+    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md text-center">
       {order.status === "cancelled" ? (
         <div className="text-center">
           <div className="text-red-500 mb-2">
@@ -368,7 +359,7 @@ const OrderSidebar = ({
         </div>
       ) : isCancellable ? (
         <>
-          <p className="text-sm text-slate-500 mb-4">{t("cancelPrompt")}</p>
+          <p className="text-sm text-slate-600 mb-4">{t("cancelPrompt")}</p>
           <button
             onClick={onCancelClick}
             disabled={isCancelling}
@@ -384,8 +375,8 @@ const OrderSidebar = ({
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
             </svg>
           </div>
-          <p className="text-sm text-slate-600">{t("orderInProgress")}</p>
-          <p className="text-xs text-slate-500 mt-1">{t("supportPrompt")}</p>
+          <p className="text-sm text-slate-700">{t("orderInProgress")}</p>
+          <p className="text-xs text-slate-600 mt-1">{t("supportPrompt")}</p>
         </div>
       )}
     </div>
@@ -437,18 +428,18 @@ function OrderDetailsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-200 p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-4">
           <Link
             href="/customer-profile"
-            className="text-slate-500 hover:text-orange-600 transition-colors"
+            className="text-slate-600 hover:text-orange-600 transition-colors"
           >
             {Icons.back}
           </Link>
           <div>
             <h3 className="text-2xl font-bold text-slate-900">{t("title")}</h3>
-            <p className="text-slate-600">
+            <p className="text-slate-700">
               Order #{order._id.slice(-8)} &bull; Placed on{" "}
               {new Date(order.createdAt).toLocaleDateString()}
             </p>
