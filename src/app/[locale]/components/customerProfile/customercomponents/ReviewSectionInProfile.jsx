@@ -197,7 +197,7 @@ function ReviewsSectionInProfile({ userId }) {
   );
 
   if (isLoading) return <ReviewSkeleton />;
-  if (error) return <div>Error loading reviews: {error.message}</div>;
+  if (error) return <div>{t('error')}: {error.message}</div>;
 
   const StarRating = ({ rating, size = "w-4 h-4" }) => (
     <div className="flex items-center space-x-1">
@@ -340,17 +340,17 @@ function ReviewsSectionInProfile({ userId }) {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-slate-900">
-                  {t("deleteReview") || "Delete Review"}
+                  {t("deleteReview") || t('deleteReview')}
                 </h3>
                 <p className="text-slate-600 text-sm">
-                  {deleteConfirmDialog.entityDetails?.name || "this item"}
+                  {deleteConfirmDialog.entityDetails?.name || t('this')}
                 </p>
               </div>
             </div>
 
             <p className="text-slate-700 mb-6">
               {t("deleteConfirmMessage") ||
-                "Are you sure you want to delete this review? This action cannot be undone."}
+                t('deletereviewMessage')}
             </p>
 
             <div className="flex justify-end space-x-3">
@@ -359,7 +359,7 @@ function ReviewsSectionInProfile({ userId }) {
                 className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
                 disabled={deleteReviewMutation.isPending}
               >
-                {t("cancel") || "Cancel"}
+                {t("cancel") || t("cancel")}
               </button>
               <button
                 onClick={confirmDeleteReview}
@@ -371,8 +371,8 @@ function ReviewsSectionInProfile({ userId }) {
                 )}
                 <span>
                   {deleteReviewMutation.isPending
-                    ? t("deleting") || "Deleting..."
-                    : t("delete") || "Delete"}
+                    ? t("deleting") || t("deleting")
+                    : t("delete") || t("delete")}
                 </span>
               </button>
             </div>
@@ -413,7 +413,7 @@ function ReviewsSectionInProfile({ userId }) {
                   }
                   rows={4}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
-                  placeholder="Share your thoughts..."
+                  placeholder={t('share')}
                 />
               </div>
             </div>
@@ -430,7 +430,7 @@ function ReviewsSectionInProfile({ userId }) {
                 disabled={updateReviewMutation.isPending}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {updateReviewMutation.isPending ? "Updating..." : t("update")}
+                {updateReviewMutation.isPending ? t('Updating') : t("update")}
               </button>
             </div>
           </div>
@@ -471,7 +471,7 @@ function ReviewsSectionInProfile({ userId }) {
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <h4 className="font-semibold text-slate-900 mb-1 hover:text-blue-600">
-                            {review.entityDetails?.name || "Item Reviewed"}
+                            {review.entityDetails?.name || t('itemreviewed')}
                           </h4>
                           <div className="flex items-center space-x-2 mb-2">
                             <span
@@ -504,7 +504,7 @@ function ReviewsSectionInProfile({ userId }) {
                               e.preventDefault();
                               handleEditReview(review);
                             }}
-                            title="Edit review"
+                            title={t('edit')}
                             className="p-1 rounded-full hover:bg-slate-100"
                             disabled={
                               deleteReviewMutation.isPending ||
@@ -530,7 +530,7 @@ function ReviewsSectionInProfile({ userId }) {
                               e.preventDefault();
                               handleDeleteReview(review);
                             }}
-                            title="Delete review"
+                            title={t('delete')}
                             className="p-1 rounded-full hover:bg-slate-100"
                             disabled={
                               deleteReviewMutation.isPending ||
@@ -587,7 +587,7 @@ function ReviewsSectionInProfile({ userId }) {
             <div className="flex items-center space-x-3">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
               <span className="text-slate-700 font-medium">
-                {t("updatingReview") || "Updating review..."}
+                {t("updatingReview") || t("updatingReview")}
               </span>
             </div>
           </div>

@@ -234,7 +234,7 @@ function ReviewsSection({ userId }) {
                   }
                   rows={4}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
-                  placeholder="Share your thoughts..."
+                  placeholder={t('share')}
                 />
               </div>
             </div>

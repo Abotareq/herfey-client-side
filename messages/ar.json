@@ -312,7 +312,14 @@
     "updates": "تم تحديث التقييم بنجاح",
     "updatee": "فشل تحديث التقييم:",
     "succesd": "تم حذف التقييم بنجاح",
-    "failu": "فشل حذف التقييم:"
+    "failu": "فشل حذف التقييم:",
+    "error": "حدث خطأ أثناء تحميل",
+    "deleteReview": "حذف التقييم",
+    "this": "هذاالعنصر",
+    "deletereviewMessage": "هل أنت متأكد أنك تريد حذف هذا التقييم؟ لا يمكن التراجع عن هذا الإجراء.",
+    "share": "شاركنا أفكارك...",
+    "Updating": "جارٍ التحديث...",
+    "itemreviewed": "العنصر الذي تم مراجعته"
   },
   "customerpage": {
     "date": "عضو منذ",
@@ -407,10 +414,11 @@
     "statuses": {
       "pending": "قيد الانتظار",
       "paid": "مدفوع",
-      "processing": "قيد المعالجة",
+      "processing_payment": "قيد المعالجة",
       "shipped": "تم الشحن",
       "delivered": "تم التوصيل",
-      "cancelled": "ملغى"
+      "cancelled": "ملغى",
+      "processing": "قيد المعالجة"
     },
     "yesCancel": "نعم، إلغاء",
     "noKeep": "لا، إبقاء"
@@ -594,7 +602,8 @@
     "average_quality_rating": "متوسط تقييم الجودة",
     "average_fit_rating": "متوسط تقييم الملاءمة",
     "errorreview": "حدث خطأ أثناء إرسال التقيمات",
-    "successreview": "تم إرسال التقيمات بنجاح"
+    "successreview": "تم إرسال التقيمات بنجاح",
+    "Anonymous": "مجهول"
   },
   "breadcrumbs": {
     "home": "الرئيسية",

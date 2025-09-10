@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useGetUserOrders, useCancelOrder } from '@/service/customerOrderService.js';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import LoadingSpinner from '../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx';
+import OrderSectionSkeleton from '../../OrderSkelton.jsx';
 
 function OrderSection() {
   const t = useTranslations('orders');
@@ -46,7 +46,7 @@ function OrderSection() {
         </div>
       </div>
 
-      {isLoading && <LoadingSpinner/>}
+      {isLoading && <OrderSectionSkeleton />}
 
       {isError && <p className="text-red-500">{error.message}</p>}
 
