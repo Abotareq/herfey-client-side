@@ -7,6 +7,7 @@ import { useGetUserWishlistById, useUpdateUser } from "@/service/user";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Breadcrumbs from "./Breadcrumbs";
+import toast from "react-hot-toast";
 
 export default function FavouritesPage() {
   const { user, loading: authLoading } = useAuth();
@@ -47,7 +48,13 @@ export default function FavouritesPage() {
     updateUser.mutate(
       { userId: user.id, wishlist: wishlistIds },
       {
-        onError: () => {
+        onSuccess: (data) => {
+          toast.success(
+           t("remove")
+          );
+        },
+        onError: (err) => {
+          toast.error(err?.response?.data?.message || "Error updating wishlist");
           setWishlist(wishlist);
         },
       }
