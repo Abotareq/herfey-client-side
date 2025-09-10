@@ -1,48 +1,50 @@
+'use client';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link'
-import React from 'react'
 
 function PaymentForm() {
+  const t = useTranslations('payment')
   return (
     <div class="p-4">
     <div class="max-w-xl mx-auto bg-white">
       <div class="rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div class="bg-gradient-to-r from-purple-500 to-indigo-600 p-6">
-          <h2 class="text-xl font-semibold text-white">Complete Your Payment</h2>
-          <p class="text-sm text-slate-100 mt-2">Fast, secure payment processing</p>
+          <h2 class="text-xl font-semibold text-white">{t('Complete')}</h2>
+          <p class="text-sm text-slate-100 mt-2">{t('fast')}</p>
         </div>
 
         <div class="p-6">
           <div class="flex mb-6 border border-gray-300 rounded-md overflow-hidden">
             <button
               class="cursor-pointer flex-1 py-3 px-1 text-sm text-center bg-indigo-50 text-indigo-600 font-medium">
-              Credit Card
+                {t('credit')}
             </button>
             <button
               class="cursor-pointer flex-1 py-3 px-1 text-sm text-center text-slate-500 hover:bg-gray-50 font-medium">
-              PayPal
+              {t('paypal')}
             </button>
             <button
               class="cursor-pointer flex-1 py-3 px-1 text-sm text-center text-slate-500 hover:bg-gray-50 font-medium">
-              Bank Transfer
+              {t('banktransfer')}
             </button>
           </div>
 
           <form>
             <div class="mb-4">
               <label class="block text-slate-900 text-sm font-medium mb-2" for="cardName">
-                Cardholder Name
+                {t('cardholder')}
               </label>
               <input
                 type="text"
                 id="cardName"
                 class="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-orange-600"
-                placeholder="John Smith"
+                placeholder={t('cardholderplace')}
                 required
               />
             </div>
             <div class="mb-4">
               <label class="block text-slate-900 text-sm font-medium mb-2" for="cardNumber">
-                Card Number
+                {t('cardnumber')}
               </label>
               <div class="relative">
                 <input
@@ -57,7 +59,7 @@ function PaymentForm() {
             <div class="grid grid-cols-2 gap-4 mb-6">
               <div>
                 <label class="block text-slate-900 text-sm font-medium mb-2" for="expDate">
-                  Expiry Date
+                  {t('expire')}
                 </label>
                 <input
                   type="text"
@@ -69,7 +71,7 @@ function PaymentForm() {
               </div>
               <div>
                 <label class="block text-slate-900 text-sm font-medium mb-2" for="cvv">
-                  CVV
+                  {t('cvv')}
                 </label>
                 <input
                   type="text"
@@ -90,7 +92,7 @@ function PaymentForm() {
                   required
                 />
                 <label for="saveCard" class="ml-2 block text-sm text-slate-900 font-medium">
-                  I agree to the <Link href="#" class="text-indigo-600 hover:text-indigo-500">Terms and Conditions</Link>
+                  {t('agree')} <Link href="#" class="text-indigo-600 hover:text-indigo-500">{t('condition')}</Link>
                 </label>
               </div>
             </div>
@@ -103,7 +105,7 @@ function PaymentForm() {
                 Pay $49.99
               </button>
               <div class="flex items-center justify-center text-slate-500 text-sm">
-                <span>Secure payment powered by Stripe</span>
+                <span>{t('secure')}</span>
               </div>
             </div>
           </form>

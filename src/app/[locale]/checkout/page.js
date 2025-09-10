@@ -6,15 +6,16 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function CheckoutStep1() {
+    const t = useTranslations('CheckoutStep1');
   const { state, setUseExisting, setNewAddress } = useCheckout();
   const router = useRouter();
   const [form, setForm] = useState({
     street: "",
     city: "",
     postalCode: "",
-    country: "Egypt",
+    country: t('Egypt'),
   });
-  const t = useTranslations('CheckoutStep1');
+
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {

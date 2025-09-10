@@ -819,7 +819,8 @@
         "streetrequire": "Street Address is required",
         "cityrequire": "City is required",
         "postrequire": "Postal Code is required",
-        "countryrequire": "Country is required"
+        "countryrequire": "Country is required",
+        "Egypt": "Egypt"
     },
     "CheckoutStep2": {
         "profileaddress": "Profile Address",
@@ -1115,5 +1116,39 @@
         "storemaintance": "Your store is in maintenance mode. Customers can view but cannot place orders.",
         "storedata": "Store data refreshed successfully!",
         "storeanaysis": "Store analytics updated!"
+    },
+    "payment": {
+        "Complete": "Complete Your Payment",
+        "fast": "Fast, secure payment processing",
+        "credit": "Credit Card",
+        "paypal": "PayPal",
+        "banktransfer": "Bank Transfer",
+        "cardholder": "Cardholder Name",
+        "cardholderplace": "Enter the name on your card",
+        "cardnumber": "Card Number",
+        "expire": "Expiry Date",
+        "cvv": "CVV",
+        "agree": "I agree to the",
+        "condition": "Terms and Conditions",
+        "secure": "Secure payment powered by Stripe"
+    },
+    "NotFound": {
+        "title": "Looks Like You're Lost!",
+        "desc": "We can't seem to find the page you're looking for.",
+        "home": "Return Home"
+    },
+    "Buttons": {
+        "add": "Add to Cart",
+        "buy": "Buy Now"
+    },
+    "Features": {
+        "free": "Free Returns",
+        "fast": "Fast Delivery"
+    },
+    "prroductdetailsheader": {
+        "Stock": "In Stock",
+        "Adjective": "Adjective Attire",
+        "premium": "Premium T-shirt",
+        "wellverced": "Well-Versed Commerce"
     }
 }

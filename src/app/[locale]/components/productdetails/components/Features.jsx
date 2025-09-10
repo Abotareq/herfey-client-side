@@ -1,5 +1,8 @@
+'use client';
+import { useTranslations } from 'next-intl';
 
 function Features() {
+  const t = useTranslations('Features')
   return (
     <div className="grid grid-cols-2 gap-4 pt-6">
         <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-slate-200">
@@ -17,7 +20,7 @@ function Features() {
             </svg>
           </div>
           <span className="text-sm font-medium text-slate-700">
-            Free Returns
+            {t('free')}
           </span>
         </div>
         <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-slate-200">
@@ -31,7 +34,7 @@ function Features() {
             </svg>
           </div>
           <span className="text-sm font-medium text-slate-700">
-            Fast Delivery
+            {t('fast')}
           </span>
         </div>
     </div>
