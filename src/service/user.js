@@ -58,7 +58,9 @@ export const useUpdateUser = () => {
         ...data.user,
         ...data,
       }));
-
+      queryClient.invalidateQueries({ queryKey: ["user", variables.userId] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["me"] });
       console.log("User update successful:", data);
     },
 

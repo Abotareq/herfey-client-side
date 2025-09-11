@@ -312,7 +312,14 @@
     "updates": "تم تحديث التقييم بنجاح",
     "updatee": "فشل تحديث التقييم:",
     "succesd": "تم حذف التقييم بنجاح",
-    "failu": "فشل حذف التقييم:"
+    "failu": "فشل حذف التقييم:",
+    "error": "حدث خطأ أثناء تحميل",
+    "deleteReview": "حذف التقييم",
+    "this": "هذاالعنصر",
+    "deletereviewMessage": "هل أنت متأكد أنك تريد حذف هذا التقييم؟ لا يمكن التراجع عن هذا الإجراء.",
+    "share": "شاركنا أفكارك...",
+    "Updating": "جارٍ التحديث...",
+    "itemreviewed": "العنصر الذي تم مراجعته"
   },
   "customerpage": {
     "date": "عضو منذ",
@@ -407,10 +414,11 @@
     "statuses": {
       "pending": "قيد الانتظار",
       "paid": "مدفوع",
-      "processing": "قيد المعالجة",
+      "processing_payment": "قيد المعالجة",
       "shipped": "تم الشحن",
       "delivered": "تم التوصيل",
-      "cancelled": "ملغى"
+      "cancelled": "ملغى",
+      "processing": "قيد المعالجة"
     },
     "yesCancel": "نعم، إلغاء",
     "noKeep": "لا، إبقاء"
@@ -594,7 +602,8 @@
     "average_quality_rating": "متوسط تقييم الجودة",
     "average_fit_rating": "متوسط تقييم الملاءمة",
     "errorreview": "حدث خطأ أثناء إرسال التقيمات",
-    "successreview": "تم إرسال التقيمات بنجاح"
+    "successreview": "تم إرسال التقيمات بنجاح",
+    "Anonymous": "مجهول"
   },
   "breadcrumbs": {
     "home": "الرئيسية",
@@ -812,7 +821,8 @@
     "streetrequire": "يرجى إدخال عنوان الشارع",
     "cityrequire": "يرجى إدخال المدينة",
     "postrequire": "يرجى إدخال الرمز البريدي",
-    "countryrequire": "يرجى إدخال الدولة"
+    "countryrequire": "يرجى إدخال الدولة",
+    "Egypt": "مصر"
   },
   "CheckoutStep2": {
     "profileaddress": "عنوان الملف الشخصي",
@@ -959,7 +969,7 @@
   "addvariant": "إضافة نوع متغير آخر",
   "cancel": "إلغاء",
   "creating": "جاري الإنشاء...",
-  "createproduct": "إنشاء المنتج",
+  "createproduct": "إضافة المنتج",
   "stock": "المخزون لا يجب ان يكون بالسالب",
   "value": "القيمة",
   "SKU": "رمز SKU مطلوب",
@@ -969,7 +979,7 @@
   "creatingproduct": "جارٍ إنشاء المنتج...",
   "valueplaceholder": "مثال: أحمر، صغير",
   "skuplaceholder": "مثال: SKU12345",
-  "pnamelcaeholder": "مثال: كنبة منزلية مريحة",
+  "pnamelcaeholder": "مثال: سجادة يدوية",
   "descplaceholder": "صف منتجك....",
   "variantplaceholder": "ادخل نوع المتغير من المنتج"
 },
@@ -1108,5 +1118,34 @@
     "storemaintance": "متجرك في وضع الصيانة. يمكن للعملاء التصفح ولكن لا يمكنهم تقديم الطلبات.",
     "storedata": "تم تحديث بيانات المتجر بنجاح!",
     "storeanaysis": "تم تحديث تحليلات المتجر!"
-  }
+  },
+  "payment": {
+    "Complete": "أكمل عملية الدفع",
+    "fast": "معالجة دفع سريعة وآمنة",
+    "credit": "بطاقة ائتمان",
+    "paypal": "باي بال",
+    "banktransfer": "التحويل البنكي",
+    "cardholder": "اسم صاحب البطاقة",
+    "cardholderplace": "أدخل الاسم الموجود على البطاقة",
+    "cardnumber": "رقم البطاقة",
+    "expire": "تاريخ الانتهاء",
+    "cvv": "رمز CVV",
+    "agree": "أوافق على",
+    "condition": "الشروط والأحكام",
+    "secure": "دفع آمن مدعوم من Stripe"
+},
+"NotFound":{
+  "title": "يبدو أنك تائه!",
+  "desc": "لم نتمكن من العثور على الصفحة التي تبحث عنها.",
+  "home": "العودة إلى الصفحة الرئيسية"
+
+},
+  "Buttons": {
+    "add": "اضف الي العربة",
+    "buy": "اشتري الان "
+    },
+    "Features": {
+        "free": "الارجاع بشكل مجاني",
+        "fast": " توصيل سريع"
+    }
 }

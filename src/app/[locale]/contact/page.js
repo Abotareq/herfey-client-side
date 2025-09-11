@@ -171,15 +171,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-      <Toaster  
-      position={isArabic ? "top-left" : "top-right"}
-      // toastOptions={{
-      //   style: {
-      //     textAlign: isArabic ? "right" : "left",
-      //     fontFamily: isArabic ? "Tahoma, Cairo, sans-serif" : "Arial, sans-serif",
-      //   },
-      // }}
-      />
     </div>
   );
 }

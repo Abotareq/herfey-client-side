@@ -1,6 +1,9 @@
-import React from "react";
+'use client';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 const NotFoundPage = () => {
+  const t = useTranslations('NotFound')
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-gray-100">
       <style>
@@ -33,17 +36,17 @@ const NotFoundPage = () => {
           className="mx-auto w-80 animate-float shadow-xl rounded-lg"
         />
         <h1 className="text-7xl font-extrabold text-blue-700 mt-6">
-          Looks Like You're Lost!
+          {t('title')}
         </h1>
         <p className="text-xl text-gray-700 mt-2">
-          We can't seem to find the page you're looking for.
+          {t('desc')}
         </p>
-        <a
+        <Link
           href="/"
           className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition hover:scale-105 hover:bg-blue-700"
         >
-          Return Home
-        </a>
+          {t('home')}
+        </Link>
       </div>
     </div>
   );

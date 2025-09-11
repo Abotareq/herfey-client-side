@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "./globals.css";
+import "./[locale]/globals.css";
 import Image from "next/image";
 import background from "@public/1234.jpg";
 function NotFound() {

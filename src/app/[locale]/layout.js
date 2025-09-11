@@ -3,16 +3,15 @@ import "./globals.css";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import NotFound from "./not-found";
+import NotFound from "../not-found";
 import { Providers } from "./client/queryClientProivder";
 import { AuthProvider } from "../context/AuthContext";
 import ConditionalLayout from "./components/ConditionalLayout ";
 import { RouteGuard } from "./components/RouteGuard";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 import { StoreProvider } from "../context/StoreContext";
 import { CheckoutProvider } from "../context/CheckoutContext";
 import { FavouriteContext } from "../context/FavouriteContext";
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +39,7 @@ export default async function RootLayout({ params, children }) {
   }
 
   const messages = await getMessages();
-  
+
   return (
     <html
       lang={resolvedParams.locale}
@@ -55,31 +54,35 @@ export default async function RootLayout({ params, children }) {
           <Providers>
             <AuthProvider>
               <StoreProvider>
-              <CheckoutProvider>
-              <RouteGuard>
-              <FavouriteContext>
-              {/* <Toaster
-                  position={resolvedParams.locale === "ar"  ? "top-left" : "top-right"}
-                  toastOptions={{
-                    success: {
-                      duration: 3000,
-                    },
-                    error: {
-                      duration: 5000,
-                    },
-                  }}
-                /> */}
-                <ConditionalLayout locale={resolvedParams.locale}>
-                  {children}
-                </ConditionalLayout>
-                 </FavouriteContext>
-              </RouteGuard>
-              </CheckoutProvider>
-            </StoreProvider>
-          </AuthProvider>
-        </Providers>
-      </NextIntlClientProvider>
-    </body>
-  </html>
+                <CheckoutProvider>
+                  <RouteGuard>
+                    <FavouriteContext>
+                      <Toaster
+                        position={
+                          resolvedParams.locale === "ar"
+                            ? "top-left"
+                            : "top-right"
+                        }
+                        toastOptions={{
+                          success: {
+                            duration: 3000,
+                          },
+                          error: {
+                            duration: 5000,
+                          },
+                        }}
+                      />
+                      <ConditionalLayout locale={resolvedParams.locale}>
+                        {children}
+                      </ConditionalLayout>
+                    </FavouriteContext>
+                  </RouteGuard>
+                </CheckoutProvider>
+              </StoreProvider>
+            </AuthProvider>
+          </Providers>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }
