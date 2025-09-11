@@ -1,17 +1,20 @@
 import Link from "next/link";
-import "./[locale]/globals.css";
+import "./globals.css";
 import Image from "next/image";
-import background from "@public/1234.jpg";
-function NotFound() {
+// Import the path as a string. The alias should resolve to "/1234.jpg"
+import background from "@public/not_found.jpg";
+
+export default function NotFound() {
   return (
     <div className="flex min-h-screen bg-white">
       {/* Sidebar Image */}
       <div className="hidden lg:block lg:w-1/2 relative">
+        {/* Pass the imported string directly */}
         <Image
-          src={background}
+          src={background} // <-- This is now a string like "/1234.jpg"
           alt="Lost man in desert"
           className="h-full w-full object-cover"
-          layout="fill"
+          fill
         />
         <div className="absolute inset-0 bg-black opacity-30"></div>
       </div>
@@ -45,5 +48,3 @@ function NotFound() {
     </div>
   );
 }
-
-export default NotFound;
