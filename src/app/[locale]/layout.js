@@ -58,11 +58,7 @@ export default async function RootLayout({ params, children }) {
                   <RouteGuard>
                     <FavouriteContext>
                       <Toaster
-                        position={
-                          resolvedParams.locale === "ar"
-                            ? "top-left"
-                            : "top-right"
-                        }
+                        position={"top-right"}
                         toastOptions={{
                           success: {
                             duration: 3000,

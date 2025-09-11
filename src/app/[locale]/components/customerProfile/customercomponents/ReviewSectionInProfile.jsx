@@ -9,7 +9,7 @@ import {
   useUpdateReview,
 } from "@/service/reviewService";
 import LoadingSpinner from "../../ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useLocale } from "use-intl";
 
 function ReviewsSectionInProfile({ userId }) {
@@ -587,7 +587,7 @@ function ReviewsSectionInProfile({ userId }) {
             <div className="flex items-center space-x-3">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
               <span className="text-slate-700 font-medium">
-                {t("updatingReview") || t("updatingReview")}
+                {t("Updating") || t("Updating")}
               </span>
             </div>
           </div>
