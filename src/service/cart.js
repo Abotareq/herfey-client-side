@@ -3,8 +3,7 @@ import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 /** ===================== CONFIG ===================== **/
-const API_BASE = "http://localhost:5000/api/cart";
-
+const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/cart`;
 /** ===================== CUSTOMER METHODS ===================== **/
 
 /**
