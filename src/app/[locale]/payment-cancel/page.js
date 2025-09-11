@@ -2,8 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { XCircle, RefreshCw, Home, HeadphonesIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function PaymentFailedPage() {
+  const t = useTranslations('PaymentFailedPage')
   const router = useRouter();
 
   return (
@@ -17,10 +19,10 @@ export default function PaymentFailedPage() {
             </div>
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">
-            Payment Failed
+            {t('Paymentfailed')}
           </h1>
           <p className="text-red-100 text-sm">
-            Transaction could not be completed
+            {t('paymentfaileddesc')}
           </p>
         </div>
 
@@ -28,19 +30,18 @@ export default function PaymentFailedPage() {
         <div className="p-8">
           <div className="text-center mb-8">
             <p className="text-gray-600 leading-relaxed">
-              Your payment was not completed successfully. This could be due to insufficient funds, 
-              network issues, or the transaction was cancelled.
+              {t('payentfailedmessage')}
             </p>
           </div>
 
           {/* Common reasons */}
           <div className="mb-8 p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl border border-orange-100">
-            <h3 className="font-semibold text-orange-800 mb-3 text-sm">Common reasons:</h3>
+            <h3 className="font-semibold text-orange-800 mb-3 text-sm">{t('commonreason')}:</h3>
             <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Insufficient account balance</li>
-              <li>• Network connection issues</li>
-              <li>• Payment method declined</li>
-              <li>• Transaction was cancelled</li>
+              <li>• {t('1')}</li>
+              <li>• {t('2')}</li>
+              <li>• {t('3')}</li>
+              <li>• {t('4')}</li>
             </ul>
           </div>
 
@@ -53,7 +54,7 @@ export default function PaymentFailedPage() {
             >
               <div className="flex items-center justify-center space-x-2">
                 <RefreshCw className="w-5 h-5" />
-                <span>Try Again</span>
+                <span>{t('tryagain')}</span>
               </div>
             </button>
 
@@ -64,7 +65,7 @@ export default function PaymentFailedPage() {
                 onClick={() => router.push("/")}
               >
                 <Home className="w-4 h-4" />
-                <span>Home</span>
+                <span>{t('home')}</span>
               </button>
 
               <button
@@ -72,7 +73,7 @@ export default function PaymentFailedPage() {
                 onClick={() => router.push("/support")}
               >
                 <HeadphonesIcon className="w-4 h-4" />
-                <span>Support</span>
+                <span>{t('support')}</span>
               </button>
             </div>
           </div>
@@ -80,7 +81,7 @@ export default function PaymentFailedPage() {
           {/* Help text */}
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
-              Need help? Contact our support team for assistance with your payment.
+              {t('supportmessage')}
             </p>
           </div>
         </div>

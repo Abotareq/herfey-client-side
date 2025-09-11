@@ -557,8 +557,8 @@
         "productadded": "Product added to wishlist successfully",
         "guestcart": "Item added to guest cart!",
         "productcreated": "Product created successfully!",
-        "productfail": "Failed to create product:"
-
+        "productfail": "Failed to create product:",
+        "Adding": "Adding..."
     },
     
     "productreview": {
@@ -1150,5 +1150,42 @@
         "Adjective": "Adjective Attire",
         "premium": "Premium T-shirt",
         "wellverced": "Well-Versed Commerce"
+    },
+    "PaymentSuccessPage":{
+        "warinig": "Something went wrong",
+        "wariningdesc": "We couldnot retrieve your payment information. Please contact support if this persists.",
+        "tryagain": "Try Again",
+        "home": "Go to Home",
+        "invalidpayment": "Invalid Payment Session",
+        "invalidpaymanetdesc": "No valid payment session found. Please try your purchase again.",
+        "paymentsuccess": "Payment Successful!",
+        "orderdetails": "Order Details",
+        "totalamount": "Total Amount",
+        "paymentstatus": "Payment Status",
+        "emailconfirm": "A confirmation email has been sent to your registered email address.",
+        "paymentproccessing": "Payment Processing",
+        "paymentprocessingdesc": "Your payment is still being processed. This usually takes a few moments.",
+        "message": "We are checking every 30 seconds for updates. Please dont close this page.",
+        "paymentfailed": "Payment Failed",
+        "paymentfaileddesc": "Unfortunately, your payment could not be processed. Please try again or contact support.",
+        "unkownmessage": "Unknown Payment Status",
+        "unkownmessagedesc": "We're unable to determine your payment status. Please contact support for assistance.",
+        "continueshopping": "Continue Shopping",
+        "viewdetails": "View Order Details",
+        "contactsupport": "Contact Support"
+    },
+    "PaymentFailedPage":{
+        "Paymentfailed": "Payment Failed",
+        "paymentfaileddesc": "Transaction could not be completed",
+        "payentfailedmessage": "Your payment was not completed successfully. This could be due to insufficient funds, network issues, or the transaction was cancelled.",
+        "commonreason": "Common reasons",
+        "1": "Insufficient account balance",
+        "2": "Network connection issues",
+        "3": "Payment method declined",
+        "4": "Transaction was cancelled",
+        "tryagain": "Try Again",
+        "home": "Home",
+        "support": "Support",
+        "supportmessage": "Need help? Contact our support team for assistance with your payment."
     }
 }

@@ -17,8 +17,10 @@ import {
   Home,
   RefreshCw
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function PaymentSuccessPage() {
+  const t = useTranslations('PaymentSuccessPage')
   const searchParams = useSearchParams();
   const router = useRouter();
   const sessionId = searchParams.get("session_id");
@@ -67,9 +69,9 @@ export default function PaymentSuccessPage() {
       <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-xl border border-red-100">
         <div className="text-center">
           <AlertTriangle className="text-red-500 w-12 h-12 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Something went wrong</h1>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">{t('warinig')}</h1>
           <p className="text-gray-600 mb-6">
-            We couldnot retrieve your payment information. Please contact support if this persists.
+            {t('wariningdesc')}
           </p>
           <div className="space-x-4">
             <button
@@ -77,14 +79,14 @@ export default function PaymentSuccessPage() {
               onClick={() => refetch()}
             >
               <RefreshCw className="w-4 h-4 mr-2" />
-              Try Again
+              {t('tryagain')}
             </button>
             <button
               className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
               onClick={() => router.push("/")}
             >
               <Home className="w-4 h-4 mr-2" />
-              Go to Home
+              {t('home')}
             </button>
           </div>
         </div>
@@ -97,16 +99,16 @@ export default function PaymentSuccessPage() {
     return (
       <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-xl border border-red-100">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Invalid Payment Session</h1>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">{t('invalidpayment')}</h1>
           <p className="text-gray-600 mb-6">
-            No valid payment session found. Please try your purchase again.
+            {t('invalidpaymanetdesc')}
           </p>
           <button
             className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
             onClick={() => router.push("/")}
           >
             <Home className="w-4 h-4 mr-2" />
-            Go to Home
+            {t('home')}
           </button>
         </div>
       </div>
@@ -126,7 +128,7 @@ export default function PaymentSuccessPage() {
           
           {/* Success Message */}
           <h1 className="text-3xl font-bold text-green-600 mb-6">
-            Payment Successful!
+            {t('paymentsuccess')}
           </h1>
           
           {/* Order Details */}
@@ -134,7 +136,7 @@ export default function PaymentSuccessPage() {
             <div className="flex items-center justify-center mb-3">
               <Package className="w-5 h-5 text-orange-600 mr-2" />
               <h2 className="text-lg font-semibold text-gray-800">
-                Order Details
+                {t('orderdetails')}
               </h2>
             </div>
             <div className="space-y-2 text-left">
@@ -143,13 +145,13 @@ export default function PaymentSuccessPage() {
                 <span className="font-mono text-sm bg-orange-100 px-2 py-1 rounded text-orange-800">{order?._id || "N/A"}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Total Amount:</span>
+                <span className="text-gray-600">{t('totalamount')}:</span>
                 <span className="font-bold text-green-600">
                   ${order?.totalAmount ? Number(order.totalAmount).toFixed(2) : "0.00"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Payment Status:</span>
+                <span className="text-gray-600">{t('paymentstatus')}:</span>
                 <span className="text-green-600 font-semibold capitalize flex items-center">
                   <CheckCircle className="w-4 h-4 mr-1" />
                   {paymentStatus}
@@ -163,7 +165,7 @@ export default function PaymentSuccessPage() {
             <div className="flex items-center justify-center text-blue-800">
               <Mail className="w-4 h-4 mr-2" />
               <p className="text-sm">
-                A confirmation email has been sent to your registered email address.
+                {t('emailconfirm')}
               </p>
             </div>
           </div>
@@ -172,16 +174,16 @@ export default function PaymentSuccessPage() {
         <div className="text-center">
           <Clock className="text-yellow-500 w-12 h-12 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-yellow-600 mb-4">
-            Payment Processing
+            {t('paymentproccessing')}
           </h1>
           <p className="text-gray-600 mb-4">
-            Your payment is still being processed. This usually takes a few moments.
+            {t('paymentprocessingdesc')}
           </p>
           <div className="bg-yellow-50 p-4 rounded-lg mb-6 border border-yellow-200">
             <div className="flex items-center justify-center text-yellow-800">
               <Clock className="w-4 h-4 mr-2" />
               <p className="text-sm">
-                We are checking every 30 seconds for updates. Please dont close this page.
+                {t('message')}
               </p>
             </div>
           </div>
@@ -190,20 +192,20 @@ export default function PaymentSuccessPage() {
         <div className="text-center">
           <XCircle className="text-red-500 w-12 h-12 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-red-600 mb-4">
-            Payment Failed
+            {t('paymentfailed')}
           </h1>
           <p className="text-gray-600 mb-6">
-            Unfortunately, your payment could not be processed. Please try again or contact support.
+            {t('paymentfaileddesc')}
           </p>
         </div>
       ) : (
         <div className="text-center">
           <HelpCircle className="text-gray-500 w-12 h-12 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-600 mb-4">
-            Unknown Payment Status
+            {t('unkownmessage')}
           </h1>
           <p className="text-gray-600 mb-6">
-            We're unable to determine your payment status. Please contact support for assistance.
+            {t('unkownmessagedesc')}
           </p>
         </div>
       )}
@@ -215,7 +217,7 @@ export default function PaymentSuccessPage() {
           onClick={() => router.push("/products")}
         >
           <ShoppingBag className="w-4 h-4 mr-2" />
-          Continue Shopping
+          {t('continueshopping')}
         </button>
         
         {paymentStatus === "completed" && (
@@ -224,7 +226,7 @@ export default function PaymentSuccessPage() {
             onClick={() => router.push(`/customer-profile/orders/${order?._id}`)}
           >
             <Package className="w-4 h-4 mr-2" />
-            View Order Details
+            {t('viewdetails')}
           </button>
         )}
         
@@ -233,8 +235,8 @@ export default function PaymentSuccessPage() {
             className="inline-flex items-center justify-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
             onClick={() => window.location.href = "mailto:support@yoursite.com"}
           >
-            <Mail className="w-4 h-4 mr-2" />
-            Contact Support
+            <Mail className="w-4 h-4 mr-3" />
+            {t('contactsupport')}
           </button>
         )}
       </div>

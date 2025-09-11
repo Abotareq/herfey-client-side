@@ -403,7 +403,7 @@ function ProductDetails({ id }) {
                           </svg>
                           <span>
                             {addToCartMutation.isPending
-                              ? "Adding..."
+                              ? t('Adding')
                               : t("addtocart")}
                           </span>
                         </button>
