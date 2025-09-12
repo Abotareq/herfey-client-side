@@ -78,7 +78,7 @@ function CustomerProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 ">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -101,13 +101,13 @@ function CustomerProfile() {
 
         {/* Navigation Tabs */}
         <div className="mb-8">
-          <div className="flex space-x-1 bg-slate-100 rounded-lg p-1 max-w-lg">
+          <div className="flex space-x-1  bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-orange-100 rounded-lg p-1 max-w-lg">
             <button
               onClick={() => setActiveTab("profile")}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "profile"
-                  ? "bg-white text-blue-600 shadow-sm"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
+                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
               }`}
             >
               {t("profile")}
@@ -116,8 +116,8 @@ function CustomerProfile() {
               onClick={() => setActiveTab("addresses")}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "addresses"
-                  ? "bg-white text-blue-600 shadow-sm"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
+                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
               }`}
             >
               {t("address")}
@@ -126,8 +126,8 @@ function CustomerProfile() {
               onClick={() => setActiveTab("orders")}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "orders"
-                  ? "bg-white text-blue-600 shadow-sm"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
+                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
               }`}
             >
               {t("order")}
@@ -136,8 +136,8 @@ function CustomerProfile() {
               onClick={() => setActiveTab("reviews")}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "reviews"
-                  ? "bg-white text-blue-600 shadow-sm"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
+                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
               }`}
             >
               {t("review")}
