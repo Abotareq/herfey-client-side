@@ -1,22 +1,24 @@
-"use client";  
+"use client";
 
 import React from "react";
-import Link from "next/link";  
+import Link from "next/link";
 import { useLocale, useTranslations } from "use-intl";
 
 function ProductCard({ product }) {
-  const t = useTranslations("products");  
+  const t = useTranslations("products");
 
   const locale = useLocale();
   // const isArabic = locale==='ar';
 
   // const currency = isArabic ? 'ج م' : 'EGP'
 
-  const displayPrice = product.discountPrice > 0 ? product.discountPrice : product.basePrice;
+  const displayPrice =
+    product.discountPrice > 0 ? product.discountPrice : product.basePrice;
   const originalPrice = product.basePrice;
-  const hasDiscount = product.discountPrice > 0 && product.discountPrice < product.basePrice;
-  const discountPercentage = hasDiscount 
-    ? Math.round(((originalPrice - displayPrice) / originalPrice) * 100) 
+  const hasDiscount =
+    product.discountPrice > 0 && product.discountPrice < product.basePrice;
+  const discountPercentage = hasDiscount
+    ? Math.round(((originalPrice - displayPrice) / originalPrice) * 100)
     : 0;
 
   const averageRating = product.averageRating || 0;
@@ -24,11 +26,14 @@ function ProductCard({ product }) {
   return (
     <div className="group  relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md shadow-orange-300/30  hover:shadow-orange-400/1">
       {/* Use Link component for product image and title to ensure proper Next.js client-side navigation */}
-      <Link className="relative mx-3 mt-3 flex h-80 overflow-hidden rounded-xl" href={`/products/${product._id}`}>
-        <img 
-          className="object-cover w-full h-full group-hover:opacity-70 transition-opacity duration-300 " 
-          src={product.images?.[0] || "/placeholder.png"} 
-          alt={product.name} 
+      <Link
+        className="relative mx-3 mt-3 flex h-80 overflow-hidden rounded-xl"
+        href={`/products/${product._id}`}
+      >
+        <img
+          className="object-cover w-full h-full group-hover:opacity-70 transition-opacity duration-300 "
+          src={product.images?.[0] || "/placeholder.png"}
+          alt={product.name}
         />
         {/* Category Name - Top Left */}
         {product.category?.name && (
@@ -45,18 +50,25 @@ function ProductCard({ product }) {
       </Link>
       <div className="mt-4 px-5 pb-5">
         <Link href={`/products/${product._id}`}>
-          <h5 className="text-xl tracking-tight text-orange-900 capitalize font-semibold ">{product.name}</h5>
+          <h5 className="text-xl tracking-tight text-orange-900 capitalize font-semibold ">
+            {product.name.split(" ").length > 3
+              ? product.name.split(" ").slice(0, 3).join(" ") + "..."
+              : product.name}
+          </h5>
         </Link>
         <div className="mt-2 mb-5 flex items-center justify-between">
           <p>
-            <span className="text-3xl font-bold text-orange-500"><span className="text-orange-950 text-sm">{t('currency')}</span>{displayPrice}</span>
+            <span className="text-3xl font-bold text-orange-500">
+              <span className="text-orange-950 text-sm">{t("currency")}</span>
+              {displayPrice}
+            </span>
             {hasDiscount && (
-              <span className="text-sm text-orange-500 line-through">EGP{originalPrice}</span>
+              <span className="text-sm text-orange-500 line-through">
+                EGP{originalPrice}
+              </span>
             )}
           </p>
-          <div className="flex items-center">
-
-          </div>
+          <div className="flex items-center"></div>
         </div>
       </div>
     </div>
