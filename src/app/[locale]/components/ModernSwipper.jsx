@@ -23,10 +23,10 @@ import {
 } from "swiper/modules";
 
 // Import your images here
-import swip1a from "@public/swipper/swip1 ar.jpg";
+import swip1a from "@public/swipper/swip1 ar 2.jpg";
 import swip1e from "@public/swipper/swip1 en.jpg";
 
-import swip2a from "@public/swipper/swip2 ar.jpg";
+import swip2a from "@public/swipper/swip2 ar 2.jpg";
 import swip2e from "@public/swipper/swip2 en.jpg";
 
 import swip3a from "@public/swipper/swip3 ar.jpg";
