@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://herfy-production-c1fd.up.railway.app/api/:path*"
-    }
-  ]
-}
