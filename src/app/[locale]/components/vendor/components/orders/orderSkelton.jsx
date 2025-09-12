@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const OrdersSkeleton = () => {
   // Create array for multiple skeleton cards
@@ -111,7 +111,10 @@ const OrdersSkeleton = () => {
                   </div>
                   <div className="space-y-3">
                     {Array.from({ length: 5 }, (_, i) => (
-                      <div key={i} className="flex justify-between items-center">
+                      <div
+                        key={i}
+                        className="flex justify-between items-center"
+                      >
                         <div className="h-4 bg-gradient-to-r from-orange-200 to-orange-300 rounded w-16"></div>
                         <div className="h-4 bg-gradient-to-r from-orange-200 to-orange-300 rounded w-20"></div>
                       </div>
@@ -169,7 +172,10 @@ const OrdersSkeleton = () => {
             <div className="h-8 bg-gradient-to-r from-orange-200 to-orange-300 rounded w-20"></div>
             <div className="flex gap-1">
               {Array.from({ length: 3 }, (_, i) => (
-                <div key={i} className="w-8 h-8 bg-gradient-to-r from-orange-300 to-orange-400 rounded"></div>
+                <div
+                  key={i}
+                  className="w-8 h-8 bg-gradient-to-r from-orange-300 to-orange-400 rounded"
+                ></div>
               ))}
             </div>
             <div className="h-8 bg-gradient-to-r from-orange-200 to-orange-300 rounded w-16"></div>

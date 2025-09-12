@@ -9,24 +9,31 @@ const apiClient = axios.create({
 });
 
 // ===== Helper functions =====
-const getRequest = async (endpoint) => (await apiClient.get(endpoint)).data.data.data;
-const postRequest = async (endpoint, data) => (await apiClient.post(endpoint, data)).data;
-const patchRequest = async (endpoint, data) => (await apiClient.patch(endpoint, data)).data.data.data;
+const getRequest = async (endpoint) =>
+  (await apiClient.get(endpoint)).data.data.data;
+const postRequest = async (endpoint, data) =>
+  (await apiClient.post(endpoint, data)).data;
+const patchRequest = async (endpoint, data) =>
+  (await apiClient.patch(endpoint, data)).data.data.data;
 
 // ====== Order Hooks ======
 
 // Fetch user orders
-export const useGetUserOrders = (page = 1, limit = 10, status = '') =>
+export const useGetUserOrders = (page = 1, limit = 10, status = "") =>
   useQuery({
     queryKey: ["userOrders", page, limit, status],
-    queryFn: () => getRequest(`/order?page=${page}&limit=${limit}&status=${status}`),
-    keepPreviousData: true, 
+    queryFn: () =>
+      getRequest(`/order?page=${page}&limit=${limit}&status=${status}`),
+    keepPreviousData: true,
   });
 export const useGetSellerOrders = (params) =>
   useQuery({
     queryKey: ["sellerOrders", params],
-    queryFn: () => getRequest(`/order/seller/orders?page=${params.page}&limit=${params.limit}&searchQuery=${params.searchQuery}&statusFilter=${params.statusFilter}&paymentMethodFilter=${params.paymentMethodFilter}`),
-    keepPreviousData: true, 
+    queryFn: () =>
+      getRequest(
+        `/order/seller/orders?page=${params.page}&limit=${params.limit}&searchQuery=${params.searchQuery}&statusFilter=${params.statusFilter}&paymentMethodFilter=${params.paymentMethodFilter}`
+      ),
+    keepPreviousData: true,
   });
 
 // Fetch single order by ID
@@ -34,13 +41,10 @@ export const useGetUserOrderById = (orderId) =>
   useQuery({
     queryKey: ["userOrder", orderId],
     queryFn: () => getRequest(`/order/${orderId}`),
-    enabled: !!orderId, 
+    enabled: !!orderId,
   });
 
-export const useGetStoreOrdersByStoreId = (
-  storeId,
-  { page = 1, limit = 10 }
-) =>
+export const useGetStoreOrdersByStoreId = (storeId, { page = 1, limit = 10 }) =>
   useQuery({
     queryKey: ["userOrder", storeId, page, limit],
     queryFn: () =>
@@ -51,7 +55,7 @@ export const useGetSellerOrderById = (orderId) =>
   useQuery({
     queryKey: ["sellerOrder", orderId],
     queryFn: () => getRequest(`/order/vendor/orders/${orderId}`),
-    enabled: !!orderId, 
+    enabled: !!orderId,
   });
 
 // Cancel order
@@ -72,7 +76,7 @@ export const useCreateOrder = () => {
     mutationFn: (orderData) => postRequest("/order", orderData),
     onSuccess: (newOrder) => {
       // Invalidate orders list so it refreshes
-      console.log("new order",newOrder)
+      console.log("new order", newOrder);
       queryClient.invalidateQueries({ queryKey: ["userOrders"] });
     },
   });

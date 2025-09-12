@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CouponsSection from "./components/Coupon/Coupon";
 import ProfileSection from "./components/PersonalInfo/PersonalInfo";
 import StoresSection from "./components/Store/Store";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import OrdersSection from "./components/orders/order";
 import { useAuth } from "@/app/context/AuthContext";
 import { useGetUserById } from "@/service/user";
@@ -173,7 +173,7 @@ function VendorProfile() {
         onClick={handleLogout}
         className="absolute top-4 right-4 bg-orange-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-orange-700 transition-colors"
       >
-        {t('signout')}
+        {t("signout")}
       </button>
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -234,10 +234,7 @@ function VendorProfile() {
                       d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                     />
                   </svg>
-                  <span>
-                    {storesCount} {t("store")}
-                    {storesCount !== 1 ? "s" : ""}
-                  </span>
+                  <span>{storesCount} {storesCount == 1 ? t("store") : t("mstores")}</span>
                 </span>
               </div>
             </div>

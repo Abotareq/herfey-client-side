@@ -60,9 +60,9 @@ export default function Header() {
           <div className="grid grid-cols-2 sm:grid-cols-3 items-center py-2 sm:py-3 justify-between">
             {/* Left Side - Action Icons */}
             <div className="flex justify-start items-center gap-2 sm:gap-4">
-              <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
+         {/*      <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-              </button>
+              </button> */}
               {user &&
                 <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
                   onClick={() => router.push(`/${currentLocale}/fav`)}

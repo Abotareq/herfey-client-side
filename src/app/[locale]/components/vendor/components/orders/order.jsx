@@ -35,17 +35,16 @@ import { useTranslations } from "next-intl";
 
 // Credit Card Order Component
 const CreditCardOrderActions = ({ order, updateStatus, router }) => {
-  const t = useTranslations('VendorOrder')
+  const t = useTranslations("VendorOrder");
   const getNextStatus = (currentStatus) => {
-    
     const statusFlow = {
-      // paid: "processing",
+      paid: "processing",
       processing: "shipped",
       shipped: "delivered",
     };
     return statusFlow[currentStatus];
   };
-  
+
   const getStatusAction = (status) => {
     const actions = {
       paid: "Accept Order",
@@ -90,18 +89,18 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
       });
     }
   };
-  
+
   return (
     <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 hover:from-blue-100 hover:to-blue-150 transition-all duration-300">
       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <CreditCard className="w-4 h-4 text-blue-600" />
-        {t('cridit')}
+        {t("cridit")}
       </h4>
       <div className="flex flex-col gap-3">
         <Button
           onClick={() => {
             router.push(`/vendor-profile/orders/${order._id}`);
-            toast(t('orderdetails'), {
+            toast(t("orderdetails"), {
               style: {
                 border: "1px solid #FF8C00",
                 padding: "16px",
@@ -118,7 +117,7 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
           className="w-full justify-start gap-2 hover:bg-white hover:shadow-sm transition-all duration-200 bg-white"
         >
           <Eye className="w-4 h-4" />
-          {t('view')}
+          {t("view")}
         </Button>
 
         {order.status !== "delivered" && order.status !== "cancelled" && (
@@ -142,7 +141,7 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
         <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-lg">
           <div className="flex items-center gap-2 text-green-700 text-xs font-medium">
             <CheckCircle className="w-3 h-3" />
-            {t('confirmed')}
+            {t("confirmed")}
           </div>
         </div>
       </div>
@@ -151,13 +150,19 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
 };
 
 // Cash on Delivery Order Component - Improved with React Query Refetch
-const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, refetch }) => {
-  const t = useTranslations('VendorOrder')
+const CODOrderActions = ({
+  order,
+  updateStatus,
+  updatePaymentStatus,
+  router,
+  refetch,
+}) => {
+  const t = useTranslations("VendorOrder");
   const getNextStatus = (currentStatus) => {
     const statusFlow = {
       pending: "processing",
-      processing: "shipped", 
-      shipped: "delivered"
+      processing: "shipped",
+      shipped: "delivered",
     };
     return statusFlow[currentStatus];
   };
@@ -166,7 +171,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
     const actions = {
       pending: "Accept Order",
       processing: "Mark Shipped",
-      shipped: "Mark Delivered"
+      shipped: "Mark Delivered",
     };
     return actions[status];
   };
@@ -177,32 +182,31 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
         id: order._id,
         status: "completed",
       });
-      
-      toast.success(t('paymentsuccess'), {
+
+      toast.success(t("paymentsuccess"), {
         style: {
-          border: '1px solid #10B981',
-          padding: '16px',
-          color: '#000000',
+          border: "1px solid #10B981",
+          padding: "16px",
+          color: "#000000",
         },
         iconTheme: {
-          primary: '#10B981',
-          secondary: '#FFFFFF',
+          primary: "#10B981",
+          secondary: "#FFFFFF",
         },
       });
-      
+
       // Refetch orders data to update UI without reload
       await refetch();
-      
     } catch (error) {
-      toast.error(t('paymentfail'), {
+      toast.error(t("paymentfail"), {
         style: {
-          border: '1px solid #EF4444',
-          padding: '16px',
-          color: '#000000',
+          border: "1px solid #EF4444",
+          padding: "16px",
+          color: "#000000",
         },
         iconTheme: {
-          primary: '#EF4444',
-          secondary: '#FFFFFF',
+          primary: "#EF4444",
+          secondary: "#FFFFFF",
         },
       });
     }
@@ -214,69 +218,70 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
         orderId: order._id,
         status: newStatus,
       });
-      
-      toast.success(`Order ${getStatusAction(order.status).toLowerCase()} successfully!`, {
-        style: {
-          border: '1px solid #10B981',
-          padding: '16px',
-          color: '#000000',
-        },
-        iconTheme: {
-          primary: '#10B981',
-          secondary: '#FFFFFF',
-        },
-      });
+
+      toast.success(
+        `Order ${getStatusAction(order.status).toLowerCase()} successfully!`,
+        {
+          style: {
+            border: "1px solid #10B981",
+            padding: "16px",
+            color: "#000000",
+          },
+          iconTheme: {
+            primary: "#10B981",
+            secondary: "#FFFFFF",
+          },
+        }
+      );
 
       // No refetch here - let React Query handle automatic updates
-      
     } catch (error) {
       toast.error(`Failed to update order status. Please try again.`, {
         style: {
-          border: '1px solid #EF4444',
-          padding: '16px',
-          color: '#000000',
+          border: "1px solid #EF4444",
+          padding: "16px",
+          color: "#000000",
         },
         iconTheme: {
-          primary: '#EF4444',
-          secondary: '#FFFFFF',
+          primary: "#EF4444",
+          secondary: "#FFFFFF",
         },
       });
     }
   };
 
   const handleCancelOrder = async () => {
-    const confirmCancel = window.confirm(t('question'));
+    const confirmCancel = window.confirm(t("question"));
     if (confirmCancel) {
       try {
         await updateStatus.mutateAsync({
           orderId: order._id,
           status: "cancelled",
         });
-        
-        toast.success(t('ordercancel'), {
+
+        toast.success(t("ordercancel"), {
           style: {
-            border: '1px solid #EF4444',
-            padding: '16px',
-            color: '#000000',
+            border: "1px solid #EF4444",
+            padding: "16px",
+            color: "#000000",
           },
           iconTheme: {
-            primary: '#EF4444',
-            secondary: '#FFFFFF',
+            primary: "#EF4444",
+            secondary: "#FFFFFF",
           },
         });
-        
+
         // No refetch here - let React Query handle automatic updates
-        
       } catch (error) {
-        toast.error(t('ordercancelerror'), {
+        toast.error(t("ordercancelerror"), {
           style: {
-            border: '1px solid #EF4444',
-            padding: '16px',
-            color: '#000000',
+            border: "1px solid #EF4444",
+            padding: "16px",
+            color: "#000000",
           },
           iconTheme: {
-            primary: '#EF4444',
-            secondary: '#FFFFFF',
+            primary: "#EF4444",
+            secondary: "#FFFFFF",
           },
         });
       }
@@ -287,22 +292,22 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
     <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 hover:from-orange-100 hover:to-orange-150 transition-all duration-300">
       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <Banknote className="w-4 h-4 text-orange-600" />
-        {t('cash')}
+        {t("cash")}
       </h4>
       <div className="flex flex-col gap-3">
         {/* View Details Button - Always visible */}
         <Button
           onClick={() => {
             router.push(`/vendor-profile/orders/${order._id}`);
-            toast('Opening order details...', {
+            toast("Opening order details...", {
               style: {
-                border: '1px solid #FF8C00',
-                padding: '16px',
-                color: '#000000',
+                border: "1px solid #FF8C00",
+                padding: "16px",
+                color: "#000000",
               },
               iconTheme: {
-                primary: '#FF8C00',
-                secondary: '#FFFFFF',
+                primary: "#FF8C00",
+                secondary: "#FFFFFF",
               },
             });
           }}
@@ -311,9 +316,9 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           className="w-full justify-start gap-2 hover:bg-white hover:shadow-sm transition-all duration-200 bg-white"
         >
           <Eye className="w-4 h-4" />
-          {t('view')}
+          {t("view")}
         </Button>
-        
+
         {/* Order Progress Buttons - From pending to delivered */}
         {order.status !== "delivered" && order.status !== "cancelled" && (
           <Button
@@ -347,11 +352,11 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
               ) : (
                 <>
                   <DollarSign className="w-4 h-4" />
-                  {t('confirm')}
+                  {t("confirm")}
                 </>
               )}
             </Button>
-            
+
             <Button
               size="sm"
               variant="outline"
@@ -364,55 +369,55 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
               ) : (
                 <>
                   <XCircle className="w-4 h-4" />
-                  {t('cancel')}
+                  {t("cancel")}
                 </>
               )}
             </Button>
           </>
         )}
-        
+
         {/* Status Indicators */}
         {order.status === "pending" && (
           <div className="p-2 bg-amber-50 border border-amber-200 rounded-lg">
             <div className="flex items-center gap-2 text-amber-700 text-xs font-medium">
               <AlertCircle className="w-3 h-3" />
-              {t('pending')}
+              {t("pending")}
             </div>
           </div>
         )}
-        
+
         {order.status === "processing" && (
           <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
             <div className="flex items-center gap-2 text-blue-700 text-xs font-medium">
               <Package className="w-3 h-3" />
-              {t('processing')}
+              {t("processing")}
             </div>
           </div>
         )}
-        
+
         {order.status === "shipped" && (
           <div className="p-2 bg-purple-50 border border-purple-200 rounded-lg">
             <div className="flex items-center gap-2 text-purple-700 text-xs font-medium">
               <Truck className="w-3 h-3" />
-              {t('shipped')}
+              {t("shipped")}
             </div>
           </div>
         )}
-        
+
         {order.status === "delivered" && (
           <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
             <div className="flex items-center gap-2 text-blue-700 text-xs font-medium">
               <CheckCircle className="w-3 h-3" />
-              {t('delivered')}
+              {t("delivered")}
             </div>
           </div>
         )}
-        
+
         {order.status === "cancelled" && (
           <div className="p-2 bg-red-50 border border-red-200 rounded-lg">
             <div className="flex items-center gap-2 text-red-700 text-xs font-medium">
               <XCircle className="w-3 h-3" />
-              {t('ocancel')}
+              {t("ocancel")}
             </div>
           </div>
         )}
@@ -422,7 +427,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
           <div className="p-2 bg-green-50 border border-green-200 rounded-lg">
             <div className="flex items-center gap-2 text-green-700 text-xs font-medium">
               <CheckCircle className="w-3 h-3" />
-              {t('pconfirm')}
+              {t("pconfirm")}
             </div>
           </div>
         )}
@@ -432,7 +437,7 @@ const CODOrderActions = ({ order, updateStatus, updatePaymentStatus, router, ref
 };
 
 export default function OrdersSection() {
-  const t = useTranslations("VendorOrder")
+  const t = useTranslations("VendorOrder");
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("all");
   const [paymentMethodFilter, setPaymentMethodFilter] = useState("all");
@@ -448,7 +453,7 @@ export default function OrdersSection() {
     statusFilter,
     paymentMethodFilter,
   });
-  
+
   // Update order status mutation
   const updateStatus = useUpdateVendorOrderStatus();
 
@@ -536,7 +541,7 @@ export default function OrdersSection() {
   };
 
   if (isLoading) {
-    return <OrdersSkeleton />
+    return <OrdersSkeleton />;
   }
 
   if (isError) {
@@ -547,13 +552,11 @@ export default function OrdersSection() {
             <Package className="w-8 h-8 text-red-600" />
           </div>
           <div className="text-red-600 text-lg font-semibold mb-2">
-            {t('failedloadingo')}
+            {t("failedloadingo")}
           </div>
-          <p className="text-red-500 text-sm">
-            {t('faildesc')}
-          </p>
+          <p className="text-red-500 text-sm">{t("faildesc")}</p>
           <Button className="mt-4" onClick={handleRefresh}>
-            {t('tryagain')}
+            {t("tryagain")}
           </Button>
         </div>
       </div>
@@ -565,17 +568,16 @@ export default function OrdersSection() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-gradient-to-br from-orange-10 to-orange-30 min-h-screen">
+      <Toaster position="top-right" />
 
       {/* Header */}
       <div className="mb-8 animate-fade-in">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-orange-600 mb-2 tracking-tight">
-              {t('ordermanage')}
+              {t("ordermanage")}
             </h1>
-            <p className="text-gray-600">
-              {t('ordermanagdesc')}
-            </p>
+            <p className="text-gray-600">{t("ordermanagdesc")}</p>
           </div>
 
           <div className="flex gap-3">
@@ -583,7 +585,7 @@ export default function OrdersSection() {
               variant="outline"
               className="flex items-center gap-2 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 hover:shadow-sm"
               onClick={() => {
-                toast(t('exportf'), {
+                toast(t("exportf"), {
                   style: {
                     border: "1px solid #FF8C00",
                     padding: "16px",
@@ -597,7 +599,7 @@ export default function OrdersSection() {
               }}
             >
               <Download className="w-4 h-4" />
-              {t('export')}
+              {t("export")}
             </Button>
             <Button
               variant="outline"
@@ -605,7 +607,7 @@ export default function OrdersSection() {
               onClick={handleRefresh}
             >
               <Filter className="w-4 h-4" />
-              {t('refresh')}
+              {t("refresh")}
             </Button>
           </div>
         </div>
@@ -631,13 +633,13 @@ export default function OrdersSection() {
             }}
             className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
           >
-            <option value="all">{t('all')}</option>
-            <option value="pending">{t('pendings')}</option>
-            <option value="paid">{t('paid')}</option>
-            <option value="processing">{t('processings')}</option>
-            <option value="shipped">{t('shipped')}</option>
-            <option value="delivered">{t('delivereds')}</option>
-            <option value="cancelled">{t('cancells')}</option>
+            <option value="all">{t("all")}</option>
+            <option value="pending">{t("pendings")}</option>
+            <option value="paid">{t("paid")}</option>
+            <option value="processing">{t("processings")}</option>
+            <option value="shipped">{t("shipped")}</option>
+            <option value="delivered">{t("delivereds")}</option>
+            <option value="cancelled">{t("cancells")}</option>
           </select>
 
           <select
@@ -648,9 +650,9 @@ export default function OrdersSection() {
             }}
             className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
           >
-            <option value="all">{t('allpayment')}</option>
-            <option value="credit_card">{t('creditcard')}</option>
-            <option value="cash_on_delivery">{t('cash')}</option>
+            <option value="all">{t("allpayment")}</option>
+            <option value="credit_card">{t("creditcard")}</option>
+            <option value="cash_on_delivery">{t("cash")}</option>
           </select>
         </div>
       </div>
@@ -699,7 +701,7 @@ export default function OrdersSection() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 mb-1">
-                  {t('criditcardorders')}
+                  {t("criditcardorders")}
                 </p>
                 <p className="text-3xl font-bold text-blue-600">
                   {orders.filter((order) => isCreditCardOrder(order)).length}
@@ -717,7 +719,7 @@ export default function OrdersSection() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 mb-1">
-                  {t('cashorders')}
+                  {t("cashorders")}
                 </p>
                 <p className="text-3xl font-bold text-orange-600">
                   {orders.filter((order) => isCODOrder(order)).length}
@@ -740,10 +742,10 @@ export default function OrdersSection() {
                 <Package className="w-12 h-12 text-gray-300" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {t('noorders')}
+                {t("noorders")}
               </h3>
               <p className="text-gray-500 max-w-md mx-auto">
-                {t('noordersdesc')}
+                {t("noordersdesc")}
               </p>
             </CardContent>
           </Card>
@@ -781,13 +783,13 @@ export default function OrdersSection() {
                             {isCODOrder && (
                               <span className="flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
                                 <Banknote className="w-3 h-3" />
-                                {t('cod')}
+                                {t("cod")}
                               </span>
                             )}
                             {isCreditCardOrder && (
                               <span className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
                                 <CreditCard className="w-3 h-3" />
-                                {t('card')}
+                                {t("card")}
                               </span>
                             )}
                           </h3>
@@ -802,7 +804,7 @@ export default function OrdersSection() {
                               <MapPin className="w-4 h-4" />
                               {order.user?.userName ||
                                 order.user?.name ||
-                                t('unkown')}
+                                t("unkown")}
                             </span>
                           </div>
                         </div>
@@ -834,35 +836,39 @@ export default function OrdersSection() {
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300">
                         <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                           <DollarSign className="w-4 h-4" />
-                          {t('ordersummary')}
+                          {t("ordersummary")}
                         </h4>
                         <div className="space-y-3 text-sm">
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">{t('Items')}:</span>
+                            <span className="text-gray-600">{t("Items")}:</span>
                             <span className="font-medium px-2 py-1 bg-white rounded-lg">
-                              {order.orderItems?.length || 0} {t('items')}
+                              {order.orderItems?.length || 0} {t("items")}
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">{t('subtotal')}:</span>
+                            <span className="text-gray-600">
+                              {t("subtotal")}:
+                            </span>
                             <span className="font-medium">
                               ${order.subtotal?.toFixed(2) || "0.00"}
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">{t('shipping')}:</span>
+                            <span className="text-gray-600">
+                              {t("shipping")}:
+                            </span>
                             <span className="font-medium">
                               ${order.shippingFee?.toFixed(2) || "0.00"}
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-600">{t('tax')}:</span>
+                            <span className="text-gray-600">{t("tax")}:</span>
                             <span className="font-medium">
                               ${order.tax?.toFixed(2) || "0.00"}
                             </span>
                           </div>
                           <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-                            <span className="text-gray-600">{t('total')}:</span>
+                            <span className="text-gray-600">{t("total")}:</span>
                             <span className="font-bold text-xl text-green-600 flex items-center gap-1">
                               <DollarSign className="w-5 h-5" />
                               {order.totalAmount?.toFixed(2) || "0.00"}
@@ -874,7 +880,7 @@ export default function OrdersSection() {
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300">
                         <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                           <Package className="w-4 h-4" />
-                          {t('products')}
+                          {t("products")}
                         </h4>
                         <div className="flex gap-2 overflow-x-auto pb-2">
                           {order.orderItems?.slice(0, 4).map((item, index) => (
@@ -913,7 +919,7 @@ export default function OrdersSection() {
                           order={order}
                           updateStatus={updateStatus}
                           router={router}
-                          refetch={refetch}  // Add this line
+                          refetch={refetch} // Add this line
                         />
                       )}
                     </div>
@@ -931,11 +937,12 @@ export default function OrdersSection() {
           <CardContent className="p-6">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-sm text-gray-600 font-medium">
-                {t('show')}{" "}
-                <span className="font-bold text-gray-900">{page}</span> {t('of')}{" "}
+                {t("show")}{" "}
+                <span className="font-bold text-gray-900">{page}</span>{" "}
+                {t("of")}{" "}
                 <span className="font-bold text-gray-900">{totalPages}</span>
                 <span className="text-gray-400 ml-2">
-                  ({data?.totalOrders || 0} {t('totalorders')})
+                  ({data?.totalOrders || 0} {t("totalorders")})
                 </span>
               </div>
 
@@ -947,7 +954,7 @@ export default function OrdersSection() {
                   onClick={() => setPage(1)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  {t('first')}
+                  {t("first")}
                 </Button>
                 <Button
                   variant="outline"
@@ -956,7 +963,7 @@ export default function OrdersSection() {
                   onClick={() => setPage((p) => p - 1)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  {t('prev')}
+                  {t("prev")}
                 </Button>
 
                 <div className="flex items-center gap-1">
@@ -967,7 +974,7 @@ export default function OrdersSection() {
                     return (
                       <Button
                         key={pageNum}
-                        variant={pageNum === page ? t('default') : t('outline')}
+                        variant={pageNum === page ? t("default") : t("outline")}
                         size="sm"
                         onClick={() => setPage(pageNum)}
                         className="w-10 h-10 p-0 transition-all duration-200 hover:scale-110"
@@ -985,7 +992,7 @@ export default function OrdersSection() {
                   onClick={() => setPage((p) => p + 1)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  {t('next')}
+                  {t("next")}
                 </Button>
                 <Button
                   variant="outline"
@@ -994,7 +1001,7 @@ export default function OrdersSection() {
                   onClick={() => setPage(totalPages)}
                   className="px-3 hover:bg-gray-50 transition-all duration-200"
                 >
-                  {t('last')}
+                  {t("last")}
                 </Button>
               </div>
             </div>

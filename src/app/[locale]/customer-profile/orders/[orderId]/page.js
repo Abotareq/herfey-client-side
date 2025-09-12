@@ -156,7 +156,13 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
       <ol className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm font-medium text-slate-500">
         {statuses.map((s, index) => {
           const isActive = index <= currentStatusIndex;
-          const isCompleted = index < currentStatusIndex;
+          // For credit card: when status is "delivered", mark it as completed
+          // For COD: keep original logic (completed when index < currentStatusIndex)
+          const isCompleted = paymentMethod === "cash_on_delivery" 
+            ? index < currentStatusIndex 
+            : (status === "delivered" && s === "delivered") 
+              ? true 
+              : index < currentStatusIndex;
           
           return (
             <li
@@ -204,7 +210,6 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
     </div>
   );
 };
-
 //  Order Items Card ---
 const OrderItemsCard = ({ items, t }) => (
   <div className="lg:col-span-2 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md space-y-4">
@@ -395,6 +400,7 @@ function OrderDetailsPage() {
     isError,
     error,
     refetch,
+    isFetching,
   } = useGetUserOrderById(orderId);
 
   const { mutate: cancelOrder, isLoading: isCancelling } = useCancelOrder({
@@ -408,6 +414,15 @@ function OrderDetailsPage() {
       );
     },
   });
+
+  const handleRefresh = async () => {
+    try {
+      await refetch();
+      toast.success(t("refreshed") || "Order details refreshed");
+    } catch (err) {
+      toast.error(t("refreshError") || "Failed to refresh order details");
+    }
+  };
 
   if (isLoading) return <LoadingSpinner />;
   if (isError)
@@ -430,20 +445,41 @@ function OrderDetailsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/customer-profile"
-            className="text-slate-600 hover:text-orange-600 transition-colors"
-          >
-            {Icons.back}
-          </Link>
-          <div>
-            <h3 className="text-2xl font-bold text-slate-900">{t("title")}</h3>
-            <p className="text-slate-700">
-              Order #{order._id.slice(-8)} &bull; Placed on{" "}
-              {new Date(order.createdAt).toLocaleDateString()}
-            </p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/customer-profile"
+              className="text-slate-600 hover:text-orange-600 transition-colors"
+            >
+              {Icons.back}
+            </Link>
+            <div>
+              <h3 className="text-2xl font-bold text-slate-900">{t("title")}</h3>
+              <p className="text-slate-700">
+                Order #{order._id.slice(-8)} &bull; Placed on{" "}
+                {new Date(order.createdAt).toLocaleDateString()}
+              </p>
+            </div>
           </div>
+          
+          {/* Refresh Button */}
+          <button
+            onClick={handleRefresh}
+            disabled={isFetching}
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-orange-200 text-orange-600 font-medium rounded-lg shadow-sm hover:bg-orange-50 hover:border-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg 
+              className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span className="hidden sm:inline">
+              {isFetching ? (t("refreshing") || "Refreshing...") : (t("refresh") || "Refresh")}
+            </span>
+          </button>
         </div>
 
         <OrderStatusTracker 
