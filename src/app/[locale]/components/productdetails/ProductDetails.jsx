@@ -74,9 +74,7 @@ function ProductDetails({ id }) {
       {
         onSuccess: (data) => {
           toast.success(
-            isCurrentlyInWishlist
-              ? t('producrremoved')
-              : t('productadded')
+            isCurrentlyInWishlist ? t("producrremoved") : t("productadded")
           );
         },
         onError: (error) => {
@@ -140,18 +138,19 @@ function ProductDetails({ id }) {
       };
       addToGuestCart(item);
       if (typeof window !== "undefined") {
-        toast.success(t('guestcart'));
+        toast.success(t("guestcart"));
       }
     }
   };
 
-  const productImages = [
+  /*   const productImages = [
     product.images,
     product.images,
     product.images,
     product.images,
   ].filter(Boolean);
-
+ */
+  const productImages = product.images.map((img) => img).filter(Boolean);
   const isDisabled =
     (product.variants?.some((e) => e.name.toLowerCase() === "color") &&
       !selectColor) ||
@@ -169,7 +168,7 @@ function ProductDetails({ id }) {
                 <div className="relative">
                   <div className="w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg mb-6">
                     <img
-                      src={productImages[selectedImage] || product.images}
+                      src={productImages[selectedImage] || product.images[0]}
                       alt={product.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
@@ -403,7 +402,7 @@ function ProductDetails({ id }) {
                           </svg>
                           <span>
                             {addToCartMutation.isPending
-                              ? t('Adding')
+                              ? t("Adding")
                               : t("addtocart")}
                           </span>
                         </button>
