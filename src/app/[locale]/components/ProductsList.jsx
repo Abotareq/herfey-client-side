@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useGetAllProducts } from "../../../service/product";
 import Breadcrumbs from "./Breadcrumbs";
 import { useStoreContext } from "@/app/context/StoreContext";
+import { useCategoryContext } from "@/app/context/categoryContext";
 import ProductCard from "./PrductCard";
 
 function ProductsList() {
@@ -18,18 +19,19 @@ function ProductsList() {
     limit: 6,
     ...selectedFilters,
   });
- 
+
   const { customerStoreId, setCustomerStoreId } = useStoreContext();
+  const { category, setCategory } = useCategoryContext(); // Use category context
   const t = useTranslations("products");
   const router = useRouter();
-  const t1 = useTranslations("productFilter")
+  const t1 = useTranslations("productFilter");
 
   // useEffect to handle customerStoreId from context
   useEffect(() => {
     if (customerStoreId) {
-      setSelectedFilters(prev => ({
+      setSelectedFilters((prev) => ({
         ...prev,
-        storeId: customerStoreId
+        storeId: customerStoreId,
       }));
     }
 
@@ -38,6 +40,21 @@ function ProductsList() {
       setCustomerStoreId(null);
     };
   }, [customerStoreId, setCustomerStoreId]);
+
+  // useEffect to handle category from context
+  useEffect(() => {
+    if (category) {
+      setSelectedFilters((prev) => ({
+        ...prev,
+        categoryId: category._id,
+      }));
+    }
+
+    // Cleanup function to clear category when component is destroyed
+    return () => {
+      setCategory(null);
+    };
+  }, [category, setCategory]);
 
   if (isLoading) {
     return (
@@ -159,28 +176,63 @@ function ProductsList() {
   // Helper function to get all unique stores from products
   const getStoreFilters = (products) => {
     const storeMap = new Map();
-    
+
     products.forEach((product, index) => {
       // Debug logging
       console.log(`Product ${index}:`, {
         productName: product.name,
         storeId: product.store?._id,
         storeName: product.store?.name,
-        hasStore: !!product.store
+        hasStore: !!product.store,
       });
-      
+
       if (product.store && product.store._id && product.store.name) {
         if (!storeMap.has(product.store._id)) {
           storeMap.set(product.store._id, product.store.name);
-          console.log(`Added store: ${product.store.name} (ID: ${product.store._id})`);
+          console.log(
+            `Added store: ${product.store.name} (ID: ${product.store._id})`
+          );
         }
       }
     });
-    
-    const storeList = Array.from(storeMap.entries()).map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name));
-    console.log('Final store list:', storeList);
-    
+
+    const storeList = Array.from(storeMap.entries())
+      .map(([id, name]) => ({ id, name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    console.log("Final store list:", storeList);
+
     return storeList;
+  };
+
+  // Helper function to get all unique categories from products
+  const getCategoryFilters = (products) => {
+    const categoryMap = new Map();
+
+    products.forEach((product, index) => {
+      // Debug logging
+      console.log(`Product ${index}:`, {
+        productName: product.name,
+        categoryId: product.category?._id,
+        categoryName: product.category?.name,
+        hasCategory: !!product.category,
+      });
+
+      if (product.category && product.category._id && product.category.name) {
+        if (!categoryMap.has(product.category._id)) {
+          categoryMap.set(product.category._id, product.category.name);
+          console.log(
+            `Added category: ${product.category.name} (ID: ${product.category._id})`
+          );
+        }
+      }
+    });
+
+    const categoryList = Array.from(categoryMap.entries())
+      .map(([id, name]) => ({ id, name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    console.log("Final category list:", categoryList);
+
+    return categoryList;
   };
 
   // Helper function to get all unique variant names and their options from ALL products
@@ -260,9 +312,19 @@ function ProductsList() {
         return false;
       }
 
+      // Check category filter
+      if (filters.categoryId && product.category?._id !== filters.categoryId) {
+        return false;
+      }
+
       // Check variant filters
       for (const [filterKey, filterValue] of Object.entries(filters)) {
-        if (!filterValue || filterKey === 'storeId') continue;
+        if (
+          !filterValue ||
+          filterKey === "storeId" ||
+          filterKey === "categoryId"
+        )
+          continue;
 
         const hasMatchingVariant = product.variants?.some((variant) => {
           if (variant.isDeleted) return false;
@@ -297,26 +359,29 @@ function ProductsList() {
   // Get store options for dropdown
   const storeOptions = getStoreFilters(products);
 
+  // Get category options for dropdown
+  const categoryOptions = getCategoryFilters(products);
+
   return (
     <div className="">
       <Breadcrumbs className="text-center" />
       <div className="flex">
         <aside className="w-64 p-4 border-r border-gray-200">
-          <h3 className="font-semibold mb-4">{t1('filter')}</h3>
+          <h3 className="font-semibold mb-4">{t1("filter")}</h3>
 
           {/* Sort Options */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">{t1('sort')}</label>
+            <label className="block mb-1 font-medium">{t1("sort")}</label>
             <select
               className="w-full border rounded-md p-2 text-sm"
               value={sortBy || ""}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="">{t1('default')}</option>
-              <option value="price-high">{t1('highestprice')}</option>
-              <option value="price-low">{t1('lowestprice')}</option>
-              <option value="rating">{t1('highestrate')}</option>
-              <option value="sold">{t1('mostsold')}</option>
+              <option value="">{t1("default")}</option>
+              <option value="price-high">{t1("highestprice")}</option>
+              <option value="price-low">{t1("lowestprice")}</option>
+              <option value="rating">{t1("highestrate")}</option>
+              <option value="sold">{t1("mostsold")}</option>
             </select>
           </div>
 
@@ -324,16 +389,33 @@ function ProductsList() {
 
           {/* Store Filter */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">{t1('store')}</label>
+            <label className="block mb-1 font-medium">{t1("store")}</label>
             <select
               className="w-full border rounded-md p-2 text-sm"
               value={selectedFilters.storeId || ""}
               onChange={(e) => handleFilter("storeId", e.target.value)}
             >
-              <option value="">{t1('allstores')}</option>
+              <option value="">{t1("allstores")}</option>
               {storeOptions.map((store) => (
                 <option key={store.id} value={store.id}>
                   {store.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Category Filter */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">{"Category"}</label>
+            <select
+              className="w-full border rounded-md p-2 text-sm"
+              value={selectedFilters.categoryId || ""}
+              onChange={(e) => handleFilter("categoryId", e.target.value)}
+            >
+              <option value="">{"All Categories"}</option>
+              {categoryOptions.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
                 </option>
               ))}
             </select>
@@ -368,11 +450,12 @@ function ProductsList() {
             onClick={() => {
               setSelectedFilters({});
               setSortBy("");
-              // Clear the customerStoreId context
+              // Clear both contexts
               setCustomerStoreId(null);
+              setCategory(null);
             }}
           >
-            {t1('clear')}
+            {t1("clear")}
           </button>
         </aside>
 

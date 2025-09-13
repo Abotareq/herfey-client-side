@@ -12,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 import { StoreProvider } from "../context/StoreContext";
 import { CheckoutProvider } from "../context/CheckoutContext";
 import { FavouriteContext } from "../context/FavouriteContext";
+import { CategoryProvider } from "../context/categoryContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,26 +55,28 @@ export default async function RootLayout({ params, children }) {
           <Providers>
             <AuthProvider>
               <StoreProvider>
-                <CheckoutProvider>
-                  <RouteGuard>
-                    <FavouriteContext>
-                      <Toaster
-                        position={"top-right"}
-                        toastOptions={{
-                          success: {
-                            duration: 3000,
-                          },
-                          error: {
-                            duration: 5000,
-                          },
-                        }}
-                      />
-                      <ConditionalLayout locale={resolvedParams.locale}>
-                        {children}
-                      </ConditionalLayout>
-                    </FavouriteContext>
-                  </RouteGuard>
-                </CheckoutProvider>
+                <CategoryProvider>
+                  <CheckoutProvider>
+                    <RouteGuard>
+                      <FavouriteContext>
+                        <Toaster
+                          position={"top-right"}
+                          toastOptions={{
+                            success: {
+                              duration: 3000,
+                            },
+                            error: {
+                              duration: 5000,
+                            },
+                          }}
+                        />
+                        <ConditionalLayout locale={resolvedParams.locale}>
+                          {children}
+                        </ConditionalLayout>
+                      </FavouriteContext>
+                    </RouteGuard>
+                  </CheckoutProvider>
+                </CategoryProvider>
               </StoreProvider>
             </AuthProvider>
           </Providers>

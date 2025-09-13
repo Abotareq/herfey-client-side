@@ -22,6 +22,7 @@ export default function TopRatedProducts() {
     );
 
   const products = data?.products || [];
+  console.log("All products:", products);
   let topRatedProducts = products
     .filter((product) => product.averageRating)
     .sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
