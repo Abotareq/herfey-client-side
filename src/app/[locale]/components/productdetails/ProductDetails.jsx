@@ -41,36 +41,36 @@ function ProductDetails({ id }) {
 
   useEffect(() => {
     if (!authLoading && user?.id) {
-      setUserId(user.id);
+      setUserId(user?.id);
     }
   }, [authLoading, user]);
 
   useEffect(() => {
     if (userData?.data?.user?.wishlist) {
-      setWishlist(userData.data.user.wishlist);
-      console.log("Wishlist set to:", userData.data.user.wishlist);
+      setWishlist(userData?.data?.user?.wishlist);
+      console.log("Wishlist set to:", userData?.data?.user?.wishlist);
     } else {
       setWishlist([]);
     }
   }, [userData]);
 
   const isProductInWishlist = (productId) =>
-    wishlist?.some((item) => item._id === productId) ?? false;
+    wishlist?.some((item) => item?._id === productId) ?? false;
 
   const toggleWishlist = (productId) => {
     if (!user) return;
 
     const isCurrentlyInWishlist = isProductInWishlist(productId);
     const newWishlist = isCurrentlyInWishlist
-      ? wishlist.filter((item) => item._id !== productId)
+      ? wishlist.filter((item) => item?._id !== productId)
       : [...wishlist, { _id: productId }];
 
     setWishlist(newWishlist);
 
-    const wishlistIds = newWishlist.map((item) => item._id);
+    const wishlistIds = newWishlist.map((item) => item?._id);
 
     updateUser.mutate(
-      { userId: user.id, wishlist: wishlistIds },
+      { userId: user?.id, wishlist: wishlistIds },
       {
         onSuccess: (data) => {
           toast.success(
@@ -134,7 +134,7 @@ function ProductDetails({ id }) {
         product: product,
         quantity,
         variant: formattedVariants,
-        price: product.basePrice,
+        price: product?.basePrice,
       };
       addToGuestCart(item);
       if (typeof window !== "undefined") {
@@ -150,11 +150,11 @@ function ProductDetails({ id }) {
     product.images,
   ].filter(Boolean);
  */
-  const productImages = product.images.map((img) => img).filter(Boolean);
+  const productImages = product?.images.map((img) => img).filter(Boolean);
   const isDisabled =
-    (product.variants?.some((e) => e.name.toLowerCase() === "color") &&
+    (product?.variants?.some((e) => e.name.toLowerCase() === "color") &&
       !selectColor) ||
-    (product.variants?.some((i) => i.name.toLowerCase() === "size") &&
+    (product?.variants?.some((i) => i.name.toLowerCase() === "size") &&
       !selectSize);
 
   return (
@@ -168,8 +168,8 @@ function ProductDetails({ id }) {
                 <div className="relative">
                   <div className="w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg mb-6">
                     <img
-                      src={productImages[selectedImage] || product.images[0]}
-                      alt={product.name}
+                      src={productImages[selectedImage] || product?.images[0]}
+                      alt={product?.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   </div>
@@ -198,14 +198,14 @@ function ProductDetails({ id }) {
                 <div className="space-y-6">
                   <div>
                     <div className="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4">
-                      {product.category?.name || "Product"}
+                      {product?.category?.name || "Product"}
                     </div>
                     <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                      {product.name}
+                      {product?.name}
                     </h1>
-                    <p className="text-gray-600 text-lg mt-2">{product.slug}</p>
+                    <p className="text-gray-600 text-lg mt-2">{product?.slug}</p>
                   </div>
-                  {product.variants
+                  {product?.variants
                     ?.filter(
                       (variant) => variant.name.toLowerCase() === "color"
                     )
@@ -223,7 +223,7 @@ function ProductDetails({ id }) {
                           <option value="" disabled>
                             {t("colorq")}
                           </option>
-                          {variant.options?.map((option) => (
+                          {variant?.options?.map((option) => (
                             <option key={option._id} value={option.value}>
                               {option.value}
                             </option>
@@ -232,7 +232,7 @@ function ProductDetails({ id }) {
                       </div>
                     ))}
                   {product.variants
-                    ?.filter((variant) => variant.name.toLowerCase() === "size")
+                    ?.filter((variant) => variant?.name?.toLowerCase() === "size")
                     .map((variant) => (
                       <div key={variant._id} className="mb-3">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -247,7 +247,7 @@ function ProductDetails({ id }) {
                           <option value="" disabled>
                             {t("sizeq")}
                           </option>
-                          {variant.options?.map((option) => (
+                          {variant?.options?.map((option) => (
                             <option key={option._id} value={option.value}>
                               {option.value}
                             </option>
@@ -288,22 +288,22 @@ function ProductDetails({ id }) {
                       ))}
                     </div>
                     <span className="text-gray-700 font-medium">
-                      {product.averageRating || "4.0"} (
-                      {product.reviewCount || "127"} {t("review")})
+                      {product?.averageRating || "4.0"} (
+                      {product?.reviewCount || "127"} {t("review")})
                     </span>
                   </div>
                   <div className="flex items-center space-x-4">
                     <span className="text-4xl font-bold text-gray-900">
                       ${finalPrice.toFixed(2)}
                     </span>
-                    {product.discountPrice && (
+                    {product?.discountPrice && (
                       <span className="text-2xl text-gray-500 line-through">
-                        ${product.discountPrice}
+                        ${product?.discountPrice}
                       </span>
                     )}
                     {finalPrice !== product.basePrice * quantity && (
                       <span className="text-lg text-gray-600">
-                        (Base: ${(product.basePrice * quantity).toFixed(2)})
+                        (Base: ${(product?.basePrice * quantity).toFixed(2)})
                       </span>
                     )}
                   </div>
@@ -312,7 +312,7 @@ function ProductDetails({ id }) {
                       {t("desc")}:{" "}
                     </h3>
                     <p className="text-gray-700 leading-relaxed">
-                      {product.description ||
+                      {product?.description ||
                         "This is a premium quality product designed with attention to detail and crafted for excellence."}
                     </p>
                   </div>
@@ -322,12 +322,12 @@ function ProductDetails({ id }) {
                     </span>
                     <span
                       className={`px-4 py-2 rounded-full text-sm font-medium ${
-                        product.status === "approved"
+                        product?.status === "approved"
                           ? "bg-green-100 text-green-800"
                           : "bg-red-100 text-red-800"
                       }`}
                     >
-                      {product.status || "Available"}
+                      {product?.status || "Available"}
                     </span>
                   </div>
                   <div className="space-y-3">
@@ -411,7 +411,7 @@ function ProductDetails({ id }) {
                         <AlertDialogHeader>
                           <AlertDialogTitle>{t("cart")}</AlertDialogTitle>
                           <AlertDialogDescription>
-                            {t("cartq")} <b>{product.name}</b> (x{quantity})
+                            {t("cartq")} <b>{product?.name}</b> (x{quantity})
                             with:{" "}
                             {Object.entries(selectedVariants)
                               .map(([name, value]) => `${name}: ${value}`)
