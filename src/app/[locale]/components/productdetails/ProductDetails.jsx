@@ -74,14 +74,14 @@ function ProductDetails({ id }) {
       {
         onSuccess: (data) => {
           toast.success(
-            isCurrentlyInWishlist ? t("producrremoved") : t("productadded")
+            isCurrentlyInWishlist ? t("producrremoved") : t("productadded"),
           );
         },
         onError: (error) => {
           toast.error("Wishlist update failed:", error);
           setWishlist(wishlist); // Revert on error
         },
-      }
+      },
     );
   };
 
@@ -119,7 +119,7 @@ function ProductDetails({ id }) {
 
   const handleAddToCart = () => {
     const formattedVariants = Object.entries(selectedVariants).map(
-      ([name, value]) => ({ name, value })
+      ([name, value]) => ({ name, value }),
     );
 
     if (user) {
@@ -150,7 +150,8 @@ function ProductDetails({ id }) {
     product.images,
   ].filter(Boolean);
  */
-  const productImages = product?.images.map((img) => img).filter(Boolean);
+  const productImages =
+    product?.images?.map((img) => img).filter(Boolean) || [];
   const isDisabled =
     (product?.variants?.some((e) => e.name.toLowerCase() === "color") &&
       !selectColor) ||
@@ -203,11 +204,13 @@ function ProductDetails({ id }) {
                     <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                       {product?.name}
                     </h1>
-                    <p className="text-gray-600 text-lg mt-2">{product?.slug}</p>
+                    <p className="text-gray-600 text-lg mt-2">
+                      {product?.slug}
+                    </p>
                   </div>
                   {product?.variants
                     ?.filter(
-                      (variant) => variant.name.toLowerCase() === "color"
+                      (variant) => variant.name.toLowerCase() === "color",
                     )
                     .map((variant) => (
                       <div key={variant._id} className="mb-3">
@@ -232,7 +235,9 @@ function ProductDetails({ id }) {
                       </div>
                     ))}
                   {product.variants
-                    ?.filter((variant) => variant?.name?.toLowerCase() === "size")
+                    ?.filter(
+                      (variant) => variant?.name?.toLowerCase() === "size",
+                    )
                     .map((variant) => (
                       <div key={variant._id} className="mb-3">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -442,8 +447,8 @@ function ProductDetails({ id }) {
                           {updateUser.isPending
                             ? t("loading")
                             : isFav
-                            ? t("removefav")
-                            : t("addtofav")}
+                              ? t("removefav")
+                              : t("addtofav")}
                         </span>
                       </button>
                     )}
