@@ -164,7 +164,7 @@ function ProductsList() {
 
   const products = data?.products || [];
   const totalPages = data?.totalPages || 1;
-  console.log("Fetched products:", products);
+ // console.log("Fetched products:", products);
   const handleFilter = (item, value) => {
     setSelectedFilters((prev) => ({
       ...prev,
