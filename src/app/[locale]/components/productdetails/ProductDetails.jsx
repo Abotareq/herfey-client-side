@@ -150,8 +150,10 @@ function ProductDetails({ id }) {
     product.images,
   ].filter(Boolean);
  */
-  const productImages =
-    product?.images?.map((img) => img).filter(Boolean) || [];
+
+const productImages = Array.isArray(product?.images) 
+  ? product.images.filter(Boolean) 
+  : [];
   const isDisabled =
     (product?.variants?.some((e) => e.name.toLowerCase() === "color") &&
       !selectColor) ||
@@ -168,11 +170,11 @@ function ProductDetails({ id }) {
               <div className="w-full lg:w-1/2 p-6">
                 <div className="relative">
                   <div className="w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg mb-6">
-                    <img
-                      src={productImages[selectedImage] || product?.images[0]}
-                      alt={product?.name}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                    />
+                   <img
+  src={productImages[selectedImage] || productImages[0] || '/placeholder.png'}
+  alt={product?.name}
+  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+/>
                   </div>
                   <div className="flex gap-4 justify-center">
                     {productImages.map((image, index) => (
