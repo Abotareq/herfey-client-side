@@ -1193,5 +1193,13 @@
     "home": "Home",
     "support": "Support",
     "supportmessage": "Need help? Contact our support team for assistance with your payment."
+  },
+  "emptyProducts": {
+    "title": "Nothing here yet",
+    "titleCategory": "No {category} products yet",
+    "desc": "No products match these filters. Try clearing them, or browse the rest of the collection.",
+    "descCategory": "Our artisans haven't listed anything in this category yet. Check back soon, or explore the other collections.",
+    "clear": "Clear filters",
+    "browse": "Browse categories"
   }
 }

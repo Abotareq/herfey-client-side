@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "use-intl";
-import NotFoundPage from "./NotFoundComponent";
+import EmptyProducts from "./EmptyProducts";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useGetAllProducts } from "../../../service/product";
@@ -139,6 +139,14 @@ function ProductsList() {
   const products = data?.products || [];
   const totalPages = data?.totalPages || 1;
  // console.log("Fetched products:", products);
+  const clearAllFilters = () => {
+    setSelectedFilters({});
+    setSortBy("");
+    // Clear both contexts
+    setCustomerStoreId(null);
+    setCategory(null);
+  };
+
   const handleFilter = (item, value) => {
     setSelectedFilters((prev) => ({
       ...prev,
@@ -421,13 +429,7 @@ function ProductsList() {
           {/* Clear Filters Button */}
           <button
             className="w-full bg-gray-100 hover:bg-gray-200 border rounded-md p-2 text-sm transition-colors mt-4"
-            onClick={() => {
-              setSelectedFilters({});
-              setSortBy("");
-              // Clear both contexts
-              setCustomerStoreId(null);
-              setCategory(null);
-            }}
+            onClick={clearAllFilters}
           >
             {t1("clear")}
           </button>
@@ -441,7 +443,14 @@ function ProductsList() {
                 <ProductCard key={product._id} product={product} />
               ))
             ) : (
-              <NotFoundPage />
+              <EmptyProducts
+                categoryName={category?.name}
+                onClear={
+                  Object.keys(selectedFilters).length > 0 || category || customerStoreId
+                    ? clearAllFilters
+                    : undefined
+                }
+              />
             )}
           </section>
 
