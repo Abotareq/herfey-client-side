@@ -4,6 +4,7 @@ import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { RefreshCw } from "lucide-react";
+import { CategoryTileSkeleton } from "./CategorySkeleton";
 import NotFoundPage from "./NotFoundComponent";
 import image2 from '@public/5.jpg'
 
@@ -143,14 +144,3 @@ function CategoryTilesFrame({ title, children }) {
   );
 }
 
-/** Same box as a category tile: image block plus a centred title line. */
-function CategoryTileSkeleton() {
-  return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md" aria-hidden="true">
-      <div className="skeleton h-64 w-full rounded-none" />
-      <div className="p-6 flex justify-center">
-        <div className="skeleton h-5 w-1/2" />
-      </div>
-    </div>
-  );
-}

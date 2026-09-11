@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
-import SkeletonLoader from "../components/SkeltonLoader";
+import { CategoryGridSkeleton } from "../components/CategorySkeleton";
 import NotFoundPage from "../components/NotFoundComponent";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useTranslations } from "use-intl";
@@ -17,7 +17,7 @@ function CategoryLinks() {
   // Get all categories using the service hook
   const {
     data: categories,
-    isLoading: loadingList,
+    isPending: loadingList,
     error: categoriesError,
   } = useGetAllCategories();
 
@@ -29,7 +29,14 @@ function CategoryLinks() {
   } = useGetCategoryById(selectedId);
 
   // Handle loading state for categories
-  if (loadingList) return <SkeletonLoader />;
+  if (loadingList) {
+    return (
+      <div>
+        <Breadcrumbs />
+        <CategoryGridSkeleton count={6} />
+      </div>
+    );
+  }
 
   // Handle error state for categories
   if (categoriesError)
