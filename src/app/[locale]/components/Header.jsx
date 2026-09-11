@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { useCartCount, useWishlistCount } from "@/hooks/useNavCounts";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(routing.defaultLocale);
@@ -16,6 +17,8 @@ export default function Header() {
   const t = useTranslations("Navbar");
   const t2 = useTranslations("Herafy");
   const { mutate: signOut, isLoading } = useSignOut();
+  const cartCount = useCartCount();
+  const wishlistCount = useWishlistCount();
 
   const handleSignOut = () => {
     console.log("Signing out...");
@@ -64,15 +67,29 @@ export default function Header() {
                 <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
               </button> */}
               {user &&
-                <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
+                <button className="relative p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
                   onClick={() => router.push(`/${currentLocale}/fav`)}
+                  aria-label={`Wishlist, ${wishlistCount} items`}
                 >
-                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                  {/* filled + red once anything is saved; outline grey when empty */}
+                  <Heart
+                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
+                      wishlistCount > 0 ? "fill-red-500 text-red-500" : "text-gray-600"
+                    }`}
+                  />
+                  {wishlistCount > 0 && <CountBadge count={wishlistCount} tone="red" />}
                 </button>
               }
               <button onClick={() => router.push(`/${currentLocale}/cart`)}
-                className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                className="relative p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
+                aria-label={`Cart, ${cartCount} items`}
+              >
+                <ShoppingCart
+                  className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
+                    cartCount > 0 ? "text-orange-600" : "text-gray-600"
+                  }`}
+                />
+                {cartCount > 0 && <CountBadge count={cartCount} tone="orange" />}
               </button>
             </div>
             {/* Center - Logo (Hidden on sm and below) */}
@@ -206,7 +223,7 @@ export default function Header() {
                     href={`/${currentLocale}${item.href}`}
                     className={`py-2 px-3 rounded-md text-sm font-medium transition-colors ${isActive(`/${currentLocale}${item.href}`)
                         ? "bg-orange-600 text-white"
-                        : "text-gray-700 hover:bg-emerald-100 hover:text-emerald-600"
+                        : "text-gray-700 hover:bg-green-100 hover:text-green-600"
                       }`}
                   >
                     {t(item.name)}
@@ -218,5 +235,19 @@ export default function Header() {
         </div>
       </div>
     </header>
+  );
+}
+
+
+// small pill in the icon's corner
+function CountBadge({ count, tone }) {
+  const color = tone === "red" ? "bg-red-500" : "bg-orange-600";
+  return (
+    <span
+      className={`absolute -top-0.5 -right-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[10px] font-bold leading-none text-white ring-2 ring-white ${color}`}
+      aria-hidden="true"
+    >
+      {count > 99 ? "99+" : count}
+    </span>
   );
 }

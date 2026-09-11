@@ -241,7 +241,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
   const getStatusBadge = (status) => {
     const statusClasses = {
       delivered: 'bg-green-100 text-green-800',
-      shipped: 'bg-blue-100 text-blue-800',
+      shipped: 'bg-orange-100 text-orange-800',
       processing: 'bg-orange-100 text-orange-800',
       pending: 'bg-gray-100 text-gray-800',
       cancelled: 'bg-red-100 text-red-800',
@@ -431,7 +431,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                         </div>
                       </div>
 
-                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 space-y-4 border border-green-200">
+                      <div className="bg-gradient-to-br from-green-50 to-green-50 rounded-2xl p-6 space-y-4 border border-green-200">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
                           <Shield className="w-5 h-5 text-green-500" />
                           {t('storeploicies')}
@@ -808,12 +808,12 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       </div>
                     </div>
 
-                    <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 text-white">
+                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-purple-100 text-sm font-medium">{t('active')}</p>
+                          <p className="text-orange-100 text-sm font-medium">{t('active')}</p>
                           <p className="text-3xl font-bold">{analytics.activeProducts}</p>
-                          <p className="text-purple-100 text-sm">{t('totslinvetory')}</p>
+                          <p className="text-orange-100 text-sm">{t('totslinvetory')}</p>
                         </div>
                         <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                           <Package className="w-6 h-6" />
@@ -835,7 +835,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                               <div className="flex items-center gap-3">
                                 <div className={`w-3 h-3 rounded-full ${
                                   status === 'delivered' ? 'bg-green-500' :
-                                  status === 'shipped' ? 'bg-blue-500' :
+                                  status === 'shipped' ? 'bg-orange-500' :
                                   status === 'processing' ? 'bg-orange-500' :
                                   status === 'cancelled' ? 'bg-red-500' : 'bg-gray-500'
                                 }`}></div>
@@ -943,18 +943,18 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           <label className="block text-sm font-medium text-gray-700">{t('quickactions')}</label>
                           <div className="flex flex-wrap gap-3">
                             <button 
-                              className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center gap-2"
+                              className="px-4 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors flex items-center gap-2"
                               onClick={() => {
                                 refetchProducts();
                                 refetchOrders();
                                 toast.success(t('storedata'), {
                                   style: {
-                                    border: '1px solid #3B82F6',
+                                    border: '1px solid #ea580c',
                                     padding: '16px',
                                     color: '#000000',
                                   },
                                   iconTheme: {
-                                    primary: '#3B82F6',
+                                    primary: '#ea580c',
                                     secondary: '#FFFFFF',
                                   },
                                 })
@@ -987,7 +987,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200 rounded-2xl p-6">
+                    <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-2xl p-6">
                       <h4 className="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2">
                         <AlertCircle className="w-5 h-5" />
                         {t('dangerzone')}

@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProductPageSkeleton = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
           <div className="flex flex-wrap">

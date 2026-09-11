@@ -91,9 +91,9 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 hover:from-blue-100 hover:to-blue-150 transition-all duration-300">
+    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 hover:from-orange-100 hover:to-orange-150 transition-all duration-300">
       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-        <CreditCard className="w-4 h-4 text-blue-600" />
+        <CreditCard className="w-4 h-4 text-orange-600" />
         {t("cridit")}
       </h4>
       <div className="flex flex-col gap-3">
@@ -123,7 +123,7 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
         {order.status !== "delivered" && order.status !== "cancelled" && (
           <Button
             size="sm"
-            className="w-full justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition-all duration-200 hover:shadow-md hover:scale-105"
+            className="w-full justify-center gap-2 bg-orange-600 hover:bg-orange-700 transition-all duration-200 hover:shadow-md hover:scale-105"
             onClick={() => handleStatusUpdate(getNextStatus(order.status))}
             disabled={updateStatus.isPending}
           >
@@ -387,8 +387,8 @@ const CODOrderActions = ({
         )}
 
         {order.status === "processing" && (
-          <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
-            <div className="flex items-center gap-2 text-blue-700 text-xs font-medium">
+          <div className="p-2 bg-orange-50 border border-orange-200 rounded-lg">
+            <div className="flex items-center gap-2 text-orange-700 text-xs font-medium">
               <Package className="w-3 h-3" />
               {t("processing")}
             </div>
@@ -396,8 +396,8 @@ const CODOrderActions = ({
         )}
 
         {order.status === "shipped" && (
-          <div className="p-2 bg-purple-50 border border-purple-200 rounded-lg">
-            <div className="flex items-center gap-2 text-purple-700 text-xs font-medium">
+          <div className="p-2 bg-orange-50 border border-orange-200 rounded-lg">
+            <div className="flex items-center gap-2 text-orange-700 text-xs font-medium">
               <Truck className="w-3 h-3" />
               {t("shipped")}
             </div>
@@ -405,8 +405,8 @@ const CODOrderActions = ({
         )}
 
         {order.status === "delivered" && (
-          <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
-            <div className="flex items-center gap-2 text-blue-700 text-xs font-medium">
+          <div className="p-2 bg-orange-50 border border-orange-200 rounded-lg">
+            <div className="flex items-center gap-2 text-orange-700 text-xs font-medium">
               <CheckCircle className="w-3 h-3" />
               {t("delivered")}
             </div>
@@ -485,16 +485,16 @@ export default function OrdersSection() {
       hover: "hover:bg-green-100",
     },
     processing: {
-      color: "bg-blue-50 text-blue-700 border-blue-200",
+      color: "bg-orange-50 text-orange-700 border-orange-200",
       icon: Package,
-      badge: "bg-blue-100 text-blue-800",
-      hover: "hover:bg-blue-100",
+      badge: "bg-orange-100 text-orange-800",
+      hover: "hover:bg-orange-100",
     },
     shipped: {
-      color: "bg-purple-50 text-purple-700 border-purple-200",
+      color: "bg-orange-50 text-orange-700 border-orange-200",
       icon: Truck,
-      badge: "bg-purple-100 text-purple-800",
-      hover: "hover:bg-purple-100",
+      badge: "bg-orange-100 text-orange-800",
+      hover: "hover:bg-orange-100",
     },
     delivered: {
       color: "bg-green-50 text-green-700 border-green-200",
@@ -615,13 +615,13 @@ export default function OrdersSection() {
         {/* Search and Filter Bar */}
         <div className="mt-6 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1 group">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-orange-500 transition-colors duration-200" />
             <input
               type="text"
               placeholder="Search by order ID or customer name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-300 bg-white shadow-sm"
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-300 bg-white shadow-sm"
             />
           </div>
 
@@ -631,7 +631,7 @@ export default function OrdersSection() {
               setStatusFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
+            className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
           >
             <option value="all">{t("all")}</option>
             <option value="pending">{t("pendings")}</option>
@@ -648,7 +648,7 @@ export default function OrdersSection() {
               setPaymentMethodFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
+            className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
           >
             <option value="all">{t("allpayment")}</option>
             <option value="credit_card">{t("creditcard")}</option>
@@ -703,11 +703,11 @@ export default function OrdersSection() {
                 <p className="text-sm font-medium text-gray-600 mb-1">
                   {t("criditcardorders")}
                 </p>
-                <p className="text-3xl font-bold text-blue-600">
+                <p className="text-3xl font-bold text-orange-600">
                   {orders.filter((order) => isCreditCardOrder(order)).length}
                 </p>
               </div>
-              <div className="p-3 rounded-xl bg-blue-50 text-blue-600">
+              <div className="p-3 rounded-xl bg-orange-50 text-orange-600">
                 <CreditCard className="w-6 h-6" />
               </div>
             </div>
@@ -787,7 +787,7 @@ export default function OrdersSection() {
                               </span>
                             )}
                             {isCreditCardOrder && (
-                              <span className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
+                              <span className="flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
                                 <CreditCard className="w-3 h-3" />
                                 {t("card")}
                               </span>

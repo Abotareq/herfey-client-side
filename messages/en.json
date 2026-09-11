@@ -223,7 +223,6 @@
     "desc4": "Ready to answer all inquires",
     "desc5": "We will deliver to your doorstep wherever you are within 3 to 7 days"
   },
-
   "customer": {
     "title": "Personal Information",
     "username": "Username",
@@ -561,10 +560,15 @@
     "guestcart": "Item added to guest cart!",
     "productcreated": "Product created successfully!",
     "productfail": "Failed to create product:",
-    "Adding": "Adding..."
+    "Adding": "Adding...",
+    "retry": "Try again"
   },
-
   "productreview": {
+    "1": "1 Star",
+    "2": "2 Stars",
+    "3": "3 Stars",
+    "4": "4 Stars",
+    "5": "5 Stars",
     "customer_reviews": "Customer Review",
     "see_what_customers_say": "Customer reviews and feedback",
     "new": "Newest First",
@@ -573,11 +577,6 @@
     "low": "Lowest Rated",
     "helpful": "Most Helpful",
     "all": "All Ratings",
-    "5": "5 Stars",
-    "4": "4 Stars",
-    "3": "3 Stars",
-    "2": "2 Stars",
-    "1": "1 Star",
     "write": "Write Review",
     "login": "login to write a review",
     "rating": "Rating",
@@ -824,7 +823,9 @@
     "postrequire": "Postal Code is required",
     "countryrequire": "Country is required",
     "Egypt": "Egypt",
-    "goback": "← Go Back to Cart"
+    "goback": "← Go Back to Cart",
+    "noaddress": "You have no saved address yet.",
+    "addaddress": "Add one in your profile"
   },
   "CheckoutStep2": {
     "profileaddress": "Profile Address",
@@ -1180,14 +1181,14 @@
     "contactsupport": "Contact Support"
   },
   "PaymentFailedPage": {
-    "Paymentfailed": "Payment Failed",
-    "paymentfaileddesc": "Transaction could not be completed",
-    "payentfailedmessage": "Your payment was not completed successfully. This could be due to insufficient funds, network issues, or the transaction was cancelled.",
-    "commonreason": "Common reasons",
     "1": "Insufficient account balance",
     "2": "Network connection issues",
     "3": "Payment method declined",
     "4": "Transaction was cancelled",
+    "Paymentfailed": "Payment Failed",
+    "paymentfaileddesc": "Transaction could not be completed",
+    "payentfailedmessage": "Your payment was not completed successfully. This could be due to insufficient funds, network issues, or the transaction was cancelled.",
+    "commonreason": "Common reasons",
     "tryagain": "Try Again",
     "home": "Home",
     "support": "Support",

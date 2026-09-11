@@ -333,7 +333,7 @@ function AuthenticatedCart() {
                         <div className="flex items-center gap-2 ml-4">
                           <button
                             type="button"
-                            className="p-2 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-50 transition-all duration-200 transform hover:scale-110"
+                            className="p-2 rounded-lg text-gray-400 hover:text-orange-500 hover:bg-orange-50 transition-all duration-200 transform hover:scale-110"
                             title="Add to wishlist"
                           >
                             <svg

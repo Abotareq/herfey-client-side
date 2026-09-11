@@ -47,15 +47,15 @@ const Icons = {
     X: (p) => <svg {...p} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>,
     Alert: (p) => <svg {...p} fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>,
     Loader: (p) => <svg {...p} className="animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>,
-    Upload: (p) => <svg {...p} className="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>,
+    Upload: (p) => <svg {...p} className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>,
     Check: (p) => <svg {...p} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"></path></svg>,
 };
 
 
 // --- Reusable Class Strings & Helper Components  ---
-const getErrorClass = (hasError) => hasError ? 'border-red-500 ring-red-500/50' : 'border-slate-200 focus:border-orange-500 focus:ring-orange-500';
-const inputClass = (hasError) => `block w-full px-4 py-3 text-base bg-white/80 border text-slate-900 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 placeholder:text-slate-400 ${getErrorClass(hasError)}`;
-const labelClass = "block text-sm font-semibold text-slate-700 mb-2";
+const getErrorClass = (hasError) => hasError ? 'border-red-500 ring-red-500/50' : 'border-gray-200 focus:border-orange-500 focus:ring-orange-500';
+const inputClass = (hasError) => `block w-full px-4 py-3 text-base bg-white/80 border text-gray-900 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 placeholder:text-gray-400 ${getErrorClass(hasError)}`;
+const labelClass = "block text-sm font-semibold text-gray-700 mb-2";
 const requiredStar = <span className="text-red-500 ml-1">*</span>;
 const FormError = ({ message }) => <p className="mt-2 text-sm text-red-600 flex items-center gap-1.5"><Icons.Alert className="w-4 h-4" />{message}</p>;
 
@@ -68,7 +68,7 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors, t }) => { 
     return (
         <div className="space-y-4">
             {fields.map((option, optionIndex) => (
-                <div key={option.id} className="relative bg-slate-50/50 rounded-lg border border-slate-200/80 p-4 group">
+                <div key={option.id} className="relative bg-gray-50/50 rounded-lg border border-gray-200/80 p-4 group">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className={labelClass}>{t('value')}{requiredStar}</label>
@@ -91,7 +91,7 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors, t }) => { 
                         </div>
                     </div>
                      {fields.length > 1 && (
-                        <button type="button" onClick={() => remove(optionIndex)} className="absolute -top-2 -right-2 p-1.5 text-slate-500 bg-white/80 border border-slate-200 rounded-full transition-all opacity-0 group-hover:opacity-100 hover:bg-red-100 hover:text-red-600 hover:scale-110"><Icons.X className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => remove(optionIndex)} className="absolute -top-2 -right-2 p-1.5 text-gray-500 bg-white/80 border border-gray-200 rounded-full transition-all opacity-0 group-hover:opacity-100 hover:bg-red-100 hover:text-red-600 hover:scale-110"><Icons.X className="w-4 h-4" /></button>
                      )}
                 </div>
             ))}
@@ -180,17 +180,17 @@ export default function CreateProductForm() {
 
     if (loading) {
         return (
-            <div className="fixed inset-0 bg-slate-100 z-50 flex items-center justify-center">
+            <div className="fixed inset-0 bg-gray-100 z-50 flex items-center justify-center">
                 <div className="flex items-center space-x-4">
                     <Icons.Loader className="w-10 h-10 text-orange-500" />
-                    <span className="text-slate-600 font-medium">{t('loading')}</span>
+                    <span className="text-gray-600 font-medium">{t('loading')}</span>
                 </div>
             </div>
         );
     }
     
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
             <div className="max-w-6xl mx-auto">
                 <header className="sticky top-4 z-40 bg-white/25 backdrop-blur-md rounded-2xl shadow-lg mb-8 border border-white/30">
                     <div className="flex items-center justify-between p-4 md:p-6">
@@ -198,9 +198,9 @@ export default function CreateProductForm() {
                             <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/20">
                                 <Icons.Document className="w-6 h-6 text-white" />
                             </div>
-                            <h1 className="text-xl font-bold text-slate-800">{t('newproduct')}</h1>
+                            <h1 className="text-xl font-bold text-gray-800">{t('newproduct')}</h1>
                         </div>
-                        <button onClick={onCancel} className="group px-4 py-2 rounded-lg bg-white text-slate-700 transition-all duration-300 hover:bg-slate-100 active:scale-95 border border-slate-300">
+                        <button onClick={onCancel} className="group px-4 py-2 rounded-lg bg-white text-gray-700 transition-all duration-300 hover:bg-gray-100 active:scale-95 border border-gray-300">
                             <span className="relative flex items-center space-x-2 text-sm font-medium">
                                 <Icons.Back className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                                 <span>{t('back')}</span>
@@ -218,7 +218,7 @@ export default function CreateProductForm() {
                                     <div className="p-3 rounded-xl bg-orange-100">
                                         <Icons.Document className="w-6 h-6 text-orange-600" />
                                     </div>
-                                    <h2 className="text-xl font-semibold text-slate-800">{t('basicinfo')}</h2>
+                                    <h2 className="text-xl font-semibold text-gray-800">{t('basicinfo')}</h2>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="md:col-span-2">
@@ -255,14 +255,14 @@ export default function CreateProductForm() {
                                     <div className="p-3 rounded-xl bg-orange-100">
                                         <Icons.Image className="w-6 h-6 text-orange-600" />
                                     </div>
-                                    <h2 className="text-xl font-semibold text-slate-800">{t('productimage')}</h2>
+                                    <h2 className="text-xl font-semibold text-gray-800">{t('productimage')}</h2>
                                 </div>
-                                <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center transition-colors hover:border-orange-500 hover:bg-slate-50/50 cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center transition-colors hover:border-orange-500 hover:bg-gray-50/50 cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                                     <Icons.Upload className="mx-auto" />
-                                    <p className="mt-2 text-sm text-slate-600">
+                                    <p className="mt-2 text-sm text-gray-600">
                                         <span className="font-semibold text-orange-600">{t('upload')}</span> {t('dragdrop')}
                                     </p>
-                                    <p className="text-xs text-slate-500 mt-1">PNG, JPG, WEBP up to 10MB</p>
+                                    <p className="text-xs text-gray-500 mt-1">PNG, JPG, WEBP up to 10MB</p>
                                     <input ref={fileInputRef} type="file" multiple onChange={handleFileChange} accept="image/*" className="sr-only" />
                                 </div>
                                 {errors.images && <div className="text-center pt-2"><FormError message={errors.images.message} /></div>}
@@ -270,7 +270,7 @@ export default function CreateProductForm() {
                                     <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                                         {imagePreviews.map((src, index) => (
                                             <div key={src} className="relative group aspect-square">
-                                                <img src={src} alt={`Preview ${index + 1}`} className="w-full h-full object-cover rounded-lg border border-slate-200" />
+                                                <img src={src} alt={`Preview ${index + 1}`} className="w-full h-full object-cover rounded-lg border border-gray-200" />
                                                 <button type="button" onClick={() => handleRemoveImage(index)} className="absolute top-1 right-1 p-1 bg-red-600 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:scale-110"><Icons.X className="w-4 h-4" /></button>
                                             </div>
                                         ))}
@@ -286,20 +286,20 @@ export default function CreateProductForm() {
                                     <div className="p-3 rounded-xl bg-orange-100">
                                         <Icons.Variant className="w-6 h-6 text-orange-600" />
                                     </div>
-                                    <h2 className="text-xl font-semibold text-slate-800">{t('product')}</h2>
+                                    <h2 className="text-xl font-semibold text-gray-800">{t('product')}</h2>
                                 </div>
                                 <div className="space-y-6">
                                     {variants.map((variant, index) => (
-                                        <div key={variant.id} className="bg-white/50 rounded-xl border border-slate-200 p-5">
+                                        <div key={variant.id} className="bg-white/50 rounded-xl border border-gray-200 p-5">
                                             <div className="flex justify-between items-center mb-4">
-                                                <label className={labelClass}>{t('varianttype')}{requiredStar} <span className="text-xs font-normal text-slate-500">({t('ex')})</span></label>
+                                                <label className={labelClass}>{t('varianttype')}{requiredStar} <span className="text-xs font-normal text-gray-500">({t('ex')})</span></label>
                                                 {variants.length > 1 && (
-                                                    <button type="button" onClick={() => removeVariant(index)} className="text-slate-500 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-50"><Icons.X className="w-5 h-5" /></button>
+                                                    <button type="button" onClick={() => removeVariant(index)} className="text-gray-500 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-50"><Icons.X className="w-5 h-5" /></button>
                                                 )}
                                             </div>
                                             <input {...register(`variants.${index}.name`)} placeholder={t('variantplaceholder')} className={inputClass(errors.variants?.[index]?.name)} />
                                             {errors.variants?.[index]?.name && <FormError message={errors.variants[index].name.message} />}
-                                            <hr className="my-5 border-slate-200" />
+                                            <hr className="my-5 border-gray-200" />
                                             <FieldArrayOptions 
                                                 control={control} 
                                                 register={register} 
@@ -309,7 +309,7 @@ export default function CreateProductForm() {
                                             />
                                         </div>
                                     ))}
-                                    <button type="button" onClick={() => addVariant({ name: '', options: [{ value: '', priceModifier: '', stock: '', sku: '' }] })} className="w-full border-2 border-dashed border-slate-300 text-slate-600 rounded-lg py-3 font-semibold text-sm hover:border-orange-500 hover:text-orange-600 transition-colors flex items-center justify-center gap-2">
+                                    <button type="button" onClick={() => addVariant({ name: '', options: [{ value: '', priceModifier: '', stock: '', sku: '' }] })} className="w-full border-2 border-dashed border-gray-300 text-gray-600 rounded-lg py-3 font-semibold text-sm hover:border-orange-500 hover:text-orange-600 transition-colors flex items-center justify-center gap-2">
                                         <Icons.Plus className="w-4 h-4" /> {t('addvariant')}
                                     </button>
                                 </div>
@@ -318,7 +318,7 @@ export default function CreateProductForm() {
 
                         {/* Actions */}
                         <div className="pt-6 flex flex-col sm:flex-row justify-end items-center gap-4">
-                            <button type="button" onClick={onCancel} className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 transition-all">
+                            <button type="button" onClick={onCancel} className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-all">
                                {t('cancel')} 
                            </button>
                            <button type="submit" disabled={submitting} className="w-full sm:w-auto px-6 py-3.5 text-white rounded-lg transition-all duration-300 shadow-lg shadow-orange-500/30 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center space-x-2 font-semibold">

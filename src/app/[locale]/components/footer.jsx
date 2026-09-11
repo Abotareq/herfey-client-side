@@ -96,10 +96,10 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {[
-                { key: "visa", color: "bg-blue-600" },
+                { key: "visa", color: "bg-orange-600" },
                 { key: "mastercard", color: "bg-red-500" },
                 { key: "discover", color: "bg-orange-500" },
-                { key: "paypal", color: "bg-blue-500" },
+                { key: "paypal", color: "bg-orange-500" },
               ].map((item, idx) => (
                 <div
                   key={idx}
@@ -114,8 +114,8 @@ const Footer = () => {
             <div className="flex gap-3 mt-4">
               {[
                 { color: "text-green-500 hover:text-green-600", icon: "whatsapp" },
-                { color: "text-pink-500 hover:text-pink-600", icon: "instagram" },
-                { color: "text-blue-600 hover:text-blue-700", icon: "facebook" },
+                { color: "text-orange-500 hover:text-orange-600", icon: "instagram" },
+                { color: "text-orange-600 hover:text-orange-700", icon: "facebook" },
               ].map((item, idx) => (
                 <Link
                   key={idx}

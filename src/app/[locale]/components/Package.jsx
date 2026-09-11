@@ -67,7 +67,7 @@ function Package() {
           </div>
 
           {/* Product Image Guidelines */}
-          <div className="w-full bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl shadow-lg p-8 mb-8">
+          <div className="w-full bg-gradient-to-br from-orange-50 to-orange-50 rounded-2xl shadow-lg p-8 mb-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t('productimage')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -101,8 +101,8 @@ function Package() {
               </div>
               
               <div className="bg-white rounded-lg p-6 shadow-sm md:col-span-2 lg:col-span-1">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <CameraIcon className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                  <CameraIcon className="w-6 h-6 text-orange-600" />
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">{t3('logo')}</h4>
                 <ul className="text-sm text-gray-600 space-y-1">
@@ -122,8 +122,8 @@ function Package() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-indigo-600 font-bold text-sm">{t4('one')}</span>
+                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-orange-600 font-bold text-sm">{t4('one')}</span>
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">{t4('title1')}</h4>
@@ -134,8 +134,8 @@ function Package() {
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-indigo-600 font-bold text-sm">{t4('two')}</span>
+                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-orange-600 font-bold text-sm">{t4('two')}</span>
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">{t4('title2')}</h4>

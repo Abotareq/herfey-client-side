@@ -66,7 +66,7 @@ function Breadcrumbs() {
             {index === breadcrumbs.length - 1 ? (
               <span className="font-medium text-gray-800">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="text-blue-600 hover:underline">
+              <Link href={crumb.href} className="text-orange-600 hover:underline">
                 {crumb.label}
               </Link>
             )}

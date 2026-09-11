@@ -4,11 +4,11 @@ function ProductDesc() {
   return (
     <>
       {" "}
-      <div className="space-y-6 pt-6 border-t border-slate-200">
-        <h3 className="text-2xl font-bold text-slate-900">
+      <div className="space-y-6 pt-6 border-t border-gray-200">
+        <h3 className="text-2xl font-bold text-gray-900">
           Product Description
         </h3>
-        <p className="text-slate-600 leading-relaxed">
+        <p className="text-gray-600 leading-relaxed">
           Elevate your casual style with our premium men's t-shirt. Crafted for
           comfort and designed with a modern fit, this versatile shirt is an
           essential addition to your wardrobe. The soft and breathable fabric
@@ -23,8 +23,8 @@ function ProductDesc() {
             "Customizable design for personal expression",
           ].map((feature, index) => (
             <div key={index} className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-              <span className="text-slate-600">{feature}</span>
+              <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+              <span className="text-gray-600">{feature}</span>
             </div>
           ))}
         </div>

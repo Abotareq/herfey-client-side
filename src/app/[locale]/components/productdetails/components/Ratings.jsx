@@ -8,7 +8,7 @@ function Ratings() {
             <svg
               key={i}
               className={`w-5 h-5 ${
-                i < 4 ? "fill-amber-400" : "fill-slate-300"
+                i < 4 ? "fill-amber-400" : "fill-gray-300"
               }`}
               viewBox="0 0 14 13"
             >
@@ -17,9 +17,9 @@ function Ratings() {
           ))}
         </div>
         <div className="flex items-center space-x-2 text-sm">
-          <span className="font-semibold text-slate-700">4.2</span>
-          <span className="text-slate-500">•</span>
-          <button className="text-blue-600 hover:text-blue-800 font-medium transition-colors">
+          <span className="font-semibold text-gray-700">4.2</span>
+          <span className="text-gray-500">•</span>
+          <button className="text-orange-600 hover:text-orange-800 font-medium transition-colors">
             87 Reviews
           </button>
         </div>

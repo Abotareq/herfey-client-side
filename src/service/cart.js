@@ -114,11 +114,21 @@ const applyCoupon = async (couponData) => {
 
 // guestCart.js
 
+// localStorage does not notify the tab that wrote it, so anything showing the
+// guest cart (the navbar badge) would never update. Every writer goes through
+// here so listeners hear about it.
+export const GUEST_CART_EVENT = "guestcart:change";
+
+const writeGuestCart = (cart) => {
+  localStorage.setItem("guestCart", JSON.stringify(cart));
+  window.dispatchEvent(new Event(GUEST_CART_EVENT));
+};
+
 // Add item to cart
 export const addToGuestCart = (item) => {
   const cart = JSON.parse(localStorage.getItem("guestCart") || "[]");
   cart.push(item);
-  localStorage.setItem("guestCart", JSON.stringify(cart));
+  writeGuestCart(cart);
 };
 
 // Get all cart items
@@ -129,6 +139,7 @@ export const getGuestCart = () => {
 //Clear all cart items
 export const clearGuestCart = () => {
   localStorage.removeItem("guestCart");
+  window.dispatchEvent(new Event(GUEST_CART_EVENT));
 };
 
 //Get cart items count
@@ -141,7 +152,7 @@ export const getGuestCartCount = () => {
 export const removeFromGuestCart = (id) => {
   const cart = getGuestCart();
   const updatedCart = cart.filter((item) => item.id !== id);
-  localStorage.setItem("guestCart", JSON.stringify(updatedCart));
+  writeGuestCart(updatedCart);
 };
 
 //Update item quantity
@@ -150,7 +161,7 @@ export const updateGuestCartItem = (id, quantity) => {
   const updatedCart = cart.map((item) =>
     item.id === id ? { ...item, quantity } : item
   );
-  localStorage.setItem("guestCart", JSON.stringify(updatedCart));
+  writeGuestCart(updatedCart);
 };
 
 //Check if item exists in cart
@@ -171,10 +182,11 @@ export const getGuestCartTotal = () => {
 /**
  * Get my cart
  */
-export const useMyCart = () => {
+export const useMyCart = (options = {}) => {
   return useQuery({
     queryKey: ["cart"],
     queryFn: getMyCart,
+    ...options,
   });
 };
 

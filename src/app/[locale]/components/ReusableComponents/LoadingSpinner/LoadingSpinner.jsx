@@ -26,7 +26,7 @@ const LoadingSpinner = () => {
   }, []);  
 
   return (
-    <div className="flex justify-center items-center h-screen bg-slate-50">
+    <div className="flex justify-center items-center h-screen bg-gray-50">
       <div className="flex items-end space-x-2">
         <p className="text-4xl font-bold font-mono text-orange-500 tracking-wider">
           {displayText}

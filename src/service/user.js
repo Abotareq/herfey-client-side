@@ -4,6 +4,7 @@ import axios from "axios";
 const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}`;
 
 const apiClient = axios.create({
+  timeout: 15000,
   baseURL: API_BASE,
   headers: {
     "Content-Type": "application/json",
@@ -61,6 +62,8 @@ export const useUpdateUser = () => {
       queryClient.invalidateQueries({ queryKey: ["user", variables.userId] });
       queryClient.invalidateQueries({ queryKey: ["users"] });
       queryClient.invalidateQueries({ queryKey: ["me"] });
+      // the wishlist lives on the user document but is cached under its own key
+      queryClient.invalidateQueries({ queryKey: ["wishlist", variables.userId] });
       console.log("User update successful:", data);
     },
 

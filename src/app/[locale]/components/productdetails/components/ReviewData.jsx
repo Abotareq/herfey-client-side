@@ -102,7 +102,7 @@ function ReviewsSection({ productId }) {
         <svg
           key={i}
           className={`${size} ${
-            i < rating ? "fill-amber-400" : "fill-slate-300"
+            i < rating ? "fill-amber-400" : "fill-gray-300"
           }`}
           viewBox="0 0 14 13"
         >
@@ -125,7 +125,7 @@ function ReviewsSection({ productId }) {
             className={`w-6 h-6 transition-colors ${
               i < rating
                 ? "fill-amber-400 text-amber-400"
-                : "fill-slate-300 text-slate-300 hover:fill-amber-200"
+                : "fill-gray-300 text-gray-300 hover:fill-amber-200"
             }`}
             viewBox="0 0 14 13"
           >
@@ -133,7 +133,7 @@ function ReviewsSection({ productId }) {
           </svg>
         </button>
       ))}
-      <span className="ml-2 text-sm font-medium text-slate-700">
+      <span className="ml-2 text-sm font-medium text-gray-700">
         {rating}/5
       </span>
     </div>
@@ -148,15 +148,15 @@ function ReviewsSection({ productId }) {
     );
 
   return (
-    <div className="mt-16 border-t border-slate-200 pt-16">
+    <div className="mt-16 border-t border-gray-200 pt-16">
       <div className="max-w-6xl mx-auto px-4">
         {/* Reviews Header */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6">
           <div>
-            <h2 className="text-3xl font-bold text-slate-900 mb-2">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
               {t("customer_reviews")}
             </h2>
-            <p className="text-slate-600">{t("see_what_customers_say")}</p>
+            <p className="text-gray-600">{t("see_what_customers_say")}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -164,7 +164,7 @@ function ReviewsSection({ productId }) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               >
                 <option value="newest">{t("new")}</option>
                 <option value="oldest">{t("old")}</option>
@@ -176,7 +176,7 @@ function ReviewsSection({ productId }) {
               <select
                 value={filterRating}
                 onChange={(e) => setFilterRating(e.target.value)}
-                className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               >
                 <option value="all">{t("all")}</option>
                 <option value="5">{t("5")}</option>
@@ -190,7 +190,7 @@ function ReviewsSection({ productId }) {
             {user ? (
               <button
                 onClick={() => setShowReviewForm(true)}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 {t("write")}
               </button>
@@ -209,12 +209,12 @@ function ReviewsSection({ productId }) {
         {showReviewForm && user && (
           <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-2xl p-6 w-full max-w-md">
-              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 {t("write")}
               </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     {t("rating")}
                   </label>
                   <EditableStarRating
@@ -225,7 +225,7 @@ function ReviewsSection({ productId }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     {t("comment")}
                   </label>
                   <textarea
@@ -237,7 +237,7 @@ function ReviewsSection({ productId }) {
                       }))
                     }
                     rows={4}
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                     placeholder={t("reviewplaceholder")}
                   />
                 </div>
@@ -245,13 +245,13 @@ function ReviewsSection({ productId }) {
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={() => setShowReviewForm(false)}
-                  className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   {t("cancel")}
                 </button>
                 <button
                   onClick={handleAddReview}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
                   disabled={addReviewMutation.isLoading}
                 >
                   {addReviewMutation.isLoading ? t("submitting") : t("submit")}
@@ -262,17 +262,17 @@ function ReviewsSection({ productId }) {
         )}
 
         {/* Rating Summary */}
-        <div className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-2xl p-8 mb-12 border border-slate-200">
+        <div className="bg-gradient-to-r from-gray-50 to-orange-50 rounded-2xl p-8 mb-12 border border-gray-200">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-6xl font-bold text-slate-900 mb-2">
+              <div className="text-6xl font-bold text-gray-900 mb-2">
                 {summaryData?.data?.averageRating?.toFixed(1) || "N/A"}
               </div>
               <StarRating
                 rating={Math.floor(summaryData?.data?.averageRating || 0)}
                 size="w-6 h-6"
               />
-              <p className="text-slate-600 mt-2">
+              <p className="text-gray-600 mt-2">
                 {t("based_on")} {summaryData?.data?.reviewCount || 0}{" "}
                 {t("reviews")}
               </p>
@@ -281,16 +281,16 @@ function ReviewsSection({ productId }) {
             <div className="lg:col-span-2 space-y-3">
               {ratingDistribution.map((rating) => (
                 <div key={rating.stars} className="flex items-center space-x-4">
-                  <span className="text-sm font-medium text-slate-700 w-12">
+                  <span className="text-sm font-medium text-gray-700 w-12">
                     {rating.stars} {t("star")}
                   </span>
-                  <div className="flex-1 bg-slate-200 rounded-full h-3">
+                  <div className="flex-1 bg-gray-200 rounded-full h-3">
                     <div
                       className="bg-gradient-to-r from-amber-400 to-orange-400 h-3 rounded-full transition-all duration-1000 ease-out"
                       style={{ width: `${rating.percentage}%` }}
                     ></div>
                   </div>
-                  <span className="text-sm text-slate-600 w-12 text-right">
+                  <span className="text-sm text-gray-600 w-12 text-right">
                     {rating.count}
                   </span>
                 </div>
@@ -306,10 +306,10 @@ function ReviewsSection({ productId }) {
             reviews.map((review) => (
               <div
                 key={review._id}
-                className="bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-lg transition-shadow duration-300"
+                className="bg-white rounded-2xl p-8 border border-gray-200 hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
                     {review.user?.userName
                       ? review.user.userName
                           .split(" ")
@@ -322,7 +322,7 @@ function ReviewsSection({ productId }) {
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
                       <div className="flex items-center space-x-3 flex-wrap">
-                        <h4 className="font-semibold text-slate-900">
+                        <h4 className="font-semibold text-gray-900">
                           {review.user?.userName || t('Anonymous')}
                         </h4>
                         {review.verifiedPurchase && (
@@ -342,7 +342,7 @@ function ReviewsSection({ productId }) {
                           </div>
                         )}
                       </div>
-                      <span className="text-sm text-slate-500">
+                      <span className="text-sm text-gray-500">
                         {new Date(review.createdAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -351,13 +351,13 @@ function ReviewsSection({ productId }) {
                       <StarRating rating={review.rating} />
                     </div>
 
-                    <p className="text-slate-600 leading-relaxed mb-4">
+                    <p className="text-gray-600 leading-relaxed mb-4">
                       {review.comment || t("no")}
                     </p>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-6">
-                        <button className="flex items-center space-x-2 text-slate-500 hover:text-blue-600 transition-colors group">
+                        <button className="flex items-center space-x-2 text-gray-500 hover:text-orange-600 transition-colors group">
                           <svg
                             className="w-4 h-4 group-hover:scale-110 transition-transform"
                             fill="none"
@@ -375,10 +375,10 @@ function ReviewsSection({ productId }) {
                             {t("helpfulr")} ({review.helpful || 0})
                           </span>
                         </button>
-                        <button className="text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium">
+                        <button className="text-gray-500 hover:text-orange-600 transition-colors text-sm font-medium">
                           {t("reply")}
                         </button>
-                        <button className="text-slate-500 hover:text-red-600 transition-colors text-sm font-medium">
+                        <button className="text-gray-500 hover:text-red-600 transition-colors text-sm font-medium">
                           {t("report")}
                         </button>
                       </div>
@@ -389,10 +389,10 @@ function ReviewsSection({ productId }) {
             ))
           ) : (
             <div className="text-center py-8">
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 {t("noreviews")}
               </h3>
-              <p className="text-slate-600">{t("no_reviews_product")}</p>
+              <p className="text-gray-600">{t("no_reviews_product")}</p>
             </div>
           )}
         </div>
@@ -403,11 +403,11 @@ function ReviewsSection({ productId }) {
             <button
               onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
               disabled={page === 1}
-              className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
+              className="px-8 py-3 border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
             >
               {t("previous")}
             </button>
-            <span className="px-4 py-3 text-slate-700">
+            <span className="px-4 py-3 text-gray-700">
               {t("page")} {pagination.currentPage} {t("of")}{" "}
               {pagination.totalPages}
             </span>
@@ -416,7 +416,7 @@ function ReviewsSection({ productId }) {
                 setPage((prev) => Math.min(prev + 1, pagination.totalPages))
               }
               disabled={page >= pagination.totalPages}
-              className="px-8 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
+              className="px-8 py-3 border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
             >
               {t("next")}
             </button>
@@ -425,27 +425,27 @@ function ReviewsSection({ productId }) {
 
         {/* Review Summary Stats */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">
+          <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
+            <div className="text-3xl font-bold text-orange-600 mb-2">
               {summaryData?.data?.recommendPercentage?.toFixed(0) || 0}%
             </div>
-            <div className="text-slate-600 font-medium">
+            <div className="text-gray-600 font-medium">
               {t("recommend_product")}
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
+          <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
             <div className="text-3xl font-bold text-green-600 mb-2">
               {summaryData?.data?.averageRating?.toFixed(1) || "0.0"}
             </div>
-            <div className="text-slate-600 font-medium">
+            <div className="text-gray-600 font-medium">
               {t("average_quality_rating")}
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-            <div className="text-3xl font-bold text-purple-600 mb-2">
+          <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
+            <div className="text-3xl font-bold text-orange-600 mb-2">
               {(summaryData?.data?.averageRating || 0).toFixed(1)}
             </div>
-            <div className="text-slate-600 font-medium">
+            <div className="text-gray-600 font-medium">
               {t("average_fit_rating")}
             </div>
           </div>

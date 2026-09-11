@@ -7,6 +7,7 @@ import {
   getGuestCartTotal,
   addToGuestCart,
   clearGuestCart,
+  GUEST_CART_EVENT,
 } from "../../../service/cart.js";
 import { useRouter } from "next/navigation";
 import Image from "next/image.js";
@@ -123,6 +124,7 @@ function GuestCart() {
           `Removed ${cart.length - cleanedCart.length} duplicate items`
         );
         localStorage.setItem("guestCart", JSON.stringify(cleanedCart));
+        window.dispatchEvent(new Event(GUEST_CART_EVENT));
         return cleanedCart;
       }
 
@@ -923,7 +925,7 @@ function GuestCart() {
                                   <button
                                     type="button"
                                     onClick={() => handleAddToWishlist(item)}
-                                    className="p-2 text-pink-500 hover:bg-pink-100 rounded-md transition-colors duration-200 disabled:opacity-50"
+                                    className="p-2 text-orange-500 hover:bg-orange-100 rounded-md transition-colors duration-200 disabled:opacity-50"
                                     title={t('wishlist')}
                                     disabled={isUpdating}
                                   >

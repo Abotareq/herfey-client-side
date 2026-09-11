@@ -5,6 +5,7 @@ const BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE}`;
 
 // axios to fetch 
 const ProductAPI = axios.create({
+    timeout: 15000,
     baseURL: BASE_URL,
     headers:{
         "Content-Type": "application/json"

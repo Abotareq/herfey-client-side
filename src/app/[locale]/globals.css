@@ -140,18 +140,19 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* brand: Tailwind orange-600 / orange-500 / orange-50 / orange-900 */
+  --primary: oklch(0.646 0.222 41.116);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.967 0.003 264.542);
+  --secondary-foreground: oklch(0.21 0.034 264.665);
+  --muted: oklch(0.967 0.003 264.542);
+  --muted-foreground: oklch(0.551 0.027 264.364);
+  --accent: oklch(0.98 0.016 73.684);
+  --accent-foreground: oklch(0.408 0.123 38.172);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.928 0.006 264.531);
+  --input: oklch(0.928 0.006 264.531);
+  --ring: oklch(0.705 0.213 47.604);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -207,5 +208,44 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/*
+ * Palette, in one place:
+ *   brand      orange-*   (buttons, links, badges, focus rings)
+ *   neutral    gray-*     (text, borders, surfaces -- not slate)
+ *   success    green-*
+ *   warning    amber-*    (also star ratings)
+ *   danger     red-*      (errors, destructive, discount strike-through)
+ */
+
+@layer utilities {
+  /* shared loading placeholder -- one shimmer for every skeleton */
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-gray-200;
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 0.6),
+      transparent
+    );
+    animation: skeleton-shimmer 1.6s infinite;
+  }
+  @keyframes skeleton-shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton::after {
+      animation: none;
+    }
   }
 }

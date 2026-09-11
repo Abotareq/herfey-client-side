@@ -237,7 +237,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
           >
             {t("retry")}
           </button>
@@ -256,7 +256,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             <div className="sticky top-0 px-6 py-8 lg:min-h-screen">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-8">
-                <h3 className="text-slate-900 text-xl font-bold tracking-tight">
+                <h3 className="text-gray-900 text-xl font-bold tracking-tight">
                   {t("filters")}
                 </h3>
                 <button
@@ -270,7 +270,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
               {/* Search Filter */}
               <div className="mb-8">
-                <label className="block text-slate-900 text-sm font-semibold mb-3">
+                <label className="block text-gray-900 text-sm font-semibold mb-3">
                   {t("searchstore")}
                 </label>
                 <div className="relative">
@@ -302,7 +302,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
               {/* Status Filter */}
               {/*     <div className="mb-8">
-                <label className="block text-slate-900 text-sm font-semibold mb-3">
+                <label className="block text-gray-900 text-sm font-semibold mb-3">
                   {t("storestatus")}
                 </label>
                 <div className="relative">
@@ -338,7 +338,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
               {/* Sort Filter */}
               <div className="mb-6">
-                <label className="block text-slate-900 text-sm font-semibold mb-3">
+                <label className="block text-gray-900 text-sm font-semibold mb-3">
                   {t("sort")}
                 </label>
                 <div className="relative">
@@ -374,7 +374,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
               {/* Brand Filter */}
               {/*      <div className="mb-8">
-                <label className="block text-slate-900 text-sm font-semibold mb-4">
+                <label className="block text-gray-900 text-sm font-semibold mb-4">
                   {t("brand")}
                 </label>
                 <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400">
@@ -394,12 +394,12 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                           type="checkbox"
                           checked={filters.brand.includes(brand)}
                           onChange={() => toggleBrand(brand)}
-                          className="w-4 h-4 text-blue-500 bg-white border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 transition-all duration-200 cursor-pointer hover:border-blue-400"
+                          className="w-4 h-4 text-orange-500 bg-white border-2 border-gray-300 rounded focus:ring-orange-500 focus:ring-2 transition-all duration-200 cursor-pointer hover:border-orange-400"
                         />
                       </div>
                       <label
                         htmlFor={brand.toLowerCase()}
-                        className={`ml-3 text-slate-600 font-medium text-sm cursor-pointer group-hover:text-slate-800 transition-colors duration-200 select-none
+                        className={`ml-3 text-gray-600 font-medium text-sm cursor-pointer group-hover:text-gray-800 transition-colors duration-200 select-none
                         ${isArabic ? "mr-2" : ""}`}
                       >
                         {brand}
@@ -416,17 +416,17 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             <div className="p-6 lg:p-8">
               {/* Header */}
               <div className="mb-8">
-                <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
+                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
                   {vendorOnly ? t("mystore") : t("allstores")}
                 </h1>
-                <p className="text-slate-600 text-sm lg:text-base">
+                <p className="text-gray-600 text-sm lg:text-base">
                   {t("desc")}
                 </p>
               </div>
 
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-16">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-500 mb-4"></div>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-orange-500 mb-4"></div>
                   <p className="text-center text-gray-500 text-lg font-medium">
                     {t("loading")}
                   </p>
@@ -452,10 +452,10 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                         />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
                       {t("no")}
                     </h3>
-                    <p className="text-slate-600 text-sm">{t("nodesc")}</p>
+                    <p className="text-gray-600 text-sm">{t("nodesc")}</p>
                   </div>
                 </div>
               ) : (
@@ -469,7 +469,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                       {/* New Badge */}
                       {isNewStore(store.createdAt) && (
                         <div className="absolute top-3 left-3 z-10">
-                          <div className="bg-gradient-to-r from-purple-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                          <div className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                             NEW
                           </div>
                         </div>
@@ -492,7 +492,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                             href={`/store/${store._id || store.id}`}
                             className="transform scale-90 group-hover:scale-100 transition-transform duration-300"
                           >
-                            <button className="bg-white text-orange-600 rounded-full px-6 py-3 shadow-lg font-semibold hover:bg-blue-50 transition-all duration-200">
+                            <button className="bg-white text-orange-600 rounded-full px-6 py-3 shadow-lg font-semibold hover:bg-orange-50 transition-all duration-200">
                               View Details
                             </button>
                           </Link>
@@ -509,7 +509,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                       {/* Store Stats Badge */}
                       {store.productCount && (
                         <div className="absolute top-3 right-3">
-                          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
+                          <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
                             {store.productCount} Products
                           </div>
                         </div>
@@ -527,7 +527,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                               store.status === "approved"
                                 ? "bg-green-100 text-green-800"
                                 : store.status === "pending"
-                                ? "bg-yellow-100 text-yellow-800"
+                                ? "bg-amber-100 text-amber-800"
                                 : store.status === "rejected"
                                 ? "bg-red-100 text-red-800"
                                 : "bg-gray-100 text-gray-800"
@@ -586,8 +586,8 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                             onClick={() => goToPage(page)}
                             className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                               filters.page === page
-                                ? "bg-blue-500 text-white shadow-lg"
-                                : "text-gray-600 bg-white border border-gray-300 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300"
+                                ? "bg-orange-500 text-white shadow-lg"
+                                : "text-gray-600 bg-white border border-gray-300 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-300"
                             }`}
                           >
                             {page}
@@ -637,7 +637,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                             goToPage(page);
                           }
                         }}
-                        className="w-16 px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-16 px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
                       <span>of {pagination.totalPages}</span>
                     </div>

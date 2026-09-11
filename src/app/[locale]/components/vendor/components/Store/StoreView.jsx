@@ -232,7 +232,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                       className={`bg-gradient-to-br ${
                         stat.color === 'orange' ? 'from-orange-50 to-orange-100' :
                         stat.color === 'red' ? 'from-red-50 to-red-100' :
-                        stat.color === 'yellow' ? 'from-yellow-50 to-yellow-100' :
+                        stat.color === 'yellow' ? 'from-amber-50 to-amber-100' :
                         'from-orange-50 to-orange-100'
                       } rounded-2xl p-6 transform transition-all duration-500 hover:scale-105 hover:shadow-lg`}
                     >
@@ -241,7 +241,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                           <p className={`${
                             stat.color === 'orange' ? 'text-orange-600' :
                             stat.color === 'red' ? 'text-red-600' :
-                            stat.color === 'yellow' ? 'text-yellow-600' :
+                            stat.color === 'yellow' ? 'text-amber-600' :
                             'text-orange-600'
                           } text-sm font-semibold uppercase tracking-wide`}>
                             {stat.label}
@@ -254,7 +254,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                           className={`w-12 h-12 ${
                             stat.color === 'orange' ? 'bg-orange-600' :
                             stat.color === 'red' ? 'bg-red-600' :
-                            stat.color === 'yellow' ? 'bg-yellow-600' :
+                            stat.color === 'yellow' ? 'bg-amber-600' :
                             'bg-orange-600'
                           } rounded-2xl flex items-center justify-center`}
                         >
@@ -306,7 +306,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                             currentStore?.status === "approved"
                               ? "bg-green-100 text-green-800"
                               : currentStore?.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
+                              ? "bg-amber-100 text-amber-800"
                               : currentStore?.status === "rejected"
                               ? "bg-red-100 text-red-800"
                               : "bg-gray-100 text-gray-800"
@@ -317,7 +317,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                               currentStore?.status === "approved"
                                 ? "bg-green-500"
                                 : currentStore?.status === "pending"
-                                ? "bg-yellow-500 animate-pulse"
+                                ? "bg-amber-500 animate-pulse"
                                 : currentStore?.status === "rejected"
                                 ? "bg-red-500"
                                 : "bg-gray-500"
@@ -583,7 +583,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                                   product.status === "approved"
                                     ? "bg-green-100 text-green-800"
                                     : product.status === "pending"
-                                    ? "bg-yellow-100 text-yellow-800"
+                                    ? "bg-amber-100 text-amber-800"
                                     : product.status === "rejected"
                                     ? "bg-red-100 text-red-800"
                                     : "bg-gray-100 text-gray-800"

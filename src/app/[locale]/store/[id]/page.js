@@ -94,9 +94,9 @@ export default function StoreDetailsPage() {
   const getStatusBadge = (status) => {
     const statusConfig = {
       approved: {
-        bg: "bg-emerald-50 border-emerald-200",
-        text: "text-emerald-700",
-        dot: "bg-emerald-500",
+        bg: "bg-green-50 border-green-200",
+        text: "text-green-700",
+        dot: "bg-green-500",
       },
       pending: {
         bg: "bg-amber-50 border-amber-200",
@@ -359,8 +359,8 @@ export default function StoreDetailsPage() {
                 <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
                   stat.color === 'orange' ? 'bg-orange-50 text-orange-600' :
                   stat.color === 'green' ? 'bg-green-50 text-green-600' :
-                  stat.color === 'blue' ? 'bg-blue-50 text-blue-600' :
-                  'bg-purple-50 text-purple-600'
+                  stat.color === 'blue' ? 'bg-orange-50 text-orange-600' :
+                  'bg-orange-50 text-orange-600'
                 }`}>
                   <stat.icon className="w-6 h-6" />
                 </div>

@@ -2,8 +2,13 @@
 
 import { useState } from "react";
 import { useCheckout } from "@/app/context/CheckoutContext";
+import { useAuth } from "@/app/context/AuthContext";
+import { useGetUserById } from "@/service/user";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { AlertCircle, MapPin } from "lucide-react";
 
 export default function CheckoutStep1() {
   const { state, setUseExisting, setNewAddress } = useCheckout();
@@ -17,6 +22,18 @@ export default function CheckoutStep1() {
   const t = useTranslations("CheckoutStep1");
   const [errors, setErrors] = useState({});
 
+  // "Use existing address" needs the profile, not the JWT -- the JWT carries
+  // only id and role. Step 2 would otherwise fail after the user had moved on.
+  const { user } = useAuth();
+  const { data: profile, isLoading: profileLoading } = useGetUserById(
+    user?.id || user?._id,
+  );
+  const addresses = profile?.data?.user?.addresses || [];
+  const defaultAddress =
+    addresses.find((a) => a.isDefault) || addresses[0] || null;
+  const hasExistingAddress = addresses.length > 0;
+  const [addressError, setAddressError] = useState(null);
+
   const validateForm = () => {
     const newErrors = {};
     if (!form.street.trim()) newErrors.street = t("streetrequire");
@@ -27,7 +44,15 @@ export default function CheckoutStep1() {
   };
 
   const handleContinue = () => {
-    if (!state.useExisting) {
+    if (state.useExisting) {
+      if (profileLoading) return;
+      if (!hasExistingAddress) {
+        setAddressError(t("noaddress"));
+        toast.error(t("noaddress"));
+        return;
+      }
+      setAddressError(null);
+    } else {
       const validationErrors = validateForm();
       if (Object.keys(validationErrors).length > 0) {
         setErrors(validationErrors);
@@ -36,6 +61,16 @@ export default function CheckoutStep1() {
       setNewAddress(form); // shippingAddress
     }
     router.push("/checkout/step2");
+  };
+
+  const chooseExisting = () => {
+    setUseExisting(true);
+    setAddressError(null);
+  };
+
+  const chooseNew = () => {
+    setUseExisting(false);
+    setAddressError(null);
   };
 
   const handleGoBack = () => {
@@ -67,7 +102,7 @@ export default function CheckoutStep1() {
             type="radio"
             name="addressOption"
             checked={state.useExisting}
-            onChange={() => setUseExisting(true)}
+            onChange={chooseExisting}
             className="w-5 h-5 text-orange-600 focus:ring-orange-500 focus:ring-2"
           />
           <div className="flex-1">
@@ -75,6 +110,46 @@ export default function CheckoutStep1() {
               {t("useexistingaddress")}
             </span>
             <p className="text-sm text-gray-600 mt-1">{t("profileaddress")}</p>
+
+            {state.useExisting && (
+              <div className="mt-3">
+                {profileLoading ? (
+                  <div className="space-y-2" aria-hidden="true">
+                    <div className="skeleton h-3 w-2/3" />
+                    <div className="skeleton h-3 w-1/2" />
+                  </div>
+                ) : defaultAddress ? (
+                  <div className="flex items-start gap-2 rounded-lg border border-orange-200 bg-white px-3 py-2 text-sm text-gray-700">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-600" aria-hidden="true" />
+                    <span>
+                      {defaultAddress.street}, {defaultAddress.city}
+                      {defaultAddress.postalCode ? `, ${defaultAddress.postalCode}` : ""}
+                      {defaultAddress.country ? `, ${defaultAddress.country}` : ""}
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    role="alert"
+                    className={`flex items-start gap-2 rounded-lg border px-3 py-2 text-sm ${
+                      addressError
+                        ? "border-red-300 bg-red-50 text-red-700"
+                        : "border-amber-200 bg-amber-50 text-amber-800"
+                    }`}
+                  >
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span>
+                      {t("noaddress")}{" "}
+                      <Link
+                        href="/customer-profile"
+                        className="font-semibold underline underline-offset-2 hover:text-orange-700"
+                      >
+                        {t("addaddress")}
+                      </Link>
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </label>
 
@@ -83,7 +158,7 @@ export default function CheckoutStep1() {
             type="radio"
             name="addressOption"
             checked={!state.useExisting}
-            onChange={() => setUseExisting(false)}
+            onChange={chooseNew}
             className="w-5 h-5 text-orange-600 focus:ring-orange-500 focus:ring-2"
           />
           <div className="flex-1">
@@ -215,7 +290,12 @@ export default function CheckoutStep1() {
         {/* Continue Button */}
         <button
           onClick={handleContinue}
-          className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-amber-600 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/30"
+          aria-disabled={state.useExisting && (profileLoading || !hasExistingAddress)}
+          className={`flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-amber-600 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/30 ${
+            state.useExisting && (profileLoading || !hasExistingAddress)
+              ? "opacity-60 saturate-50"
+              : ""
+          }`}
         >
           {t("continuepayment")}
         </button>

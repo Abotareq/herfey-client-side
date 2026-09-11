@@ -161,8 +161,8 @@ export default function PaymentSuccessPage() {
           </div>
 
           {/* Additional Info */}
-          <div className="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-100">
-            <div className="flex items-center justify-center text-blue-800">
+          <div className="bg-orange-50 p-4 rounded-lg mb-6 border border-orange-100">
+            <div className="flex items-center justify-center text-orange-800">
               <Mail className="w-4 h-4 mr-2" />
               <p className="text-sm">
                 {t('emailconfirm')}
@@ -172,15 +172,15 @@ export default function PaymentSuccessPage() {
         </div>
       ) : paymentStatus === "pending" ? (
         <div className="text-center">
-          <Clock className="text-yellow-500 w-12 h-12 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-yellow-600 mb-4">
+          <Clock className="text-amber-500 w-12 h-12 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-amber-600 mb-4">
             {t('paymentproccessing')}
           </h1>
           <p className="text-gray-600 mb-4">
             {t('paymentprocessingdesc')}
           </p>
-          <div className="bg-yellow-50 p-4 rounded-lg mb-6 border border-yellow-200">
-            <div className="flex items-center justify-center text-yellow-800">
+          <div className="bg-amber-50 p-4 rounded-lg mb-6 border border-amber-200">
+            <div className="flex items-center justify-center text-amber-800">
               <Clock className="w-4 h-4 mr-2" />
               <p className="text-sm">
                 {t('message')}

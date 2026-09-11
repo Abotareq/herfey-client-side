@@ -35,7 +35,7 @@ export default function CategoryPage() {
         <div className="mt-4">
           <Link
             href="/"
-            className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="inline-block px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
           >
             Back to Categories
           </Link>

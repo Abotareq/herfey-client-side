@@ -267,7 +267,7 @@ export default function CheckoutStep2() {
               <span className="font-semibold text-gray-800 group-hover:text-orange-700 transition-colors">
                 {t("cash")}
               </span>
-              <span className="px-3 py-1 bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-700 text-xs font-medium rounded-full">
+              <span className="px-3 py-1 bg-gradient-to-r from-amber-100 to-amber-100 text-amber-700 text-xs font-medium rounded-full">
                 {t("popular")}
               </span>
             </div>
@@ -280,7 +280,7 @@ export default function CheckoutStep2() {
 
       {/* Validation Messages */}
       {!canProceed && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-400 rounded-xl shadow-sm">
+        <div className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-amber-50 border-l-4 border-amber-400 rounded-xl shadow-sm">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Info className="w-5 h-5 text-amber-500" />

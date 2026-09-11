@@ -52,7 +52,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
             </svg>
             <span className="text-lg font-semibold">{t("orderCancelled")}</span>
           </div>
-          <p className="text-slate-600 text-sm">{t("orderCancelledMessage")}</p>
+          <p className="text-gray-600 text-sm">{t("orderCancelledMessage")}</p>
         </div>
       </div>
     );
@@ -147,13 +147,13 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
               </svg>
             }
           </span>
-          <span className="text-sm font-medium text-slate-700">
+          <span className="text-sm font-medium text-gray-700">
             {paymentMethod === "cash_on_delivery" ? t("cashOnDelivery") : t("creditCard")}
           </span>
         </div>
       </div>
       
-      <ol className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm font-medium text-slate-500">
+      <ol className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm font-medium text-gray-500">
         {statuses.map((s, index) => {
           const isActive = index <= currentStatusIndex;
           // For credit card: when status is "delivered", mark it as completed
@@ -187,7 +187,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
                 )}
               </div>
               <span className={`${
-                isActive ? "text-slate-800 font-semibold" : "text-slate-500"
+                isActive ? "text-gray-800 font-semibold" : "text-gray-500"
               }`}>
                 {getStatusLabel(s)}
               </span>
@@ -215,7 +215,7 @@ const OrderItemsCard = ({ items, t }) => (
   <div className="lg:col-span-2 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md space-y-4">
     <div className="flex items-center gap-3">
       <span className="text-orange-500">{Icons.package}</span>
-      <h4 className="font-semibold text-slate-800 text-lg">
+      <h4 className="font-semibold text-gray-800 text-lg">
         {t("itemsInOrder")} ({items.length})
       </h4>
     </div>
@@ -233,16 +233,16 @@ const OrderItemsCard = ({ items, t }) => (
           />
         </div>
         <div className="flex-1">
-          <p className="font-semibold text-slate-800">{item.name}</p>
-          <p className="text-sm text-slate-600">
+          <p className="font-semibold text-gray-800">{item.name}</p>
+          <p className="text-sm text-gray-600">
             {t("quantity")}: {item.quantity}
           </p>
-          <p className="text-sm text-slate-700 font-medium">
+          <p className="text-sm text-gray-700 font-medium">
             ${item.price.toFixed(2)} {t("each")}
           </p>
         </div>
         <div className="text-right">
-          <p className="font-semibold text-slate-800">
+          <p className="font-semibold text-gray-800">
             ${(item.price * item.quantity).toFixed(2)}
           </p>
         </div>
@@ -264,11 +264,11 @@ const OrderSidebar = ({
     <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-500">{Icons.location}</span>
-        <h4 className="font-semibold text-slate-800 text-lg">
+        <h4 className="font-semibold text-gray-800 text-lg">
           {t("shippingAddress")}
         </h4>
       </div>
-      <address className="not-italic text-slate-700">
+      <address className="not-italic text-gray-700">
         {order.shippingAddress.street}
         <br />
         {order.shippingAddress.city}, {order.shippingAddress.postalCode}
@@ -292,12 +292,12 @@ const OrderSidebar = ({
             </svg>
           }
         </span>
-        <h4 className="font-semibold text-slate-800 text-lg">
+        <h4 className="font-semibold text-gray-800 text-lg">
           {t("paymentMethod")}
         </h4>
       </div>
       <div className="space-y-2">
-        <p className="text-slate-700">
+        <p className="text-gray-700">
           {order.paymentMethod === "cash_on_delivery" ? t("cashOnDelivery") : t("creditCard")}
         </p>
         {order.paymentMethod === "cash_on_delivery" && (
@@ -306,7 +306,7 @@ const OrderSidebar = ({
               ? "bg-green-50 text-green-700 border border-green-200"
               : order.status === "delivered" 
                 ? "bg-amber-50 text-amber-700 border border-amber-200"
-                : "bg-blue-50 text-blue-700 border border-blue-200"
+                : "bg-orange-50 text-orange-700 border border-orange-200"
           }`}>
             {order.status === "paid" 
               ? t("paymentCompleted")
@@ -327,11 +327,11 @@ const OrderSidebar = ({
     <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-500">{Icons.receipt}</span>
-        <h4 className="font-semibold text-slate-800 text-lg">
+        <h4 className="font-semibold text-gray-800 text-lg">
           {t("orderSummary")}
         </h4>
       </div>
-      <div className="space-y-2 text-slate-700">
+      <div className="space-y-2 text-gray-700">
         <div className="flex justify-between">
           <span>{t("subtotal")}</span>
           <span>${order.subtotal.toFixed(2)}</span>
@@ -344,7 +344,7 @@ const OrderSidebar = ({
           <span>{t("tax")}</span>
           <span>${order.tax.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between font-bold text-slate-800 text-lg pt-2 border-t border-orange-200/50 mt-2">
+        <div className="flex justify-between font-bold text-gray-800 text-lg pt-2 border-t border-orange-200/50 mt-2">
           <span>{t("total")}</span>
           <span>${order.totalAmount.toFixed(2)}</span>
         </div>
@@ -360,11 +360,11 @@ const OrderSidebar = ({
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
             </svg>
           </div>
-          <p className="text-sm text-slate-600">{t("orderWasCancelled")}</p>
+          <p className="text-sm text-gray-600">{t("orderWasCancelled")}</p>
         </div>
       ) : isCancellable ? (
         <>
-          <p className="text-sm text-slate-600 mb-4">{t("cancelPrompt")}</p>
+          <p className="text-sm text-gray-600 mb-4">{t("cancelPrompt")}</p>
           <button
             onClick={onCancelClick}
             disabled={isCancelling}
@@ -380,8 +380,8 @@ const OrderSidebar = ({
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
             </svg>
           </div>
-          <p className="text-sm text-slate-700">{t("orderInProgress")}</p>
-          <p className="text-xs text-slate-600 mt-1">{t("supportPrompt")}</p>
+          <p className="text-sm text-gray-700">{t("orderInProgress")}</p>
+          <p className="text-xs text-gray-600 mt-1">{t("supportPrompt")}</p>
         </div>
       )}
     </div>
@@ -449,13 +449,13 @@ function OrderDetailsPage() {
           <div className="flex items-center gap-4">
             <Link
               href="/customer-profile"
-              className="text-slate-600 hover:text-orange-600 transition-colors"
+              className="text-gray-600 hover:text-orange-600 transition-colors"
             >
               {Icons.back}
             </Link>
             <div>
-              <h3 className="text-2xl font-bold text-slate-900">{t("title")}</h3>
-              <p className="text-slate-700">
+              <h3 className="text-2xl font-bold text-gray-900">{t("title")}</h3>
+              <p className="text-gray-700">
                 Order #{order._id.slice(-8)} &bull; Placed on{" "}
                 {new Date(order.createdAt).toLocaleDateString()}
               </p>

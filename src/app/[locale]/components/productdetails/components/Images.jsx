@@ -42,8 +42,8 @@ function Images() {
                   onClick={() => setSelectedImage(index)}
                   className={`relative flex-1 group overflow-hidden rounded-xl transition-all duration-300 ${
                     selectedImage === index
-                      ? "ring-3 ring-blue-500 ring-offset-2 shadow-lg scale-105"
-                      : "hover:ring-2 hover:ring-blue-300 hover:ring-offset-1 hover:scale-102"
+                      ? "ring-3 ring-orange-500 ring-offset-2 shadow-lg scale-105"
+                      : "hover:ring-2 hover:ring-orange-300 hover:ring-offset-1 hover:scale-102"
                   }`}
                 >
                   <img
@@ -54,7 +54,7 @@ function Images() {
                   <div
                     className={`absolute inset-0 transition-opacity duration-300 ${
                       selectedImage === index
-                        ? "bg-blue-500/10"
+                        ? "bg-orange-500/10"
                         : "bg-black/0 group-hover:bg-black/5"
                     }`}
                   ></div>

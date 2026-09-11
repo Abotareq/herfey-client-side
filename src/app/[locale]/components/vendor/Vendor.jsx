@@ -60,14 +60,14 @@ function VendorProfile() {
           <div className="mb-8">
             <div className="flex items-center space-x-6 mb-6">
               <div className="relative">
-                <div className="w-20 h-20 bg-slate-200 rounded-2xl animate-pulse"></div>
+                <div className="w-20 h-20 bg-gray-200 rounded-2xl animate-pulse"></div>
               </div>
               <div className="flex-1 space-y-3">
-                <div className="h-9 w-64 bg-slate-200 rounded animate-pulse"></div>
-                <div className="h-5 w-32 bg-slate-200 rounded animate-pulse"></div>
+                <div className="h-9 w-64 bg-gray-200 rounded animate-pulse"></div>
+                <div className="h-5 w-32 bg-gray-200 rounded animate-pulse"></div>
                 <div className="flex flex-wrap items-center space-x-6">
-                  <div className="h-8 w-48 bg-slate-200 rounded-full animate-pulse"></div>
-                  <div className="h-8 w-32 bg-slate-200 rounded-full animate-pulse"></div>
+                  <div className="h-8 w-48 bg-gray-200 rounded-full animate-pulse"></div>
+                  <div className="h-8 w-32 bg-gray-200 rounded-full animate-pulse"></div>
                 </div>
               </div>
             </div>
@@ -81,7 +81,7 @@ function VendorProfile() {
                 .map((_, i) => (
                   <div
                     key={i}
-                    className="h-10 w-32 bg-slate-200 rounded-xl animate-pulse"
+                    className="h-10 w-32 bg-gray-200 rounded-xl animate-pulse"
                   ></div>
                 ))}
             </div>
@@ -90,18 +90,18 @@ function VendorProfile() {
           {/* Content skeleton (for profile tab) */}
           <div className="space-y-8">
             {/* Personal Information Card skeleton */}
-            <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+            <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
               <div className="flex items-center justify-between mb-6">
-                <div className="h-8 w-40 bg-slate-200 rounded animate-pulse"></div>
-                <div className="h-10 w-24 bg-slate-200 rounded-lg animate-pulse"></div>
+                <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+                <div className="h-10 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {Array(6)
                   .fill()
                   .map((_, index) => (
                     <div key={index} className="space-y-2">
-                      <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
-                      <div className="h-12 w-full bg-slate-100 rounded-lg animate-pulse"></div>
+                      <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+                      <div className="h-12 w-full bg-gray-100 rounded-lg animate-pulse"></div>
                     </div>
                   ))}
               </div>
@@ -114,14 +114,14 @@ function VendorProfile() {
                 .map((_, i) => (
                   <div
                     key={i}
-                    className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm"
+                    className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm"
                   >
                     <div className="flex items-center justify-between">
                       <div className="space-y-2">
-                        <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
-                        <div className="h-8 w-16 bg-slate-200 rounded animate-pulse"></div>
+                        <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+                        <div className="h-8 w-16 bg-gray-200 rounded animate-pulse"></div>
                       </div>
-                      <div className="w-12 h-12 bg-slate-200 rounded-full animate-pulse"></div>
+                      <div className="w-12 h-12 bg-gray-200 rounded-full animate-pulse"></div>
                     </div>
                   </div>
                 ))}

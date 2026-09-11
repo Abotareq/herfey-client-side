@@ -80,18 +80,18 @@ function ProfileSection({ userData }) {
   if (authLoading || !userData) {
     return (
       <div className="space-y-8">
-        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <div className="h-8 w-40 bg-slate-200 rounded animate-pulse"></div>
-            <div className="h-10 w-24 bg-slate-200 rounded-lg animate-pulse"></div>
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-10 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Array(6)
               .fill()
               .map((_, index) => (
                 <div key={index} className="space-y-2">
-                  <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
-                  <div className="h-12 w-full bg-slate-100 rounded-lg animate-pulse"></div>
+                  <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-12 w-full bg-gray-100 rounded-lg animate-pulse"></div>
                 </div>
               ))}
           </div>
@@ -103,12 +103,12 @@ function ProfileSection({ userData }) {
   return (
     <div className="space-y-8">
       {/* Personal Information Card */}
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-slate-900">{t("title")}</h3>
+          <h3 className="text-2xl font-bold text-gray-900">{t("title")}</h3>
           <button
             onClick={handleEditToggle}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400"
+            className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:bg-gray-400"
             disabled={authLoading || !user?.id}
           >
             <svg
@@ -134,7 +134,7 @@ function ProfileSection({ userData }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("name")}
             </label>
             {isEditing ? (
@@ -147,17 +147,17 @@ function ProfileSection({ userData }) {
                     userName: e.target.value,
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">
+              <p className="text-gray-900 font-medium bg-gray-50 px-4 py-3 rounded-lg">
                 {userData.userName || "-"}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("fname")}
             </label>
             {isEditing ? (
@@ -170,17 +170,17 @@ function ProfileSection({ userData }) {
                     firstName: e.target.value,
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">
+              <p className="text-gray-900 font-medium bg-gray-50 px-4 py-3 rounded-lg">
                 {userData.firstName || "-"}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("lname")}
             </label>
             {isEditing ? (
@@ -193,17 +193,17 @@ function ProfileSection({ userData }) {
                     lastName: e.target.value,
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">
+              <p className="text-gray-900 font-medium bg-gray-50 px-4 py-3 rounded-lg">
                 {userData.lastName || "-"}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("email")}
             </label>
             <div className="flex items-center space-x-2">
@@ -217,10 +217,10 @@ function ProfileSection({ userData }) {
                       email: e.target.value,
                     }))
                   }
-                  className="flex-1 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               ) : (
-                <p className="flex-1 text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">
+                <p className="flex-1 text-gray-900 font-medium bg-gray-50 px-4 py-3 rounded-lg">
                   {userData.email || "-"}
                 </p>
               )}
@@ -244,7 +244,7 @@ function ProfileSection({ userData }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("phone")}
             </label>
             {isEditing ? (
@@ -254,22 +254,22 @@ function ProfileSection({ userData }) {
                 onChange={(e) =>
                   setEditedData((prev) => ({ ...prev, phone: e.target.value }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             ) : (
-              <p className="text-slate-900 font-medium bg-slate-50 px-4 py-3 rounded-lg">
+              <p className="text-gray-900 font-medium bg-gray-50 px-4 py-3 rounded-lg">
                 {userData.phone || "-"}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("role")}
             </label>
-            <p className="text-slate-900 font-medium bg-gradient-to-r from-purple-100 to-blue-100 px-4 py-3 rounded-lg capitalize flex items-center">
+            <p className="text-gray-900 font-medium bg-gradient-to-r from-orange-100 to-orange-100 px-4 py-3 rounded-lg capitalize flex items-center">
               <svg
-                className="w-4 h-4 mr-2 text-purple-600"
+                className="w-4 h-4 mr-2 text-orange-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -290,13 +290,13 @@ function ProfileSection({ userData }) {
           <div className="mt-6 flex justify-end space-x-3">
             <button
               onClick={handleEditToggle}
-              className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >
               {t("cancel")}
             </button>
             <button
               onClick={handleSaveProfile}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400"
+              className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:bg-gray-400"
               disabled={updateUserMutation.isLoading || !user?.id}
             >
               {updateUserMutation.isLoading ? t("saving") : t("save")}
@@ -307,19 +307,19 @@ function ProfileSection({ userData }) {
 
       {/* Business Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">
+              <p className="text-gray-600 text-sm font-medium">
                 {t("stores")}
               </p>
-              <p className="text-3xl font-bold text-purple-600">
+              <p className="text-3xl font-bold text-orange-600">
                 {userData.storesCount || 0}
               </p>
             </div>
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
               <svg
-                className="w-6 h-6 text-purple-600"
+                className="w-6 h-6 text-orange-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -335,19 +335,19 @@ function ProfileSection({ userData }) {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">
+              <p className="text-gray-600 text-sm font-medium">
                 {t("orders")}
               </p>
-              <p className="text-3xl font-bold text-blue-600">
+              <p className="text-3xl font-bold text-orange-600">
                 {userData.ordersCount || 0}
               </p>
             </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
               <svg
-                className="w-6 h-6 text-blue-600"
+                className="w-6 h-6 text-orange-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -363,10 +363,10 @@ function ProfileSection({ userData }) {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">
+              <p className="text-gray-600 text-sm font-medium">
                 {t("active")}
               </p>
               <p className="text-3xl font-bold text-green-600">
@@ -391,10 +391,10 @@ function ProfileSection({ userData }) {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-slate-600 text-sm font-medium">
+              <p className="text-gray-600 text-sm font-medium">
                 {t("ocancel")}
               </p>
               <p className="text-3xl font-bold text-red-600">

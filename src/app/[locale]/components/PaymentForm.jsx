@@ -8,49 +8,49 @@ function PaymentForm() {
     <div class="p-4">
     <div class="max-w-xl mx-auto bg-white">
       <div class="rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="bg-gradient-to-r from-purple-500 to-indigo-600 p-6">
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
           <h2 class="text-xl font-semibold text-white">{t('Complete')}</h2>
-          <p class="text-sm text-slate-100 mt-2">{t('fast')}</p>
+          <p class="text-sm text-gray-100 mt-2">{t('fast')}</p>
         </div>
 
         <div class="p-6">
           <div class="flex mb-6 border border-gray-300 rounded-md overflow-hidden">
             <button
-              class="cursor-pointer flex-1 py-3 px-1 text-sm text-center bg-indigo-50 text-indigo-600 font-medium">
+              class="cursor-pointer flex-1 py-3 px-1 text-sm text-center bg-orange-50 text-orange-600 font-medium">
                 {t('credit')}
             </button>
             <button
-              class="cursor-pointer flex-1 py-3 px-1 text-sm text-center text-slate-500 hover:bg-gray-50 font-medium">
+              class="cursor-pointer flex-1 py-3 px-1 text-sm text-center text-gray-500 hover:bg-gray-50 font-medium">
               {t('paypal')}
             </button>
             <button
-              class="cursor-pointer flex-1 py-3 px-1 text-sm text-center text-slate-500 hover:bg-gray-50 font-medium">
+              class="cursor-pointer flex-1 py-3 px-1 text-sm text-center text-gray-500 hover:bg-gray-50 font-medium">
               {t('banktransfer')}
             </button>
           </div>
 
           <form>
             <div class="mb-4">
-              <label class="block text-slate-900 text-sm font-medium mb-2" for="cardName">
+              <label class="block text-gray-900 text-sm font-medium mb-2" for="cardName">
                 {t('cardholder')}
               </label>
               <input
                 type="text"
                 id="cardName"
-                class="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-orange-600"
+                class="px-4 py-2.5 bg-white border border-gray-400 text-gray-900 w-full text-sm rounded-md focus:outline-orange-600"
                 placeholder={t('cardholderplace')}
                 required
               />
             </div>
             <div class="mb-4">
-              <label class="block text-slate-900 text-sm font-medium mb-2" for="cardNumber">
+              <label class="block text-gray-900 text-sm font-medium mb-2" for="cardNumber">
                 {t('cardnumber')}
               </label>
               <div class="relative">
                 <input
                   type="text"
                   id="cardNumber"
-                  class="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-orange-600"
+                  class="px-4 py-2.5 bg-white border border-gray-400 text-gray-900 w-full text-sm rounded-md focus:outline-orange-600"
                   placeholder="1234 5678 9012 3456"
                   required
                 />
@@ -58,25 +58,25 @@ function PaymentForm() {
             </div>
             <div class="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label class="block text-slate-900 text-sm font-medium mb-2" for="expDate">
+                <label class="block text-gray-900 text-sm font-medium mb-2" for="expDate">
                   {t('expire')}
                 </label>
                 <input
                   type="text"
                   id="expDate"
-                  class="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-orange-600"
+                  class="px-4 py-2.5 bg-white border border-gray-400 text-gray-900 w-full text-sm rounded-md focus:outline-orange-600"
                   placeholder="MM/YY"
                   required
                 />
               </div>
               <div>
-                <label class="block text-slate-900 text-sm font-medium mb-2" for="cvv">
+                <label class="block text-gray-900 text-sm font-medium mb-2" for="cvv">
                   {t('cvv')}
                 </label>
                 <input
                   type="text"
                   id="cvv"
-                  class="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-orange-600"
+                  class="px-4 py-2.5 bg-white border border-gray-400 text-gray-900 w-full text-sm rounded-md focus:outline-orange-600"
                   placeholder="123"
                   required
                 />
@@ -88,11 +88,11 @@ function PaymentForm() {
                 <input
                   type="checkbox"
                   id="saveCard"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                   required
                 />
-                <label for="saveCard" class="ml-2 block text-sm text-slate-900 font-medium">
-                  {t('agree')} <Link href="#" class="text-indigo-600 hover:text-indigo-500">{t('condition')}</Link>
+                <label for="saveCard" class="ml-2 block text-sm text-gray-900 font-medium">
+                  {t('agree')} <Link href="#" class="text-orange-600 hover:text-orange-500">{t('condition')}</Link>
                 </label>
               </div>
             </div>
@@ -104,7 +104,7 @@ function PaymentForm() {
               >
                 Pay $49.99
               </button>
-              <div class="flex items-center justify-center text-slate-500 text-sm">
+              <div class="flex items-center justify-center text-gray-500 text-sm">
                 <span>{t('secure')}</span>
               </div>
             </div>

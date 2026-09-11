@@ -7,14 +7,14 @@ import { useGetAllProducts } from "../../../service/product";
 import Breadcrumbs from "./Breadcrumbs";
 import { useStoreContext } from "@/app/context/StoreContext";
 import { useCategoryContext } from "@/app/context/categoryContext";
-import ProductCard from "./PrductCard";
+import ProductCard, { ProductCardSkeleton, ProductsPlaceholder } from "./PrductCard";
 
 function ProductsList() {
   const [page, setPage] = useState(1);
   const [selectedFilters, setSelectedFilters] = useState({});
   const [sortBy, setSortBy] = useState("");
 
-  const { data, isLoading, isError } = useGetAllProducts({
+  const { data, isPending: isLoading, isError, refetch } = useGetAllProducts({
     page,
     limit: 6,
     ...selectedFilters,
@@ -94,37 +94,8 @@ function ProductsList() {
           <section className="container mx-auto p-10 md:py-12 md:p-8 flex-1">
             {/* Products Grid Skeleton */}
             <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                <div
-                  key={item}
-                  className="relative rounded-lg overflow-hidden shadow-lg bg-white"
-                >
-                  {/* Product Image Skeleton */}
-                  <div className="w-full h-72 bg-gray-200 animate-pulse"></div>
-
-                  {/* Product Info Skeleton */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <div className="h-5 bg-gray-300/50 rounded w-3/4 mx-auto animate-pulse"></div>
-                  </div>
-
-                  {/* Overlay Content Skeleton */}
-                  <div className="absolute inset-0 bg-black/50 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    {/* Top Tags */}
-                    <div className="flex justify-between">
-                      <div className="h-6 bg-white/20 rounded-full w-20 animate-pulse"></div>
-                    </div>
-
-                    {/* Center Button */}
-                    <div className="flex-grow flex items-center justify-center">
-                      <div className="h-12 bg-blue-600/50 rounded-full w-24 animate-pulse"></div>
-                    </div>
-
-                    {/* Price */}
-                    <div className="flex justify-center mb-6">
-                      <div className="h-10 bg-white/70 rounded-full w-20 animate-pulse"></div>
-                    </div>
-                  </div>
-                </div>
+              {Array.from({ length: 8 }, (_, i) => (
+                <ProductCardSkeleton key={i} />
               ))}
             </section>
 
@@ -154,10 +125,13 @@ function ProductsList() {
 
   if (isError) {
     return (
-      <div className="flex justify-between">
-        <div className="p-4 text-center">
-          <p className="text-red-500">{t("error")}</p>
-        </div>
+      <div className="container mx-auto p-10 md:py-12 md:p-8">
+        <ProductsPlaceholder
+          message={t("error")}
+          onRetry={refetch}
+          count={8}
+          gridClassName="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10"
+        />
       </div>
     );
   }
@@ -464,7 +438,7 @@ function ProductsList() {
           <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
             {displayedProducts.length > 0 ? (
               displayedProducts.map((product) => (
-                <ProductCard key={product._id} product={product} /> // Use ProductCard here
+                <ProductCard key={product._id} product={product} />
               ))
             ) : (
               <NotFoundPage />
@@ -490,7 +464,7 @@ function ProductsList() {
                   onClick={() => setPage(i + 1)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                     page === i + 1
-                      ? "bg-blue-600 text-white shadow-sm"
+                      ? "bg-orange-600 text-white shadow-sm"
                       : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
                   }`}
                 >

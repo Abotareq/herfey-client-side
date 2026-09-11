@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { useGetAllCategories, useGetCategoryById } from "@/service/category";
 import { useState } from "react";
-import SkeletonLoader from "./SkeltonLoader";
 import { useTranslations } from "next-intl";
+import { RefreshCw } from "lucide-react";
 import NotFoundPage from "./NotFoundComponent";
 import image2 from '@public/5.jpg'
 
@@ -11,7 +11,8 @@ function CategoryLinks() {
   const [selectedId, setSelectedId] = useState(null);
   const t = useTranslations('category')
   // Get all categories using the service hook
-  const { data: categories, isLoading: loadingList, error: categoriesError } = useGetAllCategories();
+  const { data: categories, isPending: loadingList, error: categoriesError, refetch } = useGetAllCategories();
+  const tp = useTranslations('products');
 
   // Get category by ID using the service hook
   const { data: categoryDetails, isLoading: loadingDetails, error: categoryError } = useGetCategoryById(selectedId);
@@ -19,12 +20,36 @@ function CategoryLinks() {
   // Handle loading state for categories
   if (loadingList) {
     return (
-    <SkeletonLoader />
-  )
-
+      <CategoryTilesFrame title={t('most')}>
+        {[0, 1, 2].map((i) => <CategoryTileSkeleton key={i} />)}
+      </CategoryTilesFrame>
+    );
   }
-  // Handle error state for categories
-  if (categoriesError) return <p>{t('error')}: {categoriesError.message}</p>;
+  // Handle error state for categories: keep the tile shape, say what happened
+  if (categoriesError) {
+    return (
+      <CategoryTilesFrame title={t('most')}>
+        <div className="relative md:col-span-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 opacity-40" aria-hidden="true">
+            {[0, 1, 2].map((i) => <CategoryTileSkeleton key={i} />)}
+          </div>
+          <div role="status" className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 text-center">
+            <p className="rounded-xl bg-white/90 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm backdrop-blur-sm">
+              {t('error')}
+            </p>
+            <button
+              type="button"
+              onClick={() => refetch()}
+              className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
+            >
+              <RefreshCw className="h-4 w-4" aria-hidden="true" />
+              {tp('retry')}
+            </button>
+          </div>
+        </div>
+      </CategoryTilesFrame>
+    );
+  }
 
   // Handle case where categories data is empty or invalid
   if (!categories || !Array.isArray(categories) || categories.length === 0) {
@@ -106,3 +131,26 @@ function CategoryLinks() {
 }
 
 export default CategoryLinks;
+
+function CategoryTilesFrame({ title, children }) {
+  return (
+    <div className="w-full bg-gray-100 p-8">
+      <h3 className="text-center mb-8 text-xl font-bold">{title}</h3>
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+/** Same box as a category tile: image block plus a centred title line. */
+function CategoryTileSkeleton() {
+  return (
+    <div className="bg-white rounded-lg overflow-hidden shadow-md" aria-hidden="true">
+      <div className="skeleton h-64 w-full rounded-none" />
+      <div className="p-6 flex justify-center">
+        <div className="skeleton h-5 w-1/2" />
+      </div>
+    </div>
+  );
+}

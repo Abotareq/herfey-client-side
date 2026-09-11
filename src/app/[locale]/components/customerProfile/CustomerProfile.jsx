@@ -37,36 +37,36 @@ function CustomerProfile() {
     return (
       <>
         {" "}
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50">
           <div className="max-w-6xl mx-auto px-4 py-8">
             {/* Header Skeleton */}
             <div className="mb-8">
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-16 h-16 bg-slate-200 rounded-full animate-pulse"></div>
+                <div className="w-16 h-16 bg-gray-200 rounded-full animate-pulse"></div>
                 <div className="space-y-2">
-                  <div className="h-8 w-48 bg-slate-200 rounded animate-pulse"></div>
-                  <div className="h-5 w-32 bg-slate-200 rounded animate-pulse"></div>
-                  <div className="h-4 w-40 bg-slate-200 rounded animate-pulse"></div>
+                  <div className="h-8 w-48 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-5 w-32 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-4 w-40 bg-gray-200 rounded animate-pulse"></div>
                 </div>
               </div>
             </div>
 
             {/* Navigation Tabs Skeleton */}
             <div className="mb-8">
-              <div className="flex space-x-1 bg-slate-100 rounded-lg p-1 max-w-lg">
+              <div className="flex space-x-1 bg-gray-100 rounded-lg p-1 max-w-lg">
                 {Array(3)
                   .fill()
                   .map((_, index) => (
                     <div
                       key={index}
-                      className="flex-1 h-10 bg-slate-200 rounded-md animate-pulse"
+                      className="flex-1 h-10 bg-gray-200 rounded-md animate-pulse"
                     ></div>
                   ))}
               </div>
             </div>
 
             {/* Content Skeleton */}
-            <div className="min-h-[400px] bg-slate-100 rounded-lg animate-pulse"></div>
+            <div className="min-h-[400px] bg-gray-100 rounded-lg animate-pulse"></div>
           </div>
         </div>
       </>
@@ -83,16 +83,16 @@ function CustomerProfile() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-4 mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
+            <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
               {userData.firstName?.charAt(0)}
               {userData.lastName?.charAt(0)}
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">
+              <h1 className="text-3xl font-bold text-gray-900">
                 {userData.firstName} {userData.lastName}
               </h1>
-              <p className="text-slate-600">@{userData.userName}</p>
-              <p className="text-sm text-slate-500">
+              <p className="text-gray-600">@{userData.userName}</p>
+              <p className="text-sm text-gray-500">
                 {t("date")} {new Date(userData.createdAt).toLocaleDateString()}
               </p>
             </div>

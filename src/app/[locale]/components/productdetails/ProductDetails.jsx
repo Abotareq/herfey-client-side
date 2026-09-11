@@ -167,7 +167,7 @@ function ProductDetails({ id }) {
   return (
     <div>
       <Breadcrumbs />
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
         <div className="container mx-auto px-4 py-8 max-w-6xl">
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <div className="flex flex-wrap">
@@ -191,7 +191,7 @@ function ProductDetails({ id }) {
                         onClick={() => setSelectedImage(index)}
                         className={`w-20 h-20 rounded-xl overflow-hidden cursor-pointer border-4 transition-all duration-300 ${
                           selectedImage === index
-                            ? "border-blue-500 shadow-lg scale-105"
+                            ? "border-orange-500 shadow-lg scale-105"
                             : "border-gray-200 hover:border-gray-300"
                         }`}
                       >
@@ -208,7 +208,7 @@ function ProductDetails({ id }) {
               <div className="w-full lg:w-1/2 p-6 lg:p-8">
                 <div className="space-y-6">
                   <div>
-                    <div className="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4">
+                    <div className="inline-block px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium mb-4">
                       {product?.category?.name || "Product"}
                     </div>
                     <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
@@ -277,7 +277,7 @@ function ProductDetails({ id }) {
                           key={index}
                           className={`w-6 h-6 ${
                             index < Math.round(product.averageRating || 4)
-                              ? "text-yellow-400 fill-current"
+                              ? "text-amber-400 fill-current"
                               : "text-gray-300"
                           }`}
                           xmlns="http://www.w3.org/2000/svg"
@@ -399,7 +399,7 @@ function ProductDetails({ id }) {
                           className={`flex-1 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 shadow-lg ${
                             isDisabled || addToCartMutation.isPending
                               ? "bg-gray-400 cursor-not-allowed text-white"
-                              : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                              : "bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white"
                           }`}
                         >
                           <svg

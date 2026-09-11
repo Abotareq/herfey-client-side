@@ -235,30 +235,30 @@ function AddressesSection() {
         <div className="space-y-6">
           {/* Header Skeleton */}
           <div className="flex items-center justify-between">
-            <div className="h-8 w-40 bg-slate-200 rounded animate-pulse"></div>
-            <div className="h-10 w-32 bg-slate-200 rounded-lg animate-pulse"></div>
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded-lg animate-pulse"></div>
           </div>
 
           {/* Address Form Skeleton */}
-          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-            <div className="h-6 w-32 bg-slate-200 rounded animate-pulse mb-4"></div>
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Array(6)
                 .fill()
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="h-12 w-full bg-slate-200 rounded-lg animate-pulse"
+                    className="h-12 w-full bg-gray-200 rounded-lg animate-pulse"
                   ></div>
                 ))}
             </div>
             <div className="mt-4 flex items-center space-x-2">
-              <div className="h-4 w-4 bg-slate-200 rounded animate-pulse"></div>
-              <div className="h-4 w-24 bg-slate-200 rounded animate-pulse"></div>
+              <div className="h-4 w-4 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
             </div>
             <div className="mt-6 flex justify-end space-x-3">
-              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
-              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-lg animate-pulse"></div>
             </div>
           </div>
 
@@ -269,24 +269,24 @@ function AddressesSection() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative"
+                  className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative"
                 >
-                  <div className="absolute top-4 right-4 h-5 w-16 bg-slate-200 rounded-full animate-pulse"></div>
+                  <div className="absolute top-4 right-4 h-5 w-16 bg-gray-200 rounded-full animate-pulse"></div>
                   <div className="space-y-2">
                     {Array(5)
                       .fill()
                       .map((_, i) => (
                         <div
                           key={i}
-                          className="h-4 w-3/4 bg-slate-200 rounded animate-pulse"
+                          className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"
                         ></div>
                       ))}
                   </div>
                   <div className="mt-4 flex justify-between">
-                    <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
+                    <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
                     <div className="flex space-x-2">
-                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
-                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ function AddressesSection() {
 
           {/* No Addresses Skeleton (optional, shown when no addresses) */}
           <div className="col-span-full text-center py-8">
-            <div className="h-4 w-64 mx-auto bg-slate-200 rounded animate-pulse"></div>
+            <div className="h-4 w-64 mx-auto bg-gray-200 rounded animate-pulse"></div>
           </div>
         </div>
       </>
@@ -309,30 +309,30 @@ function AddressesSection() {
         <div className="space-y-6">
           {/* Header Skeleton */}
           <div className="flex items-center justify-between">
-            <div className="h-8 w-40 bg-slate-200 rounded animate-pulse"></div>
-            <div className="h-10 w-32 bg-slate-200 rounded-lg animate-pulse"></div>
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded-lg animate-pulse"></div>
           </div>
 
           {/* Address Form Skeleton */}
-          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-            <div className="h-6 w-32 bg-slate-200 rounded animate-pulse mb-4"></div>
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Array(6)
                 .fill()
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="h-12 w-full bg-slate-200 rounded-lg animate-pulse"
+                    className="h-12 w-full bg-gray-200 rounded-lg animate-pulse"
                   ></div>
                 ))}
             </div>
             <div className="mt-4 flex items-center space-x-2">
-              <div className="h-4 w-4 bg-slate-200 rounded animate-pulse"></div>
-              <div className="h-4 w-24 bg-slate-200 rounded animate-pulse"></div>
+              <div className="h-4 w-4 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
             </div>
             <div className="mt-6 flex justify-end space-x-3">
-              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
-              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-lg animate-pulse"></div>
             </div>
           </div>
 
@@ -343,24 +343,24 @@ function AddressesSection() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative"
+                  className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative"
                 >
-                  <div className="absolute top-4 right-4 h-5 w-16 bg-slate-200 rounded-full animate-pulse"></div>
+                  <div className="absolute top-4 right-4 h-5 w-16 bg-gray-200 rounded-full animate-pulse"></div>
                   <div className="space-y-2">
                     {Array(5)
                       .fill()
                       .map((_, i) => (
                         <div
                           key={i}
-                          className="h-4 w-3/4 bg-slate-200 rounded animate-pulse"
+                          className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"
                         ></div>
                       ))}
                   </div>
                   <div className="mt-4 flex justify-between">
-                    <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
+                    <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
                     <div className="flex space-x-2">
-                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
-                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -369,7 +369,7 @@ function AddressesSection() {
 
           {/* No Addresses Skeleton (optional, shown when no addresses) */}
           <div className="col-span-full text-center py-8">
-            <div className="h-4 w-64 mx-auto bg-slate-200 rounded animate-pulse"></div>
+            <div className="h-4 w-64 mx-auto bg-gray-200 rounded animate-pulse"></div>
           </div>
         </div>
       </>
@@ -383,30 +383,30 @@ function AddressesSection() {
         <div className="space-y-6">
           {/* Header Skeleton */}
           <div className="flex items-center justify-between">
-            <div className="h-8 w-40 bg-slate-200 rounded animate-pulse"></div>
-            <div className="h-10 w-32 bg-slate-200 rounded-lg animate-pulse"></div>
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded-lg animate-pulse"></div>
           </div>
 
           {/* Address Form Skeleton */}
-          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-            <div className="h-6 w-32 bg-slate-200 rounded animate-pulse mb-4"></div>
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Array(6)
                 .fill()
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="h-12 w-full bg-slate-200 rounded-lg animate-pulse"
+                    className="h-12 w-full bg-gray-200 rounded-lg animate-pulse"
                   ></div>
                 ))}
             </div>
             <div className="mt-4 flex items-center space-x-2">
-              <div className="h-4 w-4 bg-slate-200 rounded animate-pulse"></div>
-              <div className="h-4 w-24 bg-slate-200 rounded animate-pulse"></div>
+              <div className="h-4 w-4 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
             </div>
             <div className="mt-6 flex justify-end space-x-3">
-              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
-              <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-lg animate-pulse"></div>
+              <div className="h-10 w-20 bg-gray-200 rounded-lg animate-pulse"></div>
             </div>
           </div>
 
@@ -417,24 +417,24 @@ function AddressesSection() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative"
+                  className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative"
                 >
-                  <div className="absolute top-4 right-4 h-5 w-16 bg-slate-200 rounded-full animate-pulse"></div>
+                  <div className="absolute top-4 right-4 h-5 w-16 bg-gray-200 rounded-full animate-pulse"></div>
                   <div className="space-y-2">
                     {Array(5)
                       .fill()
                       .map((_, i) => (
                         <div
                           key={i}
-                          className="h-4 w-3/4 bg-slate-200 rounded animate-pulse"
+                          className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"
                         ></div>
                       ))}
                   </div>
                   <div className="mt-4 flex justify-between">
-                    <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
+                    <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
                     <div className="flex space-x-2">
-                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
-                      <div className="h-4 w-12 bg-slate-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+                      <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -443,7 +443,7 @@ function AddressesSection() {
 
           {/* No Addresses Skeleton (optional, shown when no addresses) */}
           <div className="col-span-full text-center py-8">
-            <div className="h-4 w-64 mx-auto bg-slate-200 rounded animate-pulse"></div>
+            <div className="h-4 w-64 mx-auto bg-gray-200 rounded animate-pulse"></div>
           </div>
         </div>
       </>
@@ -462,10 +462,10 @@ function AddressesSection() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-2xl font-bold text-slate-900">{t("delivery")}</h3>
+        <h3 className="text-2xl font-bold text-gray-900">{t("delivery")}</h3>
         <button
           onClick={() => setShowAddressForm(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
         >
           <svg
             className="w-4 h-4"
@@ -486,7 +486,7 @@ function AddressesSection() {
 
       {/* Add/Edit Form */}
       {(showAddressForm || editingAddress) && (
-        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
           <h4 className="text-lg font-semibold mb-4">
             {editingAddress ? "Edit Address" : "Add New Address"}
           </h4>
@@ -590,7 +590,7 @@ function AddressesSection() {
             </button>
             <button
               onClick={handleAddOrUpdate}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg"
+              className="px-6 py-2 bg-orange-600 text-white rounded-lg"
             >
               {editingAddress ? t("Update") : t("Add")}
             </button>
@@ -601,11 +601,11 @@ function AddressesSection() {
       {/* Address List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {addresses.length === 0 ? (
-          <div className="text-center py-12 bg-slate-50 rounded-lg">
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+          <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
               {t("noaddress")}
             </h3>
-            <p className="text-slate-600">{t("noaddresssubtext")}</p>
+            <p className="text-gray-600">{t("noaddresssubtext")}</p>
           </div>
         ) : (
           addresses.map((address) => (
@@ -616,11 +616,11 @@ function AddressesSection() {
               {address.isDefault && (
                 <div className={`absolute top-4 ${
                           isArabic ? "left-4" : "right-4"
-                        } bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium`}>
+                        } bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs font-medium`}>
                   {t1("default")}
                 </div>
               )}
-              <div className="space-y-2 text-slate-600">
+              <div className="space-y-2 text-gray-600">
                 <p>
                   {t1("building")}: {address.buildingNo}
                 </p>
@@ -649,7 +649,7 @@ function AddressesSection() {
                 {!address.isDefault && (
                   <button
                     onClick={() => handleSetDefaultAddress(address._id)}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-orange-600 hover:text-orange-800"
                   >
                     {t("defaultaddress")}
                   </button>
@@ -661,7 +661,7 @@ function AddressesSection() {
                       setNewAddress(address);
                       setShowAddressForm(true);
                     }}
-                    className="text-slate-600 hover:text-slate-800"
+                    className="text-gray-600 hover:text-gray-800"
                   >
                     {t("Edit")}
                   </button>

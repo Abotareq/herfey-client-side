@@ -466,7 +466,7 @@ export default function StoresSection() {
   // Helper function to get input border class based on validation
   const getInputBorderClass = (fieldName, baseClass) => {
     if (fieldTouched[fieldName] && validationErrors[fieldName]) {
-      return baseClass.replace('border-slate-200', 'border-red-300').replace('focus:border-orange-400', 'focus:border-red-400').replace('focus:ring-orange-200', 'focus:ring-red-200');
+      return baseClass.replace('border-gray-200', 'border-red-300').replace('focus:border-orange-400', 'focus:border-red-400').replace('focus:ring-orange-200', 'focus:ring-red-200');
     }
     return baseClass;
   };
@@ -487,7 +487,7 @@ export default function StoresSection() {
           <h3 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
             {t('title')}
           </h3>
-          <p className="text-slate-600 text-lg font-medium">
+          <p className="text-gray-600 text-lg font-medium">
             {t('desc')}
           </p>
         </div>
@@ -540,10 +540,10 @@ export default function StoresSection() {
                 <Store className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h4 className="text-3xl font-bold text-slate-800">
+                <h4 className="text-3xl font-bold text-gray-800">
                   {editingStore ? t('edit') : t('create')}
                 </h4>
-                <p className="text-slate-600 text-lg mt-1">
+                <p className="text-gray-600 text-lg mt-1">
                   {editingStore
                     ? t('update')
                     : t('fillstores')}
@@ -557,7 +557,7 @@ export default function StoresSection() {
               {/* Basic Information */}
               <div className="space-y-8">
                 <div className="space-y-3">
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-700 uppercase tracking-wider">
                     {t('name')} <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -565,14 +565,14 @@ export default function StoresSection() {
                     value={newStore.name}
                     onChange={(e) => handleFieldChange('name', e.target.value)}
                     onBlur={(e) => handleFieldBlur('name', e.target.value)}
-                    className={getInputBorderClass('name', "w-full px-5 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300 hover:border-slate-300 text-lg font-medium")}
+                    className={getInputBorderClass('name', "w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300 hover:border-gray-300 text-lg font-medium")}
                     placeholder={t('storename')}
                   />
                   {renderFieldError('name')}
                 </div>
 
                 <div className="space-y-3">
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-700 uppercase tracking-wider">
                     {t('sdesc')} <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -580,14 +580,14 @@ export default function StoresSection() {
                     onChange={(e) => handleFieldChange('description', e.target.value)}
                     onBlur={(e) => handleFieldBlur('description', e.target.value)}
                     rows={5}
-                    className={getInputBorderClass('description', "w-full px-5 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300 hover:border-slate-300 resize-none text-lg")}
+                    className={getInputBorderClass('description', "w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300 hover:border-gray-300 resize-none text-lg")}
                     placeholder={t('descplace')}
                   />
                   {renderFieldError('description')}
                 </div>
 
                 <div className="space-y-3">
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-700 uppercase tracking-wider">
                     {t('Logo')}
                   </label>
                   <div className="relative">
@@ -596,19 +596,19 @@ export default function StoresSection() {
                       accept="image/*"
                       onChange={(e) => handleFieldChange('logoUrl', e.target.files[0])}
                       onBlur={(e) => handleFieldBlur('logoUrl', e.target.files[0])}
-                      className={getInputBorderClass('logoUrl', "w-full px-5 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300 hover:border-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-orange-50 file:text-orange-700 file:font-semibold hover:file:bg-orange-100")}
+                      className={getInputBorderClass('logoUrl', "w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300 hover:border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-orange-50 file:text-orange-700 file:font-semibold hover:file:bg-orange-100")}
                     />
                   </div>
                   {renderFieldError('logoUrl')}
                 </div>
 
                 <div className="space-y-3">
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
+                  <label className="block text-sm font-bold text-gray-700 uppercase tracking-wider">
                     {t('storelocation')}
                   </label>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase">
+                      <label className="block text-xs font-semibold text-gray-600 uppercase">
                         {t('Longitude')}
                       </label>
                       <input
@@ -620,12 +620,12 @@ export default function StoresSection() {
                           handleFieldChange('location', { ...newStore.location, coordinates: coords });
                         }}
                         onBlur={(e) => handleFieldBlur('location.coordinates', [parseFloat(e.target.value) || 0, newStore.location?.coordinates[1] || 0])}
-                        className={getInputBorderClass('location.coordinates', "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
+                        className={getInputBorderClass('location.coordinates', "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
                         placeholder="-74.0060"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase">
+                      <label className="block text-xs font-semibold text-gray-600 uppercase">
                         {t('Latitude')}
                       </label>
                       <input
@@ -637,14 +637,14 @@ export default function StoresSection() {
                           handleFieldChange('location', { ...newStore.location, coordinates: coords });
                         }}
                         onBlur={(e) => handleFieldBlur('location.coordinates', [newStore.location?.coordinates[0] || 0, parseFloat(e.target.value) || 0])}
-                        className={getInputBorderClass('location.coordinates', "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
+                        className={getInputBorderClass('location.coordinates', "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
                         placeholder="40.7128"
                       />
                     </div>
                   </div>
                   {renderFieldError('location.coordinates')}
                   <div className="flex items-center justify-between mt-3">
-                    <p className="text-sm text-slate-500 font-medium">
+                    <p className="text-sm text-gray-500 font-medium">
                       {t('location')}
                     </p>
                     <button
@@ -661,17 +661,17 @@ export default function StoresSection() {
               
               {/* Address & Policies */}
               <div className="space-y-8">
-                <div className="bg-slate-50 rounded-3xl p-8 space-y-6">
+                <div className="bg-gray-50 rounded-3xl p-8 space-y-6">
                   <div className="flex items-center gap-3 mb-6">
                     <Building2 className="w-6 h-6 text-orange-600" />
-                    <h5 className="text-xl font-bold text-slate-800">
+                    <h5 className="text-xl font-bold text-gray-800">
                       {t('Store Address')} <span className="text-red-500">*</span>
                     </h5>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="block text-sm font-bold text-slate-600 uppercase tracking-wide">
+                      <label className="block text-sm font-bold text-gray-600 uppercase tracking-wide">
                         {t('city')} <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -679,13 +679,13 @@ export default function StoresSection() {
                         value={newStore.address?.city || ""}
                         onChange={(e) => handleFieldChange('address', e.target.value, 'city')}
                         onBlur={(e) => handleFieldBlur('address.city', e.target.value)}
-                        className={getInputBorderClass('address.city', "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
+                        className={getInputBorderClass('address.city', "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
                         placeholder="San Francisco"
                       />
                       {renderFieldError('address.city')}
                     </div>
                     <div className="space-y-2">
-                      <label className="block text-sm font-bold text-slate-600 uppercase tracking-wide">
+                      <label className="block text-sm font-bold text-gray-600 uppercase tracking-wide">
                         {t('postal')} <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -693,7 +693,7 @@ export default function StoresSection() {
                         value={newStore.address?.postalCode || ""}
                         onChange={(e) => handleFieldChange('address', e.target.value, 'postalCode')}
                         onBlur={(e) => handleFieldBlur('address.postalCode', e.target.value)}
-                        className={getInputBorderClass('address.postalCode', "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
+                        className={getInputBorderClass('address.postalCode', "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
                         placeholder="94105"
                       />
                       {renderFieldError('address.postalCode')}
@@ -701,7 +701,7 @@ export default function StoresSection() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="block text-sm font-bold text-slate-600 uppercase tracking-wide">
+                    <label className="block text-sm font-bold text-gray-600 uppercase tracking-wide">
                       {t('street')} <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -709,24 +709,24 @@ export default function StoresSection() {
                       value={newStore.address?.street || ""}
                       onChange={(e) => handleFieldChange('address', e.target.value, 'street')}
                       onBlur={(e) => handleFieldBlur('address.street', e.target.value)}
-                      className={getInputBorderClass('address.street', "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
+                      className={getInputBorderClass('address.street', "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
                       placeholder="123 Main Street"
                     />
                     {renderFieldError('address.street')}
                   </div>
                 </div>
 
-                <div className="bg-slate-50 rounded-3xl p-8 space-y-6">
+                <div className="bg-gray-50 rounded-3xl p-8 space-y-6">
                   <div className="flex items-center gap-3 mb-6">
                     <Shield className="w-6 h-6 text-orange-600" />
-                    <h5 className="text-xl font-bold text-slate-800">
+                    <h5 className="text-xl font-bold text-gray-800">
                       {t('storepolicy')}
                     </h5>
                   </div>
 
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="block text-sm font-bold text-slate-600 uppercase tracking-wide">
+                      <label className="block text-sm font-bold text-gray-600 uppercase tracking-wide">
                         {t('policy')}
                       </label>
                       <input
@@ -734,14 +734,14 @@ export default function StoresSection() {
                         value={newStore.policies?.shipping || ""}
                         onChange={(e) => handleFieldChange('policies', e.target.value, 'shipping')}
                         onBlur={(e) => handleFieldBlur('policies.shipping', e.target.value)}
-                        className={getInputBorderClass('policies.shipping', "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
+                        className={getInputBorderClass('policies.shipping', "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
                         placeholder={t('policyp')}
                       />
                       {renderFieldError('policies.shipping')}
                     </div>
 
                     <div className="space-y-2">
-                      <label className="block text-sm font-bold text-slate-600 uppercase tracking-wide">
+                      <label className="block text-sm font-bold text-gray-600 uppercase tracking-wide">
                         {t('return')}
                       </label>
                       <input
@@ -749,7 +749,7 @@ export default function StoresSection() {
                         value={newStore.policies?.returns || ""}
                         onChange={(e) => handleFieldChange('policies', e.target.value, 'returns')}
                         onBlur={(e) => handleFieldBlur('policies.returns', e.target.value)}
-                        className={getInputBorderClass('policies.returns', "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
+                        className={getInputBorderClass('policies.returns', "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-all duration-300")}
                         placeholder={t('retrunp')}
                       />
                       {renderFieldError('policies.returns')}
@@ -763,7 +763,7 @@ export default function StoresSection() {
               <button
                 onClick={handleCancelEdit}
                 disabled={submitting}
-                className="px-8 py-4 border-2 border-slate-300 text-slate-700 rounded-2xl hover:bg-slate-50 hover:border-slate-400 transition-all duration-300 transform hover:scale-105 font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-2xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 transform hover:scale-105 font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {t('cancel')}
               </button>
@@ -795,10 +795,10 @@ export default function StoresSection() {
             <div className="w-32 h-32 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-8">
               <Store className="w-16 h-16 text-orange-400" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-3">
+            <h3 className="text-2xl font-bold text-gray-800 mb-3">
               {t('nostore')}
             </h3>
-            <p className="text-slate-600 text-lg mb-8 max-w-md mx-auto">
+            <p className="text-gray-600 text-lg mb-8 max-w-md mx-auto">
               {t('getstarted')}
             </p>
             <button
@@ -844,10 +844,10 @@ export default function StoresSection() {
                             store.status === "approved"
                               ? "bg-green-100 text-green-800"
                               : store.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
+                              ? "bg-amber-100 text-amber-800"
                               : store.status === "rejected"
                               ? "bg-red-100 text-red-800"
-                              : "bg-slate-100 text-slate-800"
+                              : "bg-gray-100 text-gray-800"
                           } backdrop-blur-sm shadow-lg`}
                         >
                           <div
@@ -855,10 +855,10 @@ export default function StoresSection() {
                               store.status === "approved"
                                 ? "bg-green-500"
                                 : store.status === "pending"
-                                ? "bg-yellow-500 animate-pulse"
+                                ? "bg-amber-500 animate-pulse"
                                 : store.status === "rejected"
                                 ? "bg-red-500"
-                                : "bg-slate-500"
+                                : "bg-gray-500"
                             }`}
                           ></div>
                           {store.status?.charAt(0).toUpperCase() + store.status?.slice(1)}
@@ -910,7 +910,7 @@ export default function StoresSection() {
 
                 {/* Store Content */}
                 <div className="p-8">
-                  <p className="text-slate-600 mb-8 leading-relaxed text-lg font-medium">
+                  <p className="text-gray-600 mb-8 leading-relaxed text-lg font-medium">
                     {store.description}
                   </p>
 
@@ -956,7 +956,7 @@ export default function StoresSection() {
                         >
                           {stat.value}
                         </p>
-                        <p className="text-sm text-slate-600 font-bold uppercase tracking-wide">
+                        <p className="text-sm text-gray-600 font-bold uppercase tracking-wide">
                           {stat.label}
                         </p>
                       </div>
@@ -969,11 +969,11 @@ export default function StoresSection() {
                       (store.address.street ||
                         store.address.city ||
                         store.address.postalCode) && (
-                        <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
                           <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
                             <MapPin className="w-5 h-5 text-orange-600" />
                           </div>
-                          <span className="text-slate-700 font-semibold text-lg">
+                          <span className="text-gray-700 font-semibold text-lg">
                             {[
                               store.address.street,
                               store.address.city,
@@ -986,11 +986,11 @@ export default function StoresSection() {
                       )}
 
                     {store.policies?.shipping && (
-                      <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
-                        <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                          <Truck className="w-5 h-5 text-blue-600" />
+                      <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                        <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                          <Truck className="w-5 h-5 text-orange-600" />
                         </div>
-                        <span className="text-slate-700 font-semibold text-lg">
+                        <span className="text-gray-700 font-semibold text-lg">
                           {store.policies.shipping}
                         </span>
                       </div>
@@ -1001,7 +1001,7 @@ export default function StoresSection() {
                         <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
                           <RotateCcw className="w-5 h-5 text-green-600" />
                         </div>
-                        <span className="text-slate-700 font-semibold text-lg">
+                        <span className="text-gray-700 font-semibold text-lg">
                           {store.policies.returns}
                         </span>
                       </div>
@@ -1009,7 +1009,7 @@ export default function StoresSection() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-slate-100">
+                  <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-100">
                     <button
                       onClick={() => handleViewDetails(store)}
                       className="flex-1 px-6 py-4 bg-orange-500 text-white rounded-2xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 font-bold text-lg flex items-center justify-center gap-3 shadow-lg"

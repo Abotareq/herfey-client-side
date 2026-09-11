@@ -5,6 +5,7 @@ const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/category`;
 
 // Axios instance with default config
 const apiClient = axios.create({
+  timeout: 15000,
   baseURL: API_BASE,
   headers: {
     'Content-Type': 'application/json',

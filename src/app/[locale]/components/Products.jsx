@@ -97,7 +97,7 @@ function Products() {
 
                     {/* Center Button */}
                     <div className="flex-grow flex items-center justify-center">
-                      <div className="h-12 bg-blue-600/50 rounded-full w-24 animate-pulse"></div>
+                      <div className="h-12 bg-orange-600/50 rounded-full w-24 animate-pulse"></div>
                     </div>
 
                     {/* Price */}
@@ -408,7 +408,7 @@ console.log("Fetched products:", products);
                     {/* Center Button */}
                     <div className="flex-grow flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
                       <button
-                        className="bg-blue-600 text-white rounded-full px-6 py-3 shadow-lg"
+                        className="bg-orange-600 text-white rounded-full px-6 py-3 shadow-lg"
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(`/products/${product._id}`);
@@ -461,7 +461,7 @@ console.log("Fetched products:", products);
                   onClick={() => setPage(i + 1)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                     page === i + 1
-                      ? "bg-blue-600 text-white shadow-sm"
+                      ? "bg-orange-600 text-white shadow-sm"
                       : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
                   }`}
                 >

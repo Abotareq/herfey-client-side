@@ -70,7 +70,7 @@ export default function FavouritesPage() {
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
             {t("myfav")}
           </h3>
-          <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-600 rounded-full mx-auto"></div>
+          <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-orange-600 rounded-full mx-auto"></div>
         </div>
 
         {/* Grid of Skeleton Cards (Inlined) */}
@@ -121,7 +121,7 @@ export default function FavouritesPage() {
       <Breadcrumbs />
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">{t("myfav")}</h3>
-        <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-600 rounded-full mx-auto"></div>
+        <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-orange-600 rounded-full mx-auto"></div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

@@ -184,13 +184,13 @@ function CouponsSection() {
       <div className="space-y-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="h-8 w-48 bg-slate-200 rounded animate-pulse mb-2"></div>
-            <div className="h-4 w-64 bg-slate-200 rounded animate-pulse"></div>
+            <div className="h-8 w-48 bg-gray-200 rounded animate-pulse mb-2"></div>
+            <div className="h-4 w-64 bg-gray-200 rounded animate-pulse"></div>
           </div>
           <div className="flex gap-3">
-            <div className="h-10 w-32 bg-slate-200 rounded animate-pulse"></div>
-            <div className="h-10 w-32 bg-slate-200 rounded animate-pulse"></div>
-            <div className="h-10 w-32 bg-slate-200 rounded animate-pulse"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
           </div>
         </div>
 
@@ -201,10 +201,10 @@ function CouponsSection() {
             .map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-xl p-4 border border-slate-200"
+                className="bg-white rounded-xl p-4 border border-gray-200"
               >
-                <div className="h-8 w-16 bg-slate-200 rounded animate-pulse mb-2"></div>
-                <div className="h-4 w-20 bg-slate-200 rounded animate-pulse"></div>
+                <div className="h-8 w-16 bg-gray-200 rounded animate-pulse mb-2"></div>
+                <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
               </div>
             ))}
         </div>
@@ -216,10 +216,10 @@ function CouponsSection() {
             .map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl p-6 border border-slate-200"
+                className="bg-white rounded-2xl p-6 border border-gray-200"
               >
-                <div className="h-6 w-32 bg-slate-200 rounded animate-pulse mb-4"></div>
-                <div className="h-4 w-full bg-slate-100 rounded animate-pulse"></div>
+                <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
+                <div className="h-4 w-full bg-gray-100 rounded animate-pulse"></div>
               </div>
             ))}
         </div>
@@ -246,10 +246,10 @@ function CouponsSection() {
             />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-slate-900 mb-2">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">
           Failed to load coupons
         </h3>
-        <p className="text-slate-600">
+        <p className="text-gray-600">
           {couponsError?.message || "Something went wrong"}
         </p>
       </div>
@@ -260,15 +260,15 @@ function CouponsSection() {
     <div className="space-y-6">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h3 className="text-2xl font-bold text-slate-900">{t("title")}</h3>
-          <p className="text-slate-600">{t("desc")}</p>
+          <h3 className="text-2xl font-bold text-gray-900">{t("title")}</h3>
+          <p className="text-gray-600">{t("desc")}</p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
           >
             <option value="all">{t("coupons")}</option>
             <option value="active">{t("active")}</option>
@@ -279,7 +279,7 @@ function CouponsSection() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
           >
             <option value="newest">{t("new")}</option>
             <option value="oldest">{t("old")}</option>
@@ -290,7 +290,7 @@ function CouponsSection() {
           <button
             onClick={() => setShowCouponForm(true)}
             disabled={createCoupon.isLoading}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:bg-orange-400 disabled:cursor-not-allowed transition-colors"
           >
             {createCoupon.isLoading ? (
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -316,13 +316,13 @@ function CouponsSection() {
 
       {/* Coupon Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
-          <p className="text-2xl font-bold text-blue-600">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
+          <p className="text-2xl font-bold text-orange-600">
             {userCoupons.length}
           </p>
-          <p className="text-slate-600 text-sm">{t("total")}</p>
+          <p className="text-gray-600 text-sm">{t("total")}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
           <p className="text-2xl font-bold text-green-600">
             {
               userCoupons.filter(
@@ -330,34 +330,34 @@ function CouponsSection() {
               ).length
             }
           </p>
-          <p className="text-slate-600 text-sm">{t("tactive")}</p>
+          <p className="text-gray-600 text-sm">{t("tactive")}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
           <p className="text-2xl font-bold text-red-600">
             {
               userCoupons.filter((c) => new Date(c.expiryDate) <= new Date())
                 .length
             }
           </p>
-          <p className="text-slate-600 text-sm">{t("texpired")}</p>
+          <p className="text-gray-600 text-sm">{t("texpired")}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
           <p className="text-2xl font-bold text-amber-600">
             {userCoupons.reduce((acc, c) => acc + c.usedCount, 0)}
           </p>
-          <p className="text-slate-600 text-sm">{t("tusage")}</p>
+          <p className="text-gray-600 text-sm">{t("tusage")}</p>
         </div>
       </div>
 
       {/* Add/Edit Coupon Form */}
       {(showCouponForm || editingCoupon) && (
-        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-          <h4 className="text-lg font-semibold text-slate-900 mb-4">
+        <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+          <h4 className="text-lg font-semibold text-gray-900 mb-4">
             {editingCoupon ? "Edit Coupon" : "Add New Coupon"}
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t("code")}
               </label>
               <input
@@ -369,13 +369,13 @@ function CouponsSection() {
                     code: e.target.value.toUpperCase(),
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 placeholder="e.g., SAVE20"
                 disabled={editingCoupon} // Disable code editing when updating
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t("discount")}
               </label>
               <select
@@ -383,14 +383,14 @@ function CouponsSection() {
                 onChange={(e) =>
                   setNewCoupon((prev) => ({ ...prev, type: e.target.value }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               >
                 <option value="percentage">{t("percent")}</option>
                 <option value="fixed">{t("fixed")}</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Discount Value {newCoupon.type === "percentage" ? "(%)" : "($)"}
               </label>
               <input
@@ -402,13 +402,13 @@ function CouponsSection() {
                     value: Number(e.target.value),
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 min="0"
                 max={newCoupon.type === "percentage" ? "100" : undefined}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t("mincart")} ($)
               </label>
               <input
@@ -420,12 +420,12 @@ function CouponsSection() {
                     minCartTotal: Number(e.target.value),
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 min="0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t("maxd")}
               </label>
               <input
@@ -437,13 +437,13 @@ function CouponsSection() {
                     maxDiscount: e.target.value,
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 min="0"
                 placeholder={t("empty")}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t("limit")}
               </label>
               <input
@@ -455,12 +455,12 @@ function CouponsSection() {
                     usageLimit: Number(e.target.value),
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 min="1"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 {t("expire")}
               </label>
               <input
@@ -474,7 +474,7 @@ function CouponsSection() {
                     expiryDate: e.target.value + "T23:59:59Z",
                   }))
                 }
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
             </div>
             <div className="flex items-center">
@@ -489,7 +489,7 @@ function CouponsSection() {
                 }
                 className="mr-2"
               />
-              <label className="text-sm font-medium text-slate-700">
+              <label className="text-sm font-medium text-gray-700">
                 {t("cactive")}
               </label>
             </div>
@@ -498,14 +498,14 @@ function CouponsSection() {
             <button
               onClick={handleCancelCouponEdit}
               disabled={createCoupon.isLoading || updateCoupon.isLoading}
-              className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 disabled:bg-slate-100 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
             >
               {t("cancel")}
             </button>
             <button
               onClick={editingCoupon ? handleUpdateCoupon : handleAddCoupon}
               disabled={createCoupon.isLoading || updateCoupon.isLoading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+              className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:bg-orange-400 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
             >
               {(createCoupon.isLoading || updateCoupon.isLoading) && (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -527,12 +527,12 @@ function CouponsSection() {
             return (
               <div
                 key={coupon._id}
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <div className="flex items-center space-x-3 mb-2">
-                      <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-mono font-bold text-lg">
+                      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg font-mono font-bold text-lg">
                         {coupon.code}
                       </div>
                       <div className="flex items-center space-x-2">
@@ -551,14 +551,14 @@ function CouponsSection() {
                             ? t("active")
                             : t("inactive")}
                         </span>
-                        <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                        <span className="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-700">
                           {coupon.type === "percentage"
                             ? `${coupon.value}% OFF`
                             : `${coupon.value} OFF`}
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-slate-600">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
                       <div>
                         <span className="font-medium">{t("minc")}:</span> $
                         {coupon.minCartTotal}
@@ -579,7 +579,7 @@ function CouponsSection() {
                     <button
                       onClick={() => handleEditCoupon(coupon)}
                       disabled={updateCoupon.isLoading}
-                      className="text-slate-400 hover:text-blue-600 disabled:cursor-not-allowed transition-colors"
+                      className="text-gray-400 hover:text-orange-600 disabled:cursor-not-allowed transition-colors"
                       title={t("edit")}
                     >
                       <svg
@@ -599,11 +599,11 @@ function CouponsSection() {
                     <button
                       onClick={() => handleDeleteCoupon(coupon.code)}
                       disabled={deleteCoupon.isLoading}
-                      className="text-slate-400 hover:text-red-600 disabled:cursor-not-allowed transition-colors"
+                      className="text-gray-400 hover:text-red-600 disabled:cursor-not-allowed transition-colors"
                       title={t("deletec")}
                     >
                       {deleteCoupon.isLoading ? (
-                        <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
                       ) : (
                         <svg
                           className="w-4 h-4"
@@ -625,15 +625,15 @@ function CouponsSection() {
 
                 {/* Usage Progress */}
                 <div className="mt-4">
-                  <div className="flex justify-between text-sm text-slate-600 mb-2">
+                  <div className="flex justify-between text-sm text-gray-600 mb-2">
                     <span>
                       {t("usage")}: {coupon.usedCount}/{coupon.usageLimit}
                     </span>
                     <span>{Math.round(usagePercentage)}%</span>
                   </div>
-                  <div className="w-full bg-slate-200 rounded-full h-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                      className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${Math.min(usagePercentage, 100)}%` }}
                     ></div>
                   </div>
@@ -643,9 +643,9 @@ function CouponsSection() {
           })
         ) : (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
-                className="w-8 h-8 text-slate-400"
+                className="w-8 h-8 text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -658,10 +658,10 @@ function CouponsSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
               {t("noc")}
             </h3>
-            <p className="text-slate-600">
+            <p className="text-gray-600">
               {filterStatus === "all"
                 ? t("error")
                 : `No ${filterStatus} coupons found.`}

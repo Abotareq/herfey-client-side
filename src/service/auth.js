@@ -4,6 +4,7 @@ import axios from "axios";
 const API_BASE = ${process.env.NEXT_PUBLIC_API_BASE}/auth;
 
 const apiClient = axios.create({
+  timeout: 15000,
   baseURL: API_BASE,
   headers: {
     "Content-Type": "application/json",
@@ -77,6 +78,7 @@ import axios from "axios";
 const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/auth`;
 
 const apiClient = axios.create({
+  timeout: 15000,
   baseURL: API_BASE,
   headers: {
     "Content-Type": "application/json",

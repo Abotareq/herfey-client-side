@@ -94,7 +94,7 @@ function ReviewsSection({ userId }) {
         <svg
           key={i}
           className={`${size} ${
-            i < rating ? "fill-amber-400" : "fill-slate-300"
+            i < rating ? "fill-amber-400" : "fill-gray-300"
           }`}
           viewBox="0 0 14 13"
         >
@@ -117,7 +117,7 @@ function ReviewsSection({ userId }) {
             className={`w-6 h-6 transition-colors ${
               i < rating
                 ? "fill-amber-400 text-amber-400"
-                : "fill-slate-300 text-slate-300 hover:fill-amber-200"
+                : "fill-gray-300 text-gray-300 hover:fill-amber-200"
             }`}
             viewBox="0 0 14 13"
           >
@@ -125,7 +125,7 @@ function ReviewsSection({ userId }) {
           </svg>
         </button>
       ))}
-      <span className="ml-2 text-sm font-medium text-slate-700">
+      <span className="ml-2 text-sm font-medium text-gray-700">
         {rating}/5
       </span>
     </div>
@@ -135,16 +135,16 @@ function ReviewsSection({ userId }) {
     <div className="space-y-6">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h3 className="text-2xl font-bold text-slate-900">
+          <h3 className="text-2xl font-bold text-gray-900">
             {t("myreviews")}
           </h3>
-          <p className="text-slate-600">{t("desc")}</p>
+          <p className="text-gray-600">{t("desc")}</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
           >
             <option value="all">{t("all")}</option>
             <option value="Product">{t("products")}</option>
@@ -153,7 +153,7 @@ function ReviewsSection({ userId }) {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
           >
             <option value="newest">{t("new")}</option>
             <option value="oldest">{t("old")}</option>
@@ -165,13 +165,13 @@ function ReviewsSection({ userId }) {
 
       {/* Statistics Section */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
-          <p className="text-2xl font-bold text-blue-600">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
+          <p className="text-2xl font-bold text-orange-600">
             {pagination.totalReviews || 0}
           </p>
-          <p className="text-slate-600 text-sm">{t("total")}</p>
+          <p className="text-gray-600 text-sm">{t("total")}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
           <p className="text-2xl font-bold text-green-600">
             {
               userReviews.filter(
@@ -179,25 +179,25 @@ function ReviewsSection({ userId }) {
               ).length
             }
           </p>
-          <p className="text-slate-600 text-sm">{t("product")}</p>
+          <p className="text-gray-600 text-sm">{t("product")}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
-          <p className="text-2xl font-bold text-purple-600">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
+          <p className="text-2xl font-bold text-orange-600">
             {
               userReviews.filter((r) => r.entityType.toLowerCase() === "store")
                 .length
             }
           </p>
-          <p className="text-slate-600 text-sm">{t("store")}</p>
+          <p className="text-gray-600 text-sm">{t("store")}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-slate-200 text-center">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 text-center">
           <p className="text-2xl font-bold text-amber-600">
             {(
               userReviews.reduce((acc, r) => acc + r.rating, 0) /
               (userReviews.length || 1)
             ).toFixed(1)}
           </p>
-          <p className="text-slate-600 text-sm">{t("average")}</p>
+          <p className="text-gray-600 text-sm">{t("average")}</p>
         </div>
       </div>
 
@@ -205,12 +205,12 @@ function ReviewsSection({ userId }) {
       {editingReview && (
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
-            <h3 className="text-xl font-semibold text-slate-900 mb-4">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
               {t("edit")}
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   {t("rate")}
                 </label>
                 <EditableStarRating
@@ -221,7 +221,7 @@ function ReviewsSection({ userId }) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   {t("comment")}
                 </label>
                 <textarea
@@ -233,7 +233,7 @@ function ReviewsSection({ userId }) {
                     }))
                   }
                   rows={4}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"
                   placeholder={t('share')}
                 />
               </div>
@@ -241,13 +241,13 @@ function ReviewsSection({ userId }) {
             <div className="mt-6 flex justify-end space-x-3">
               <button
                 onClick={handleCancelEditReview}
-                className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 {t("cancel")}
               </button>
               <button
                 onClick={handleUpdateReview}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
               >
                 {t("update")}
               </button>
@@ -268,7 +268,7 @@ function ReviewsSection({ userId }) {
 
             return (
               <Link href={entityUrl} key={review._id} passHref>
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-500 transition-all duration-300 cursor-pointer">
+                <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-lg hover:border-orange-500 transition-all duration-300 cursor-pointer">
                   <div className="flex items-start space-x-4">
                     {review.entityDetails?.images?.[0] && (
                       <img
@@ -287,28 +287,28 @@ function ReviewsSection({ userId }) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <h4 className="font-semibold text-slate-900 mb-1 hover:text-blue-600">
+                          <h4 className="font-semibold text-gray-900 mb-1 hover:text-orange-600">
                             {review.entityDetails?.name || t("reviewed")}
                           </h4>
                           <div className="flex items-center space-x-2 mb-2">
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${
                                 review.entityType.toLowerCase() === "product"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : "bg-purple-100 text-purple-700"
+                                  ? "bg-orange-100 text-orange-700"
+                                  : "bg-orange-100 text-orange-700"
                               }`}
                             >
                               {review.entityType}
                             </span>
                             {review.entityType.toLowerCase() === "product" &&
                               review.entityDetails?.basePrice && (
-                                <span className="text-slate-500 text-sm">
+                                <span className="text-gray-500 text-sm">
                                   ${review.entityDetails.basePrice}
                                 </span>
                               )}
                             {review.entityType.toLowerCase() === "store" &&
                               review.entityDetails?.productCount && (
-                                <span className="text-slate-500 text-sm">
+                                <span className="text-gray-500 text-sm">
                                   {review.entityDetails.productCount}{" "}
                                   {t("products")}
                                 </span>
@@ -322,10 +322,10 @@ function ReviewsSection({ userId }) {
                               handleEditReview(review);
                             }}
                             title={t("edit")}
-                            className="p-1 rounded-full hover:bg-slate-100"
+                            className="p-1 rounded-full hover:bg-gray-100"
                           >
                             <svg
-                              className="w-5 h-5 text-slate-500 hover:text-blue-600"
+                              className="w-5 h-5 text-gray-500 hover:text-orange-600"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -344,10 +344,10 @@ function ReviewsSection({ userId }) {
                               handleDeleteReview(review);
                             }}
                             title={t("delete")}
-                            className="p-1 rounded-full hover:bg-slate-100"
+                            className="p-1 rounded-full hover:bg-gray-100"
                           >
                             <svg
-                              className="w-5 h-5 text-slate-500 hover:text-red-600"
+                              className="w-5 h-5 text-gray-500 hover:text-red-600"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -364,12 +364,12 @@ function ReviewsSection({ userId }) {
                       </div>
                       <div className="flex items-center space-x-3 mb-3">
                         <StarRating rating={review.rating} />
-                        <span className="text-sm font-medium text-slate-700">
+                        <span className="text-sm font-medium text-gray-700">
                           {review.rating}/5
                         </span>
                       </div>
                       {review.comment && (
-                        <p className="text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg">
+                        <p className="text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-lg">
                           "{review.comment}"
                         </p>
                       )}
@@ -381,10 +381,10 @@ function ReviewsSection({ userId }) {
           })
         ) : (
           <div className="text-center py-12">
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
               {t("noreview")}
             </h3>
-            <p className="text-slate-600">{t("found")}</p>
+            <p className="text-gray-600">{t("found")}</p>
           </div>
         )}
       </div>
@@ -395,11 +395,11 @@ function ReviewsSection({ userId }) {
           <button
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
-            className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 disabled:opacity-50"
+            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 disabled:opacity-50"
           >
             {t("prev")}
           </button>
-          <span className="px-4 py-2 text-slate-700">
+          <span className="px-4 py-2 text-gray-700">
             Page {pagination.currentPage || page} of{" "}
             {pagination.totalPages || 1}
           </span>
@@ -408,7 +408,7 @@ function ReviewsSection({ userId }) {
               setPage((prev) => Math.min(prev + 1, pagination.totalPages || 1))
             }
             disabled={page === pagination.totalPages}
-            className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 disabled:opacity-50"
+            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 disabled:opacity-50"
           >
             {t("next")}
           </button>
