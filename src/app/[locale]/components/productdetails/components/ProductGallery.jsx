@@ -14,10 +14,11 @@ import { ImageOff } from "lucide-react";
  * range are expressed in tile widths so the feel survives any column width.
  */
 const SCALE = 2;
-const DURATION_MS = 800;
-// power4.out, the demo's default ease; the growing tile gets a hint of overshoot
-const EASE_SETTLE = "cubic-bezier(0.23, 1, 0.32, 1)";
-const EASE_BUBBLE = "cubic-bezier(0.34, 1.25, 0.64, 1)";
+const DURATION_MS = 950;
+// one long ease-out for everything: no overshoot, nothing snaps
+const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+// the open tile sits just above its neighbours; nothing needs to clear the page chrome
+const Z_OPEN = 10;
 
 const map = (v, inMin, inMax, outMin, outMax) =>
   ((v - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
@@ -48,7 +49,7 @@ export default function ProductGallery({ images = [], name = "" }) {
     const next = {};
     tiles.forEach((el, i) => {
       if (i === target) {
-        next[i] = { x: 0, y: 0, scale: SCALE, z: 999 };
+        next[i] = { x: 0, y: 0, scale: SCALE, z: Z_OPEN };
         return;
       }
       const c = centre(el);
@@ -61,7 +62,8 @@ export default function ProductGallery({ images = [], name = "" }) {
         x: c.x < fc.x ? -dx : dx,
         y: c.y < fc.y ? -dy : dy,
         scale: 1,
-        z: Math.round(map(dist, 0, 1e5, 998, 1)),
+        // closer tiles layer above farther ones, within 1..9
+        z: Math.max(1, Math.round(map(Math.min(dist, range), 0, range, Z_OPEN - 1, 1))),
       };
     });
     setPlacement(next);
@@ -131,10 +133,11 @@ export default function ProductGallery({ images = [], name = "" }) {
             aria-label={`${name} image ${i + 1}${isOpen ? ", expanded" : ""}`}
             onClick={() => toggle(i)}
             style={{
-              transform: `translate(${p.x}px, ${p.y}px) scale(${p.scale})`,
+              transform: `translate3d(${p.x}px, ${p.y}px, 0) scale(${p.scale})`,
               zIndex: p.z,
-              transition: `transform ${DURATION_MS}ms ${isOpen ? EASE_BUBBLE : EASE_SETTLE}, box-shadow 300ms ease`,
+              transition: `transform ${DURATION_MS}ms ${EASE}, box-shadow ${DURATION_MS}ms ${EASE}`,
               willChange: "transform",
+              backfaceVisibility: "hidden",
             }}
             className={`relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 ${
               isOpen ? "shadow-2xl shadow-orange-200/70" : "shadow-sm"
