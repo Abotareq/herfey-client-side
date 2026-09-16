@@ -257,3 +257,23 @@
     }
   }
 }
+
+/* home hero slideshow -- slides are stacked and moved by GSAP, see
+   components/HeroSlideshow.jsx */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.hero-slide--current {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hero-slide__img {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}

@@ -1203,5 +1203,33 @@
     "descCategory": "Our artisans haven't listed anything in this category yet. Check back soon, or explore the other collections.",
     "clear": "Clear filters",
     "browse": "Browse categories"
+  },
+  "Hero": {
+    "eyebrow": "Handmade in Egypt",
+    "cta": "Shop the collection",
+    "prev": "Previous slide",
+    "next": "Next slide",
+    "slides": {
+      "woodwork": {
+        "title": "Carved by hand, kept for life",
+        "text": "Arabesque woodwork from workshops that have carved the same patterns for generations."
+      },
+      "baskets": {
+        "title": "Colour woven from palm leaf",
+        "text": "Baskets and bowls braided by hand in the villages of the Nile Delta."
+      },
+      "engraving": {
+        "title": "Every line has a maker",
+        "text": "Engraved metal and hand-tooled details, made one piece at a time."
+      },
+      "leather": {
+        "title": "Leather that ages with you",
+        "text": "Vegetable-tanned bags and wallets, cut and stitched by Egyptian craftsmen."
+      },
+      "palm-baskets": {
+        "title": "From the heritage of the past to the elegance of the present",
+        "text": "Bring art to your home. Shop Herafy today."
+      }
+    }
   }
 }
