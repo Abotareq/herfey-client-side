@@ -14,9 +14,18 @@ function ProductsList() {
   const [selectedFilters, setSelectedFilters] = useState({});
   const [sortBy, setSortBy] = useState("");
 
+  // Sort is done by the server so it spans every page, not just the current one
+  const SORT_PARAM = {
+    "price-high": "price_desc",
+    "price-low": "price_asc",
+    rating: "rating_desc",
+    sold: "popularity_desc",
+  };
+
   const { data, isPending: isLoading, isError, refetch } = useGetAllProducts({
     page,
     limit: 6,
+    ...(SORT_PARAM[sortBy] ? { sort: SORT_PARAM[sortBy] } : {}),
     ...selectedFilters,
   });
 
@@ -33,28 +42,29 @@ function ProductsList() {
         ...prev,
         storeId: customerStoreId,
       }));
+      setPage(1);
     }
-
-    // Cleanup function to clear customerStoreId when component is destroyed
-    return () => {
-      setCustomerStoreId(null);
-    };
-  }, [customerStoreId, setCustomerStoreId]);
+  }, [customerStoreId]);
 
   // useEffect to handle category from context
+  // The backend filters on `category`, not `categoryId`
   useEffect(() => {
     if (category) {
       setSelectedFilters((prev) => ({
         ...prev,
-        categoryId: category._id,
+        category: category._id,
       }));
+      setPage(1);
     }
+  }, [category]);
 
-    // Cleanup function to clear category when component is destroyed
+  // Clear both contexts when the component is destroyed
+  useEffect(() => {
     return () => {
+      setCustomerStoreId(null);
       setCategory(null);
     };
-  }, [category, setCategory]);
+  }, [setCustomerStoreId, setCategory]);
 
   if (isLoading) {
     return (
@@ -142,6 +152,7 @@ function ProductsList() {
   const clearAllFilters = () => {
     setSelectedFilters({});
     setSortBy("");
+    setPage(1);
     // Clear both contexts
     setCustomerStoreId(null);
     setCategory(null);
@@ -248,63 +259,15 @@ function ProductsList() {
     return variantFilters;
   };
 
-  // Sort function
-  const sortProducts = (products, sortBy) => {
-    const sortedProducts = [...products];
-
-    switch (sortBy) {
-      case "price-high":
-        return sortedProducts.sort((a, b) => {
-          const priceA = a.discountPrice > 0 ? a.discountPrice : a.basePrice;
-          const priceB = b.discountPrice > 0 ? b.discountPrice : b.basePrice;
-          return priceB - priceA;
-        });
-
-      case "price-low":
-        return sortedProducts.sort((a, b) => {
-          const priceA = a.discountPrice > 0 ? a.discountPrice : a.basePrice;
-          const priceB = b.discountPrice > 0 ? b.discountPrice : b.basePrice;
-          return priceA - priceB;
-        });
-
-      case "rating":
-        return sortedProducts.sort((a, b) => {
-          return (b.averageRating || 0) - (a.averageRating || 0);
-        });
-
-      case "sold":
-        return sortedProducts.sort((a, b) => {
-          return (
-            (b.soldCount || b.reviewCount || 0) -
-            (a.soldCount || a.reviewCount || 0)
-          );
-        });
-
-      default:
-        return sortedProducts;
-    }
-  };
-
-  // Get filtered and sorted products
-  const getFilteredAndSortedProducts = (products, filters, sortBy) => {
-    // First apply filters
-    const filteredProducts = products.filter((product) => {
-      // Check store filter
-      if (filters.storeId && product.store?._id !== filters.storeId) {
-        return false;
-      }
-
-      // Check category filter
-      if (filters.categoryId && product.category?._id !== filters.categoryId) {
-        return false;
-      }
-
-      // Check variant filters
+  // Store, category and sort are applied by the server. Variant filters the
+  // server doesn't know about are still narrowed down here.
+  const getFilteredProducts = (products, filters) => {
+    return products.filter((product) => {
       for (const [filterKey, filterValue] of Object.entries(filters)) {
         if (
           !filterValue ||
           filterKey === "storeId" ||
-          filterKey === "categoryId"
+          filterKey === "category"
         )
           continue;
 
@@ -326,17 +289,9 @@ function ProductsList() {
 
       return true;
     });
-
-    // Then apply sorting
-    return sortProducts(filteredProducts, sortBy);
   };
 
-  // Get the displayed products (filtered and sorted)
-  const displayedProducts = getFilteredAndSortedProducts(
-    products,
-    selectedFilters,
-    sortBy
-  );
+  const displayedProducts = getFilteredProducts(products, selectedFilters);
 
   // Get store options for dropdown
   const storeOptions = getStoreFilters(products);
@@ -391,8 +346,8 @@ function ProductsList() {
             <label className="block mb-1 font-medium">{"Category"}</label>
             <select
               className="w-full border rounded-md p-2 text-sm"
-              value={selectedFilters.categoryId || ""}
-              onChange={(e) => handleFilter("categoryId", e.target.value)}
+              value={selectedFilters.category || ""}
+              onChange={(e) => handleFilter("category", e.target.value)}
             >
               <option value="">{"All Categories"}</option>
               {categoryOptions.map((category) => (
