@@ -1,6 +1,7 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
 import ReviewsSection from "./components/ReviewData";
+import ProductGallery from "./components/ProductGallery";
 import NotFoundPage from "../NotFoundComponent";
 import { useTranslations } from "next-intl";
 import { useAddItemToCart, addToGuestCart } from "@/service/cart";
@@ -28,7 +29,6 @@ function ProductDetails({ id }) {
   const { user, loading: authLoading } = useAuth();
   const { data, isLoading, isError } = useGetProductById(id);
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
   const t = useTranslations("products");
   const [selectColor, setSelectedColor] = useState("");
   const [selectSize, setSelectedSize] = useState("");
@@ -171,39 +171,8 @@ function ProductDetails({ id }) {
         <div className="container mx-auto px-4 py-8 max-w-6xl">
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <div className="flex flex-wrap">
-              <div className="w-full lg:w-1/2 p-6">
-                <div className="relative">
-                  <div className="w-full max-w-md mx-auto aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg mb-6">
-                    <img
-                      src={
-                        productImages[selectedImage] ||
-                        productImages[0] ||
-                        "/placeholder.png"
-                      }
-                      alt={product?.name}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="flex gap-4 justify-center">
-                    {productImages.map((image, index) => (
-                      <div
-                        key={index}
-                        onClick={() => setSelectedImage(index)}
-                        className={`w-20 h-20 rounded-xl overflow-hidden cursor-pointer border-4 transition-all duration-300 ${
-                          selectedImage === index
-                            ? "border-orange-500 shadow-lg scale-105"
-                            : "border-gray-200 hover:border-gray-300"
-                        }`}
-                      >
-                        <img
-                          src={image}
-                          alt={`${product.name} ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="w-full lg:w-1/2 p-6 lg:p-8">
+                <ProductGallery images={productImages} name={product?.name} />
               </div>
               <div className="w-full lg:w-1/2 p-6 lg:p-8">
                 <div className="space-y-6">

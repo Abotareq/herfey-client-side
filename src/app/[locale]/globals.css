@@ -221,6 +221,14 @@
  */
 
 @layer utilities {
+  /* draggable strips hide the native scrollbar but stay scrollable */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   /* shared loading placeholder -- one shimmer for every skeleton */
   .skeleton {
     @apply relative overflow-hidden rounded-md bg-gray-200;
