@@ -1,50 +1,91 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
 
 /**
- * Product image gallery for the details page.
+ * Product images as a grid of equal tiles with the "make way" interaction:
+ * click a tile and it swells to twice its size in place while every other
+ * tile is pushed away from it -- the closer, the further it moves. Click it
+ * again to let everything settle back; click another to hand over.
  *
- * The main image fills its column. Thumbnails sit in a strip beneath it and
- * behave like tiles on a board: hover one and it swells up over its
- * neighbours on a springy curve, the neighbours give way a little, and the
- * main image previews it. Click to keep it. Drag or scroll the strip when
- * there are more thumbnails than fit.
+ * Ported from Codrops' Make Way Grid Effect. The push is computed the same
+ * way (linear falloff along the line between tile centres), but spread and
+ * range are expressed in tile widths so the feel survives any column width.
  */
-export default function ProductGallery({ images = [], name = "" }) {
-  const [selected, setSelected] = useState(0);
-  const [hovered, setHovered] = useState(null);
-  const [loaded, setLoaded] = useState({});
+const SCALE = 2;
+const DURATION_MS = 800;
+// power4.out, the demo's default ease; the growing tile gets a hint of overshoot
+const EASE_SETTLE = "cubic-bezier(0.23, 1, 0.32, 1)";
+const EASE_BUBBLE = "cubic-bezier(0.34, 1.25, 0.64, 1)";
 
-  // the strip pans by dragging; plain scroll and touch keep working too
-  const stripRef = useRef(null);
-  const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: false });
+const map = (v, inMin, inMax, outMin, outMax) =>
+  ((v - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+
+export default function ProductGallery({ images = [], name = "" }) {
+  const tileRefs = useRef([]);
+  const [expanded, setExpanded] = useState(-1);
+  const [placement, setPlacement] = useState({});
+
+  const layout = useCallback((target) => {
+    const tiles = tileRefs.current.filter(Boolean);
+    if (target === -1) {
+      setPlacement({});
+      return;
+    }
+    const focus = tiles[target];
+    if (!focus) return;
+
+    const tile = focus.offsetWidth;
+    const spread = tile * 0.75; // push at zero distance; adjacent tiles move ~half a tile
+    const range = tile * 4; // beyond this nothing moves
+    const centre = (el) => ({
+      x: el.offsetLeft + el.offsetWidth / 2,
+      y: el.offsetTop + el.offsetHeight / 2,
+    });
+    const fc = centre(focus);
+
+    const next = {};
+    tiles.forEach((el, i) => {
+      if (i === target) {
+        next[i] = { x: 0, y: 0, scale: SCALE, z: 999 };
+        return;
+      }
+      const c = centre(el);
+      const dist = Math.hypot(c.x - fc.x, c.y - fc.y);
+      const push = Math.max(map(dist, 0, range, spread, 0), 0);
+      const angle = Math.atan2(Math.abs(fc.y - c.y), Math.abs(fc.x - c.x));
+      const dx = Math.abs(Math.cos(angle) * push);
+      const dy = Math.abs(Math.sin(angle) * push);
+      next[i] = {
+        x: c.x < fc.x ? -dx : dx,
+        y: c.y < fc.y ? -dy : dy,
+        scale: 1,
+        z: Math.round(map(dist, 0, 1e5, 998, 1)),
+      };
+    });
+    setPlacement(next);
+  }, []);
+
+  const toggle = (i) => {
+    const next = expanded === i ? -1 : i;
+    setExpanded(next);
+    layout(next);
+  };
+
+  // positions are measured, so re-measure if the column changes width
+  useEffect(() => {
+    if (expanded === -1) return;
+    const onResize = () => layout(expanded);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [expanded, layout]);
 
   useEffect(() => {
-    if (selected > images.length - 1) setSelected(0);
-  }, [images.length, selected]);
-
-  const shown = hovered ?? selected;
-  const current = images[shown];
-
-  const onPointerDown = (e) => {
-    const el = stripRef.current;
-    if (!el) return;
-    drag.current = { active: true, startX: e.clientX, startLeft: el.scrollLeft, moved: false };
-    el.setPointerCapture?.(e.pointerId);
-  };
-  const onPointerMove = (e) => {
-    const d = drag.current;
-    const el = stripRef.current;
-    if (!d.active || !el) return;
-    const dx = e.clientX - d.startX;
-    if (Math.abs(dx) > 4) d.moved = true;
-    el.scrollLeft = d.startLeft - dx;
-  };
-  const endDrag = () => {
-    drag.current.active = false;
-  };
+    const onKey = (e) => e.key === "Escape" && expanded !== -1 && toggle(expanded);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 
   if (images.length === 0) {
     return (
@@ -54,93 +95,60 @@ export default function ProductGallery({ images = [], name = "" }) {
     );
   }
 
-  return (
-    <div className="flex w-full flex-col gap-5">
-      {/* main image: fills the column, cross-fades between views */}
-      <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 shadow-lg">
-        {images.map((src, i) => (
-          <img
-            key={src + i}
-            src={src}
-            alt={i === 0 ? name : `${name} ${i + 1}`}
-            onLoad={() => setLoaded((l) => ({ ...l, [i]: true }))}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-out ${
-              i === shown ? "z-10 scale-100 opacity-100" : "z-0 scale-[1.03] opacity-0"
-            }`}
-            draggable={false}
-          />
-        ))}
-        {!loaded[shown] && <div className="skeleton absolute inset-0 rounded-none" aria-hidden="true" />}
-        {images.length > 1 && (
-          <span className="absolute bottom-3 right-3 z-20 rounded-full bg-black/55 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
-            {shown + 1} / {images.length}
-          </span>
-        )}
+  if (images.length === 1) {
+    return (
+      <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 shadow-lg">
+        <img src={images[0]} alt={name} className="h-full w-full object-cover" />
       </div>
+    );
+  }
 
-      {/* thumbnail strip */}
-      {images.length > 1 && (
-        <div
-          ref={stripRef}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={endDrag}
-          onPointerCancel={endDrag}
-          onPointerLeave={() => {
-            endDrag();
-            setHovered(null);
-          }}
-          className="scrollbar-none -mx-2 flex cursor-grab select-none gap-3 overflow-x-auto px-2 py-4 active:cursor-grabbing"
-          role="listbox"
-          aria-label={`${name} images`}
-        >
-          {images.map((src, i) => {
-            const isHovered = hovered === i;
-            const isSelected = selected === i;
-            const isNeighbour = hovered !== null && Math.abs(hovered - i) === 1;
-            return (
-              <button
-                key={src + i}
-                type="button"
-                role="option"
-                aria-selected={isSelected}
-                onMouseEnter={() => setHovered(i)}
-                onFocus={() => setHovered(i)}
-                onBlur={() => setHovered(null)}
-                onClick={() => {
-                  // a drag that ended on a tile is not a pick
-                  if (drag.current.moved) return;
-                  setSelected(i);
-                }}
-                style={{
-                  transform: isHovered
-                    ? "scale(1.45) translateY(-6px)"
-                    : isNeighbour
-                      ? "scale(0.92)"
-                      : "scale(1)",
-                  transitionTimingFunction: isHovered
-                    ? "cubic-bezier(0.34, 1.56, 0.64, 1)"
-                    : "cubic-bezier(0.22, 1, 0.36, 1)",
-                }}
-                className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-gray-100 transition-transform duration-500 focus:outline-none ${
-                  isHovered ? "z-20 shadow-xl shadow-orange-200/60" : "z-0"
-                } ${
-                  isSelected
-                    ? "ring-2 ring-orange-500 ring-offset-2"
-                    : "ring-1 ring-gray-200"
-                }`}
-              >
-                <img
-                  src={src}
-                  alt=""
-                  className="h-full w-full object-cover"
-                  draggable={false}
-                />
-              </button>
-            );
-          })}
-        </div>
-      )}
+  const cols = Math.min(3, images.length);
+  const gap = 12;
+  // inner padding of half a tile keeps a 2x tile on the edge inside the column
+  const pad = `calc((100% - ${gap * (cols - 1)}px) / ${2 * cols + 2})`;
+
+  return (
+    <div
+      className="relative grid w-full"
+      style={{
+        gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+        gap,
+        padding: pad,
+      }}
+      role="group"
+      aria-label={`${name} images`}
+    >
+      {images.map((src, i) => {
+        const p = placement[i] || { x: 0, y: 0, scale: 1, z: 1 };
+        const isOpen = expanded === i;
+        return (
+          <button
+            key={src + i}
+            ref={(el) => (tileRefs.current[i] = el)}
+            type="button"
+            aria-pressed={isOpen}
+            aria-label={`${name} image ${i + 1}${isOpen ? ", expanded" : ""}`}
+            onClick={() => toggle(i)}
+            style={{
+              transform: `translate(${p.x}px, ${p.y}px) scale(${p.scale})`,
+              zIndex: p.z,
+              transition: `transform ${DURATION_MS}ms ${isOpen ? EASE_BUBBLE : EASE_SETTLE}, box-shadow 300ms ease`,
+              willChange: "transform",
+            }}
+            className={`relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 ${
+              isOpen ? "shadow-2xl shadow-orange-200/70" : "shadow-sm"
+            }`}
+          >
+            <img
+              src={src}
+              alt=""
+              className="h-full w-full object-cover"
+              draggable={false}
+            />
+          </button>
+        );
+      })}
     </div>
   );
 }
