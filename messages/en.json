@@ -561,7 +561,9 @@
     "productcreated": "Product created successfully!",
     "productfail": "Failed to create product:",
     "Adding": "Adding...",
-    "retry": "Try again"
+    "retry": "Try again",
+    "noreviews": "No reviews yet",
+    "selectoptions": "Choose the options above to add this to your cart."
   },
   "productreview": {
     "1": "1 Star",

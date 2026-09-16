@@ -4,6 +4,7 @@ import ReviewsSection from "./components/ReviewData";
 import ProductGallery from "./components/ProductGallery";
 import NotFoundPage from "../NotFoundComponent";
 import { useTranslations } from "next-intl";
+import { Star, Heart, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useAddItemToCart, addToGuestCart } from "@/service/cart";
 import { useAuth } from "../../../context/AuthContext";
 import ProductPageSkeleton from "./components/ProductPageSkeleton";
@@ -110,7 +111,10 @@ function ProductDetails({ id }) {
       const opt = variant.options?.find((o) => o.value === selected);
       if (opt) modifiers += opt.priceModifier || 0;
     });
-    return (product.basePrice + modifiers) * quantity;
+    const onSale =
+      product.discountPrice > 0 && product.discountPrice < product.basePrice;
+    const unit = onSale ? product.discountPrice : product.basePrice;
+    return (unit + modifiers) * quantity;
   }, [product, selectedVariants, quantity]);
 
   if (isLoading) {
@@ -158,6 +162,16 @@ function ProductDetails({ id }) {
   const productImages = Array.isArray(product?.images)
     ? product.images.filter(Boolean)
     : [];
+  const ratingValue = Number(product?.averageRating) || 0;
+  const reviewTotal = Number(product?.reviewCount) || 0;
+  const onSale =
+    product?.discountPrice > 0 && product.discountPrice < product.basePrice;
+  const percentOff = onSale
+    ? Math.round(((product.basePrice - product.discountPrice) / product.basePrice) * 100)
+    : 0;
+  const formatMoney = (n) =>
+    Number(n).toLocaleString("en-EG", { maximumFractionDigits: 0 });
+
   const isDisabled =
     (product?.variants?.some((e) => e.name.toLowerCase() === "color") &&
       !selectColor) ||
@@ -169,226 +183,162 @@ function ProductDetails({ id }) {
       <Breadcrumbs />
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
         <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-            <div className="flex flex-wrap">
-              <div className="w-full lg:w-1/2 p-6 lg:p-8">
-                <ProductGallery images={productImages} name={product?.name} />
+          <div className="bg-white rounded-3xl shadow-xl shadow-orange-100/60 overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {/* gallery: a warm board for the tiles to move on, kept in view while reading */}
+              <div className="p-4 sm:p-6 lg:p-8 lg:sticky lg:top-24 lg:self-start">
+                <div className="rounded-2xl bg-orange-50/70 p-2 sm:p-3">
+                  <ProductGallery images={productImages} name={product?.name} />
+                </div>
               </div>
-              <div className="w-full lg:w-1/2 p-6 lg:p-8">
-                <div className="space-y-6">
+
+              <div className="p-6 lg:p-10 lg:border-l lg:border-gray-100">
+                <div className="flex flex-col gap-6">
+                  {/* identity */}
                   <div>
-                    <div className="inline-block px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium mb-4">
-                      {product?.category?.name || "Product"}
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      {product?.category?.name && (
+                        <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-700">
+                          {product.category.name}
+                        </span>
+                      )}
+                      {product?.store?.name && (
+                        <span className="text-sm text-gray-500">{product.store.name}</span>
+                      )}
                     </div>
-                    <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                    <h1 className="text-3xl font-bold leading-tight text-gray-900 lg:text-4xl">
                       {product?.name}
                     </h1>
-                    <p className="text-gray-600 text-lg mt-2">
-                      {product?.slug}
-                    </p>
-                  </div>
-                  {product?.variants
-                    ?.filter(
-                      (variant) => variant.name.toLowerCase() === "color",
-                    )
-                    .map((variant) => (
-                      <div key={variant._id} className="mb-3">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          {t("color")}:
-                        </label>
-                        <select
-                          defaultValue=""
-                          className="w-full border rounded-md p-2 text-sm"
-                          value={selectColor}
-                          onChange={(e) => setSelectedColor(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            {t("colorq")}
-                          </option>
-                          {variant?.options?.map((option) => (
-                            <option key={option._id} value={option.value}>
-                              {option.value}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    ))}
-                  {product.variants
-                    ?.filter(
-                      (variant) => variant?.name?.toLowerCase() === "size",
-                    )
-                    .map((variant) => (
-                      <div key={variant._id} className="mb-3">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          {t("size")}:
-                        </label>
-                        <select
-                          defaultValue=""
-                          className="w-full border rounded-md p-2 text-sm"
-                          value={selectSize}
-                          onChange={(e) => setSelectedSize(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            {t("sizeq")}
-                          </option>
-                          {variant?.options?.map((option) => (
-                            <option key={option._id} value={option.value}>
-                              {option.value}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    ))}
-                  <div className="flex items-center space-x-3">
-                    <div className="flex space-x-1">
-                      {Array.from({ length: 5 }, (_, index) => (
-                        <svg
-                          key={index}
-                          className={`w-6 h-6 ${
-                            index < Math.round(product.averageRating || 4)
-                              ? "text-amber-400 fill-current"
-                              : "text-gray-300"
-                          }`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill={
-                            index < Math.round(product.averageRating || 4)
-                              ? "currentColor"
-                              : "none"
-                          }
-                          stroke="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 
-                            5.404.434c1.164.093 1.636 1.545 .749 2.305l-4.117 3.527 
-                            1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 
-                            18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425
-                            l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305
-                            l5.404-.434 2.082-5.005Z"
+
+                    {/* rating comes from the data; no reviews means no stars lit */}
+                    <div className="mt-3 flex items-center gap-2">
+                      <span className="flex items-center" aria-label={`${ratingValue} out of 5`}>
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <Star
+                            key={i}
+                            className={`h-5 w-5 ${
+                              i <= Math.round(ratingValue)
+                                ? "fill-amber-400 text-amber-400"
+                                : "fill-gray-200 text-gray-200"
+                            }`}
+                            aria-hidden="true"
                           />
-                        </svg>
-                      ))}
+                        ))}
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        {reviewTotal > 0
+                          ? `${ratingValue.toFixed(1)} · ${reviewTotal} ${t("review")}`
+                          : t("noreviews")}
+                      </span>
                     </div>
-                    <span className="text-gray-700 font-medium">
-                      {product?.averageRating || "4.0"} (
-                      {product?.reviewCount || "127"} {t("review")})
-                    </span>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <span className="text-4xl font-bold text-gray-900">
-                      ${finalPrice.toFixed(2)}
+
+                  {/* price */}
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <span className="text-4xl font-bold text-orange-600">
+                      <span className="mr-1 text-base font-medium text-gray-500">{t("currency")}</span>
+                      {formatMoney(finalPrice)}
                     </span>
-                    {product?.discountPrice && (
-                      <span className="text-2xl text-gray-500 line-through">
-                        ${product?.discountPrice}
+                    {onSale && (
+                      <>
+                        <span className="text-xl text-gray-400 line-through">
+                          {formatMoney(product.basePrice * quantity)}
+                        </span>
+                        <span className="rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white">
+                          -{percentOff}%
+                        </span>
+                      </>
+                    )}
+                    {quantity > 1 && (
+                      <span className="w-full text-sm text-gray-500">
+                        {formatMoney(finalPrice / quantity)} × {quantity}
                       </span>
                     )}
-                    {finalPrice !== product.basePrice * quantity && (
-                      <span className="text-lg text-gray-600">
-                        (Base: ${(product?.basePrice * quantity).toFixed(2)})
-                      </span>
-                    )}
                   </div>
-                  <div className="bg-gray-50 rounded-2xl p-6">
-                    <h3 className="font-semibold text-gray-900 mb-3">
-                      {t("desc")}:{" "}
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed">
-                      {product?.description ||
-                        "This is a premium quality product designed with attention to detail and crafted for excellence."}
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-gray-700 font-medium">
-                      {t("status")}:
-                    </span>
-                    <span
-                      className={`px-4 py-2 rounded-full text-sm font-medium ${
-                        product?.status === "approved"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {product?.status || "Available"}
-                    </span>
-                  </div>
-                  <div className="space-y-3">
-                    <label className="block text-sm font-medium text-gray-900">
-                      {t("quantity")}:
-                    </label>
-                    <div className="flex items-center space-x-4">
+
+                  {/* description */}
+                  <p className="leading-relaxed text-gray-700">
+                    {product?.description ||
+                      "This is a premium quality product designed with attention to detail and crafted for excellence."}
+                  </p>
+
+                  {/* variants */}
+                  {(product?.variants?.length ?? 0) > 0 && (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      {product.variants
+                        .filter((v) => v?.name?.toLowerCase() === "color")
+                        .map((variant) => (
+                          <label key={variant._id} className="block">
+                            <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("color")}</span>
+                            <select
+                              className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                              value={selectColor}
+                              onChange={(e) => setSelectedColor(e.target.value)}
+                            >
+                              <option value="" disabled>{t("colorq")}</option>
+                              {variant?.options?.map((o) => (
+                                <option key={o._id} value={o.value}>{o.value}</option>
+                              ))}
+                            </select>
+                          </label>
+                        ))}
+                      {product.variants
+                        .filter((v) => v?.name?.toLowerCase() === "size")
+                        .map((variant) => (
+                          <label key={variant._id} className="block">
+                            <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("size")}</span>
+                            <select
+                              className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                              value={selectSize}
+                              onChange={(e) => setSelectedSize(e.target.value)}
+                            >
+                              <option value="" disabled>{t("sizeq")}</option>
+                              {variant?.options?.map((o) => (
+                                <option key={o._id} value={o.value}>
+                                  {o.value}
+                                  {o.priceModifier ? ` (+${formatMoney(o.priceModifier)})` : ""}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                        ))}
+                    </div>
+                  )}
+
+                  {/* quantity + actions */}
+                  <div className="flex flex-col gap-4 border-t border-gray-100 pt-6 sm:flex-row sm:items-center">
+                    <div className="flex items-center rounded-xl border border-gray-200">
                       <button
+                        type="button"
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                        aria-label="Decrease quantity"
+                        className="flex h-12 w-12 items-center justify-center rounded-l-xl text-gray-600 transition-colors hover:bg-gray-50"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M20 12H4"
-                          />
-                        </svg>
+                        <Minus className="h-4 w-4" aria-hidden="true" />
                       </button>
-                      <span className="text-2xl font-bold w-16 text-center">
-                        {quantity}
-                      </span>
+                      <span className="w-12 text-center text-lg font-semibold tabular-nums">{quantity}</span>
                       <button
+                        type="button"
                         onClick={() => setQuantity(quantity + 1)}
-                        className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                        aria-label="Increase quantity"
+                        className="flex h-12 w-12 items-center justify-center rounded-r-xl text-gray-600 transition-colors hover:bg-gray-50"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                          />
-                        </svg>
+                        <Plus className="h-4 w-4" aria-hidden="true" />
                       </button>
                     </div>
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-4 pt-6">
+
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <button
                           disabled={isDisabled || addToCartMutation.isPending}
-                          className={`flex-1 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 shadow-lg ${
+                          className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold shadow-md transition-all ${
                             isDisabled || addToCartMutation.isPending
-                              ? "bg-gray-400 cursor-not-allowed text-white"
-                              : "bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white"
+                              ? "cursor-not-allowed bg-gray-300 text-white shadow-none"
+                              : "bg-orange-600 text-white shadow-orange-200 hover:bg-orange-700"
                           }`}
                         >
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6 0a2 2 0 100 4 2 2 0 000-4zm-6 0a2 2 0 100 4 2 2 0 000-4z"
-                            />
-                          </svg>
-                          <span>
-                            {addToCartMutation.isPending
-                              ? t("Adding")
-                              : t("addtocart")}
-                          </span>
+                          <ShoppingCart className="h-5 w-5" aria-hidden="true" />
+                          <span>{addToCartMutation.isPending ? t("Adding") : t("addtocart")}</span>
                         </button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
@@ -400,7 +350,7 @@ function ProductDetails({ id }) {
                             {Object.entries(selectedVariants)
                               .map(([name, value]) => `${name}: ${value}`)
                               .join(", ") || "No variants selected"}{" "}
-                            for <b>${finalPrice.toFixed(2)}</b>?
+                            for <b>{t("currency")} {formatMoney(finalPrice)}</b>?
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -411,27 +361,29 @@ function ProductDetails({ id }) {
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
+
                     {user && (
                       <button
+                        type="button"
                         disabled={updateUser.isPending}
                         onClick={() => toggleWishlist(product._id)}
-                        className={`flex-1 px-8 py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-3 transition-all duration-300 border-2 bg-red-500 hover:bg-red-600 text-white ${
-                          updateUser.isPending
-                            ? "opacity-50 cursor-not-allowed"
-                            : ""
-                        }`}
+                        aria-pressed={isFav}
+                        aria-label={isFav ? t("removefav") : t("addtofav")}
+                        title={isFav ? t("removefav") : t("addtofav")}
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border-2 transition-colors ${
+                          isFav
+                            ? "border-red-500 bg-red-50 text-red-500"
+                            : "border-gray-200 text-gray-500 hover:border-red-300 hover:text-red-500"
+                        } ${updateUser.isPending ? "cursor-not-allowed opacity-50" : ""}`}
                       >
-                        <span>{isFav ? "🤍" : "❤️"}</span>
-                        <span>
-                          {updateUser.isPending
-                            ? t("loading")
-                            : isFav
-                              ? t("removefav")
-                              : t("addtofav")}
-                        </span>
+                        <Heart className={`h-5 w-5 ${isFav ? "fill-red-500" : ""}`} aria-hidden="true" />
                       </button>
                     )}
                   </div>
+
+                  {isDisabled && (
+                    <p className="text-sm text-gray-500">{t("selectoptions")}</p>
+                  )}
                 </div>
               </div>
             </div>
