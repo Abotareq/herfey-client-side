@@ -18,7 +18,7 @@ import palmBaskets from "@public/hero/palm-baskets.jpg";
 
 const NEXT = 1;
 const PREV = -1;
-const AUTOPLAY_MS = 6000;
+const AUTOPLAY_MS = 5000;
 
 const SLIDES = [
   { key: "woodwork", src: woodwork },
@@ -133,9 +133,9 @@ export default function HeroSlideshow() {
       if (e.key === "ArrowUp" || e.key === "ArrowLeft") prev();
       if (e.key === "ArrowDown" || e.key === "ArrowRight") next();
     };
+    // Autoplay keeps running while the mouse rests on the hero (a 70vh
+    // block is where the cursor usually sits); only keyboard focus pauses it.
     root.addEventListener("keydown", onKey);
-    root.addEventListener("mouseenter", stopAutoplay);
-    root.addEventListener("mouseleave", restartAutoplay);
     root.addEventListener("focusin", stopAutoplay);
     root.addEventListener("focusout", restartAutoplay);
 
@@ -147,8 +147,6 @@ export default function HeroSlideshow() {
       prevBtn.removeEventListener("click", prev);
       nextBtn.removeEventListener("click", next);
       root.removeEventListener("keydown", onKey);
-      root.removeEventListener("mouseenter", stopAutoplay);
-      root.removeEventListener("mouseleave", restartAutoplay);
       root.removeEventListener("focusin", stopAutoplay);
       root.removeEventListener("focusout", restartAutoplay);
       gsap.killTweensOf([...slides, ...inners]);

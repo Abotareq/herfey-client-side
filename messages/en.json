@@ -525,7 +525,12 @@
     "parentcategory": "Parent Category",
     "createdat": "Created At",
     "id": "ID",
-    "most": "Most used Categories"
+    "most": "Most used Categories",
+    "eyebrow": "Handmade in Egypt",
+    "shopByCraft": "Shop by craft",
+    "shopByCraftDesc": "Six crafts, hundreds of workshops. Pick a craft and meet the makers behind it.",
+    "pieces": "{count, plural, =0 {No pieces yet} =1 {1 piece} other {# pieces}}",
+    "allCategories": "All categories"
   },
   "products": {
     "category": "Category",
@@ -1231,5 +1236,15 @@
         "text": "Bring art to your home. Shop Herafy today."
       }
     }
+  },
+  "HomeCta": {
+    "makersEyebrow": "For makers",
+    "makersTitle": "Are you a craftsman?",
+    "makersText": "Open your store on Herafy and sell what you make to customers across Egypt.",
+    "makersCta": "Talk to us",
+    "shoppersEyebrow": "For shoppers",
+    "shoppersTitle": "Every piece has a story",
+    "shoppersText": "Browse the full catalogue, straight from workshops all over the country.",
+    "shoppersCta": "Browse all products"
   }
 }
