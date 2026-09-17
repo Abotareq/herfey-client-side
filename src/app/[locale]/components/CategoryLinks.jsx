@@ -7,23 +7,7 @@ import { useTranslations } from "next-intl";
 import { ArrowUpRight, RefreshCw } from "lucide-react";
 import NotFoundPage from "./NotFoundComponent";
 
-import potteryImg from "@public/crafts/pottery-and-ceramics.jpg";
-import jewelryImg from "@public/crafts/handmade-jewelry.jpg";
-import textilesImg from "@public/crafts/textiles-and-rugs.jpg";
-import woodworkImg from "@public/crafts/woodwork.jpg";
-import leatherImg from "@public/crafts/leather-goods.jpg";
-import glassImg from "@public/crafts/glass-and-lanterns.jpg";
-
-// Curated photo per craft, keyed by the category slug. Anything the map
-// doesn't know falls back to the image stored on the category itself.
-const CRAFT_IMAGES = {
-  "pottery-and-ceramics": potteryImg,
-  "handmade-jewelry": jewelryImg,
-  "textiles-and-rugs": textilesImg,
-  woodwork: woodworkImg,
-  "leather-goods": leatherImg,
-  "glass-and-lanterns": glassImg,
-};
+import { craftImage } from "../constants/crafts";
 
 const TILE_COUNT = 6;
 
@@ -105,7 +89,7 @@ function CategoryLinks() {
   return (
     <CraftFrame t={t}>
       {categories.slice(0, TILE_COUNT).map((item, i) => {
-        const photo = CRAFT_IMAGES[item.slug] || item.image;
+        const photo = craftImage(item);
         return (
           <Link
             key={item._id}

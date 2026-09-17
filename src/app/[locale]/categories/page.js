@@ -1,144 +1,203 @@
 "use client";
 import Link from "next/link";
-import { useGetAllCategories, useGetCategoryById } from "@/service/category";
-import { useState } from "react";
-import { CategoryGridSkeleton } from "../components/CategorySkeleton";
-import NotFoundPage from "../components/NotFoundComponent";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { ArrowUpRight, RefreshCw } from "lucide-react";
+import { useGetAllCategories } from "@/service/category";
+import { useCategoryContext } from "@/app/context/categoryContext";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { useTranslations } from "use-intl";
-import { useCategoryContext } from "@/app/context/categoryContext"; 
-import Image from "next/image.js";
+import NotFoundPage from "../components/NotFoundComponent";
+import { craftImage } from "../constants/crafts";
 
-function CategoryLinks() {
-  const [selectedId, setSelectedId] = useState(null);
-  const { setCategory } = useCategoryContext(); // Use category context
+// The categories page reads as an index of crafts: one editorial row per
+// craft, photo on one side, the story and a way in on the other.
+function CategoriesPage() {
   const t = useTranslations("category");
-
-  // Get all categories using the service hook
+  const tp = useTranslations("products");
+  const { setCategory } = useCategoryContext();
   const {
     data: categories,
-    isPending: loadingList,
-    error: categoriesError,
+    isPending: loading,
+    error,
+    refetch,
   } = useGetAllCategories();
 
-  // Get category by ID using the service hook
-  const {
-    data: categoryDetails,
-    isLoading: loadingDetails,
-    error: categoryError,
-  } = useGetCategoryById(selectedId);
-
-  // Handle loading state for categories
-  if (loadingList) {
+  if (loading) {
     return (
-      <div>
-        <Breadcrumbs />
-        <CategoryGridSkeleton count={6} />
-      </div>
+      <CraftIndexFrame t={t}>
+        {[0, 1, 2].map((i) => (
+          <CraftRowSkeleton key={i} flip={i % 2 === 1} />
+        ))}
+      </CraftIndexFrame>
     );
   }
 
-  // Handle error state for categories
-  if (categoriesError)
+  if (error) {
     return (
-      <p>
-        {t("error")}: {categoriesError.message}
-      </p>
+      <CraftIndexFrame t={t}>
+        <div className="relative">
+          <div className="space-y-6 opacity-40" aria-hidden="true">
+            {[0, 1].map((i) => (
+              <CraftRowSkeleton key={i} flip={i % 2 === 1} />
+            ))}
+          </div>
+          <div
+            role="status"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 text-center"
+          >
+            <p className="rounded-xl bg-white/90 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm backdrop-blur-sm">
+              {t("error")}
+            </p>
+            <button
+              type="button"
+              onClick={() => refetch()}
+              className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
+            >
+              <RefreshCw className="h-4 w-4" aria-hidden="true" />
+              {tp("retry")}
+            </button>
+          </div>
+        </div>
+      </CraftIndexFrame>
     );
+  }
 
-  // Handle case where categories data is empty or invalid
   if (!categories || !Array.isArray(categories) || categories.length === 0) {
     return <NotFoundPage />;
   }
 
-  // Handle category click to set context and navigate
-  const handleCategoryClick = (category) => {
-    setSelectedId(category._id);
-    setCategory(category); // Set the category in context
-  };
+  return (
+    <CraftIndexFrame t={t}>
+      {categories.map((item, i) => {
+        const photo = craftImage(item);
+        const blurbKey = `crafts.${item.slug}`;
+        const blurb = t.has(blurbKey) ? t(blurbKey) : null;
+        const flip = i % 2 === 1;
+        return (
+          <article
+            key={item._id}
+            className="group grid overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-xl md:grid-cols-2"
+          >
+            <Link
+              href="/products"
+              onClick={() => setCategory(item)}
+              aria-label={t("shopCraft", { name: item.name })}
+              className={`relative block aspect-[4/3] bg-orange-950 md:aspect-auto md:min-h-[360px] ${
+                flip ? "md:order-2" : ""
+              }`}
+            >
+              {photo ? (
+                <Image
+                  src={photo}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  placeholder={typeof photo === "string" ? "empty" : "blur"}
+                  priority={i === 0}
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              ) : null}
+              <span className="absolute start-5 top-5 rounded-full bg-white/90 px-3 py-1 font-mono text-xs font-semibold tracking-widest text-gray-900">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </Link>
 
+            <div className="flex flex-col justify-center gap-5 p-6 sm:p-10 lg:p-14">
+              <div>
+                <h2 className="text-3xl font-bold leading-tight text-gray-900 sm:text-4xl">
+                  {item.name || "Unnamed Category"}
+                </h2>
+                <div className="mt-3 h-1 w-12 rounded-full bg-orange-600 transition-all duration-500 group-hover:w-24" />
+              </div>
+
+              {blurb ? (
+                <p className="max-w-prose text-base leading-relaxed text-gray-600 sm:text-lg">
+                  {blurb}
+                </p>
+              ) : null}
+
+              <dl className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-gray-500">
+                <div>
+                  <dt className="sr-only">{t("productcount")}</dt>
+                  <dd className="font-semibold text-gray-900">
+                    {t("pieces", { count: item.productCount ?? 0 })}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="sr-only">{t("storecount")}</dt>
+                  <dd className="font-semibold text-gray-900">
+                    {t("stores", { count: item.storesCount ?? 0 })}
+                  </dd>
+                </div>
+              </dl>
+
+              <div>
+                <Link
+                  href="/products"
+                  onClick={() => setCategory(item)}
+                  className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-500/60"
+                >
+                  {t("shopCraft", { name: item.name })}
+                  <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </CraftIndexFrame>
+  );
+}
+
+export default CategoriesPage;
+
+function CraftIndexFrame({ t, children }) {
   return (
     <div>
       <Breadcrumbs />
-      <div className="w-full bg-gray-100 p-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {categories.map((item) => (
-              <Link
-                key={item._id}
-                href="/products" // Navigate to products page
-                onClick={() => handleCategoryClick(item)}
-                className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-200 hover:border-amber-300"
-              >
-                <div className="w-full h-64 relative overflow-hidden">
-                  <img
-                    className="w-full h-full object-cover transition-transform duration-500"
-                    src={item.image || "/1.jpg"}
-                    alt={item.name || "Category"}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                    <div className="w-3 h-3 border-t-2 border-r-2 border-white transform rotate-45"></div>
-                  </div>
-                </div>
-                <div className="p-6 text-center relative">
-                  <h3
-                    className="text-xl font-bold text-gray-800 mb-3 group-hover:text-amber-600 transition-colors duration-300"
-                    style={{ direction: "rtl" }}
-                  >
-                    {item.name || "Unnamed Category"}
-                  </h3>
-                  <div className="w-12 h-0.5 bg-amber-600 mx-auto transition-all duration-300 group-hover:w-20 group-hover:bg-amber-500"></div>
-                  <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-amber-400 to-amber-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"></div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Show details when clicked
-          {loadingDetails && <p>{t("loading")}</p>}
-          {categoryError && (
-            <p>
-              {t("errorlpading")}: {categoryError.message}
+      <section className="w-full bg-gray-50 px-4 py-12 md:px-12 md:py-16">
+        <div className="mx-auto max-w-7xl">
+          <header className="mb-10 max-w-3xl md:mb-14">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-orange-600">
+              {t("pageEyebrow")}
             </p>
-          )}
-          {categoryDetails && (
-            <div className="mt-6 p-4 bg-white shadow rounded">
-              <h2 className="text-lg font-bold">{t("categorydetails")}</h2>
-              <p>
-                <strong>{t("id")}:</strong> {categoryDetails._id}
-              </p>
-              <p>
-                <strong>{t("name")}:</strong>{" "}
-                {categoryDetails.name || "Unnamed Category"}
-              </p>
-              <p>
-                <strong>{t("slug")}:</strong> {categoryDetails.slug || "N/A"}
-              </p>
-              <p>
-                <strong>{t("productcount")}:</strong>{" "}
-                {categoryDetails.productCount ?? 0}
-              </p>
-              <p>
-                <strong>{t("storecount")}:</strong>{" "}
-                {categoryDetails.storesCount ?? 0}
-              </p>
-              {categoryDetails.parent && (
-                <p>
-                  <strong>{t("parentcategory")}:</strong>{" "}
-                  {categoryDetails.parent}
-                </p>
-              )}
-              <p>
-                <strong>{t("createdat")}:</strong>{" "}
-                {new Date(categoryDetails.createdAt).toLocaleString()}
-              </p>
-            </div>
-          )} */}
+            <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
+              {t("pageTitle")}
+            </h1>
+            <p className="mt-4 text-base text-gray-600 sm:text-lg">{t("pageIntro")}</p>
+          </header>
+
+          <div className="space-y-6">{children}</div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
 
-export default CategoryLinks;
+function CraftRowSkeleton({ flip }) {
+  return (
+    <div
+      className="grid overflow-hidden rounded-3xl border border-gray-200 bg-white md:grid-cols-2"
+      aria-hidden="true"
+    >
+      <div
+        className={`skeleton aspect-[4/3] rounded-none md:aspect-auto md:min-h-[360px] ${
+          flip ? "md:order-2" : ""
+        }`}
+      />
+      <div className="flex flex-col justify-center gap-5 p-6 sm:p-10 lg:p-14">
+        <div className="skeleton h-9 w-2/3" />
+        <div className="space-y-2">
+          <div className="skeleton h-4 w-full" />
+          <div className="skeleton h-4 w-11/12" />
+          <div className="skeleton h-4 w-3/4" />
+        </div>
+        <div className="flex gap-8">
+          <div className="skeleton h-4 w-20" />
+          <div className="skeleton h-4 w-24" />
+        </div>
+        <div className="skeleton h-10 w-40 rounded-xl" />
+      </div>
+    </div>
+  );
+}

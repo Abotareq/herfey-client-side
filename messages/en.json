@@ -530,7 +530,20 @@
     "shopByCraft": "Shop by craft",
     "shopByCraftDesc": "Six crafts, hundreds of workshops. Pick a craft and meet the makers behind it.",
     "pieces": "{count, plural, =0 {No pieces yet} =1 {1 piece} other {# pieces}}",
-    "allCategories": "All categories"
+    "allCategories": "All categories",
+    "pageEyebrow": "The crafts",
+    "pageTitle": "Six crafts, one country",
+    "pageIntro": "Every category on Herafy is a living craft, still practised in workshops from Fustat to Aswan. Pick one and see what its makers are working on now.",
+    "stores": "{count, plural, =0 {No workshops yet} =1 {1 workshop} other {# workshops}}",
+    "shopCraft": "Shop {name}",
+    "crafts": {
+      "pottery-and-ceramics": "Clay from the Nile, thrown, glazed and fired the way Fustat's potters have done it for a thousand years.",
+      "handmade-jewelry": "Silver and brass hammered, engraved and set by hand, from Khan el-Khalili benches to Nubian workshops.",
+      "textiles-and-rugs": "Kilims, throws and embroidery woven on hand looms, coloured with the patterns of Upper Egypt.",
+      "woodwork": "Arabesque, mashrabiya and inlay: carved, turned and pieced together one panel at a time.",
+      "leather-goods": "Vegetable-tanned hides cut, tooled and stitched into bags and wallets that age with you.",
+      "glass-and-lanterns": "Blown glass and pierced brass, the lanterns that have lit Cairo's streets for centuries."
+    }
   },
   "products": {
     "category": "Category",
