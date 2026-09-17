@@ -712,7 +712,9 @@
     "mostsold": "Most Sold",
     "store": "Store",
     "allstores": "All Stores",
-    "clear": "Clear All Filters"
+    "clear": "Clear All Filters",
+    "close": "Close filters",
+    "results": "{count, plural, =0 {No products} =1 {1 product} other {# products}}"
   },
   "BestSeller": {
     "bestseller": "Bestsellers",
