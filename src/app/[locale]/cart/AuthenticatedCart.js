@@ -303,7 +303,7 @@ function AuthenticatedCart() {
               return (
                 <div
                   key={itemId}
-                  className="bg-white rounded-xl shadow-md border border-orange-100 p-6 transition-all duration-300 hover:shadow-lg hover:border-orange-200 group animate-fadeIn"
+                  className="bg-white rounded-xl shadow-md border border-orange-100 p-6 transition-all duration-300 hover:shadow-lg hover:border-orange-200 group"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex gap-6">
@@ -595,7 +595,7 @@ function AuthenticatedCart() {
           }
         }
 
-        .animate-fadeIn {
+        . {
           animation: fadeIn 0.5s ease-out forwards;
           opacity: 0;
         }

@@ -208,7 +208,7 @@ export default function HeroSlideshow() {
             type="button"
             data-hero-prev
             aria-label={t("prev")}
-            className="grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md transition duration-300 ease-out-soft hover:bg-white hover:text-gray-900 active:scale-95"
+            className="grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md transition-[background-color,color,transform] duration-200 ease-out-ui hover:bg-white hover:text-gray-900 active:scale-95 active:duration-150"
           >
             <ArrowUp className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -216,7 +216,7 @@ export default function HeroSlideshow() {
             type="button"
             data-hero-next
             aria-label={t("next")}
-            className="grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md transition duration-300 ease-out-soft hover:bg-white hover:text-gray-900 active:scale-95"
+            className="grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md transition-[background-color,color,transform] duration-200 ease-out-ui hover:bg-white hover:text-gray-900 active:scale-95 active:duration-150"
           >
             <ArrowDown className="h-4 w-4" strokeWidth={1.75} />
           </button>

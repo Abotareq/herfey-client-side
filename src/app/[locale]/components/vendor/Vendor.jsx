@@ -342,22 +342,22 @@ function VendorProfile() {
         {/* Content */}
         <div className="transition-all duration-500 ease-in-out">
           {activeTab === "profile" && (
-            <div className="animate-fade-in">
+            <div className="">
               <ProfileSection userData={profileData} />
             </div>
           )}
           {activeTab === "stores" && (
-            <div className="animate-fade-in">
+            <div className="">
               <StoresSection />
             </div>
           )}
           {activeTab === "coupons" && (
-            <div className="animate-fade-in">
+            <div className="">
               <CouponsSection />
             </div>
           )}
           {activeTab === "orders" && (
-            <div className="animate-fade-in">
+            <div className="">
               <OrdersSection />
             </div>
           )}
@@ -375,7 +375,7 @@ function VendorProfile() {
             transform: translateY(0);
           }
         }
-        .animate-fade-in {
+        . {
           animation: fade-in 0.5s ease-out;
         }
       `}</style>

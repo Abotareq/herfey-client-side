@@ -321,8 +321,8 @@ function ReviewsSectionInProfile({ userId }) {
 
       {/* Delete Confirmation Dialog */}
       {deleteConfirmDialog && (
-        <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+        <div className="modal-overlay fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
+          <div className="modal-panel bg-white rounded-2xl p-6 w-full max-w-md">
             <div className="flex items-center space-x-3 mb-4">
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
                 <svg
@@ -383,8 +383,8 @@ function ReviewsSectionInProfile({ userId }) {
 
       {/* Edit Review Modal */}
       {editingReview && (
-        <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+        <div className="modal-overlay fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
+          <div className="modal-panel bg-white rounded-2xl p-6 w-full max-w-md">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">
               {t("edit")}
             </h3>
@@ -583,8 +583,8 @@ function ReviewsSectionInProfile({ userId }) {
 
       {/* Loading states */}
       {updateReviewMutation.isPending && (
-        <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center z-40">
-          <div className="bg-white rounded-xl p-6 shadow-lg">
+        <div className="modal-overlay fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center z-40">
+          <div className="modal-panel bg-white rounded-xl p-6 shadow-lg">
             <div className="flex items-center space-x-3">
               <Loader2 className="h-6 w-6 animate-spin text-orange-600" aria-hidden="true" />
               <span className="text-gray-700 font-medium">

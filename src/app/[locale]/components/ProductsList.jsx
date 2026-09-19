@@ -315,7 +315,7 @@ function ProductsList() {
           id="product-filters"
           className={`${
             filtersOpen ? "block" : "hidden"
-          } w-full bg-white p-5 shadow-xs lg:block lg:w-64 lg:shrink-0 lg:self-start lg:sticky lg:top-20 lg:rounded-2xl`}
+          } enter w-full bg-white p-5 shadow-xs lg:block lg:w-64 lg:shrink-0 lg:self-start lg:sticky lg:top-20 lg:rounded-2xl`}
         >
           <div className="mb-4 flex items-center justify-between">
             <p className="font-semibold text-gray-900">{t1("filter")}</p>
@@ -446,7 +446,7 @@ function ProductsList() {
           </div>
 
           {/* Product Grid */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 md:gap-10 items-start">
+          <section className="stagger grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 md:gap-10 items-start">
             {displayedProducts.length > 0 ? (
               displayedProducts.map((product) => (
                 <ProductCard key={product._id} product={product} />

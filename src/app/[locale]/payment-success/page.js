@@ -124,7 +124,7 @@ export default function PaymentSuccessPage() {
       {paymentStatus === "completed" ? (
         <div className="text-center">
           {/* Success Icon */}
-          <CheckCircle className="text-green-500 w-16 h-16 mx-auto mb-4" />
+          <CheckCircle className="pop-in text-green-500 w-16 h-16 mx-auto mb-4" />
           
           {/* Success Message */}
           <h1 className="text-3xl font-bold text-green-600 mb-6">

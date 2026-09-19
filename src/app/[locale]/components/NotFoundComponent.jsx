@@ -23,13 +23,13 @@ const NotFoundPage = () => {
             to { opacity: 1; transform: translateY(0); }
           }
 
-          .animate-fadeIn {
+          . {
             animation: fadeIn 0.8s ease-in-out;
           }
         `}
       </style>
 
-      <div className="text-center animate-fadeIn">
+      <div className="text-center">
         <img
           src="https://yemca-services.net/404.png"
           alt="404 Illustration"

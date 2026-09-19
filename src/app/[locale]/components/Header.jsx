@@ -55,7 +55,7 @@ export default function Header() {
   const isActive = (path) => pathname === path;
 
   const iconButton =
-    "relative grid h-10 w-10 place-items-center rounded-full text-gray-700 transition duration-300 ease-out-soft hover:bg-gray-900/5 hover:text-gray-900 active:scale-95";
+    "relative grid h-10 w-10 place-items-center rounded-full text-gray-700 transition-[background-color,color,transform] duration-200 ease-out-ui hover:bg-gray-900/5 hover:text-gray-900 active:scale-95 active:duration-150";
 
   return (
     <header className="sticky top-0 z-40 border-b border-gray-900/8 bg-background/85 backdrop-blur-md">
@@ -156,7 +156,7 @@ export default function Header() {
                 }`}
                 strokeWidth={1.75}
               />
-              {wishlistCount > 0 && <CountBadge count={wishlistCount} />}
+              {wishlistCount > 0 && <CountBadge key={wishlistCount} count={wishlistCount} />}
             </button>
           )}
 
@@ -167,7 +167,7 @@ export default function Header() {
             aria-label={`Cart, ${cartCount} items`}
           >
             <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
-            {cartCount > 0 && <CountBadge count={cartCount} />}
+            {cartCount > 0 && <CountBadge key={cartCount} count={cartCount} />}
           </button>
 
           {!user && !loading && (
@@ -204,7 +204,7 @@ export default function Header() {
       {/* mobile menu */}
       <div
         id="site-menu"
-        className={`grid transition-[grid-template-rows] duration-400 ease-out-soft md:hidden ${
+        className={`grid transition-[grid-template-rows] duration-250 ease-out-soft md:hidden ${
           isMenuOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}
       >
@@ -221,7 +221,7 @@ export default function Header() {
                   href={`/${currentLocale}${item.href}`}
                   aria-current={active ? "page" : undefined}
                   style={{ transitionDelay: isMenuOpen ? `${60 + i * 40}ms` : "0ms" }}
-                  className={`block rounded-xl px-3 py-3 text-lg transition duration-400 ease-out-soft ${
+                  className={`block rounded-xl px-3 py-3 text-lg transition-[opacity,transform,background-color] duration-250 ease-out-ui ${
                     isMenuOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
                   } ${active ? "font-display text-orange-700" : "text-gray-800 hover:bg-gray-900/5"}`}
                 >
@@ -279,7 +279,7 @@ export default function Header() {
 function CountBadge({ count }) {
   return (
     <span
-      className="absolute -end-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-orange-600 px-1 text-[10px] font-bold leading-none tabular-nums text-white ring-2 ring-background"
+      className="badge-pop absolute -end-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-orange-600 px-1 text-[10px] font-bold leading-none tabular-nums text-white ring-2 ring-background"
       aria-hidden="true"
     >
       {count > 99 ? "99+" : count}

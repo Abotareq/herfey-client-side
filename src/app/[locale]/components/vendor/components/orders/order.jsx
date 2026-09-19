@@ -571,7 +571,7 @@ export default function OrdersSection() {
       <Toaster position="top-right" />
 
       {/* Header */}
-      <div className="mb-8 animate-fade-in">
+      <div className="mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-orange-600 mb-2 tracking-tight">

@@ -209,8 +209,8 @@ function ReviewsSection({ productId }) {
 
         {/* Review Form Modal */}
         {showReviewForm && user && (
-          <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+          <div className="modal-overlay fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-50">
+            <div className="modal-panel bg-white rounded-2xl p-6 w-full max-w-md">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 {t("write")}
               </h3>

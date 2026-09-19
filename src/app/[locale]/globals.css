@@ -43,7 +43,10 @@
   --shadow-xl: 0 8px 16px -4px oklch(0.3 0.04 50 / 0.08), 0 24px 48px -12px oklch(0.3 0.05 50 / 0.2);
   --shadow-2xl: 0 32px 64px -16px oklch(0.3 0.06 50 / 0.28);
 
-  /* motion: one ease for everything that moves */
+  /* motion: ui = entrances/exits and presses, in-out = movement on screen,
+     soft = drawers and sheets (the iOS curve). One family, no forks. */
+  --ease-out-ui: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-ui: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-soft: cubic-bezier(0.32, 0.72, 0, 1);
   --default-transition-timing-function: var(--ease-out-soft);
@@ -236,9 +239,14 @@
 @layer components {
   /* buttons: a pill, a press, and (when there is an arrow) the arrow in its own disc */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold leading-none transition duration-300 ease-out-soft active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-500/40 disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold leading-none active:scale-[0.97] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-500/40 disabled:pointer-events-none disabled:opacity-50;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
+    transition:
+      transform 160ms var(--ease-out-ui),
+      background-color 200ms ease,
+      color 200ms ease,
+      box-shadow 200ms ease;
   }
   .btn-sm {
     padding: 0.5rem 1rem;
@@ -252,8 +260,9 @@
     @apply bg-white text-orange-950 hover:bg-orange-100;
   }
   .btn-disc {
-    @apply grid h-7 w-7 shrink-0 place-items-center rounded-full transition duration-300 ease-out-soft;
+    @apply grid h-7 w-7 shrink-0 place-items-center rounded-full;
     margin-inline-end: -0.5rem;
+    transition: transform 200ms var(--ease-out-ui);
   }
   .btn-primary .btn-disc,
   .btn-on-dark .btn-disc {
@@ -297,6 +306,116 @@
   }
   [dir="rtl"] select.field {
     background-position: left 0.75rem center;
+  }
+
+  /* motion ---------------------------------------------------------------
+     Entrances use @starting-style so a conditional render or a display
+     toggle animates in without JS; there is no exit (unmount is instant). */
+
+  /* a panel that appears in place: the mobile filter panel, inline forms */
+  .enter {
+    transition:
+      opacity 200ms var(--ease-out-ui),
+      transform 200ms var(--ease-out-ui);
+    @starting-style {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  /* hand-rolled modals: overlay fades, the panel settles from 0.97 */
+  .modal-overlay {
+    transition: opacity 200ms var(--ease-out-ui);
+    @starting-style {
+      opacity: 0;
+    }
+  }
+  .modal-panel {
+    transition:
+      opacity 200ms var(--ease-out-ui),
+      transform 200ms var(--ease-out-ui);
+    @starting-style {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+
+  /* a grid arriving after its skeleton: short cascade, never blocking */
+  .stagger > * {
+    animation: rise 260ms var(--ease-out-ui) both;
+  }
+  .stagger > :nth-child(2) { animation-delay: 40ms; }
+  .stagger > :nth-child(3) { animation-delay: 80ms; }
+  .stagger > :nth-child(4) { animation-delay: 120ms; }
+  .stagger > :nth-child(5) { animation-delay: 160ms; }
+  .stagger > :nth-child(6) { animation-delay: 200ms; }
+  .stagger > :nth-child(n + 7) { animation-delay: 240ms; }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* feedback: the header count when something lands in the cart or wishlist */
+  .badge-pop {
+    animation: badge-pop 200ms var(--ease-out-ui);
+  }
+  @keyframes badge-pop {
+    from { transform: scale(1.4); }
+    to { transform: scale(1); }
+  }
+
+  /* delight, rare tier only: the success check settles with a small overshoot */
+  .pop-in {
+    animation: pop-in 420ms var(--ease-out-ui) both;
+  }
+  @keyframes pop-in {
+    0% { opacity: 0; transform: scale(0.8); }
+    60% { opacity: 1; transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  /* accordion: grid rows instead of a max-height guess */
+  .reveal-rows {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition:
+      grid-template-rows 200ms var(--ease-out-ui),
+      opacity 200ms var(--ease-out-ui);
+    opacity: 0;
+  }
+  .reveal-rows[data-open="true"] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .reveal-rows > * {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .enter,
+    .modal-panel,
+    .stagger > *,
+    .pop-in {
+      transition-property: opacity;
+      animation-name: fade-only;
+      transform: none;
+    }
+    .badge-pop {
+      animation: none;
+    }
+    .reveal-rows {
+      transition-duration: 0ms;
+    }
+    @keyframes fade-only {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   }
 
   /* section header: heading on one side, a way onward on the other */

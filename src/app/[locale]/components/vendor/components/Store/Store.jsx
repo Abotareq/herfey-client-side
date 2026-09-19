@@ -478,7 +478,7 @@ export default function StoresSection() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8">
       {/* Toast Container */}
 
       {/* Header Section */}
@@ -533,7 +533,7 @@ export default function StoresSection() {
 
       {/* Add/Edit Store Form */}
       {(showStoreForm || editingStore) && (
-        <div className="bg-white rounded-3xl border border-orange-100 shadow-2xl overflow-hidden animate-slide-down">
+        <div className="bg-white rounded-3xl border border-orange-100 shadow-2xl overflow-hidden">
           <div className="bg-gradient-to-r from-orange-50 to-orange-100 px-10 py-8 border-b border-orange-100">
             <div className="flex items-center gap-4 mb-3">
               <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
@@ -814,7 +814,7 @@ export default function StoresSection() {
             {userStores.map((store, index) => (
               <div
                 key={store._id}
-                className="group bg-white rounded-3xl border border-orange-100 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden animate-slide-up"
+                className="group bg-white rounded-3xl border border-orange-100 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Store Header */}
@@ -1084,15 +1084,15 @@ export default function StoresSection() {
           }
         }
 
-        .animate-fade-in {
+        . {
           animation: fade-in 0.6s ease-out;
         }
 
-        .animate-slide-down {
+        . {
           animation: slide-down 0.5s ease-out;
         }
 
-        .animate-slide-up {
+        . {
           animation: slide-up 0.6s ease-out both;
         }
       `}</style>

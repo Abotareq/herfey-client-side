@@ -46,7 +46,7 @@ export default function ProductSection({
           {emptyMessage}
         </p>
       ) : (
-        <div className={grid}>
+        <div className={`stagger ${grid}`}>
           {products.slice(0, count).map((product, index) => (
             <ProductCard
               key={product._id}

@@ -3,7 +3,7 @@ import { Loader2 } from "lucide-react";
 
 function StoreSkeleton() {
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8">
       {/* Header Skeleton */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-orange-200">
         <div className="space-y-3">
@@ -116,7 +116,7 @@ function StoreSkeleton() {
           }
         }
 
-        .animate-fade-in {
+        . {
           animation: fade-in 0.6s ease-out;
         }
       `}</style>

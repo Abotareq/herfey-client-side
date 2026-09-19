@@ -155,7 +155,7 @@ function CraftFrame({ t, children }) {
           </Link>
         </div>
 
-        <div className="grid auto-rows-[170px] grid-cols-2 gap-4 sm:auto-rows-[200px] md:grid-cols-3 md:auto-rows-[220px]">
+        <div className="stagger grid auto-rows-[170px] grid-cols-2 gap-4 sm:auto-rows-[200px] md:grid-cols-3 md:auto-rows-[220px]">
           {children}
         </div>
       </div>

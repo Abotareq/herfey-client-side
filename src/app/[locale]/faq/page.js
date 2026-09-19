@@ -83,15 +83,14 @@ export default function FAQSection() {
                     </button>
 
                     <div
-                      className="accordion-content w-full px-0 overflow-hidden pr-4 transition-all duration-300"
-                      style={{
-                        maxHeight: openIndex === index ? "300px" : "0px",
-                        opacity: openIndex === index ? 1 : 0,
-                      }}
+                      className="reveal-rows w-full pr-4"
+                      data-open={openIndex === index}
                     >
-                      <p className="text-base font-normal text-gray-600 mt-3">
-                        {faq.answer}
-                      </p>
+                      <div>
+                        <p className="mt-3 text-base font-normal text-gray-600">
+                          {faq.answer}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}

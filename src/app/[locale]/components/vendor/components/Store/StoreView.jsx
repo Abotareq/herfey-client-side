@@ -91,8 +91,8 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden animate-slideUp">
+    <div className="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="modal-panel bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
         {/* Hero Header */}
         <div className="relative h-48 bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
@@ -919,11 +919,11 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
           }
         }
 
-        .animate-fadeIn {
+        . {
           animation: fadeIn 0.3s ease-out;
         }
 
-        .animate-slideUp {
+        . {
           animation: slideUp 0.4s ease-out;
         }
       `}</style>
