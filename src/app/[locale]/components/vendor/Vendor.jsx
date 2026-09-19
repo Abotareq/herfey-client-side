@@ -48,11 +48,11 @@ function VendorProfile() {
   // Loading state: wait for both auth and user data
   if (authLoading || userLoading || !user?.id || !profileData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 relative overflow-hidden">
+      <div className="min-h-screen relative overflow-hidden">
         {/* Background decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-orange-200/30 to-orange-300/30 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-tr from-orange-200/30 to-orange-300/30 rounded-full blur-3xl"></div>
+          <div className="skeleton absolute -top-24 -right-24 w-96 h-96 rounded-full blur-3xl"></div>
+          <div className="skeleton absolute -bottom-24 -left-24 w-96 h-96 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 py-8">
@@ -75,7 +75,7 @@ function VendorProfile() {
 
           {/* Navigation Tabs skeleton */}
           <div className="mb-8">
-            <div className="flex flex-wrap gap-2 bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-orange-100 max-w-2xl">
+            <div className="flex flex-wrap gap-2 bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-gray-900/8 max-w-2xl">
               {Array(4)
                 .fill()
                 .map((_, i) => (
@@ -135,7 +135,7 @@ function VendorProfile() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
@@ -168,7 +168,7 @@ function VendorProfile() {
   const storesCount = profileData?.storesCount || 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       <button
         onClick={handleLogout}
         className="absolute top-4 right-4 bg-orange-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-orange-700 transition-colors"
@@ -177,8 +177,8 @@ function VendorProfile() {
       </button>
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-orange-200/30 to-orange-300/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-tr from-orange-200/30 to-orange-300/30 rounded-full blur-3xl"></div>
+        <div className="skeleton absolute -top-24 -right-24 w-96 h-96 rounded-full blur-3xl"></div>
+        <div className="skeleton absolute -bottom-24 -left-24 w-96 h-96 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 py-8">
@@ -186,7 +186,7 @@ function VendorProfile() {
         <div className="mb-8">
           <div className="flex items-center space-x-6 mb-6">
             <div className="relative group">
-              <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="bg-orange-600 w-20 h-20 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:shadow-xl transition-all duration-300 hover:scale-105">
                 {firstName[0] || "U"}
                 {lastName[0] || ""}
               </div>
@@ -202,7 +202,7 @@ function VendorProfile() {
                 @{userName || "user"}
               </p>
               <div className="flex flex-wrap items-center space-x-6 text-sm text-gray-600">
-                <span className="flex items-center space-x-2 bg-white/80 px-3 py-2 rounded-full border border-orange-200 hover:bg-white transition-colors">
+                <span className="flex items-center space-x-2 bg-white/80 px-3 py-2 rounded-full border border-gray-900/8 hover:bg-white transition-colors">
                   <svg
                     className="w-4 h-4 text-orange-600"
                     fill="none"
@@ -220,7 +220,7 @@ function VendorProfile() {
                     {t("vendorsince")}: {createdAt || "-"}
                   </span>
                 </span>
-                <span className="flex items-center space-x-2 bg-white/80 px-3 py-2 rounded-full border border-orange-200 hover:bg-white transition-colors">
+                <span className="flex items-center space-x-2 bg-white/80 px-3 py-2 rounded-full border border-gray-900/8 hover:bg-white transition-colors">
                   <svg
                     className="w-4 h-4 text-orange-600"
                     fill="none"
@@ -243,7 +243,7 @@ function VendorProfile() {
 
         {/* Navigation Tabs */}
         <div className="mb-8">
-          <div className="flex flex-wrap gap-2 bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-orange-100 max-w-2xl">
+          <div className="flex flex-wrap gap-2 bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-gray-900/8 max-w-2xl">
             <button
               onClick={() => setActiveTab("profile")}
               className={`flex items-center space-x-2 px-6 py-3 text-sm font-medium rounded-xl transition-all duration-300 hover:scale-105 ${

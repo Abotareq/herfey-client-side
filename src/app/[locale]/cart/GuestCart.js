@@ -983,7 +983,7 @@ function GuestCart() {
             <div className="sticky top-6">
               <div className="bg-white rounded-2xl shadow-xs overflow-hidden">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
+                <div className="bg-orange-600 p-6">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-white/20 rounded-lg">
                       <svg
@@ -1095,7 +1095,7 @@ function GuestCart() {
                   <div className="space-y-3">
                     <button
                       type="button"
-                      className="w-full py-4 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold rounded-lg transition-all duration-200 disabled:opacity-50 shadow-lg transform hover:scale-105"
+                      className="bg-orange-600 w-full py-4 hover:from-orange-700 hover:to-orange-800 text-white font-bold rounded-lg transition-all duration-200 disabled:opacity-50 shadow-lg transform hover:scale-105"
                       onClick={handleCheckout}
                       disabled={guestCartItems.length === 0}
                     >

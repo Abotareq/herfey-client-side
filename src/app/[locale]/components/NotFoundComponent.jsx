@@ -5,7 +5,7 @@ import Link from 'next/link';
 const NotFoundPage = () => {
   const t = useTranslations('NotFound')
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 to-gray-100">
+    <div className="flex items-center justify-center min-h-screen">
       <style>
         {`
           @keyframes float {

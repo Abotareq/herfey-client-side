@@ -840,15 +840,16 @@
     "postplace": "Enter your postal code",
     "country": "Country",
     "countryplace": "Enter your country",
-    "continuepayment": "Continue to Payment Method →",
+    "continuepayment": "Continue to payment",
     "streetrequire": "Street Address is required",
     "cityrequire": "City is required",
     "postrequire": "Postal Code is required",
     "countryrequire": "Country is required",
     "Egypt": "Egypt",
-    "goback": "← Go Back to Cart",
+    "goback": "Back to cart",
     "noaddress": "You have no saved address yet.",
-    "addaddress": "Add one in your profile"
+    "addaddress": "Add one in your profile",
+    "stepOf": "Step {step} of {total}"
   },
   "CheckoutStep2": {
     "profileaddress": "Profile Address",
@@ -866,9 +867,10 @@
     "items": "item(s) in your cart",
     "processing": "Processing your order...",
     "desc": "Your payment information is secure and encrypted",
-    "securepayment": "Continue to Secure Payment →",
-    "confirmorder": "Confirm Order & Pay on Delivery →",
-    "goback": "← Go Back to Shipping"
+    "securepayment": "Continue to Secure Payment",
+    "confirmorder": "Confirm Order & Pay on Delivery",
+    "goback": "Back to address",
+    "stepOf": "Step {step} of {total}"
   },
   "VendorOrder": {
     "cridit": "Credit Card Payment",

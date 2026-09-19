@@ -2,14 +2,14 @@ import React from 'react';
 
 const StoreDetailsSkeleton = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
+    <div className="min-h-screen">
       {/* Breadcrumbs Skeleton */}
       <div className="px-4 sm:px-6 lg:px-8 py-4">
         <div className="h-4 bg-orange-200 rounded w-64 animate-pulse"></div>
       </div>
 
       {/* Header Skeleton */}
-      <div className="sticky top-0 z-40 bg-white border-b border-orange-200 shadow-sm">
+      <div className="sticky top-0 z-40 bg-white border-b border-gray-900/8 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Back Button Skeleton */}
@@ -30,9 +30,9 @@ const StoreDetailsSkeleton = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section Skeleton */}
-        <div className="bg-white rounded-2xl shadow-sm border border-orange-200 overflow-hidden mb-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-900/8 overflow-hidden mb-8">
           {/* Orange Header */}
-          <div className="h-32 bg-gradient-to-r from-orange-300 to-orange-400 animate-pulse"></div>
+          <div className="skeleton h-32"></div>
           
           <div className="p-8">
             <div className="flex flex-col md:flex-row items-start gap-6">
@@ -67,7 +67,7 @@ const StoreDetailsSkeleton = () => {
         {/* Stats Grid Skeleton */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           {[1, 2, 3, 4].map((item) => (
-            <div key={item} className="bg-white rounded-xl shadow-sm border border-orange-200 p-6">
+            <div key={item} className="bg-white rounded-xl shadow-sm border border-gray-900/8 p-6">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-orange-100 rounded-lg animate-pulse"></div>
                 <div className="space-y-2">
@@ -82,7 +82,7 @@ const StoreDetailsSkeleton = () => {
         {/* Main Content Grid Skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Store Policies Skeleton */}
-          <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-900/8 p-6">
             <div className="flex items-center gap-2 mb-6">
               <div className="w-5 h-5 bg-orange-200 rounded animate-pulse"></div>
               <div className="h-6 bg-orange-200 rounded w-32 animate-pulse"></div>
@@ -90,7 +90,7 @@ const StoreDetailsSkeleton = () => {
             
             <div className="space-y-4">
               {[1, 2].map((item) => (
-                <div key={item} className="border border-orange-200 rounded-lg p-4">
+                <div key={item} className="border border-gray-900/8 rounded-lg p-4">
                   <div className="flex items-start gap-3">
                     <div className="w-8 h-8 bg-orange-100 rounded-lg animate-pulse"></div>
                     <div className="flex-1 space-y-2">
@@ -107,12 +107,12 @@ const StoreDetailsSkeleton = () => {
           </div>
 
           {/* Location Details Skeleton */}
-          <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-900/8 p-6">
             <div className="h-6 bg-orange-200 rounded w-24 mb-6 animate-pulse"></div>
             
             <div className="space-y-4">
               {/* Full Address */}
-              <div className="border border-orange-200 rounded-lg p-4">
+              <div className="border border-gray-900/8 rounded-lg p-4">
                 <div className="h-3 bg-orange-150 rounded w-20 mb-2 animate-pulse"></div>
                 <div className="flex items-center justify-between">
                   <div className="h-5 bg-orange-200 rounded w-48 animate-pulse"></div>
@@ -123,7 +123,7 @@ const StoreDetailsSkeleton = () => {
               {/* City and Postal Code */}
               <div className="grid grid-cols-2 gap-4">
                 {[1, 2].map((item) => (
-                  <div key={item} className="border border-orange-200 rounded-lg p-4">
+                  <div key={item} className="border border-gray-900/8 rounded-lg p-4">
                     <div className="h-3 bg-orange-150 rounded w-16 mb-2 animate-pulse"></div>
                     <div className="h-5 bg-orange-200 rounded w-20 animate-pulse"></div>
                   </div>
@@ -134,12 +134,12 @@ const StoreDetailsSkeleton = () => {
         </div>
 
         {/* Store Information Skeleton */}
-        <div className="bg-white rounded-xl shadow-sm border border-orange-200 p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-900/8 p-6 mb-8">
           <div className="h-6 bg-orange-200 rounded w-32 mb-6 animate-pulse"></div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[1, 2].map((item) => (
-              <div key={item} className="border border-orange-200 rounded-lg p-4">
+              <div key={item} className="border border-gray-900/8 rounded-lg p-4">
                 <div className="h-3 bg-orange-150 rounded w-20 mb-2 animate-pulse"></div>
                 <div className="h-5 bg-orange-200 rounded w-32 animate-pulse"></div>
               </div>
@@ -148,7 +148,7 @@ const StoreDetailsSkeleton = () => {
         </div>
 
         {/* Call to Action Skeleton */}
-        <div className="bg-gradient-to-r from-orange-300 to-orange-400 rounded-xl shadow-lg p-8 text-center">
+        <div className="bg-orange-600 rounded-xl shadow-lg p-8 text-center">
           <div className="h-8 bg-orange-100/50 rounded w-64 mx-auto mb-2 animate-pulse"></div>
           <div className="h-5 bg-orange-100/30 rounded w-80 mx-auto mb-6 animate-pulse"></div>
           <div className="h-12 bg-white/50 rounded-lg w-40 mx-auto animate-pulse"></div>
@@ -157,7 +157,7 @@ const StoreDetailsSkeleton = () => {
 
       {/* Loading Indicator */}
       <div className="fixed bottom-8 right-8 z-50">
-        <div className="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-orange-200 rounded-full px-4 py-2 shadow-lg">
+        <div className="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-gray-900/8 rounded-full px-4 py-2 shadow-lg">
           <div className="w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
           <span className="text-orange-600 text-sm font-medium">Loading store details...</span>
         </div>

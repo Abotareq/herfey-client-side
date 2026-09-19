@@ -2,7 +2,7 @@ import React from 'react'
 
 function Pricing() {
   return (
-   <div className="bg-gradient-to-r from-gray-50 to-orange-50 rounded-2xl p-6 border border-gray-200">
+   <div className="bg-white rounded-2xl p-6 border-gray-200 shadow-xs">
         <div className="flex items-baseline space-x-4">
           <span className="text-5xl font-bold text-gray-900">$30</span>
           <div className="flex flex-col">

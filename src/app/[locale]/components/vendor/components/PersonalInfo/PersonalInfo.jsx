@@ -267,7 +267,7 @@ function ProfileSection({ userData }) {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {t("role")}
             </label>
-            <p className="text-gray-900 font-medium bg-gradient-to-r from-orange-100 to-orange-100 px-4 py-3 rounded-lg capitalize flex items-center">
+            <p className="bg-white text-gray-900 font-medium px-4 py-3 rounded-lg capitalize flex items-center shadow-xs">
               <svg
                 className="w-4 h-4 mr-2 text-orange-600"
                 fill="none"

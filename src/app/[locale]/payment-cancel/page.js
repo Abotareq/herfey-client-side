@@ -9,19 +9,19 @@ export default function PaymentFailedPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center p-4">
-      <div className="max-w-md mx-auto bg-white shadow-xl rounded-3xl border border-orange-100 overflow-hidden">
+    <div className="flex min-h-[70vh] items-center justify-center px-4 py-14">
+      <div className="mx-auto w-full max-w-md overflow-hidden rounded-[2rem] bg-white shadow-xs">
         {/* Header with gradient background */}
-        <div className="bg-gradient-to-r from-red-500 to-orange-500 px-8 py-6 text-center">
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-              <XCircle className="w-8 h-8 text-white" />
+        <div className="px-8 pt-10 text-center">
+          <div className="mb-5 flex justify-center">
+            <div className="grid h-16 w-16 place-items-center rounded-full bg-red-50 text-red-700">
+              <XCircle className="h-8 w-8" strokeWidth={1.75} aria-hidden="true" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">
+          <h1 className="mb-2 text-3xl text-gray-900">
             {t('Paymentfailed')}
           </h1>
-          <p className="text-red-100 text-sm">
+          <p className="text-sm text-gray-500">
             {t('paymentfaileddesc')}
           </p>
         </div>
@@ -35,9 +35,9 @@ export default function PaymentFailedPage() {
           </div>
 
           {/* Common reasons */}
-          <div className="mb-8 p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl border border-orange-100">
-            <h3 className="font-semibold text-orange-800 mb-3 text-sm">{t('commonreason')}:</h3>
-            <ul className="text-sm text-gray-600 space-y-1">
+          <div className="mb-8 rounded-2xl bg-gray-50 p-5">
+            <h3 className="label mb-3">{t('commonreason')}</h3>
+            <ul className="space-y-1.5 text-sm text-gray-600">
               <li>• {t('1')}</li>
               <li>• {t('2')}</li>
               <li>• {t('3')}</li>
@@ -49,10 +49,10 @@ export default function PaymentFailedPage() {
           <div className="space-y-3">
             {/* Try Again Button */}
             <button
-              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-orange-600 hover:to-amber-600 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/30"
+              className="btn btn-primary w-full"
               onClick={() => router.push("/checkout")}
             >
-              <div className="flex items-center justify-center space-x-2">
+              <div className="flex items-center justify-center gap-2">
                 <RefreshCw className="w-5 h-5" />
                 <span>{t('tryagain')}</span>
               </div>
@@ -61,7 +61,7 @@ export default function PaymentFailedPage() {
             {/* Secondary actions */}
             <div className="grid grid-cols-2 gap-3">
               <button
-                className="flex items-center justify-center space-x-2 py-3 px-4 bg-orange-100 text-orange-700 rounded-xl font-medium hover:bg-orange-200 transition-colors duration-200"
+                className="btn btn-secondary w-full"
                 onClick={() => router.push("/")}
               >
                 <Home className="w-4 h-4" />
@@ -69,7 +69,7 @@ export default function PaymentFailedPage() {
               </button>
 
               <button
-                className="flex items-center justify-center space-x-2 py-3 px-4 bg-orange-100 text-orange-700 rounded-xl font-medium hover:bg-orange-200 transition-colors duration-200"
+                className="btn btn-secondary w-full"
                 onClick={() => router.push("/support")}
               >
                 <HeadphonesIcon className="w-4 h-4" />

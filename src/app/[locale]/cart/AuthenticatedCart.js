@@ -173,9 +173,9 @@ function AuthenticatedCart() {
   // Show error state
   if (cartError) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white rounded-2xl shadow-xl border border-orange-100 p-8">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-900/8 p-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">
               {t('title')}
             </h1>
@@ -217,14 +217,14 @@ function AuthenticatedCart() {
   // Empty cart state
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+      <div className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white rounded-2xl shadow-xl border border-orange-100 p-8">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-900/8 p-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-8">
               {t('title')}
             </h1>
             <div className="text-center py-16">
-              <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center">
+              <div className="skeleton w-32 h-32 mx-auto mb-6 rounded-full flex items-center justify-center">
                 <svg
                   className="w-16 h-16 text-orange-400"
                   fill="currentColor"
@@ -242,7 +242,7 @@ function AuthenticatedCart() {
               <button
                 type="button"
                 onClick={handleContinueShopping}
-                className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
+                className="bg-orange-600 inline-flex items-center px-8 py-3 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
               >
                 <svg
                   className="w-5 h-5 mr-2"
@@ -267,7 +267,7 @@ function AuthenticatedCart() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -278,7 +278,7 @@ function AuthenticatedCart() {
               {t('cart')}
             </p>
           </div>
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg shadow-lg">
+          <div className="bg-orange-600 text-white px-4 py-2 rounded-lg shadow-lg">
             <span className="text-sm font-medium">
               {t('welcome')} {user?.userName || user.email}
             </span>
@@ -303,7 +303,7 @@ function AuthenticatedCart() {
               return (
                 <div
                   key={itemId}
-                  className="bg-white rounded-xl shadow-md border border-orange-100 p-6 transition-all duration-300 hover:shadow-lg hover:border-orange-200 group"
+                  className="bg-white rounded-xl shadow-md border border-gray-900/8 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-900/8 group"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex gap-6">
@@ -458,7 +458,7 @@ function AuthenticatedCart() {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white rounded-xl shadow-lg border border-orange-100 p-6 h-fit sticky top-8">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-900/8 p-6 h-fit sticky top-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
               {t('ordersummary')}
             </h2>
@@ -505,7 +505,7 @@ function AuthenticatedCart() {
                 />
                 <button
                   type="button"
-                  className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                  className="bg-orange-600 px-4 py-2 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                   onClick={handleApplyCoupon}
                   disabled={
                     updateCartMutation.isLoading ||
@@ -522,7 +522,7 @@ function AuthenticatedCart() {
             <div className="space-y-3">
               <button
                 type="button"
-                className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
+                className="bg-orange-600 w-full py-3 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
                 onClick={handleCheckout}
                 disabled={
                   updateCartMutation.isLoading ||

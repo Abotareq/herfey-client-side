@@ -95,7 +95,7 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors, t }) => { 
                      )}
                 </div>
             ))}
-            <button type="button" onClick={() => append({ value: '', priceModifier: 0, stock: 10, sku: '' })} className="group w-full text-center px-4 py-2.5 rounded-lg bg-orange-100 border border-orange-200 text-orange-700 transition-all duration-300 hover:bg-orange-200 hover:border-orange-300 active:scale-[0.98]">
+            <button type="button" onClick={() => append({ value: '', priceModifier: 0, stock: 10, sku: '' })} className="group w-full text-center px-4 py-2.5 rounded-lg bg-orange-100 border border-gray-900/8 text-orange-700 transition-all duration-300 hover:bg-orange-200 hover:border-orange-300 active:scale-[0.98]">
                 <span className="relative flex items-center justify-center space-x-2 font-semibold text-sm">
                     <Icons.Plus className="w-4 h-4" />
                     <span>{t('add')}</span>
@@ -190,12 +190,12 @@ export default function CreateProductForm() {
     }
     
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
+        <div className="min-h-screen p-4 md:p-6">
             <div className="max-w-6xl mx-auto">
                 <header className="sticky top-4 z-40 bg-white/25 backdrop-blur-md rounded-2xl shadow-lg mb-8 border border-white/30">
                     <div className="flex items-center justify-between p-4 md:p-6">
                         <div className="flex items-center space-x-4">
-                            <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/20">
+                            <div className="bg-orange-600 p-2 rounded-lg shadow-lg shadow-orange-500/20">
                                 <Icons.Document className="w-6 h-6 text-white" />
                             </div>
                             <h1 className="text-xl font-bold text-gray-800">{t('newproduct')}</h1>
@@ -321,7 +321,7 @@ export default function CreateProductForm() {
                             <button type="button" onClick={onCancel} className="w-full sm:w-auto px-6 py-3 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-all">
                                {t('cancel')} 
                            </button>
-                           <button type="submit" disabled={submitting} className="w-full sm:w-auto px-6 py-3.5 text-white rounded-lg transition-all duration-300 shadow-lg shadow-orange-500/30 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center space-x-2 font-semibold">
+                           <button type="submit" disabled={submitting} className="bg-orange-600 w-full sm:w-auto px-6 py-3.5 text-white rounded-lg transition-all duration-300 shadow-lg shadow-orange-500/30 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center space-x-2 font-semibold">
                                {submitting ? <><Icons.Loader className="w-5 h-5" /><span>{t('creating')}</span></> : <><Icons.Check className="w-5 h-5" /><span>{t('createproduct')}</span></>}
                            </button>
                         </div>

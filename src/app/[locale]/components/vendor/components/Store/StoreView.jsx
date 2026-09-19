@@ -94,7 +94,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
     <div className="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="modal-panel bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
         {/* Hero Header */}
-        <div className="relative h-48 bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 overflow-hidden">
+        <div className="bg-orange-600 relative h-48 overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="absolute top-4 right-4">
             <button
@@ -176,7 +176,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
             <div className="mt-8 pt-4 border-t border-gray-200">
               <button
                 onClick={() => onEdit && onEdit(currentStore)}
-                className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-300 transform hover:scale-105"
+                className="bg-orange-600 w-full flex items-center gap-3 px-4 py-3 text-white rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-300 transform hover:scale-105"
               >
                 <svg
                   className="w-5 h-5"
@@ -782,7 +782,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                       >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+                            <div className="bg-orange-600 w-10 h-10 rounded-full flex items-center justify-center">
                               <span className="text-white font-semibold text-sm">
                                 {review.user?.userName?.split(" ")
                                   .map((n) => n[0])
@@ -828,7 +828,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                       </div>
                     ))}
                     {/* Review Summary */}
-                    <div className="mt-8 bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6">
+                    <div className="bg-white mt-8 rounded-2xl p-6 shadow-xs">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">
                         {t('reviewsummary')}
                       </h4>

@@ -5,7 +5,7 @@ function Header() {
   const t = useTranslations('prroductdetailsheader')
   return (
     <div className="space-y-4">
-        <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-orange-100 to-orange-100 text-orange-800 border border-orange-200">
+        <div className="bg-white inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-orange-800 shadow-xs">
           <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
           {t('Stock')}
         </div>

@@ -5,15 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCreateOrder } from "@/service/customerOrderService";
 import { useCreatePayment } from "@/service/payment";
 import { useState, useEffect } from "react";
-import {
-  CreditCard,
-  Banknote,
-  AlertTriangle,
-  Info,
-  ShoppingCart,
-  Lock,
-  CheckCircle,
-} from "lucide-react";
+import { CreditCard, Banknote, AlertTriangle, Info, ShoppingCart, Lock, CheckCircle, ArrowLeft, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function CheckoutStep2() {
@@ -187,19 +179,14 @@ export default function CheckoutStep2() {
       (state.newAddress && Object.keys(state.newAddress).length > 0));
 
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-gradient-to-br from-orange-50 to-amber-50 shadow-xl rounded-3xl border border-orange-100">
-      {/* Header with orange accent and step indicator */}
+    <div className="mx-auto max-w-2xl px-4 py-10 md:py-14">
+      {/* where we are in the flow */}
       <div className="mb-8">
-        <div className="flex items-center space-x-3 mb-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">2</span>
-          </div>
-          <h2 className="text-3xl font-bold font-display text-gray-900">
-            {t("payment")}
-          </h2>
-        </div>
-        <div className="w-full bg-orange-200 rounded-full h-2">
-          <div className="bg-gradient-to-r from-orange-500 to-amber-500 h-2 rounded-full w-2/3 shadow-sm"></div>
+        <p className="label">{t("stepOf", { step: 2, total: 2 })}</p>
+        <h1 className="mt-2 text-3xl text-gray-900 sm:text-4xl">{t("payment")}</h1>
+        <div className="mt-5 grid grid-cols-2 gap-2" aria-hidden="true">
+          <div className="h-1 rounded-full bg-orange-600" />
+          <div className="h-1 rounded-full bg-orange-600" />
         </div>
       </div>
 
@@ -218,29 +205,29 @@ export default function CheckoutStep2() {
       )}
 
       {/* Payment Method Selection */}
-      <div className="space-y-4 mb-8">
-        <h3 className="text-lg font-semibold text-orange-800 mb-4">
+      <div className="space-y-3 mb-8">
+        <h2 className="row-title mb-4">
           {t("paymentchoice")}
-        </h3>
+        </h2>
 
         {/* Credit Card Option */}
-        <label className="flex items-start space-x-4 p-5 border-2 border-orange-200 rounded-xl cursor-pointer hover:border-orange-300 hover:bg-orange-50/50 transition-all duration-200 group">
+        <label className="flex cursor-pointer items-start gap-4 rounded-2xl bg-white p-5 ring-1 ring-gray-900/10 ring-inset transition duration-200 has-[:checked]:ring-2 has-[:checked]:ring-orange-500 hover:ring-gray-900/20">
           <input
             type="radio"
             name="payment"
             value="credit_card"
             checked={paymentMethod === "credit_card"}
             onChange={() => setPaymentMethod("credit_card")}
-            className="w-5 h-5 text-orange-600 mt-0.5 focus:ring-orange-500 focus:ring-2"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-orange-600"
             disabled={isProcessing}
           />
           <div className="flex-1">
             <div className="flex items-center space-x-3 mb-2">
               <CreditCard className="w-5 h-5 text-orange-600" />
-              <span className="font-semibold text-gray-800 group-hover:text-orange-700 transition-colors">
+              <span className="font-medium text-gray-900">
                 {t("card")}
               </span>
-              <span className="px-3 py-1 bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700 text-xs font-medium rounded-full">
+              <span className="rounded-md bg-gray-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-gray-600">
                 {t("secure")}
               </span>
             </div>
@@ -251,7 +238,7 @@ export default function CheckoutStep2() {
         </label>
 
         {/* Cash on Delivery Option */}
-        <label className="flex items-start space-x-4 p-5 border-2 border-orange-200 rounded-xl cursor-pointer hover:border-orange-300 hover:bg-orange-50/50 transition-all duration-200 group">
+        <label className="flex cursor-pointer items-start gap-4 rounded-2xl bg-white p-5 ring-1 ring-gray-900/10 ring-inset transition duration-200 has-[:checked]:ring-2 has-[:checked]:ring-orange-500 hover:ring-gray-900/20">
           <input
             type="radio"
             name="payment"
@@ -264,10 +251,10 @@ export default function CheckoutStep2() {
           <div className="flex-1">
             <div className="flex items-center space-x-3 mb-2">
               <Banknote className="w-5 h-5 text-orange-600" />
-              <span className="font-semibold text-gray-800 group-hover:text-orange-700 transition-colors">
+              <span className="font-medium text-gray-900">
                 {t("cash")}
               </span>
-              <span className="px-3 py-1 bg-gradient-to-r from-amber-100 to-amber-100 text-amber-700 text-xs font-medium rounded-full">
+              <span className="rounded-md bg-orange-50 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-orange-800">
                 {t("popular")}
               </span>
             </div>
@@ -302,39 +289,27 @@ export default function CheckoutStep2() {
 
       {/* Order Summary */}
       {state.cartItems && (
-        <div className="mb-8 p-6 bg-white/70 rounded-2xl border border-orange-100 shadow-sm">
-          <h3 className="font-semibold text-orange-800 mb-3 flex items-center">
-            <ShoppingCart className="w-5 h-5 mr-2 text-orange-600" />
-            {t("ordersummary")}
-          </h3>
-          <div className="flex items-center justify-between">
-            <p className="text-gray-700">
-              <span className="font-medium">{state.cartItems.length}</span>{" "}
+        <div className="mb-8 rounded-2xl bg-white p-6 shadow-xs">
+          <p className="label">{t("ordersummary")}</p>
+          <div className="mt-3 flex items-baseline justify-between gap-4">
+            <p className="text-sm text-gray-500">
+              <span className="font-medium tabular-nums text-gray-900">{state.cartItems.length}</span>{" "}
               {t("items")}
             </p>
-            <p className="text-xl font-bold font-display text-gray-900">
-              ${state.totalAmount?.toFixed(2) || "0.00"}
+            <p className="font-display text-2xl tabular-nums text-gray-900">
+              <span className="me-1 text-sm font-sans font-medium text-gray-500">EGP</span>
+              {state.totalAmount?.toFixed(2) || "0.00"}
             </p>
           </div>
         </div>
       )}
 
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="mb-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Go Back Button */}
-        <button
-          onClick={handleGoBack}
-          disabled={isProcessing}
-          className={`
-            flex-1 py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 transform
-            ${
-              !isProcessing
-                ? "bg-white text-orange-600 border-2 border-orange-300 hover:bg-orange-50 hover:border-orange-400 hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-orange-500/20"
-                : "bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed"
-            }
-          `}
-        >
-          ← {t("goback") || "Go Back"}
+        <button type="button" onClick={handleGoBack} disabled={isProcessing} className="btn btn-ghost">
+          <ArrowLeft className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
+          {t("goback")}
         </button>
 
         {/* Confirm Button */}
@@ -346,20 +321,13 @@ export default function CheckoutStep2() {
             createOrderMutation.isLoading ||
             createPaymentMutation.isLoading
           }
-          className={`
-            flex-1 py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-200 transform
-            ${
-              canProceed && !isProcessing
-                ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/30"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-sm"
-            }
-          `}
+          className="btn btn-primary disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100 disabled:shadow-none"
         >
           {isProcessing ||
           createOrderMutation.isLoading ||
           createPaymentMutation.isLoading ? (
             <div className="flex items-center justify-center space-x-3">
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
               <span>{t("processing")}</span>
             </div>
           ) : paymentMethod === "credit_card" ? (
@@ -372,10 +340,10 @@ export default function CheckoutStep2() {
 
       {/* Loading States */}
       {(createOrderMutation.isLoading || createPaymentMutation.isLoading) && (
-        <div className="mb-6 p-4 bg-orange-50 rounded-xl border border-orange-100">
-          <div className="flex items-center justify-center space-x-3">
-            <CheckCircle className="w-4 h-4 text-orange-600 animate-pulse" />
-            <p className="text-sm text-orange-700 font-medium">
+        <div className="mb-6 rounded-xl bg-orange-50 p-4 text-orange-950 ring-1 ring-orange-200 ring-inset">
+          <div className="flex items-center justify-center gap-3">
+            <Loader2 className="h-4 w-4 animate-spin text-orange-700" aria-hidden="true" />
+            <p className="text-sm font-medium">
               {createOrderMutation.isLoading && t("processing")}
               {createPaymentMutation.isLoading && t("securepayment")}
             </p>
@@ -385,8 +353,8 @@ export default function CheckoutStep2() {
 
       {/* Security Badge */}
       <div className="text-center">
-        <p className="text-xs text-gray-500 flex items-center justify-center space-x-1">
-          <Lock className="w-3 h-3" />
+        <p className="flex items-center justify-center gap-1.5 text-xs text-gray-500">
+          <Lock className="h-3 w-3" aria-hidden="true" />
           <span>{t("desc")}</span>
         </p>
       </div>

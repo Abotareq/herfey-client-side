@@ -311,7 +311,7 @@ function ReviewsSection({ productId }) {
                 className="rounded-2xl bg-white p-8 shadow-xs"
               >
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                  <div className="bg-orange-600 w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
                     {review.user?.userName
                       ? review.user.userName
                           .split(" ")

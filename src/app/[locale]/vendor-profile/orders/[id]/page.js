@@ -9,14 +9,14 @@ import { useTranslations } from 'next-intl'
 function OrderDetailsSkeleton() {
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header Skeleton */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8 mb-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 mb-8">
           <div className="animate-pulse">
             <div className="flex items-center justify-between mb-6">
-              <div className="h-8 bg-gradient-to-r from-orange-200 to-orange-300 rounded-lg w-64"></div>
-              <div className="h-10 bg-gradient-to-r from-orange-200 to-orange-300 rounded-xl w-32"></div>
+              <div className="skeleton h-8 rounded-lg w-64"></div>
+              <div className="skeleton h-10 rounded-xl w-32"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
@@ -30,11 +30,11 @@ function OrderDetailsSkeleton() {
         </div>
 
         {/* Items Skeleton */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8 mb-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 mb-8">
           <div className="animate-pulse">
-            <div className="h-6 bg-gradient-to-r from-orange-200 to-orange-300 rounded w-32 mb-6"></div>
+            <div className="skeleton h-6 rounded w-32 mb-6"></div>
             {[1, 2].map((i) => (
-              <div key={i} className="flex space-x-4 p-4 border border-orange-100 rounded-xl mb-4">
+              <div key={i} className="flex space-x-4 p-4 border border-gray-900/8 rounded-xl mb-4">
                 <div className="w-16 h-16 bg-orange-200 rounded-lg"></div>
                 <div className="flex-1 space-y-2">
                   <div className="h-5 bg-orange-200 rounded w-3/4"></div>
@@ -48,9 +48,9 @@ function OrderDetailsSkeleton() {
 
         {/* Customer Info Skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8">
             <div className="animate-pulse">
-              <div className="h-6 bg-gradient-to-r from-orange-200 to-orange-300 rounded w-40 mb-4"></div>
+              <div className="skeleton h-6 rounded w-40 mb-4"></div>
               <div className="space-y-3">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="h-4 bg-orange-200 rounded w-full"></div>
@@ -58,9 +58,9 @@ function OrderDetailsSkeleton() {
               </div>
             </div>
           </div>
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8">
             <div className="animate-pulse">
-              <div className="h-6 bg-gradient-to-r from-orange-200 to-orange-300 rounded w-32 mb-4"></div>
+              <div className="skeleton h-6 rounded w-32 mb-4"></div>
               <div className="space-y-3">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="h-4 bg-orange-200 rounded w-full"></div>
@@ -78,8 +78,8 @@ function OrderDetailsSkeleton() {
 function StatusBadge({ status }) {
   const statusConfig = {
     pending: { color: 'bg-amber-100 text-amber-800 border-amber-200', icon: '⏳' },
-    confirmed: { color: 'bg-orange-100 text-orange-800 border-orange-200', icon: '✅' },
-    preparing: { color: 'bg-orange-100 text-orange-800 border-orange-200', icon: '👨‍🍳' },
+    confirmed: { color: 'bg-orange-100 text-orange-800 border-gray-900/8', icon: '✅' },
+    preparing: { color: 'bg-orange-100 text-orange-800 border-gray-900/8', icon: '👨‍🍳' },
     ready: { color: 'bg-green-100 text-green-800 border-green-200', icon: '📦' },
     delivered: { color: 'bg-green-100 text-green-800 border-green-200', icon: '🚚' },
     cancelled: { color: 'bg-red-100 text-red-800 border-red-200', icon: '❌' }
@@ -130,7 +130,7 @@ export default function OrderDetailsPage() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,16 +155,16 @@ export default function OrderDetailsPage() {
 
   return (
     // <Breadcrumbs >
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-orange-200/20 to-orange-300/20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-tr from-orange-200/20 to-orange-300/20 rounded-full blur-3xl"></div>
+        <div className="skeleton absolute -top-24 -right-24 w-96 h-96 rounded-full blur-3xl"></div>
+        <div className="skeleton absolute -bottom-24 -left-24 w-96 h-96 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 py-8">
         {/* Header Card */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8 mb-8 hover:shadow-xl transition-all duration-300">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 mb-8 hover:shadow-xl transition-all duration-300">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-3xl font-bold font-display text-gray-900 mb-2">
@@ -174,24 +174,24 @@ export default function OrderDetailsPage() {
             </div>
             <button
               onClick={() => setShowStatusModal(true)}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-xl font-medium hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-orange-600 text-white px-6 py-3 rounded-xl font-medium hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               {t('update')}
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-xl border border-orange-200">
+            <div className="bg-white p-4 rounded-xl shadow-xs">
               <p className="text-sm text-gray-600 mb-1">{t('status')}</p>
               <StatusBadge status={order.status} />
             </div>
-            <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-xl border border-orange-200">
+            <div className="bg-white p-4 rounded-xl shadow-xs">
               <p className="text-sm text-gray-600 mb-1">{t('orderdate')}</p>
               <p className="font-semibold text-orange-800">
                 {new Date(order.createdAt).toLocaleDateString()}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-xl border border-orange-200">
+            <div className="bg-white p-4 rounded-xl shadow-xs">
               <p className="text-sm text-gray-600 mb-1">{t('payment')}</p>
               <p className="font-semibold text-orange-800">
                 {order.paymentMethod === 'cod' ? t('cash') : order.paymentMethod}
@@ -201,9 +201,9 @@ export default function OrderDetailsPage() {
         </div>
 
         {/* Order Items */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8 mb-8 hover:shadow-xl transition-all duration-300">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 mb-8 hover:shadow-xl transition-all duration-300">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center">
+            <div className="bg-orange-600 w-10 h-10 rounded-xl flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
@@ -215,8 +215,8 @@ export default function OrderDetailsPage() {
 
           <div className="space-y-4">
             {order.orderItems?.map((item, index) => (
-              <div key={index} className="flex items-center space-x-4 p-4 bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-xl hover:shadow-md transition-all duration-300">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-200 to-orange-300 rounded-lg flex items-center justify-center">
+              <div key={index} className="bg-white flex items-center space-x-4 p-4 rounded-xl hover:shadow-md transition-all duration-300 shadow-xs">
+                <div className="skeleton w-16 h-16 rounded-lg flex items-center justify-center">
                   <span className="text-2xl">🛍️</span>
                 </div>
                 <div className="flex-1">
@@ -233,8 +233,8 @@ export default function OrderDetailsPage() {
             ))}
           </div>
 
-          <div className="mt-6 pt-6 border-t border-orange-200">
-            <div className="flex justify-between items-center bg-gradient-to-r from-orange-100 to-orange-200 p-4 rounded-xl">
+          <div className="mt-6 pt-6 border-t border-gray-900/8">
+            <div className="skeleton flex justify-between items-center p-4 rounded-xl">
               <span className="text-lg font-semibold text-orange-800">{t('total')}:</span>
               <span className="text-2xl font-bold text-orange-800">${order.totalAmount?.toFixed(2)}</span>
             </div>
@@ -244,9 +244,9 @@ export default function OrderDetailsPage() {
         {/* Customer & Delivery Info */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Customer Information */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center">
+              <div className="bg-orange-600 w-10 h-10 rounded-xl flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -272,9 +272,9 @@ export default function OrderDetailsPage() {
           </div>
 
           {/* Delivery Information */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center">
+              <div className="bg-orange-600 w-10 h-10 rounded-xl flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -299,7 +299,7 @@ export default function OrderDetailsPage() {
       {/* Status Update Modal */}
       {showStatusModal && (
         <div className="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="modal-panel bg-white rounded-2xl shadow-2xl border border-orange-100 p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+          <div className="modal-panel bg-white rounded-2xl shadow-2xl border border-gray-900/8 p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold font-display text-gray-900">
                 {t('updateo')}
@@ -316,7 +316,7 @@ export default function OrderDetailsPage() {
 
             <div className="space-y-3 mb-8">
               {statusOptions.map((status) => (
-                <label key={status.value} className="flex items-center space-x-3 p-3 rounded-xl border border-orange-200 hover:bg-orange-50 cursor-pointer transition-colors">
+                <label key={status.value} className="flex items-center space-x-3 p-3 rounded-xl border border-gray-900/8 hover:bg-orange-50 cursor-pointer transition-colors">
                   <input
                     type="radio"
                     name="status"
@@ -341,7 +341,7 @@ export default function OrderDetailsPage() {
               <button
                 onClick={handleStatusUpdate}
                 disabled={!selectedStatus || updateStatusMutation.isLoading}
-                className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-xl font-medium hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 transition-all duration-300"
+                className="bg-orange-600 flex-1 text-white px-6 py-3 rounded-xl font-medium hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 transition-all duration-300"
               >
                 {updateStatusMutation.isLoading ? t('updating') : t('updates')}
               </button>

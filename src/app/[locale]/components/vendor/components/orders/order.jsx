@@ -91,7 +91,7 @@ const CreditCardOrderActions = ({ order, updateStatus, router }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 hover:from-orange-100 hover:to-orange-150 transition-all duration-300">
+    <div className="bg-white rounded-xl p-5 hover:from-orange-100 hover:to-orange-150 transition-all duration-300 shadow-xs">
       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <CreditCard className="w-4 h-4 text-orange-600" />
         {t("cridit")}
@@ -289,7 +289,7 @@ const CODOrderActions = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 hover:from-orange-100 hover:to-orange-150 transition-all duration-300">
+    <div className="bg-white rounded-xl p-5 hover:from-orange-100 hover:to-orange-150 transition-all duration-300 shadow-xs">
       <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <Banknote className="w-4 h-4 text-orange-600" />
         {t("cash")}
@@ -387,7 +387,7 @@ const CODOrderActions = ({
         )}
 
         {order.status === "processing" && (
-          <div className="p-2 bg-orange-50 border border-orange-200 rounded-lg">
+          <div className="p-2 bg-orange-50 border border-gray-900/8 rounded-lg">
             <div className="flex items-center gap-2 text-orange-700 text-xs font-medium">
               <Package className="w-3 h-3" />
               {t("processing")}
@@ -396,7 +396,7 @@ const CODOrderActions = ({
         )}
 
         {order.status === "shipped" && (
-          <div className="p-2 bg-orange-50 border border-orange-200 rounded-lg">
+          <div className="p-2 bg-orange-50 border border-gray-900/8 rounded-lg">
             <div className="flex items-center gap-2 text-orange-700 text-xs font-medium">
               <Truck className="w-3 h-3" />
               {t("shipped")}
@@ -405,7 +405,7 @@ const CODOrderActions = ({
         )}
 
         {order.status === "delivered" && (
-          <div className="p-2 bg-orange-50 border border-orange-200 rounded-lg">
+          <div className="p-2 bg-orange-50 border border-gray-900/8 rounded-lg">
             <div className="flex items-center gap-2 text-orange-700 text-xs font-medium">
               <CheckCircle className="w-3 h-3" />
               {t("delivered")}
@@ -485,13 +485,13 @@ export default function OrdersSection() {
       hover: "hover:bg-green-100",
     },
     processing: {
-      color: "bg-orange-50 text-orange-700 border-orange-200",
+      color: "bg-orange-50 text-orange-700 border-gray-900/8",
       icon: Package,
       badge: "bg-orange-100 text-orange-800",
       hover: "hover:bg-orange-100",
     },
     shipped: {
-      color: "bg-orange-50 text-orange-700 border-orange-200",
+      color: "bg-orange-50 text-orange-700 border-gray-900/8",
       icon: Truck,
       badge: "bg-orange-100 text-orange-800",
       hover: "hover:bg-orange-100",
@@ -567,7 +567,7 @@ export default function OrdersSection() {
   const totalPages = data?.pages || 1;
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gradient-to-br from-orange-10 to-orange-30 min-h-screen">
+    <div className="max-w-7xl mx-auto p-6 min-h-screen">
       <Toaster position="top-right" />
 
       {/* Header */}
@@ -833,7 +833,7 @@ export default function OrdersSection() {
                     {/* Order Details Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                       {/* Order Summary */}
-                      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300">
+                      <div className="bg-white rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300 shadow-xs">
                         <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                           <DollarSign className="w-4 h-4" />
                           {t("ordersummary")}
@@ -877,7 +877,7 @@ export default function OrdersSection() {
                         </div>
                       </div>
                       {/* Product Images */}
-                      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300">
+                      <div className="bg-white rounded-xl p-5 hover:from-gray-100 hover:to-gray-150 transition-all duration-300 shadow-xs">
                         <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                           <Package className="w-4 h-4" />
                           {t("products")}

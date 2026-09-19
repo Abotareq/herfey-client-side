@@ -253,7 +253,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
   // Pagination component
   const Pagination = ({ currentPage, totalPages, onPageChange, isLoading }) => {
     return (
-      <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gradient-to-r from-orange-50 to-red-50">
+      <div className="bg-white flex items-center justify-between px-6 py-4 border-t border-gray-200 shadow-xs">
         <div className="flex items-center text-sm text-gray-600">
           <span>
             {t('page')} {currentPage} of {totalPages}
@@ -263,7 +263,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1 || isLoading}
-            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:text-orange-700 hover:bg-gray-900/5 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:text-orange-700 hover:bg-gray-900/5 hover:border-gray-900/8 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
           >
             <ChevronLeft className="w-4 h-4" />
             {t('prev')}
@@ -271,7 +271,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages || isLoading}
-            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:text-orange-700 hover:bg-gray-900/5 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:text-orange-700 hover:bg-gray-900/5 hover:border-gray-900/8 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
           >
             {t('next')}
             <ChevronRight className="w-4 h-4" />
@@ -285,7 +285,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
     <div className="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="modal-panel bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
         {/* Header with Orange Gradient */}
-        <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 px-8 py-6">
+        <div className="bg-orange-600 px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
@@ -307,7 +307,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
         <div className="flex h-[calc(90vh-120px)]">
           {/* Sidebar Tabs */}
-          <div className="w-64 bg-gradient-to-b from-orange-50 to-red-50 border-r border-orange-200 p-4">
+          <div className="bg-white w-64 border-r p-4 shadow-xs">
             <div className="space-y-2">
               {tabs.map((tab) => {
                 const IconComponent = tab.icon
@@ -330,10 +330,10 @@ export function StoreManagement({ store, onUpdate, onClose }) {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 overflow-y-auto bg-gradient-to-br from-orange-25 to-red-25">
+          <div className="bg-white flex-1 overflow-y-auto shadow-xs">
             {activeTab === 'general' && (
               <div className="p-8 space-y-8">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-900/8">
                   <h3 className="text-2xl font-bold font-display text-gray-900 mb-6">
                     {t('generalinfo')}
                   </h3>
@@ -348,7 +348,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           type="text"
                           value={formData.name}
                           onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                          className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/90"
+                          className="w-full px-4 py-4 border border-gray-900/8 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/90"
                           placeholder={t('storenameplace')}
                         />
                       </div>
@@ -361,7 +361,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           value={formData.description}
                           onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                           rows={4}
-                          className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 resize-none bg-white/90"
+                          className="w-full px-4 py-4 border border-gray-900/8 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 resize-none bg-white/90"
                           placeholder={t('deecplace')}
                         />
                       </div>
@@ -374,14 +374,14 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                           type="url"
                           value={formData.logoUrl}
                           onChange={(e) => setFormData(prev => ({ ...prev, logoUrl: e.target.value }))}
-                          className="w-full px-4 py-4 border border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/90"
+                          className="w-full px-4 py-4 border border-gray-900/8 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/90"
                           placeholder="https://example.com/logo.png"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-6">
-                      <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 space-y-4 border border-orange-100">
+                      <div className="bg-white rounded-2xl p-6 space-y-4 shadow-xs">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
                           <MapPin className="w-5 h-5 text-orange-600" />
                           {t('addressinfo')}
@@ -397,7 +397,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 ...prev, 
                                 address: { ...prev.address, city: e.target.value }
                               }))}
-                              className="w-full px-3 py-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
+                              className="w-full px-3 py-3 border border-gray-900/8 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
                               placeholder={t('city')}
                             />
                           </div>
@@ -410,7 +410,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 ...prev, 
                                 address: { ...prev.address, postalCode: e.target.value }
                               }))}
-                              className="w-full px-3 py-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
+                              className="w-full px-3 py-3 border border-gray-900/8 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
                               placeholder="12345"
                             />
                           </div>
@@ -425,13 +425,13 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                               ...prev, 
                               address: { ...prev.address, street: e.target.value }
                             }))}
-                            className="w-full px-3 py-3 border border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
+                            className="w-full px-3 py-3 border border-gray-900/8 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white/80"
                             placeholder="123 Main Street"
                           />
                         </div>
                       </div>
 
-                      <div className="bg-gradient-to-br from-green-50 to-green-50 rounded-2xl p-6 space-y-4 border border-green-200">
+                      <div className="bg-white rounded-2xl p-6 space-y-4 border-green-200 shadow-xs">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
                           <Shield className="w-5 h-5 text-green-500" />
                           {t('storeploicies')}
@@ -474,7 +474,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <button
                       onClick={handleSave}
                       disabled={isLoading}
-                      className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 shadow-lg"
+                      className="bg-orange-600 px-8 py-3 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 shadow-lg"
                     >
                       {isLoading ? (
                         <>
@@ -492,9 +492,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
             {activeTab === 'products' && (
               <div className="p-8">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 overflow-hidden">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 overflow-hidden">
                   {/* Header */}
-                  <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
+                  <div className="bg-orange-600 px-6 py-4">
                     <div className="flex items-center justify-between">
                       <div className="text-white">
                         <h3 className="text-2xl font-bold">{t('productmanage')}</h3>
@@ -565,7 +565,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                             setStoreId(store._id);
                             router.push('/vendor-profile/add-products');
                           }}
-                          className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center gap-2"
+                          className="bg-orange-600 px-6 py-3 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" />
                           {t('add')}
@@ -574,7 +574,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     ) : (
                       <div className="overflow-x-auto">
                         <table className="w-full">
-                          <thead className="bg-gradient-to-r from-orange-100 to-red-100 border-b border-orange-200">
+                          <thead className="bg-white border-b shadow-xs">
                             <tr>
                               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('product')}</th>
                               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('price')}</th>
@@ -592,7 +592,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                       <img
                                         src={product.images[0]}
                                         alt={product.name}
-                                        className="w-10 h-10 rounded-lg object-cover border border-orange-200"
+                                        className="w-10 h-10 rounded-lg object-cover border border-gray-900/8"
                                       />
                                     )}
                                     <div>
@@ -653,9 +653,9 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
             {activeTab === 'orders' && (
               <div className="p-8">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 overflow-hidden">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 overflow-hidden">
                   {/* Header */}
-                  <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
+                  <div className="bg-orange-600 px-6 py-4">
                     <div className="flex items-center justify-between">
                       <div className="text-white">
                         <h3 className="text-2xl font-bold">{t('porders')}</h3>
@@ -702,7 +702,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     ) : (
                       <div className="overflow-x-auto">
                         <table className="w-full">
-                          <thead className="bg-gradient-to-r from-orange-100 to-red-100 border-b border-orange-200">
+                          <thead className="bg-white border-b shadow-xs">
                             <tr>
                               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Order ID</th>
                               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">{t('customer')}</th>
@@ -776,13 +776,13 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
             {activeTab === 'analytics' && (
               <div className="p-8 space-y-6">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-900/8">
                   <h3 className="text-2xl font-bold font-display text-gray-900 mb-6">
                     {t('storeanalysis')}
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
+                    <div className="bg-orange-600 rounded-2xl p-6 text-white">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-orange-100 text-sm font-medium">{t('totalrevenue')}</p>
@@ -808,7 +808,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       </div>
                     </div>
 
-                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
+                    <div className="bg-orange-600 rounded-2xl p-6 text-white">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-orange-100 text-sm font-medium">{t('active')}</p>
@@ -823,7 +823,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                   </div>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
+                    <div className="bg-white rounded-2xl p-6 shadow-xs">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <BarChart3 className="w-5 h-5 text-orange-600" />
                         {t('order')}
@@ -860,23 +860,23 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       )}
                     </div>
 
-                    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
+                    <div className="bg-white rounded-2xl p-6 shadow-xs">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-green-500" />
                        {t('recent')}
                       </h4>
                       <div className="space-y-4">
-                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
+                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-gray-900/8">
                           <span className="text-gray-600">{t('value')}</span>
                           <span className="font-medium text-gray-900">
                             {formatCurrency(analytics.totalOrders > 0 ? analytics.totalRevenue / analytics.totalOrders : 0)}
                           </span>
                         </div>
-                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
+                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-gray-900/8">
                           <span className="text-gray-600">{t('catchingsize')}</span>
                           <span className="font-medium text-gray-900">{products.length} {t('products')}</span>
                         </div>
-                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-orange-100">
+                        <div className="flex items-center justify-between p-3 bg-white/60 rounded-lg border border-gray-900/8">
                           <span className="text-gray-600">{t('storestats')}</span>
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             storeSettings.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
@@ -893,14 +893,14 @@ export function StoreManagement({ store, onUpdate, onClose }) {
 
             {activeTab === 'settings' && (
               <div className="p-8">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-900/8">
                   <h3 className="text-2xl font-bold font-display text-gray-900 mb-2">
                     {t('settings')}
                   </h3>
                   <p className="text-gray-600 mb-6">{t('settingsdesc')}</p>
                   
                   <div className="space-y-6">
-                    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
+                    <div className="bg-white rounded-2xl p-6 shadow-xs">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <Activity className="w-5 h-5 text-orange-600" />
                         {t('storestatus')}
@@ -987,7 +987,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                       </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-200 rounded-2xl p-6">
+                    <div className="bg-white border-red-200 rounded-2xl p-6 shadow-xs">
                       <h4 className="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2">
                         <AlertCircle className="w-5 h-5" />
                         {t('dangerzone')}
@@ -999,7 +999,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                            {t('deletedesc')}
                           </p>
                           <button 
-                            className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                            className="bg-orange-600 px-6 py-3 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
                             onClick={handleDeleteStore}
                           >
                             <Trash2 className="w-4 h-4" />

@@ -44,7 +44,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
   // Handle cancelled orders
   if (status === "cancelled") {
     return (
-      <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200/50 shadow-md">
+      <div className="bg-white rounded-2xl p-6 shadow-xs">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 text-red-500 mb-2">
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -61,7 +61,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
   // Handle COD order with confirmed payment (status is "paid" = delivered + paid)
   if (paymentMethod === "cash_on_delivery" && status === "paid") {
     return (
-      <div className="bg-gradient-to-r from-orange-300 via-orange-500 to-orange-300 rounded-2xl p-6 border border-green-200 shadow-lg">
+      <div className="bg-orange-600 rounded-2xl p-6 border border-green-200 shadow-lg">
         {/* Delivery & Payment Confirmation Header */}
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-3 text-white mb-3">
@@ -132,7 +132,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
 
   // Regular status tracker for other cases
   return (
-    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
+    <div className="bg-white rounded-2xl p-6 shadow-xs">
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-orange-600">
@@ -198,7 +198,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
       
       {/* Additional payment status for COD delivered orders (awaiting payment) */}
       {paymentMethod === "cash_on_delivery" && status === "delivered" && (
-        <div className="mt-6 pt-4 border-t border-orange-200/50">
+        <div className="mt-6 pt-4 border-t border-gray-900/8">
           <div className="flex items-center gap-3 text-sm">
             <div className="flex items-center justify-center w-6 h-6 rounded-full border-2 border-amber-400 bg-amber-50">
               <div className="w-2 h-2 rounded-full bg-amber-400" />
@@ -212,7 +212,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
 };
 //  Order Items Card ---
 const OrderItemsCard = ({ items, t }) => (
-  <div className="lg:col-span-2 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md space-y-4">
+  <div className="bg-white lg:col-span-2 rounded-2xl p-6 shadow-xs space-y-4">
     <div className="flex items-center gap-3">
       <span className="text-orange-600">{Icons.package}</span>
       <h4 className="font-semibold text-gray-800 text-lg">
@@ -222,14 +222,14 @@ const OrderItemsCard = ({ items, t }) => (
     {items.map((item) => (
       <div
         key={item._id}
-        className="flex items-start gap-4 py-4 border-b border-orange-200/50 last:border-b-0"
+        className="flex items-start gap-4 py-4 border-b border-gray-900/8 last:border-b-0"
       >
         <div className="relative w-20 h-20">
           <Image
             src={item.image}
             alt={item.name}
             fill
-            className="rounded-lg object-cover border border-orange-200/50"
+            className="rounded-lg object-cover border border-gray-900/8"
           />
         </div>
         <div className="flex-1">
@@ -261,7 +261,7 @@ const OrderSidebar = ({
   tOrders,
 }) => (
   <div className="space-y-6">
-    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
+    <div className="bg-white rounded-2xl p-6 shadow-xs">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-600">{Icons.location}</span>
         <h4 className="font-semibold text-gray-800 text-lg">
@@ -278,7 +278,7 @@ const OrderSidebar = ({
     </div>
 
     {/* Payment Method Info */}
-    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
+    <div className="bg-white rounded-2xl p-6 shadow-xs">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-600">
           {order.paymentMethod === "cash_on_delivery" ? 
@@ -306,7 +306,7 @@ const OrderSidebar = ({
               ? "bg-green-50 text-green-700 border border-green-200"
               : order.status === "delivered" 
                 ? "bg-amber-50 text-amber-700 border border-amber-200"
-                : "bg-orange-50 text-orange-700 border border-orange-200"
+                : "bg-orange-50 text-orange-700 border border-gray-900/8"
           }`}>
             {order.status === "paid" 
               ? t("paymentCompleted")
@@ -324,7 +324,7 @@ const OrderSidebar = ({
       </div>
     </div>
 
-    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
+    <div className="bg-white rounded-2xl p-6 shadow-xs">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-orange-600">{Icons.receipt}</span>
         <h4 className="font-semibold text-gray-800 text-lg">
@@ -344,7 +344,7 @@ const OrderSidebar = ({
           <span>{t("tax")}</span>
           <span>${order.tax.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between font-bold text-gray-800 text-lg pt-2 border-t border-orange-200/50 mt-2">
+        <div className="flex justify-between font-bold text-gray-800 text-lg pt-2 border-t border-gray-900/8 mt-2">
           <span>{t("total")}</span>
           <span>${order.totalAmount.toFixed(2)}</span>
         </div>
@@ -352,7 +352,7 @@ const OrderSidebar = ({
     </div>
 
     {/* Action Card */}
-    <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md text-center">
+    <div className="bg-white rounded-2xl p-6 shadow-xs text-center">
       {order.status === "cancelled" ? (
         <div className="text-center">
           <div className="text-red-500 mb-2">
@@ -443,7 +443,7 @@ function OrderDetailsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -466,7 +466,7 @@ function OrderDetailsPage() {
           <button
             onClick={handleRefresh}
             disabled={isFetching}
-            className="flex items-center gap-2 px-4 py-2 bg-white border border-orange-200 text-orange-600 font-medium rounded-lg shadow-sm hover:bg-orange-50 hover:border-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-900/8 text-orange-600 font-medium rounded-lg shadow-sm hover:bg-orange-50 hover:border-orange-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg 
               className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} 

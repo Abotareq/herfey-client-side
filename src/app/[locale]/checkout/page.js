@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { AlertCircle, MapPin } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 
 export default function CheckoutStep1() {
   const { state, setUseExisting, setNewAddress } = useCheckout();
@@ -79,37 +79,32 @@ export default function CheckoutStep1() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-gradient-to-br from-orange-50 to-amber-50 shadow-xl rounded-3xl border border-orange-100">
-      {/* Header with orange accent */}
+    <div className="mx-auto max-w-2xl px-4 py-10 md:py-14">
+      {/* where we are in the flow */}
       <div className="mb-8">
-        <div className="flex items-center space-x-3 mb-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">1</span>
-          </div>
-          <h2 className="text-3xl font-bold font-display text-gray-900">
-            {t("title")}
-          </h2>
-        </div>
-        <div className="w-full bg-orange-200 rounded-full h-2">
-          <div className="bg-gradient-to-r from-orange-500 to-amber-500 h-2 rounded-full w-1/3 shadow-sm"></div>
+        <p className="label">{t("stepOf", { step: 1, total: 2 })}</p>
+        <h1 className="mt-2 text-3xl text-gray-900 sm:text-4xl">{t("title")}</h1>
+        <div className="mt-5 grid grid-cols-2 gap-2" aria-hidden="true">
+          <div className="h-1 rounded-full bg-orange-600" />
+          <div className="h-1 rounded-full bg-gray-900/10" />
         </div>
       </div>
 
       {/* Address Selection with enhanced styling */}
-      <div className="space-y-4 mb-6">
-        <label className="flex items-center space-x-4 p-4 border-2 border-orange-200 rounded-xl hover:border-orange-300 transition-all duration-200 cursor-pointer group">
+      <div className="space-y-3 mb-6">
+        <label className="flex cursor-pointer items-start gap-4 rounded-2xl bg-white p-5 ring-1 ring-gray-900/10 ring-inset transition duration-200 has-[:checked]:ring-2 has-[:checked]:ring-orange-500 hover:ring-gray-900/20">
           <input
             type="radio"
             name="addressOption"
             checked={state.useExisting}
             onChange={chooseExisting}
-            className="w-5 h-5 text-orange-600 focus:ring-orange-500 focus:ring-2"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-orange-600"
           />
           <div className="flex-1">
-            <span className="text-gray-800 font-medium group-hover:text-orange-700 transition-colors">
+            <span className="font-medium text-gray-900">
               {t("useexistingaddress")}
             </span>
-            <p className="text-sm text-gray-600 mt-1">{t("profileaddress")}</p>
+            <p className="mt-0.5 text-sm text-gray-500">{t("profileaddress")}</p>
 
             {state.useExisting && (
               <div className="mt-3">
@@ -119,8 +114,8 @@ export default function CheckoutStep1() {
                     <div className="skeleton h-3 w-1/2" />
                   </div>
                 ) : defaultAddress ? (
-                  <div className="flex items-start gap-2 rounded-lg border border-orange-200 bg-white px-3 py-2 text-sm text-gray-700">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-600" aria-hidden="true" />
+                  <div className="flex items-start gap-2 rounded-xl bg-gray-50 px-3 py-2.5 text-sm text-gray-700">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gray-500" aria-hidden="true" />
                     <span>
                       {defaultAddress.street}, {defaultAddress.city}
                       {defaultAddress.postalCode ? `, ${defaultAddress.postalCode}` : ""}
@@ -153,19 +148,19 @@ export default function CheckoutStep1() {
           </div>
         </label>
 
-        <label className="flex items-center space-x-4 p-4 border-2 border-orange-200 rounded-xl hover:border-orange-300 transition-all duration-200 cursor-pointer group">
+        <label className="flex cursor-pointer items-start gap-4 rounded-2xl bg-white p-5 ring-1 ring-gray-900/10 ring-inset transition duration-200 has-[:checked]:ring-2 has-[:checked]:ring-orange-500 hover:ring-gray-900/20">
           <input
             type="radio"
             name="addressOption"
             checked={!state.useExisting}
             onChange={chooseNew}
-            className="w-5 h-5 text-orange-600 focus:ring-orange-500 focus:ring-2"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-orange-600"
           />
           <div className="flex-1">
-            <span className="text-gray-800 font-medium group-hover:text-orange-700 transition-colors">
+            <span className="font-medium text-gray-900">
               {t("usenewaddress")}
             </span>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="mt-0.5 text-sm text-gray-500">
               {t("differentshippingaddress")}
             </p>
           </div>
@@ -174,101 +169,83 @@ export default function CheckoutStep1() {
 
       {/* New Address Form with enhanced styling */}
       {!state.useExisting && (
-        <div className="mt-8 space-y-6 border-t border-gray-900/8 pt-6 bg-white/50 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold text-orange-800 mb-4">
-            {t("newaddress")}
-          </h3>
+        <div className="enter mt-6 rounded-2xl bg-white p-6 shadow-xs">
+          <h2 className="row-title mb-5">{t("newaddress")}</h2>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 {t("street")}
               </label>
               <input
                 type="text"
                 placeholder={t("streetplace")}
-                className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
-                  errors.street
-                    ? "border-red-400 focus:border-red-500"
-                    : "border-orange-200 focus:border-orange-400 hover:border-orange-300"
-                }`}
+                className={`field ${errors.street ? "border-red-400 focus:border-red-500 focus:ring-red-500/15" : ""}`}
                 value={form.street}
                 onChange={(e) => setForm({ ...form, street: e.target.value })}
               />
               {errors.street && (
-                <p className="text-red-500 text-sm mt-2 flex items-center">
-                  <span className="mr-1">⚠️</span>
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-red-700">
+                  <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                   {errors.street}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 {t("city")}
               </label>
               <input
                 type="text"
                 placeholder={t("cityplace")}
-                className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
-                  errors.city
-                    ? "border-red-400 focus:border-red-500"
-                    : "border-orange-200 focus:border-orange-400 hover:border-orange-300"
-                }`}
+                className={`field ${errors.city ? "border-red-400 focus:border-red-500 focus:ring-red-500/15" : ""}`}
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
               />
               {errors.city && (
-                <p className="text-red-500 text-sm mt-2 flex items-center">
-                  <span className="mr-1">⚠️</span>
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-red-700">
+                  <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                   {errors.city}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 {t("postcode")}
               </label>
               <input
                 type="text"
                 placeholder={t("postplace")}
-                className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
-                  errors.postalCode
-                    ? "border-red-400 focus:border-red-500"
-                    : "border-orange-200 focus:border-orange-400 hover:border-orange-300"
-                }`}
+                className={`field ${errors.postalCode ? "border-red-400 focus:border-red-500 focus:ring-red-500/15" : ""}`}
                 value={form.postalCode}
                 onChange={(e) =>
                   setForm({ ...form, postalCode: e.target.value })
                 }
               />
               {errors.postalCode && (
-                <p className="text-red-500 text-sm mt-2 flex items-center">
-                  <span className="mr-1">⚠️</span>
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-red-700">
+                  <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                   {errors.postalCode}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 {t("country")}
               </label>
               <input
                 type="text"
                 placeholder={t("countryplace")}
-                className={`w-full p-4 border-2 rounded-xl transition-all duration-200 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
-                  errors.country
-                    ? "border-red-400 focus:border-red-500"
-                    : "border-orange-200 focus:border-orange-400 hover:border-orange-300"
-                }`}
+                className={`field ${errors.country ? "border-red-400 focus:border-red-500 focus:ring-red-500/15" : ""}`}
                 value={form.country}
                 onChange={(e) => setForm({ ...form, country: e.target.value })}
               />
               {errors.country && (
-                <p className="text-red-500 text-sm mt-2 flex items-center">
-                  <span className="mr-1">⚠️</span>
+                <p className="mt-2 flex items-center gap-1.5 text-sm text-red-700">
+                  <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                   {errors.country}
                 </p>
               )}
@@ -278,26 +255,23 @@ export default function CheckoutStep1() {
       )}
 
       {/* Action Buttons */}
-      <div className="mt-8 flex flex-col sm:flex-row gap-4">
-        {/* Go Back Button */}
-        <button
-          onClick={handleGoBack}
-          className="flex-1 bg-white text-orange-600 border-2 border-orange-300 py-4 px-6 rounded-xl font-semibold text-lg hover:bg-orange-50 hover:border-orange-400 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-orange-500/20"
-        >
-          ← {t("goback") || "Go Back"}
+      <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <button type="button" onClick={handleGoBack} className="btn btn-ghost">
+          <ArrowLeft className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
+          {t("goback")}
         </button>
-
-        {/* Continue Button */}
         <button
+          type="button"
           onClick={handleContinue}
           aria-disabled={state.useExisting && (profileLoading || !hasExistingAddress)}
-          className={`flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-amber-600 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-orange-500/30 ${
-            state.useExisting && (profileLoading || !hasExistingAddress)
-              ? "opacity-60 saturate-50"
-              : ""
+          className={`btn btn-primary ${
+            state.useExisting && (profileLoading || !hasExistingAddress) ? "opacity-50" : ""
           }`}
         >
           {t("continuepayment")}
+          <span className="btn-disc" aria-hidden="true">
+            <ArrowRight />
+          </span>
         </button>
       </div>
     </div>

@@ -66,10 +66,10 @@ export default function PaymentSuccessPage() {
   // Error state
   if (isError) {
     return (
-      <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-xl border border-red-100">
+      <div className="mx-auto my-14 max-w-xl rounded-[2rem] bg-white p-8 shadow-xs sm:p-10">
         <div className="text-center">
-          <AlertTriangle className="text-red-500 w-12 h-12 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-red-600 mb-4">{t('warinig')}</h1>
+          <AlertTriangle className="mx-auto mb-4 h-12 w-12 text-red-600" strokeWidth={1.5} />
+          <h1 className="mb-3 text-2xl text-gray-900">{t('warinig')}</h1>
           <p className="text-gray-600 mb-6">
             {t('wariningdesc')}
           </p>
@@ -82,7 +82,7 @@ export default function PaymentSuccessPage() {
               {t('tryagain')}
             </button>
             <button
-              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              className="btn btn-secondary"
               onClick={() => router.push("/")}
             >
               <Home className="w-4 h-4 mr-2" />
@@ -97,9 +97,9 @@ export default function PaymentSuccessPage() {
   // No session ID
   if (!sessionId) {
     return (
-      <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-xl border border-red-100">
+      <div className="mx-auto my-14 max-w-xl rounded-[2rem] bg-white p-8 shadow-xs sm:p-10">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">{t('invalidpayment')}</h1>
+          <h1 className="mb-3 text-2xl text-gray-900">{t('invalidpayment')}</h1>
           <p className="text-gray-600 mb-6">
             {t('invalidpaymanetdesc')}
           </p>
@@ -120,40 +120,43 @@ export default function PaymentSuccessPage() {
   const paymentStatus = payment?.status;
   
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-xl border border-orange-100">
+    <div className="mx-auto max-w-xl px-4 py-14 md:py-20">
+     <div className="rounded-[2rem] bg-white p-8 shadow-xs sm:p-10">
       {paymentStatus === "completed" ? (
         <div className="text-center">
           {/* Success Icon */}
-          <CheckCircle className="pop-in text-green-500 w-16 h-16 mx-auto mb-4" />
-          
+          <div className="pop-in mx-auto mb-6 grid h-16 w-16 place-items-center rounded-full bg-green-50 text-green-700">
+            <CheckCircle className="h-8 w-8" strokeWidth={1.75} aria-hidden="true" />
+          </div>
+
           {/* Success Message */}
-          <h1 className="text-3xl font-bold text-green-600 mb-6">
+          <h1 className="mb-8 text-3xl text-gray-900 sm:text-4xl">
             {t('paymentsuccess')}
           </h1>
           
           {/* Order Details */}
-          <div className="bg-orange-50 p-4 rounded-lg mb-6 border border-orange-100">
-            <div className="flex items-center justify-center mb-3">
-              <Package className="w-5 h-5 text-orange-600 mr-2" />
-              <h2 className="text-lg font-semibold text-gray-800">
+          <div className="mb-6 rounded-2xl bg-gray-50 p-5 text-start">
+            <div className="mb-4 flex items-center gap-2">
+              <Package className="h-4 w-4 text-gray-500" strokeWidth={1.75} aria-hidden="true" />
+              <h2 className="label">
                 {t('orderdetails')}
               </h2>
             </div>
-            <div className="space-y-2 text-left">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Order ID:</span>
-                <span className="font-mono text-sm bg-orange-100 px-2 py-1 rounded text-orange-800">{order?._id || "N/A"}</span>
+            <div className="space-y-2.5 text-sm">
+              <div className="flex justify-between gap-4">
+                <span className="text-gray-500">Order ID</span>
+                <span className="font-mono text-xs tabular-nums text-gray-700">{order?._id || "N/A"}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">{t('totalamount')}:</span>
-                <span className="font-bold text-green-600">
+              <div className="flex justify-between gap-4">
+                <span className="text-gray-500">{t('totalamount')}</span>
+                <span className="font-semibold tabular-nums text-gray-900">
                   ${order?.totalAmount ? Number(order.totalAmount).toFixed(2) : "0.00"}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">{t('paymentstatus')}:</span>
-                <span className="text-green-600 font-semibold capitalize flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-1" />
+              <div className="flex justify-between gap-4">
+                <span className="text-gray-500">{t('paymentstatus')}</span>
+                <span className="flex items-center gap-1 font-medium capitalize text-green-700">
+                  <CheckCircle className="h-4 w-4" aria-hidden="true" />
                   {paymentStatus}
                 </span>
               </div>
@@ -161,9 +164,9 @@ export default function PaymentSuccessPage() {
           </div>
 
           {/* Additional Info */}
-          <div className="bg-orange-50 p-4 rounded-lg mb-6 border border-orange-100">
-            <div className="flex items-center justify-center text-orange-800">
-              <Mail className="w-4 h-4 mr-2" />
+          <div className="mb-6">
+            <div className="flex items-center justify-center gap-2 text-gray-500">
+              <Mail className="h-4 w-4" aria-hidden="true" />
               <p className="text-sm">
                 {t('emailconfirm')}
               </p>
@@ -172,16 +175,16 @@ export default function PaymentSuccessPage() {
         </div>
       ) : paymentStatus === "pending" ? (
         <div className="text-center">
-          <Clock className="text-amber-500 w-12 h-12 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-amber-600 mb-4">
+          <Clock className="mx-auto mb-4 h-12 w-12 text-orange-600" strokeWidth={1.5} />
+          <h1 className="mb-3 text-2xl text-gray-900">
             {t('paymentproccessing')}
           </h1>
           <p className="text-gray-600 mb-4">
             {t('paymentprocessingdesc')}
           </p>
-          <div className="bg-amber-50 p-4 rounded-lg mb-6 border border-amber-200">
-            <div className="flex items-center justify-center text-amber-800">
-              <Clock className="w-4 h-4 mr-2" />
+          <div className="mb-6 rounded-xl bg-orange-50 p-4 text-orange-950 ring-1 ring-orange-200 ring-inset">
+            <div className="flex items-center justify-center gap-2">
+              <Clock className="h-4 w-4" aria-hidden="true" />
               <p className="text-sm">
                 {t('message')}
               </p>
@@ -190,8 +193,8 @@ export default function PaymentSuccessPage() {
         </div>
       ) : paymentStatus === "failed" ? (
         <div className="text-center">
-          <XCircle className="text-red-500 w-12 h-12 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-red-600 mb-4">
+          <XCircle className="mx-auto mb-4 h-12 w-12 text-red-600" strokeWidth={1.5} />
+          <h1 className="mb-3 text-2xl text-gray-900">
             {t('paymentfailed')}
           </h1>
           <p className="text-gray-600 mb-6">
@@ -200,8 +203,8 @@ export default function PaymentSuccessPage() {
         </div>
       ) : (
         <div className="text-center">
-          <HelpCircle className="text-gray-500 w-12 h-12 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-600 mb-4">
+          <HelpCircle className="mx-auto mb-4 h-12 w-12 text-gray-400" strokeWidth={1.5} />
+          <h1 className="mb-3 text-2xl text-gray-900">
             {t('unkownmessage')}
           </h1>
           <p className="text-gray-600 mb-6">
@@ -240,6 +243,7 @@ export default function PaymentSuccessPage() {
           </button>
         )}
       </div>
+     </div>
     </div>
   );
 }

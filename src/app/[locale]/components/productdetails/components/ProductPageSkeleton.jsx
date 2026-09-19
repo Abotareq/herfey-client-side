@@ -3,7 +3,7 @@
 /** Same shape as the loaded product page: tile board on the left, details on the right. */
 function ProductPageSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
+    <div className="min-h-screen">
       <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="mb-6 flex items-center gap-2" aria-hidden="true">
           <div className="skeleton h-3 w-12" />

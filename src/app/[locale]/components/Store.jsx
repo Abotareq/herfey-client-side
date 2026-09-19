@@ -124,7 +124,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
+      <div className="min-h-screen">
         {/* Breadcrumbs Skeleton */}
         <div className="text-center py-4">
           <div className="h-4 bg-orange-200 rounded w-64 mx-auto animate-pulse shadow-sm"></div>
@@ -132,23 +132,23 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
         <div className="flex">
           {/* Sidebar Skeleton */}
-          <aside className="w-64 p-4 border-r border-orange-200 bg-gradient-to-b from-orange-50 to-white">
+          <aside className="bg-white w-64 p-4 border-r shadow-xs">
             {/* Filter & Sort Title */}
             <div className="h-6 bg-orange-200 rounded w-32 mb-4 animate-pulse shadow-sm"></div>
 
             {/* Sort Options */}
             <div className="mb-4">
               <div className="h-4 bg-orange-200 rounded w-16 mb-1 animate-pulse"></div>
-              <div className="h-10 bg-orange-50 border border-orange-200 rounded-md animate-pulse shadow-sm"></div>
+              <div className="h-10 bg-orange-50 border border-gray-900/8 rounded-md animate-pulse shadow-sm"></div>
             </div>
 
-            <hr className="my-4 border-orange-200" />
+            <hr className="my-4 border-gray-900/8" />
 
             {/* Filter Options Skeleton */}
             {[1, 2, 3, 4].map((item) => (
               <div key={item} className="mb-4">
                 <div className="h-4 bg-orange-200 rounded w-20 mb-1 animate-pulse"></div>
-                <div className="h-10 bg-orange-50 border border-orange-200 rounded-md animate-pulse shadow-sm"></div>
+                <div className="h-10 bg-orange-50 border border-gray-900/8 rounded-md animate-pulse shadow-sm"></div>
               </div>
             ))}
 
@@ -163,10 +163,10 @@ export default function HerafyStorePage({ vendorOnly = false }) {
               {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
                 <div
                   key={item}
-                  className="relative rounded-lg overflow-hidden shadow-lg bg-white border border-orange-100"
+                  className="relative rounded-lg overflow-hidden shadow-lg bg-white border border-gray-900/8"
                 >
                   {/* Product Image Skeleton */}
-                  <div className="w-full h-72 bg-gradient-to-br from-orange-200 to-orange-300 animate-pulse"></div>
+                  <div className="skeleton w-full h-72"></div>
 
                   {/* Product Info Skeleton */}
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orange-900/80 to-transparent">
@@ -174,7 +174,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   </div>
 
                   {/* Overlay Content Skeleton */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-orange-900/60 to-orange-500/20 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-all duration-300">
+                  <div className="bg-orange-600 absolute inset-0 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-all duration-300">
                     {/* Top Tags */}
                     <div className="flex justify-between">
                       <div className="h-6 bg-orange-200/70 rounded-full w-20 animate-pulse shadow-sm backdrop-blur-sm"></div>
@@ -197,25 +197,25 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Pagination Skeleton */}
             <div className="flex justify-center items-center gap-2 mt-10">
               {/* Previous Button */}
-              <div className="h-10 bg-orange-100 border border-orange-200 rounded-lg w-20 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
+              <div className="h-10 bg-orange-100 border border-gray-900/8 rounded-lg w-20 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
 
               {/* Page Numbers */}
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((page) => (
                   <div
                     key={page}
-                    className="h-10 w-10 bg-orange-100 border border-orange-200 rounded-lg animate-pulse shadow-sm hover:bg-orange-200 transition-colors"
+                    className="h-10 w-10 bg-orange-100 border border-gray-900/8 rounded-lg animate-pulse shadow-sm hover:bg-orange-200 transition-colors"
                   ></div>
                 ))}
               </div>
 
               {/* Next Button */}
-              <div className="h-10 bg-orange-100 border border-orange-200 rounded-lg w-16 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
+              <div className="h-10 bg-orange-100 border border-gray-900/8 rounded-lg w-16 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
             </div>
 
             {/* Loading Indicator */}
             <div className="fixed bottom-8 right-8 z-50">
-              <div className="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-orange-200 rounded-full px-4 py-2 shadow-lg">
+              <div className="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-gray-900/8 rounded-full px-4 py-2 shadow-lg">
                 <div className="w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
                 <span className="text-orange-600 text-sm font-medium">
                   Loading products...
@@ -464,13 +464,13 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   {stores.map((store, index) => (
                     <div
                       key={store._id || store.id}
-                      className="group relative border border-orange-200 rounded-2xl p-4 bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 w-full max-w-sm mx-auto animate-[fadeInUp_0.6s_ease-out_both]"
+                      className="group relative border border-gray-900/8 rounded-2xl p-4 bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 w-full max-w-sm mx-auto animate-[fadeInUp_0.6s_ease-out_both]"
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       {/* New Badge */}
                       {isNewStore(store.createdAt) && (
                         <div className="absolute top-3 left-3 z-10">
-                          <div className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                          <div className="bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                             NEW
                           </div>
                         </div>
@@ -510,7 +510,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                       {/* Store Stats Badge */}
                       {store.productCount && (
                         <div className="absolute top-3 right-3">
-                          <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
+                          <div className="bg-orange-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
                             {store.productCount} Products
                           </div>
                         </div>

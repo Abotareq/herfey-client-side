@@ -482,7 +482,7 @@ export default function StoresSection() {
       {/* Toast Container */}
 
       {/* Header Section */}
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-orange-100">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-gray-900/8">
         <div className="space-y-3">
           <h3 className="text-4xl font-bold font-display text-gray-900">
             {t('title')}
@@ -493,7 +493,7 @@ export default function StoresSection() {
         </div>
         <button
           onClick={() => setShowStoreForm(true)}
-          className="group flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:ring-4 focus:ring-orange-200 focus:outline-none font-semibold text-lg"
+          className="bg-orange-600 group flex items-center gap-3 px-8 py-4 text-white rounded-2xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:ring-4 focus:ring-orange-200 focus:outline-none font-semibold text-lg"
         >
           <Plus className="w-6 h-6 transition-transform group-hover:rotate-90" />
           <span>{t('addstore')}</span>
@@ -533,8 +533,8 @@ export default function StoresSection() {
 
       {/* Add/Edit Store Form */}
       {(showStoreForm || editingStore) && (
-        <div className="bg-white rounded-3xl border border-orange-100 shadow-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-orange-50 to-orange-100 px-10 py-8 border-b border-orange-100">
+        <div className="bg-white rounded-3xl border border-gray-900/8 shadow-2xl overflow-hidden">
+          <div className="bg-white px-10 py-8 border-b shadow-xs">
             <div className="flex items-center gap-4 mb-3">
               <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
                 <Store className="w-6 h-6 text-white" />
@@ -770,7 +770,7 @@ export default function StoresSection() {
               <button
                 onClick={editingStore ? handleUpdateStore : handleAddStore}
                 disabled={submitting || Object.keys(validationErrors).some(key => validationErrors[key])}
-                className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 font-bold text-lg shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
+                className="bg-orange-600 px-8 py-4 text-white rounded-2xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 font-bold text-lg shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
               >
                 {submitting ? (
                   <>
@@ -791,7 +791,7 @@ export default function StoresSection() {
       {/* Stores Grid */}
       <div className="space-y-8">
         {userStores.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-3xl border border-orange-100 shadow-sm">
+          <div className="text-center py-20 bg-white rounded-3xl border border-gray-900/8 shadow-sm">
             <div className="w-32 h-32 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-8">
               <Store className="w-16 h-16 text-orange-400" />
             </div>
@@ -803,7 +803,7 @@ export default function StoresSection() {
             </p>
             <button
               onClick={() => setShowStoreForm(true)}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 font-bold text-lg shadow-xl"
+              className="bg-orange-600 inline-flex items-center gap-3 px-8 py-4 text-white rounded-2xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 font-bold text-lg shadow-xl"
             >
               <Plus className="w-5 h-5" />
               {t('firststore')}
@@ -814,11 +814,11 @@ export default function StoresSection() {
             {userStores.map((store, index) => (
               <div
                 key={store._id}
-                className="group bg-white rounded-3xl border border-orange-100 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
+                className="group bg-white rounded-3xl border border-gray-900/8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Store Header */}
-                <div className="relative bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 p-8">
+                <div className="bg-orange-600 relative p-8">
                   <div className="absolute inset-0 bg-gradient-to-br from-black/10 to-transparent"></div>
                   <div className="relative flex items-center justify-between">
                     <div className="flex items-center gap-5">
@@ -986,7 +986,7 @@ export default function StoresSection() {
                       )}
 
                     {store.policies?.shipping && (
-                      <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                      <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-gray-900/8">
                         <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
                           <Truck className="w-5 h-5 text-orange-600" />
                         </div>
@@ -1019,7 +1019,7 @@ export default function StoresSection() {
                     </button>
                     <button
                       onClick={() => handleManageStore(store)}
-                      className="flex-1 px-6 py-4 border-2 border-orange-200 text-orange-600 rounded-2xl hover:bg-orange-50 hover:border-orange-300 transition-all duration-300 transform hover:scale-105 font-bold text-lg flex items-center justify-center gap-3"
+                      className="flex-1 px-6 py-4 border-2 border-gray-900/8 text-orange-600 rounded-2xl hover:bg-orange-50 hover:border-orange-300 transition-all duration-300 transform hover:scale-105 font-bold text-lg flex items-center justify-center gap-3"
                     >
                       <Settings className="w-5 h-5" />
                       {t('Manage Store')}

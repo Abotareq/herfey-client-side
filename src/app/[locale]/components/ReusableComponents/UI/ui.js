@@ -37,7 +37,7 @@ const Button = ({ children, onClick, type = 'button' }) => {
     <button
       type={type}
       onClick={onClick}
-      className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+      className="bg-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
     >
       {children}
     </button>

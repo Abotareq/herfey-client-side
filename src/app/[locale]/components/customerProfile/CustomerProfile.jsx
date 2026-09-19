@@ -37,7 +37,7 @@ function CustomerProfile() {
     return (
       <>
         {" "}
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50">
+        <div className="min-h-screen">
           <div className="max-w-6xl mx-auto px-4 py-8">
             {/* Header Skeleton */}
             <div className="mb-8">
@@ -78,12 +78,12 @@ function CustomerProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 ">
+    <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-4 mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
+            <div className="bg-orange-600 w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold">
               {userData.firstName?.charAt(0)}
               {userData.lastName?.charAt(0)}
             </div>
@@ -101,7 +101,7 @@ function CustomerProfile() {
 
         {/* Navigation Tabs */}
         <div className="mb-8">
-          <div className="flex space-x-1  bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-orange-100 rounded-lg p-1 max-w-lg">
+          <div className="flex space-x-1  bg-white/80 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-gray-900/8 rounded-lg p-1 max-w-lg">
             <button
               onClick={() => setActiveTab("profile")}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${

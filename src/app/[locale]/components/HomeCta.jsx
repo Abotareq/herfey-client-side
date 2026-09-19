@@ -47,7 +47,7 @@ export default function HomeCta() {
             placeholder="blur"
             className="object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-orange-950/90 via-orange-950/35 to-orange-950/10" />
+          <div className="bg-orange-600 absolute inset-0" />
 
           <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
             <h3 className="font-display text-3xl leading-tight sm:text-4xl">

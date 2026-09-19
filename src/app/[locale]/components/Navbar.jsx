@@ -73,7 +73,7 @@ export default function Header() {
               <div className="text-2xl lg:text-3xl font-bold font-display text-gray-900">
                 {t2("herafy")}
               </div>
-              <div className="w-12 lg:w-16 h-1 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mt-1 group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="bg-orange-600 w-12 lg:w-16 h-1 rounded-full mt-1 group-hover:scale-110 transition-transform duration-300"></div>
             </div>
           </div>
 
@@ -126,7 +126,7 @@ export default function Header() {
               <select
                 onChange={(e) => handleLocaleChange(e.target.value)}
                 value={currentLocale}
-                className="appearance-none bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-2 pr-8 rounded-xl text-sm font-medium cursor-pointer hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-200"
+                className="bg-orange-600 appearance-none text-white px-3 py-2 pr-8 rounded-xl text-sm font-medium cursor-pointer hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-200"
               >
                 {routing.locales.map((locale) => (
                   <option key={locale} value={locale} className="bg-white text-gray-900">
@@ -153,7 +153,7 @@ export default function Header() {
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center space-x-2 p-2 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                  <div className="bg-orange-600 w-8 h-8 rounded-full flex items-center justify-center">
                     <User className="w-4 h-4 text-white" />
                   </div>
                   <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${isUserMenuOpen ? 'rotate-180' : ''}`} />

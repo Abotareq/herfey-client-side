@@ -67,7 +67,7 @@ function Package() {
           </div>
 
           {/* Product Image Guidelines */}
-          <div className="w-full bg-gradient-to-br from-orange-50 to-orange-50 rounded-2xl shadow-lg p-8 mb-8">
+          <div className="bg-white w-full rounded-2xl shadow-xs p-8 mb-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t('productimage')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-white rounded-lg p-6 shadow-sm">

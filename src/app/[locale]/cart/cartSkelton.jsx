@@ -2,7 +2,7 @@ import React from "react";
 
 function CartSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Skeleton */}
         <div className="flex justify-between items-center mb-8">
@@ -20,7 +20,7 @@ function CartSkeleton() {
             {[1, 2, 3].map((index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-md border border-orange-100 p-6 animate-pulse"
+                className="bg-white rounded-xl shadow-md border border-gray-900/8 p-6 animate-pulse"
               >
                 <div className="flex gap-6">
                   {/* Product Image Skeleton */}
@@ -75,7 +75,7 @@ function CartSkeleton() {
           </div>
 
           {/* Order Summary Skeleton */}
-          <div className="bg-white rounded-xl shadow-lg border border-orange-100 p-6 h-fit sticky top-8">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-900/8 p-6 h-fit sticky top-8">
             {/* Title */}
             <div className="h-6 bg-gray-200 rounded-lg w-32 mb-6 animate-pulse"></div>
 
