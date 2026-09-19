@@ -184,13 +184,13 @@ function CouponsSection() {
       <div className="space-y-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="h-8 w-48 bg-gray-200 rounded animate-pulse mb-2"></div>
-            <div className="h-4 w-64 bg-gray-200 rounded animate-pulse"></div>
+            <div className="skeleton h-8 w-48 rounded mb-2"></div>
+            <div className="skeleton h-4 w-64 rounded"></div>
           </div>
           <div className="flex gap-3">
-            <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+            <div className="skeleton h-10 w-32 rounded"></div>
+            <div className="skeleton h-10 w-32 rounded"></div>
+            <div className="skeleton h-10 w-32 rounded"></div>
           </div>
         </div>
 
@@ -203,8 +203,8 @@ function CouponsSection() {
                 key={i}
                 className="bg-white rounded-xl p-4 border border-gray-200"
               >
-                <div className="h-8 w-16 bg-gray-200 rounded animate-pulse mb-2"></div>
-                <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+                <div className="skeleton h-8 w-16 rounded mb-2"></div>
+                <div className="skeleton h-4 w-20 rounded"></div>
               </div>
             ))}
         </div>
@@ -218,8 +218,8 @@ function CouponsSection() {
                 key={i}
                 className="bg-white rounded-2xl p-6 border border-gray-200"
               >
-                <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
-                <div className="h-4 w-full bg-gray-100 rounded animate-pulse"></div>
+                <div className="skeleton h-6 w-32 rounded mb-4"></div>
+                <div className="skeleton h-4 w-full rounded"></div>
               </div>
             ))}
         </div>

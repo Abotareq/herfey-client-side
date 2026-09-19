@@ -28,7 +28,7 @@ const SkeletonLoader = () => {
 
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Card Skeleton */}
-        <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+        <div className="bg-white rounded-xl p-6 shadow-xs space-y-4">
           <div className="flex items-center space-x-4">
             {/* Avatar Skeleton */}
             <div className="w-12 h-12 rounded-full animate-shimmer" />
@@ -47,7 +47,7 @@ const SkeletonLoader = () => {
         </div>
 
         {/* List Skeleton */}
-        <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+        <div className="bg-white rounded-xl p-6 shadow-xs space-y-4">
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex items-center space-x-4">
@@ -61,7 +61,7 @@ const SkeletonLoader = () => {
         {/* Grid Skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-white rounded-xl p-4 shadow-lg space-y-3">
+            <div key={i} className="bg-white rounded-xl p-4 shadow-xs space-y-3">
               <div className="w-full h-48 rounded animate-shimmer" />
               <div className="h-4 w-3/4 animate-shimmer rounded" />
               <div className="h-3 w-1/2 animate-shimmer rounded" />

@@ -13,7 +13,7 @@ function OrderDetailsSkeleton() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header Skeleton */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 mb-8">
-          <div className="animate-pulse">
+          <div className="">
             <div className="flex items-center justify-between mb-6">
               <div className="skeleton h-8 rounded-lg w-64"></div>
               <div className="skeleton h-10 rounded-xl w-32"></div>
@@ -31,7 +31,7 @@ function OrderDetailsSkeleton() {
 
         {/* Items Skeleton */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8 mb-8">
-          <div className="animate-pulse">
+          <div className="">
             <div className="skeleton h-6 rounded w-32 mb-6"></div>
             {[1, 2].map((i) => (
               <div key={i} className="flex space-x-4 p-4 border border-gray-900/8 rounded-xl mb-4">
@@ -49,7 +49,7 @@ function OrderDetailsSkeleton() {
         {/* Customer Info Skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8">
-            <div className="animate-pulse">
+            <div className="">
               <div className="skeleton h-6 rounded w-40 mb-4"></div>
               <div className="space-y-3">
                 {[1, 2, 3, 4].map((i) => (
@@ -59,7 +59,7 @@ function OrderDetailsSkeleton() {
             </div>
           </div>
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-900/8 p-8">
-            <div className="animate-pulse">
+            <div className="">
               <div className="skeleton h-6 rounded w-32 mb-4"></div>
               <div className="space-y-3">
                 {[1, 2, 3].map((i) => (

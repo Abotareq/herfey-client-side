@@ -81,12 +81,12 @@ function ProductsList() {
           {/* Sidebar Skeleton */}
           <aside className="hidden w-64 shrink-0 rounded-2xl bg-white p-5 shadow-xs lg:block">
             {/* Filter & Sort Title */}
-            <div className="h-6 bg-gray-200 rounded w-32 mb-4 animate-pulse"></div>
+            <div className="skeleton h-6 rounded w-32 mb-4"></div>
 
             {/* Sort Options */}
             <div className="mb-4">
-              <div className="h-4 bg-gray-200 rounded w-16 mb-1 animate-pulse"></div>
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-md animate-pulse"></div>
+              <div className="skeleton h-4 rounded w-16 mb-1"></div>
+              <div className="skeleton h-10 rounded-md"></div>
             </div>
 
             <hr className="my-5 border-gray-900/8" />
@@ -94,19 +94,19 @@ function ProductsList() {
             {/* Filter Options Skeleton */}
             {[1, 2, 3, 4].map((item) => (
               <div key={item} className="mb-4">
-                <div className="h-4 bg-gray-200 rounded w-20 mb-1 animate-pulse"></div>
-                <div className="h-10 bg-gray-100 border border-gray-200 rounded-md animate-pulse"></div>
+                <div className="skeleton h-4 rounded w-20 mb-1"></div>
+                <div className="skeleton h-10 rounded-md"></div>
               </div>
             ))}
 
             {/* Clear Button Skeleton */}
-            <div className="h-10 bg-gray-100 border border-gray-200 rounded-md mt-4 animate-pulse"></div>
+            <div className="skeleton h-10 rounded-md mt-4"></div>
           </aside>
 
           {/* Main Content */}
           <section className="min-w-0 flex-1">
             {/* Toolbar Skeleton */}
-            <div className="mb-6 h-10 w-28 rounded-lg bg-gray-100 border border-gray-200 animate-pulse lg:hidden"></div>
+            <div className="skeleton mb-6 h-10 w-28 rounded-lg lg:hidden"></div>
             {/* Products Grid Skeleton */}
             <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 md:gap-10 items-start">
               {Array.from({ length: 8 }, (_, i) => (
@@ -117,20 +117,20 @@ function ProductsList() {
             {/* Pagination Skeleton */}
             <div className="flex flex-wrap justify-center items-center gap-2 mt-10">
               {/* Previous Button */}
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-lg w-20 animate-pulse"></div>
+              <div className="skeleton h-10 rounded-lg w-20"></div>
 
               {/* Page Numbers */}
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((page) => (
                   <div
                     key={page}
-                    className="h-10 w-10 bg-gray-100 border border-gray-200 rounded-lg animate-pulse"
+                    className="skeleton h-10 w-10 rounded-lg"
                   ></div>
                 ))}
               </div>
 
               {/* Next Button */}
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-lg w-16 animate-pulse"></div>
+              <div className="skeleton h-10 rounded-lg w-16"></div>
             </div>
           </section>
         </div>

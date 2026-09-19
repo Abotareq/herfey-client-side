@@ -120,12 +120,12 @@ function ReviewsSectionInProfile({ userId }) {
       {/* Header Skeleton */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <div className="h-8 bg-gray-200 rounded-lg w-48 mb-2 animate-pulse"></div>
-          <div className="h-5 bg-gray-200 rounded w-64 animate-pulse"></div>
+          <div className="skeleton h-8 rounded-lg w-48 mb-2"></div>
+          <div className="skeleton h-5 rounded w-64"></div>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
-          <div className="h-10 bg-gray-200 rounded-lg w-32 animate-pulse"></div>
-          <div className="h-10 bg-gray-200 rounded-lg w-32 animate-pulse"></div>
+          <div className="skeleton h-10 rounded-lg w-32"></div>
+          <div className="skeleton h-10 rounded-lg w-32"></div>
         </div>
       </div>
 
@@ -136,8 +136,8 @@ function ReviewsSectionInProfile({ userId }) {
             key={i}
             className="bg-white rounded-xl p-4 border border-gray-200 text-center"
           >
-            <div className="h-8 bg-gray-200 rounded w-16 mx-auto mb-2 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-20 mx-auto animate-pulse"></div>
+            <div className="skeleton h-8 rounded w-16 mx-auto mb-2"></div>
+            <div className="skeleton h-4 rounded w-20 mx-auto"></div>
           </div>
         ))}
       </div>
@@ -151,23 +151,23 @@ function ReviewsSectionInProfile({ userId }) {
           >
             <div className="flex items-start space-x-4">
               {/* Image skeleton */}
-              <div className="w-16 h-16 bg-gray-200 rounded-lg animate-pulse flex-shrink-0"></div>
+              <div className="skeleton w-16 h-16 rounded-lg flex-shrink-0"></div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
                     {/* Title skeleton */}
-                    <div className="h-6 bg-gray-200 rounded w-48 mb-2 animate-pulse"></div>
+                    <div className="skeleton h-6 rounded w-48 mb-2"></div>
                     {/* Tags skeleton */}
                     <div className="flex items-center space-x-2 mb-2">
-                      <div className="h-6 bg-gray-200 rounded-full w-16 animate-pulse"></div>
-                      <div className="h-4 bg-gray-200 rounded w-12 animate-pulse"></div>
+                      <div className="skeleton h-6 rounded-full w-16"></div>
+                      <div className="skeleton h-4 rounded w-12"></div>
                     </div>
                   </div>
                   {/* Action buttons skeleton */}
                   <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
-                    <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+                    <div className="skeleton w-8 h-8 rounded-full"></div>
+                    <div className="skeleton w-8 h-8 rounded-full"></div>
                   </div>
                 </div>
 
@@ -177,17 +177,17 @@ function ReviewsSectionInProfile({ userId }) {
                     {[...Array(5)].map((_, starIndex) => (
                       <div
                         key={starIndex}
-                        className="w-4 h-4 bg-gray-200 animate-pulse"
+                        className="skeleton w-4 h-4"
                       ></div>
                     ))}
                   </div>
-                  <div className="h-4 bg-gray-200 rounded w-8 animate-pulse"></div>
+                  <div className="skeleton h-4 rounded w-8"></div>
                 </div>
 
                 {/* Comment skeleton */}
                 <div className="bg-gray-50 p-3 rounded-lg">
-                  <div className="h-4 bg-gray-200 rounded w-full mb-2 animate-pulse"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                  <div className="skeleton h-4 rounded w-full mb-2"></div>
+                  <div className="skeleton h-4 rounded w-3/4"></div>
                 </div>
               </div>
             </div>

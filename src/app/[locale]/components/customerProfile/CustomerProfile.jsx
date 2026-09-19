@@ -42,11 +42,11 @@ function CustomerProfile() {
             {/* Header Skeleton */}
             <div className="mb-8">
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-16 h-16 bg-gray-200 rounded-full animate-pulse"></div>
+                <div className="skeleton w-16 h-16 rounded-full"></div>
                 <div className="space-y-2">
-                  <div className="h-8 w-48 bg-gray-200 rounded animate-pulse"></div>
-                  <div className="h-5 w-32 bg-gray-200 rounded animate-pulse"></div>
-                  <div className="h-4 w-40 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="skeleton h-8 w-48 rounded"></div>
+                  <div className="skeleton h-5 w-32 rounded"></div>
+                  <div className="skeleton h-4 w-40 rounded"></div>
                 </div>
               </div>
             </div>
@@ -59,14 +59,14 @@ function CustomerProfile() {
                   .map((_, index) => (
                     <div
                       key={index}
-                      className="flex-1 h-10 bg-gray-200 rounded-md animate-pulse"
+                      className="skeleton flex-1 h-10 rounded-md"
                     ></div>
                   ))}
               </div>
             </div>
 
             {/* Content Skeleton */}
-            <div className="min-h-[400px] bg-gray-100 rounded-lg animate-pulse"></div>
+            <div className="skeleton min-h-[400px] rounded-lg"></div>
           </div>
         </div>
       </>

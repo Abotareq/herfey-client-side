@@ -5,7 +5,7 @@ function StoreSkeleton() {
   return (
     <div className="space-y-8">
       {/* Header Skeleton */}
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-orange-200">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-gray-900/8">
         <div className="space-y-3">
           <div className="skeleton h-10 rounded-lg w-64"></div>
           <div className="skeleton h-6 rounded-lg w-80"></div>
@@ -18,7 +18,7 @@ function StoreSkeleton() {
         {[1, 2, 3, 4].map((index) => (
           <div
             key={index}
-            className="bg-white rounded-3xl border border-orange-200 shadow-lg overflow-hidden animate-pulse"
+            className="bg-white rounded-3xl shadow-xs overflow-hidden"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             {/* Store Header Skeleton */}
@@ -57,7 +57,7 @@ function StoreSkeleton() {
                 {[1, 2, 3, 4].map((statIndex) => (
                   <div
                     key={statIndex}
-                    className="bg-orange-50 rounded-2xl p-5 text-center border border-orange-100"
+                    className="bg-gray-50 rounded-2xl p-5 text-center border border-gray-900/8"
                   >
                     <div className="skeleton w-12 h-12 rounded-2xl mx-auto mb-3"></div>
                     <div className="skeleton h-8 rounded w-8 mx-auto mb-2"></div>
@@ -69,26 +69,26 @@ function StoreSkeleton() {
               {/* Store Details Skeleton */}
               <div className="space-y-4 mb-8">
                 {/* Address Skeleton */}
-                <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-900/8">
                   <div className="skeleton w-10 h-10 rounded-xl"></div>
                   <div className="skeleton h-4 rounded w-48"></div>
                 </div>
 
                 {/* Shipping Policy Skeleton */}
-                <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-900/8">
                   <div className="skeleton w-10 h-10 rounded-xl"></div>
                   <div className="skeleton h-4 rounded w-40"></div>
                 </div>
 
                 {/* Returns Policy Skeleton */}
-                <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-900/8">
                   <div className="skeleton w-10 h-10 rounded-xl"></div>
                   <div className="skeleton h-4 rounded w-36"></div>
                 </div>
               </div>
 
               {/* Action Buttons Skeleton */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-orange-100">
+              <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-900/8">
                 <div className="skeleton flex-1 h-14 rounded-2xl"></div>
                 <div className="skeleton flex-1 h-14 rounded-2xl"></div>
               </div>
@@ -129,7 +129,7 @@ export function StoreSkeletonSimple() {
   return (
     <div className="space-y-8">
       {/* Header Skeleton */}
-      <div className="flex justify-between items-center pb-6 border-b border-orange-200">
+      <div className="flex justify-between items-center pb-6 border-b border-gray-900/8">
         <div className="space-y-2">
           <div className="skeleton h-8 rounded-lg w-48"></div>
           <div className="skeleton h-4 rounded-lg w-64"></div>
@@ -142,7 +142,7 @@ export function StoreSkeletonSimple() {
         {Array.from({ length: 6 }, (_, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl border border-orange-200 p-6 animate-pulse"
+            className="bg-white rounded-2xl p-6"
           >
             <div className="flex items-center gap-4 mb-4">
               <div className="skeleton w-12 h-12 rounded-xl"></div>

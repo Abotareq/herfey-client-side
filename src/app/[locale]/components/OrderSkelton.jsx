@@ -8,11 +8,11 @@ function OrderSectionSkeleton() {
       {/* Header Section Skeleton */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <div className="h-8 bg-gray-200 rounded-lg w-48 mb-2 animate-pulse"></div>
-          <div className="h-4 bg-gray-200 rounded-lg w-64 animate-pulse"></div>
+          <div className="skeleton h-8 rounded-lg w-48 mb-2"></div>
+          <div className="skeleton h-4 rounded-lg w-64"></div>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
-          <div className="h-10 bg-gray-200 rounded-lg w-40 animate-pulse"></div>
+          <div className="skeleton h-10 rounded-lg w-40"></div>
         </div>
       </div>
 
@@ -23,29 +23,29 @@ function OrderSectionSkeleton() {
             {/* Order Header Skeleton */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
               <div>
-                <div className="h-4 bg-gray-200 rounded w-32 mb-1 animate-pulse"></div>
-                <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                <div className="skeleton h-4 rounded w-32 mb-1"></div>
+                <div className="skeleton h-4 rounded w-24"></div>
               </div>
               <div className="flex items-center gap-4 mt-2 sm:mt-0">
-                <div className="h-6 bg-gray-200 rounded-full w-20 animate-pulse"></div>
-                <div className="h-6 bg-gray-200 rounded w-16 animate-pulse"></div>
+                <div className="skeleton h-6 rounded-full w-20"></div>
+                <div className="skeleton h-6 rounded w-16"></div>
               </div>
             </div>
 
             {/* Product Images Skeleton */}
             <div className="flex -space-x-4 mb-4">
               {[1, 2, 3, 4].map((imgIndex) => (
-                <div key={imgIndex} className="w-12 h-12 rounded-full bg-gray-200 border-2 border-white animate-pulse"></div>
+                <div key={imgIndex} className="skeleton w-12 h-12 rounded-full border-2 border-white"></div>
               ))}
-              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center border-2 border-white animate-pulse">
+              <div className="skeleton w-12 h-12 rounded-full flex items-center justify-center border-2 border-white">
                 <div className="h-3 bg-gray-300 rounded w-4"></div>
               </div>
             </div>
 
             {/* Action Buttons Skeleton */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <div className="h-10 bg-gray-200 rounded-lg w-32 animate-pulse"></div>
-              <div className="h-10 bg-gray-200 rounded-lg w-28 animate-pulse"></div>
+              <div className="skeleton h-10 rounded-lg w-32"></div>
+              <div className="skeleton h-10 rounded-lg w-28"></div>
             </div>
           </div>
         ))}
@@ -53,9 +53,9 @@ function OrderSectionSkeleton() {
 
       {/* Pagination Skeleton */}
       <div className="flex justify-center items-center gap-4 mt-6">
-        <div className="h-10 bg-gray-200 rounded-lg w-20 animate-pulse"></div>
-        <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-        <div className="h-10 bg-gray-200 rounded-lg w-16 animate-pulse"></div>
+        <div className="skeleton h-10 rounded-lg w-20"></div>
+        <div className="skeleton h-4 rounded w-24"></div>
+        <div className="skeleton h-10 rounded-lg w-16"></div>
       </div>
     </div>
   );

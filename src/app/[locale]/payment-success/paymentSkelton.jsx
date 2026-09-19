@@ -1,6 +1,6 @@
 function PaymentSkeleton() {
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-xs rounded-xl animate-pulse">
+    <div className="max-w-xl mx-auto p-6 bg-white shadow-xs rounded-xl">
       {/* large title */}
       <div className="h-8 bg-gray-200 rounded w-2/3 mx-auto mb-6"></div>
 

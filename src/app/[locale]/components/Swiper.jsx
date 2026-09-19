@@ -23,13 +23,13 @@
 //     return (
 //       <>
 //         {/* Main Swiper Skeleton (mySwiper2) */}
-//         <div className="w-full h-[450px] mx-auto bg-[var(--muted)] animate-pulse mySwiper2 lg:h-[350px] md:h-[280px] sm:h-[220px]">
+//         <div className="w-full h-[450px] mx-auto bg-[var(--muted)] mySwiper2 lg:h-[350px] md:h-[280px] sm:h-[220px]">
 //           <div className="w-full h-full flex justify-center items-center">
 //             <div className="w-full h-full bg-[var(--background)]"></div>
 //           </div>
 //         </div>
 //         {/* Thumbnail Swiper Skeleton (mySwiper) */}
-//         <div className="w-full h-[200px] box-border pt-[10px] pb-[10px] bg-[var(--muted)] animate-pulse mySwiper lg:h-[160px] md:h-[130px] sm:h-[100px]">
+//         <div className="w-full h-[200px] box-border pt-[10px] pb-[10px] bg-[var(--muted)] mySwiper lg:h-[160px] md:h-[130px] sm:h-[100px]">
 //           <div className="flex justify-center space-x-[10px]">
 //             {Array(4)
 //               .fill()

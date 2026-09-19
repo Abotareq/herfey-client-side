@@ -8,7 +8,7 @@ const OrdersSkeleton = () => {
   return (
     <div className="max-w-7xl mx-auto p-6 min-h-screen">
       {/* Header Skeleton */}
-      <div className="mb-8 animate-pulse">
+      <div className="mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <div className="skeleton h-8 rounded-lg w-80 mb-3"></div>
@@ -35,7 +35,7 @@ const OrdersSkeleton = () => {
         {statsCards.map((index) => (
           <div
             key={index}
-            className="bg-white rounded-xl shadow-sm p-4 animate-pulse"
+            className="bg-white rounded-xl shadow-xs p-4"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="flex items-center justify-between">
@@ -51,7 +51,7 @@ const OrdersSkeleton = () => {
 
       {/* Payment Method Stats Skeleton */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <div className="bg-white rounded-xl shadow-sm p-6 animate-pulse">
+        <div className="bg-white rounded-xl shadow-xs p-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="skeleton h-4 rounded w-32 mb-2"></div>
@@ -60,7 +60,7 @@ const OrdersSkeleton = () => {
             <div className="skeleton w-12 h-12 rounded-xl"></div>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-sm p-6 animate-pulse">
+        <div className="bg-white rounded-xl shadow-xs p-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="skeleton h-4 rounded w-36 mb-2"></div>
@@ -76,7 +76,7 @@ const OrdersSkeleton = () => {
         {skeletonCards.map((index) => (
           <div
             key={index}
-            className="bg-white rounded-xl shadow-sm overflow-hidden animate-pulse"
+            className="bg-white rounded-xl shadow-xs overflow-hidden"
             style={{ animationDelay: `${index * 150}ms` }}
           >
             <div className="p-6">
@@ -139,7 +139,7 @@ const OrdersSkeleton = () => {
                         <div className="bg-orange-600 absolute -top-1 -right-1 rounded-full w-6 h-6"></div>
                       </div>
                     ))}
-                    <div className="skeleton w-16 h-16 rounded-lg border-2 border-dashed border-orange-300"></div>
+                    <div className="skeleton w-16 h-16 rounded-lg border-2  border-gray-900/8"></div>
                   </div>
                 </div>
 
@@ -164,7 +164,7 @@ const OrdersSkeleton = () => {
       </div>
 
       {/* Pagination Skeleton */}
-      <div className="bg-white rounded-xl shadow-sm mt-8 p-6 animate-pulse">
+      <div className="bg-white rounded-xl shadow-xs mt-8 p-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="skeleton h-4 rounded w-48"></div>
           <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ const OrdersSkeleton = () => {
       </div>
 
       {/* Floating Loading Indicator */}
-      <div className="bg-orange-600 fixed bottom-6 right-6 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-pulse">
+      <div className="bg-orange-600 fixed bottom-6 right-6 text-white px-4 py-2 rounded-full shadow-xs flex items-center gap-2 animate-pulse">
         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         <span className="text-sm font-medium">Loading orders...</span>
       </div>

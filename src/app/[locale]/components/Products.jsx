@@ -42,19 +42,19 @@ function Products() {
       <div className="min-h-screen bg-gray-50">
         {/* Breadcrumbs Skeleton */}
         <div className="text-center py-4">
-          <div className="h-4 bg-gray-200 rounded w-64 mx-auto animate-pulse"></div>
+          <div className="skeleton h-4 rounded w-64 mx-auto"></div>
         </div>
 
         <div className="flex">
           {/* Sidebar Skeleton */}
           <aside className="w-64 p-4 border-r border-gray-200 bg-white">
             {/* Filter & Sort Title */}
-            <div className="h-6 bg-gray-200 rounded w-32 mb-4 animate-pulse"></div>
+            <div className="skeleton h-6 rounded w-32 mb-4"></div>
 
             {/* Sort Options */}
             <div className="mb-4">
-              <div className="h-4 bg-gray-200 rounded w-16 mb-1 animate-pulse"></div>
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-md animate-pulse"></div>
+              <div className="skeleton h-4 rounded w-16 mb-1"></div>
+              <div className="skeleton h-10 rounded-md"></div>
             </div>
 
             <hr className="my-4" />
@@ -62,13 +62,13 @@ function Products() {
             {/* Filter Options Skeleton */}
             {[1, 2, 3, 4].map((item) => (
               <div key={item} className="mb-4">
-                <div className="h-4 bg-gray-200 rounded w-20 mb-1 animate-pulse"></div>
-                <div className="h-10 bg-gray-100 border border-gray-200 rounded-md animate-pulse"></div>
+                <div className="skeleton h-4 rounded w-20 mb-1"></div>
+                <div className="skeleton h-10 rounded-md"></div>
               </div>
             ))}
 
             {/* Clear Button Skeleton */}
-            <div className="h-10 bg-gray-100 border border-gray-200 rounded-md mt-4 animate-pulse"></div>
+            <div className="skeleton h-10 rounded-md mt-4"></div>
           </aside>
 
           {/* Main Content */}
@@ -81,28 +81,28 @@ function Products() {
                   className="relative rounded-lg overflow-hidden shadow-lg bg-white"
                 >
                   {/* Product Image Skeleton */}
-                  <div className="w-full h-72 bg-gray-200 animate-pulse"></div>
+                  <div className="skeleton w-full h-72"></div>
 
                   {/* Product Info Skeleton */}
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <div className="h-5 bg-gray-300/50 rounded w-3/4 mx-auto animate-pulse"></div>
+                    <div className="h-5 bg-gray-300/50 rounded w-3/4 mx-auto"></div>
                   </div>
 
                   {/* Overlay Content Skeleton */}
                   <div className="absolute inset-0 bg-black/50 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-opacity duration-300">
                     {/* Top Tags */}
                     <div className="flex justify-between">
-                      <div className="h-6 bg-white/20 rounded-full w-20 animate-pulse"></div>
+                      <div className="skeleton h-6 rounded-full w-20"></div>
                     </div>
 
                     {/* Center Button */}
                     <div className="flex-grow flex items-center justify-center">
-                      <div className="h-12 bg-orange-600/50 rounded-full w-24 animate-pulse"></div>
+                      <div className="h-12 bg-orange-600/50 rounded-full w-24"></div>
                     </div>
 
                     {/* Price */}
                     <div className="flex justify-center mb-6">
-                      <div className="h-10 bg-white/70 rounded-full w-20 animate-pulse"></div>
+                      <div className="skeleton h-10 rounded-full w-20"></div>
                     </div>
                   </div>
                 </div>
@@ -112,20 +112,20 @@ function Products() {
             {/* Pagination Skeleton */}
             <div className="flex justify-center items-center gap-2 mt-10">
               {/* Previous Button */}
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-lg w-20 animate-pulse"></div>
+              <div className="skeleton h-10 rounded-lg w-20"></div>
 
               {/* Page Numbers */}
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((page) => (
                   <div
                     key={page}
-                    className="h-10 w-10 bg-gray-100 border border-gray-200 rounded-lg animate-pulse"
+                    className="skeleton h-10 w-10 rounded-lg"
                   ></div>
                 ))}
               </div>
 
               {/* Next Button */}
-              <div className="h-10 bg-gray-100 border border-gray-200 rounded-lg w-16 animate-pulse"></div>
+              <div className="skeleton h-10 rounded-lg w-16"></div>
             </div>
           </section>
         </div>

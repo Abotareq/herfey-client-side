@@ -78,7 +78,7 @@ export default function FavouritesPage() {
           {Array.from({ length: 8 }).map((_, index) => (
             <div
               key={index}
-              className="rounded-2xl p-4 bg-white shadow-xs animate-pulse"
+              className="rounded-2xl p-4 bg-white shadow-xs"
             >
               {/* Image Skeleton */}
               <div className="rounded-lg mb-4 h-40 bg-gray-300"></div>

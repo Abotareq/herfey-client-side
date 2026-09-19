@@ -26,12 +26,12 @@ const LoadingSpinner = () => {
   }, []);  
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-50">
-      <div className="flex items-end space-x-2">
-        <p className="text-4xl font-bold font-mono text-orange-600 tracking-wider">
+    <div className="flex min-h-[100dvh] items-center justify-center" role="status" aria-live="polite">
+      <div className="flex items-end gap-1.5">
+        <p className="font-display text-4xl text-orange-700" aria-label={LOADER_TEXT}>
           {displayText}
         </p>
-        <div className="w-1.5 h-10 bg-orange-500 rounded-full animate-pulse"></div>
+        <div className="mb-1.5 h-8 w-0.5 rounded-full bg-orange-600 animate-pulse" aria-hidden="true"></div>
       </div>
     </div>
   );

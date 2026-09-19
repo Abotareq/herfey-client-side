@@ -127,19 +127,19 @@ export default function HerafyStorePage({ vendorOnly = false }) {
       <div className="min-h-screen">
         {/* Breadcrumbs Skeleton */}
         <div className="text-center py-4">
-          <div className="h-4 bg-orange-200 rounded w-64 mx-auto animate-pulse shadow-sm"></div>
+          <div className="skeleton h-4 rounded w-64 mx-auto"></div>
         </div>
 
         <div className="flex">
           {/* Sidebar Skeleton */}
           <aside className="bg-white w-64 p-4 border-r shadow-xs">
             {/* Filter & Sort Title */}
-            <div className="h-6 bg-orange-200 rounded w-32 mb-4 animate-pulse shadow-sm"></div>
+            <div className="skeleton h-6 rounded w-32 mb-4"></div>
 
             {/* Sort Options */}
             <div className="mb-4">
-              <div className="h-4 bg-orange-200 rounded w-16 mb-1 animate-pulse"></div>
-              <div className="h-10 bg-orange-50 border border-gray-900/8 rounded-md animate-pulse shadow-sm"></div>
+              <div className="skeleton h-4 rounded w-16 mb-1"></div>
+              <div className="skeleton h-10 rounded-md"></div>
             </div>
 
             <hr className="my-4 border-gray-900/8" />
@@ -147,13 +147,13 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Filter Options Skeleton */}
             {[1, 2, 3, 4].map((item) => (
               <div key={item} className="mb-4">
-                <div className="h-4 bg-orange-200 rounded w-20 mb-1 animate-pulse"></div>
-                <div className="h-10 bg-orange-50 border border-gray-900/8 rounded-md animate-pulse shadow-sm"></div>
+                <div className="skeleton h-4 rounded w-20 mb-1"></div>
+                <div className="skeleton h-10 rounded-md"></div>
               </div>
             ))}
 
             {/* Clear Button Skeleton */}
-            <div className="h-10 bg-orange-100 border border-orange-300 rounded-md mt-4 animate-pulse shadow-sm"></div>
+            <div className="skeleton h-10 rounded-md mt-4"></div>
           </aside>
 
           {/* Main Content */}
@@ -170,24 +170,24 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
                   {/* Product Info Skeleton */}
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orange-900/80 to-transparent">
-                    <div className="h-5 bg-orange-100/70 rounded w-3/4 mx-auto animate-pulse shadow-sm"></div>
+                    <div className="skeleton h-5 rounded w-3/4 mx-auto"></div>
                   </div>
 
                   {/* Overlay Content Skeleton */}
                   <div className="absolute inset-0 bg-gradient-to-t from-orange-950/70 to-orange-950/20 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-opacity duration-300">
                     {/* Top Tags */}
                     <div className="flex justify-between">
-                      <div className="h-6 bg-orange-200/70 rounded-full w-20 animate-pulse shadow-sm backdrop-blur-sm"></div>
+                      <div className="h-6 bg-orange-200/70 rounded-full w-20 shadow-sm backdrop-blur-sm"></div>
                     </div>
 
                     {/* Center Button */}
                     <div className="flex-grow flex items-center justify-center">
-                      <div className="h-12 bg-orange-400/60 rounded-full w-24 animate-pulse shadow-lg backdrop-blur-sm border border-orange-300/50"></div>
+                      <div className="h-12 bg-orange-400/60 rounded-full w-24 shadow-lg backdrop-blur-sm border border-orange-300/50"></div>
                     </div>
 
                     {/* Price */}
                     <div className="flex justify-center mb-6">
-                      <div className="h-10 bg-orange-100/80 rounded-full w-20 animate-pulse shadow-md backdrop-blur-sm"></div>
+                      <div className="skeleton h-10 rounded-full w-20 backdrop-blur-sm"></div>
                     </div>
                   </div>
                 </div>
@@ -197,20 +197,20 @@ export default function HerafyStorePage({ vendorOnly = false }) {
             {/* Pagination Skeleton */}
             <div className="flex justify-center items-center gap-2 mt-10">
               {/* Previous Button */}
-              <div className="h-10 bg-orange-100 border border-gray-900/8 rounded-lg w-20 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
+              <div className="skeleton h-10 rounded-lg w-20"></div>
 
               {/* Page Numbers */}
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((page) => (
                   <div
                     key={page}
-                    className="h-10 w-10 bg-orange-100 border border-gray-900/8 rounded-lg animate-pulse shadow-sm hover:bg-orange-200 transition-colors"
+                    className="skeleton h-10 w-10 rounded-lg"
                   ></div>
                 ))}
               </div>
 
               {/* Next Button */}
-              <div className="h-10 bg-orange-100 border border-gray-900/8 rounded-lg w-16 animate-pulse shadow-sm hover:bg-orange-200 transition-colors"></div>
+              <div className="skeleton h-10 rounded-lg w-16"></div>
             </div>
 
             {/* Loading Indicator */}

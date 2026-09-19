@@ -55,15 +55,15 @@ return<>  <div className="space-y-8">
       {/* Personal Information Card Skeleton */}
       <div className="bg-white rounded-2xl p-8 shadow-xs">
         <div className="flex items-center justify-between mb-6">
-          <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
-          <div className="h-10 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
+          <div className="skeleton h-8 w-40 rounded"></div>
+          <div className="skeleton h-10 w-24 rounded-lg"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Array(6).fill().map((_, index) => (
             <div key={index} className="space-y-2">
-              <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
-              <div className="h-12 w-full bg-gray-100 rounded-lg animate-pulse"></div>
+              <div className="skeleton h-4 w-20 rounded"></div>
+              <div className="skeleton h-12 w-full rounded-lg"></div>
             </div>
           ))}
         </div>
@@ -78,10 +78,10 @@ return<>  <div className="space-y-8">
           >
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-8 w-20 bg-gray-200 rounded animate-pulse"></div>
+                <div className="skeleton h-4 w-16 rounded"></div>
+                <div className="skeleton h-8 w-20 rounded"></div>
               </div>
-              <div className="w-12 h-12 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="skeleton w-12 h-12 rounded-full"></div>
             </div>
           </div>
         ))}
