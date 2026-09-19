@@ -139,6 +139,12 @@
       "skillPath": "skills/redesign-skill/SKILL.md",
       "computedHash": "47eced3e960a2c961d3cbee11fa1216264f589344b586a5cbd03967cd6b9c54b"
     },
+    "refactoring-ui": {
+      "source": "jaywilburn/refactoring-ui-skill",
+      "sourceType": "github",
+      "skillPath": "skills/refactoring-ui/SKILL.md",
+      "computedHash": "6510737fa45070dc15d95c7c3751a62929cb2221003d5ad743373deee170ba2c"
+    },
     "review-animations": {
       "source": "emilkowalski/skills",
       "sourceType": "github",

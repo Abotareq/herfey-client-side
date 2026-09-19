@@ -439,7 +439,7 @@ import { useTranslations } from 'next-intl';
 export default function BestSeller() {
   const t = useTranslations('BestSeller')
   return (
-    <section className="w-full bg-gray-50 px-4 py-20 md:px-8 md:py-28">
+    <section className="w-full border-y border-gray-900/8 bg-white px-4 py-16 md:px-8 md:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="section-head">
           <div>
@@ -448,7 +448,7 @@ export default function BestSeller() {
           </div>
         </div>
 
-        <div className="space-y-16">
+        <div className="space-y-14">
           <DiscountedProducts />
           <TopRatedProducts />
           <MostRecentProducts />

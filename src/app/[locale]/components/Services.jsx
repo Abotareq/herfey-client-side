@@ -20,7 +20,7 @@ function Services() {
     { title: t("t5"), desc: t("desc5"), icon: Truck },
   ];
   return (
-    <section className="px-4 py-16 md:px-8 md:py-24" aria-label={t("t4")}>
+    <section className="px-4 py-16 md:px-8 md:py-20" aria-label={t("t4")}>
       <ul className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5 lg:divide-x lg:divide-gray-900/8">
         {services.map((item) => {
           const Icon = item.icon;

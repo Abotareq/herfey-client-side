@@ -24,8 +24,8 @@ export default function ProductSection({
   const grid = "grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4";
   return (
     <section>
-      <header className="mb-5 flex items-end justify-between gap-4">
-        <h3 className="font-display text-2xl text-gray-900 sm:text-3xl">{title}</h3>
+      <header className="row-head">
+        <h3 className="row-title">{title}</h3>
       </header>
 
       {isLoading ? (

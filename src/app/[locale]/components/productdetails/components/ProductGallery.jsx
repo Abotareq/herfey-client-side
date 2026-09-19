@@ -4,16 +4,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
 
 /**
- * Product images as a grid of equal tiles with the "make way" interaction:
- * click a tile and it swells to twice its size in place while every other
- * tile is pushed away from it -- the closer, the further it moves. Click it
- * again to let everything settle back; click another to hand over.
+ * One large stage image, and under it the thumbnails as a grid of equal
+ * tiles with the "make way" interaction: click a tile and it swells in
+ * place while every other tile is pushed away from it -- the closer, the
+ * further it moves -- and the stage shows that image. Click it again to
+ * let everything settle back; click another to hand over.
  *
  * Ported from Codrops' Make Way Grid Effect. The push is computed the same
  * way (linear falloff along the line between tile centres), but spread and
  * range are expressed in tile widths so the feel survives any column width.
  */
-const SCALE = 2;
+const SCALE = 1.6;
 const DURATION_MS = 950;
 // one long ease-out for everything: no overshoot, nothing snaps
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
@@ -105,14 +106,26 @@ export default function ProductGallery({ images = [], name = "" }) {
     );
   }
 
-  const cols = Math.min(3, images.length);
-  const gap = 12;
-  // inner padding of half a tile keeps a 2x tile on the edge inside the column
-  const pad = `calc((100% - ${gap * (cols - 1)}px) / ${2 * cols + 2})`;
+  const active = expanded === -1 ? 0 : expanded;
+  const cols = Math.min(5, Math.max(4, images.length));
+  const gap = 10;
+  // inner padding keeps a swollen tile on the edge inside the column
+  const pad = `calc((100% - ${gap * (cols - 1)}px) / ${cols} * ${(SCALE - 1) / 2})`;
 
   return (
+    <div className="w-full">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-gray-100 shadow-xs sm:aspect-square">
+        <img
+          key={images[active]}
+          src={images[active]}
+          alt={name}
+          className="enter h-full w-full object-cover"
+          draggable={false}
+        />
+      </div>
+
     <div
-      className="relative grid w-full"
+      className="relative mt-3 grid w-full"
       style={{
         gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
         gap,
@@ -139,8 +152,8 @@ export default function ProductGallery({ images = [], name = "" }) {
               willChange: "transform",
               backfaceVisibility: "hidden",
             }}
-            className={`relative aspect-square w-full overflow-hidden rounded-xl bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 ${
-              isOpen ? "shadow-2xl shadow-orange-200/70" : "shadow-sm"
+            className={`relative aspect-square w-full overflow-hidden rounded-lg bg-gray-100 ring-2 ring-inset transition-[ring-color] focus:outline-none focus-visible:ring-orange-500 ${
+              isOpen ? "shadow-xl ring-orange-500" : active === i ? "ring-orange-500/60" : "ring-transparent"
             }`}
           >
             <img
@@ -152,6 +165,7 @@ export default function ProductGallery({ images = [], name = "" }) {
           </button>
         );
       })}
+    </div>
     </div>
   );
 }

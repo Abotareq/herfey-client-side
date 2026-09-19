@@ -331,7 +331,7 @@ function ProductsList() {
 
           {/* Sort Options */}
           <div className="mb-4">
-            <label htmlFor="filter-1" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("sort")}</label>
+            <label htmlFor="filter-1" className="label mb-1.5 block">{t1("sort")}</label>
             <select id="filter-1"
               className="field"
               value={sortBy || ""}
@@ -349,7 +349,7 @@ function ProductsList() {
 
           {/* Store Filter */}
           <div className="mb-4">
-            <label htmlFor="filter-2" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("store")}</label>
+            <label htmlFor="filter-2" className="label mb-1.5 block">{t1("store")}</label>
             <select id="filter-2"
               className="field"
               value={selectedFilters.storeId || ""}
@@ -366,7 +366,7 @@ function ProductsList() {
 
           {/* Category Filter */}
           <div className="mb-4">
-            <label htmlFor="filter-3" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{"Category"}</label>
+            <label htmlFor="filter-3" className="label mb-1.5 block">{"Category"}</label>
             <select id="filter-3"
               className="field"
               value={selectedFilters.category || ""}
@@ -385,7 +385,7 @@ function ProductsList() {
           {Object.entries(getVariantFilters(products)).map(
             ([variantName, options]) => (
               <div key={variantName} className="mb-4">
-                <label htmlFor="filter-4" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <label htmlFor="filter-4" className="label mb-1.5 block">
                   {variantName}
                 </label>
                 <select id="filter-4"
@@ -416,7 +416,7 @@ function ProductsList() {
         <section className="min-w-0 flex-1">
           <div className="section-head mb-6">
             <div>
-              <h1 className="section-title">{category?.name || t("allProducts")}</h1>
+              <h1 className="page-title">{category?.name || t("allProducts")}</h1>
               <p className="section-lede hidden lg:block">
                 {t1("results", { count: data?.totalProducts ?? displayedProducts.length })}
               </p>

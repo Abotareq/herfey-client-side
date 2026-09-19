@@ -55,10 +55,10 @@ export default function ContactPage() {
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:gap-16">
           {/* who to reach, and a face for the workshop */}
           <div className="lg:col-span-5">
-            <h1 className="text-5xl leading-[1.05] text-gray-900 sm:text-6xl">{t("title")}</h1>
+            <h1 className="page-title">{t("title")}</h1>
             <dl className="mt-8 space-y-4 text-base">
               <div>
-                <dt className="text-sm text-gray-500">{t("pplace")}</dt>
+                <dt className="label">{t("pplace")}</dt>
                 <dd className="mt-0.5">
                   <a href={`tel:${t("phone").replace(/\s+/g, "")}`} dir="ltr" className="inline-block py-1 font-medium tabular-nums text-gray-900 hover:underline">
                     {t("phone")}
@@ -66,7 +66,7 @@ export default function ContactPage() {
                 </dd>
               </div>
               <div>
-                <dt className="text-sm text-gray-500">{t("ePlace")}</dt>
+                <dt className="label">{t("ePlace")}</dt>
                 <dd className="mt-0.5">
                   <a href={`mailto:${t("email")}`} className="inline-block py-1 font-medium text-gray-900 hover:underline">
                     {t("email")}
@@ -95,7 +95,7 @@ export default function ContactPage() {
             className="rounded-[2rem] bg-white p-6 shadow-xs sm:p-10 lg:col-span-7"
             onSubmit={handleSubmit}
           >
-            <h2 className="text-3xl text-gray-900 sm:text-4xl">{t("send")}</h2>
+            <h2 className="text-2xl text-gray-900 sm:text-3xl">{t("send")}</h2>
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
               <label className="block">

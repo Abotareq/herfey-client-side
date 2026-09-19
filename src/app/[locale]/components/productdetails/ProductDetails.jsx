@@ -181,32 +181,32 @@ function ProductDetails({ id }) {
   return (
     <div>
       <Breadcrumbs />
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <div className="bg-white rounded-3xl shadow-xl shadow-orange-100/60 overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="min-h-screen">
+        <div className="mx-auto max-w-7xl px-4 pb-16 pt-4 md:px-8 md:pt-6">
+          <div>
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
               {/* gallery: a warm board for the tiles to move on, kept in view while reading */}
-              <div className="p-4 sm:p-6 lg:p-8 lg:sticky lg:top-24 lg:self-start">
-                <div className="rounded-2xl bg-orange-50/70 p-2 sm:p-3">
+              <div className="lg:col-span-7 lg:sticky lg:top-24 lg:self-start">
+                <div>
                   <ProductGallery images={productImages} name={product?.name} />
                 </div>
               </div>
 
-              <div className="p-6 lg:p-10 lg:border-l lg:border-gray-100">
-                <div className="flex flex-col gap-6">
+              <div className="lg:col-span-5 lg:py-2">
+                <div className="flex flex-col gap-7">
                   {/* identity */}
                   <div>
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       {product?.category?.name && (
-                        <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-700">
+                        <span className="label text-orange-700">
                           {product.category.name}
                         </span>
                       )}
                       {product?.store?.name && (
-                        <span className="text-sm text-gray-500">{product.store.name}</span>
+                        <span className="text-sm text-gray-500">· {product.store.name}</span>
                       )}
                     </div>
-                    <h1 className="text-3xl font-bold leading-tight text-gray-900 lg:text-4xl">
+                    <h1 className="text-3xl leading-tight text-gray-900 lg:text-4xl">
                       {product?.name}
                     </h1>
 
@@ -235,16 +235,16 @@ function ProductDetails({ id }) {
 
                   {/* price */}
                   <div className="flex flex-wrap items-baseline gap-3">
-                    <span className="text-4xl font-bold text-orange-600">
-                      <span className="mr-1 text-base font-medium text-gray-500">{t("currency")}</span>
+                    <span className="text-3xl font-semibold tabular-nums text-gray-900">
+                      <span className="me-1.5 text-sm font-medium text-gray-500">{t("currency")}</span>
                       {formatMoney(finalPrice)}
                     </span>
                     {onSale && (
                       <>
-                        <span className="text-xl text-gray-400 line-through">
+                        <span className="text-lg tabular-nums text-gray-500 line-through">
                           {formatMoney(product.basePrice * quantity)}
                         </span>
-                        <span className="rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white">
+                        <span className="rounded-md bg-gray-900 px-2 py-1 text-[11px] font-semibold tabular-nums text-white">
                           -{percentOff}%
                         </span>
                       </>
@@ -257,7 +257,7 @@ function ProductDetails({ id }) {
                   </div>
 
                   {/* description */}
-                  <p className="leading-relaxed text-gray-700">
+                  <p className="max-w-prose leading-relaxed text-gray-600">
                     {product?.description ||
                       "This is a premium quality product designed with attention to detail and crafted for excellence."}
                   </p>
@@ -271,7 +271,7 @@ function ProductDetails({ id }) {
                           <label key={variant._id} className="block">
                             <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("color")}</span>
                             <select
-                              className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                              className="field"
                               value={selectColor}
                               onChange={(e) => setSelectedColor(e.target.value)}
                             >
@@ -288,7 +288,7 @@ function ProductDetails({ id }) {
                           <label key={variant._id} className="block">
                             <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("size")}</span>
                             <select
-                              className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                              className="field"
                               value={selectSize}
                               onChange={(e) => setSelectedSize(e.target.value)}
                             >
@@ -306,13 +306,13 @@ function ProductDetails({ id }) {
                   )}
 
                   {/* quantity + actions */}
-                  <div className="flex flex-col gap-4 border-t border-gray-100 pt-6 sm:flex-row sm:items-center">
-                    <div className="flex items-center rounded-xl border border-gray-200">
+                  <div className="flex flex-col gap-4 border-t border-gray-900/8 pt-6 sm:flex-row sm:items-center">
+                    <div className="flex items-center rounded-full bg-white ring-1 ring-gray-900/10 ring-inset">
                       <button
                         type="button"
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                         aria-label="Decrease quantity"
-                        className="flex h-12 w-12 items-center justify-center rounded-l-xl text-gray-600 transition-colors hover:bg-gray-50"
+                        className="flex h-12 w-12 items-center justify-center rounded-s-full text-gray-600 transition-colors hover:bg-gray-900/5 active:scale-95"
                       >
                         <Minus className="h-4 w-4" aria-hidden="true" />
                       </button>
@@ -321,7 +321,7 @@ function ProductDetails({ id }) {
                         type="button"
                         onClick={() => setQuantity(quantity + 1)}
                         aria-label="Increase quantity"
-                        className="flex h-12 w-12 items-center justify-center rounded-r-xl text-gray-600 transition-colors hover:bg-gray-50"
+                        className="flex h-12 w-12 items-center justify-center rounded-e-full text-gray-600 transition-colors hover:bg-gray-900/5 active:scale-95"
                       >
                         <Plus className="h-4 w-4" aria-hidden="true" />
                       </button>
@@ -331,11 +331,7 @@ function ProductDetails({ id }) {
                       <AlertDialogTrigger asChild>
                         <button
                           disabled={isDisabled || addToCartMutation.isPending}
-                          className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-6 text-base font-semibold shadow-md transition-all ${
-                            isDisabled || addToCartMutation.isPending
-                              ? "cursor-not-allowed bg-gray-300 text-white shadow-none"
-                              : "bg-orange-600 text-white shadow-orange-200 hover:bg-orange-700"
-                          }`}
+                          className="btn btn-primary h-12 flex-1 text-base disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100 disabled:shadow-none"
                         >
                           <ShoppingCart className="h-5 w-5" aria-hidden="true" />
                           <span>{addToCartMutation.isPending ? t("Adding") : t("addtocart")}</span>
@@ -370,13 +366,13 @@ function ProductDetails({ id }) {
                         aria-pressed={isFav}
                         aria-label={isFav ? t("removefav") : t("addtofav")}
                         title={isFav ? t("removefav") : t("addtofav")}
-                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border-2 transition-colors ${
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white ring-1 ring-inset transition-colors active:scale-95 ${
                           isFav
-                            ? "border-red-500 bg-red-50 text-red-500"
-                            : "border-gray-200 text-gray-500 hover:border-red-300 hover:text-red-500"
+                            ? "ring-orange-300 text-orange-700"
+                            : "ring-gray-900/10 text-gray-500 hover:text-orange-700"
                         } ${updateUser.isPending ? "cursor-not-allowed opacity-50" : ""}`}
                       >
-                        <Heart className={`h-5 w-5 ${isFav ? "fill-red-500" : ""}`} aria-hidden="true" />
+                        <Heart className={`h-5 w-5 ${isFav ? "fill-orange-600 text-orange-600" : ""}`} strokeWidth={1.75} aria-hidden="true" />
                       </button>
                     )}
                   </div>

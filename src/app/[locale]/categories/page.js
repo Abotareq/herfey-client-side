@@ -101,13 +101,13 @@ function CategoriesPage() {
 
             <div className="flex flex-col justify-center gap-5 p-6 sm:p-10 lg:p-14">
               <div>
-                <h2 className="text-4xl leading-tight text-gray-900 sm:text-5xl">
+                <h2 className="text-3xl leading-tight text-gray-900 sm:text-4xl">
                   {item.name || "Unnamed Category"}
                 </h2>
               </div>
 
               {blurb ? (
-                <p className="max-w-prose text-base leading-relaxed text-gray-600 sm:text-lg">
+                <p className="max-w-prose text-base leading-relaxed text-gray-600">
                   {blurb}
                 </p>
               ) : null}
@@ -115,13 +115,13 @@ function CategoriesPage() {
               <dl className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                 <div>
                   <dt className="sr-only">{t("productcount")}</dt>
-                  <dd className="font-medium tabular-nums text-gray-700">
+                  <dd className="font-medium tabular-nums text-gray-500">
                     {t("pieces", { count: item.productCount ?? 0 })}
                   </dd>
                 </div>
                 <div className="border-s border-gray-900/10 ps-6">
                   <dt className="sr-only">{t("storecount")}</dt>
-                  <dd className="font-medium tabular-nums text-gray-700">
+                  <dd className="font-medium tabular-nums text-gray-500">
                     {t("stores", { count: item.storesCount ?? 0 })}
                   </dd>
                 </div>
@@ -155,11 +155,9 @@ function CraftIndexFrame({ t, children }) {
       <Breadcrumbs />
       <section className="w-full px-4 pb-24 pt-10 md:px-8 md:pb-32 md:pt-16">
         <div className="mx-auto max-w-7xl">
-          <header className="mb-12 max-w-3xl md:mb-16">
-            <h1 className="text-5xl leading-[1.05] text-gray-900 sm:text-6xl">
-              {t("pageTitle")}
-            </h1>
-            <p className="mt-5 max-w-prose text-base text-gray-600 sm:text-lg">{t("pageIntro")}</p>
+          <header className="mb-10 max-w-3xl md:mb-14">
+            <h1 className="page-title">{t("pageTitle")}</h1>
+            <p className="page-lede">{t("pageIntro")}</p>
           </header>
 
           <div className="space-y-6 md:space-y-8">{children}</div>

@@ -434,15 +434,31 @@
     }
   }
 
-  /* section header: heading on one side, a way onward on the other */
+  /* type scale, top down: page title, section title, row title, body.
+     Each step is a size AND a colour/weight step, so nothing relies on size alone. */
+  .page-title {
+    @apply text-4xl leading-[1.05] text-gray-900 sm:text-5xl;
+  }
+  .page-lede {
+    @apply mt-4 max-w-prose text-base text-gray-500 sm:text-lg;
+  }
   .section-head {
-    @apply mb-8 flex flex-wrap items-end justify-between gap-x-8 gap-y-3;
+    @apply mb-8 flex flex-wrap items-end justify-between gap-x-8 gap-y-3 md:mb-10;
   }
   .section-title {
     @apply text-3xl text-gray-900 sm:text-4xl;
   }
   .section-lede {
-    @apply mt-2 max-w-xl text-gray-600;
+    @apply mt-2 max-w-xl text-base text-gray-500;
+  }
+  .row-head {
+    @apply mb-5 flex items-end justify-between gap-4;
+  }
+  .row-title {
+    @apply font-sans text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl;
+  }
+  .label {
+    @apply text-xs font-semibold uppercase tracking-wide text-gray-500;
   }
 }
 

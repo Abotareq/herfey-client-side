@@ -148,15 +148,15 @@ function ReviewsSection({ productId }) {
     );
 
   return (
-    <div className="mt-16 border-t border-gray-200 pt-16">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="mt-16 border-t border-gray-900/8 pt-14">
+      <div className="mx-auto max-w-7xl">
         {/* Reviews Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6">
+        <div className="section-head">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="section-title">
               {t("customer_reviews")}
             </h2>
-            <p className="text-gray-600">{t("see_what_customers_say")}</p>
+            <p className="section-lede">{t("see_what_customers_say")}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -192,14 +192,14 @@ function ReviewsSection({ productId }) {
             {user ? (
               <button
                 onClick={() => setShowReviewForm(true)}
-                className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="btn btn-primary"
               >
                 {t("write")}
               </button>
             ) : (
               <button
                 disabled
-                className="px-6 py-3 bg-gray-400 text-white font-semibold rounded-xl opacity-50 cursor-not-allowed"
+                className="btn btn-secondary" disabled
               >
                 {t("login")}
               </button>
@@ -264,10 +264,10 @@ function ReviewsSection({ productId }) {
         )}
 
         {/* Rating Summary */}
-        <div className="bg-gradient-to-r from-gray-50 to-orange-50 rounded-2xl p-8 mb-12 border border-gray-200">
+        <div className="mb-12 rounded-2xl bg-white p-8 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-6xl font-bold text-gray-900 mb-2">
+              <div className="font-display text-6xl text-gray-900 tabular-nums mb-2">
                 {summaryData?.data?.averageRating?.toFixed(1) || "N/A"}
               </div>
               <StarRating
@@ -283,16 +283,16 @@ function ReviewsSection({ productId }) {
             <div className="lg:col-span-2 space-y-3">
               {ratingDistribution.map((rating) => (
                 <div key={rating.stars} className="flex items-center space-x-4">
-                  <span className="text-sm font-medium text-gray-700 w-12">
+                  <span className="w-12 text-sm text-gray-500">
                     {rating.stars} {t("star")}
                   </span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-3">
+                  <div className="h-2 flex-1 rounded-full bg-gray-100">
                     <div
-                      className="bg-gradient-to-r from-amber-400 to-orange-400 h-3 rounded-full transition-all duration-1000 ease-out"
+                      className="h-2 rounded-full bg-orange-500"
                       style={{ width: `${rating.percentage}%` }}
                     ></div>
                   </div>
-                  <span className="text-sm text-gray-600 w-12 text-right">
+                  <span className="w-12 text-end text-sm tabular-nums text-gray-500">
                     {rating.count}
                   </span>
                 </div>
@@ -308,7 +308,7 @@ function ReviewsSection({ productId }) {
             reviews.map((review) => (
               <div
                 key={review._id}
-                className="bg-white rounded-2xl p-8 border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+                className="rounded-2xl bg-white p-8 shadow-xs"
               >
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
@@ -426,28 +426,28 @@ function ReviewsSection({ productId }) {
         )}
 
         {/* Review Summary Stats */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
-            <div className="text-3xl font-bold text-orange-600 mb-2">
+        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="rounded-2xl bg-white p-6 shadow-xs">
+            <div className="font-display text-3xl tabular-nums text-gray-900 mb-1">
               {summaryData?.data?.recommendPercentage?.toFixed(0) || 0}%
             </div>
-            <div className="text-gray-600 font-medium">
+            <div className="text-sm text-gray-500">
               {t("recommend_product")}
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
-            <div className="text-3xl font-bold text-green-600 mb-2">
+          <div className="rounded-2xl bg-white p-6 shadow-xs">
+            <div className="font-display text-3xl tabular-nums text-gray-900 mb-1">
               {summaryData?.data?.averageRating?.toFixed(1) || "0.0"}
             </div>
-            <div className="text-gray-600 font-medium">
+            <div className="text-sm text-gray-500">
               {t("average_quality_rating")}
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
-            <div className="text-3xl font-bold text-orange-600 mb-2">
+          <div className="rounded-2xl bg-white p-6 shadow-xs">
+            <div className="font-display text-3xl tabular-nums text-gray-900 mb-1">
               {(summaryData?.data?.averageRating || 0).toFixed(1)}
             </div>
-            <div className="text-gray-600 font-medium">
+            <div className="text-sm text-gray-500">
               {t("average_fit_rating")}
             </div>
           </div>
