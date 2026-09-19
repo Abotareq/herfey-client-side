@@ -51,10 +51,10 @@ function Breadcrumbs() {
   });
 
   return (
-    <nav className="mx-auto max-w-7xl px-4 py-4 text-sm text-gray-500 md:px-8" aria-label="Breadcrumb">
+    <nav className="mx-auto max-w-7xl px-4 py-3 text-sm text-gray-500 md:px-8" aria-label="Breadcrumb">
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <li>
-          <Link href="/" className="transition-colors hover:text-gray-900 hover:underline">
+          <Link href="/" className="inline-block py-1 transition-colors hover:text-gray-900 hover:underline">
             {t("home")}
           </Link>
         </li>
@@ -65,7 +65,7 @@ function Breadcrumbs() {
             {index === breadcrumbs.length - 1 ? (
               <span className="font-medium text-gray-900" aria-current="page">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="transition-colors hover:text-gray-900 hover:underline">
+              <Link href={crumb.href} className="inline-block py-1 transition-colors hover:text-gray-900 hover:underline">
                 {crumb.label}
               </Link>
             )}

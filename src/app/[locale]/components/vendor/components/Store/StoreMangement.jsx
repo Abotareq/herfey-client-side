@@ -263,7 +263,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1 || isLoading}
-            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-orange-50 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:text-orange-700 hover:bg-gray-900/5 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
           >
             <ChevronLeft className="w-4 h-4" />
             {t('prev')}
@@ -271,7 +271,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages || isLoading}
-            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-orange-50 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
+            className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:text-orange-700 hover:bg-gray-900/5 hover:border-orange-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1"
           >
             {t('next')}
             <ChevronRight className="w-4 h-4" />
@@ -334,7 +334,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
             {activeTab === 'general' && (
               <div className="p-8 space-y-8">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
+                  <h3 className="text-2xl font-bold font-display text-gray-900 mb-6">
                     {t('generalinfo')}
                   </h3>
                   
@@ -383,7 +383,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     <div className="space-y-6">
                       <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 space-y-4 border border-orange-100">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                          <MapPin className="w-5 h-5 text-orange-500" />
+                          <MapPin className="w-5 h-5 text-orange-600" />
                           {t('addressinfo')}
                         </h4>
                         
@@ -551,7 +551,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     {productsLoading ? (
                       <div className="flex items-center justify-center py-12">
                         <div className="flex items-center gap-3">
-                          <RefreshCw className="w-6 h-6 text-orange-500 animate-spin" />
+                          <RefreshCw className="w-6 h-6 text-orange-600 animate-spin" />
                           <span className="text-gray-600">{t('loading')}</span>
                         </div>
                       </div>
@@ -620,7 +620,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 </td>
                                 <td className="px-6 py-4">
                                   <div className="flex items-center gap-2">
-                                    <button className="text-orange-500 hover:text-orange-700 font-medium flex items-center gap-1">
+                                    <button className="text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1">
                                       <Edit className="w-4 h-4" />
                                       {t('pedit')}
                                     </button>
@@ -689,7 +689,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                     {ordersLoading ? (
                       <div className="flex items-center justify-center py-12">
                         <div className="flex items-center gap-3">
-                          <RefreshCw className="w-6 h-6 text-orange-500 animate-spin" />
+                          <RefreshCw className="w-6 h-6 text-orange-600 animate-spin" />
                           <span className="text-gray-600">{t('loadingorders')}</span>
                         </div>
                       </div>
@@ -734,7 +734,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                                 </td>
                                 <td className="px-6 py-4">
                                   <button 
-                                    className="text-orange-500 hover:text-orange-700 font-medium flex items-center gap-1"
+                                    className="text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1"
                                     onClick={() => {
                                       toast('Order details will open in a new window.', {
                                         style: {
@@ -777,7 +777,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
             {activeTab === 'analytics' && (
               <div className="p-8 space-y-6">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
+                  <h3 className="text-2xl font-bold font-display text-gray-900 mb-6">
                     {t('storeanalysis')}
                   </h3>
                   
@@ -825,7 +825,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-orange-500" />
+                        <BarChart3 className="w-5 h-5 text-orange-600" />
                         {t('order')}
                       </h4>
                       {Object.keys(analytics.ordersByStatus).length > 0 ? (
@@ -894,7 +894,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
             {activeTab === 'settings' && (
               <div className="p-8">
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-orange-100">
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">
+                  <h3 className="text-2xl font-bold font-display text-gray-900 mb-2">
                     {t('settings')}
                   </h3>
                   <p className="text-gray-600 mb-6">{t('settingsdesc')}</p>
@@ -902,7 +902,7 @@ export function StoreManagement({ store, onUpdate, onClose }) {
                   <div className="space-y-6">
                     <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl border border-orange-200 p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Activity className="w-5 h-5 text-orange-500" />
+                        <Activity className="w-5 h-5 text-orange-600" />
                         {t('storestatus')}
                       </h4>
                       <div className="space-y-6">

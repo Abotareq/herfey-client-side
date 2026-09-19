@@ -185,7 +185,7 @@ const OrdersSkeleton = () => {
       </div>
 
       {/* Floating Loading Indicator */}
-      <div className="fixed bottom-6 right-6 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-bounce">
+      <div className="fixed bottom-6 right-6 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 animate-pulse">
         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         <span className="text-sm font-medium">Loading orders...</span>
       </div>

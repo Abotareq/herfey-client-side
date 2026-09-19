@@ -9,6 +9,7 @@ export default function Home() {
     <>
       {/* <SwiperComponent /> */}
 
+      <h1 className="sr-only">Herafy</h1>
       <HeroSlideshow />
       <CategoryLinks />
 

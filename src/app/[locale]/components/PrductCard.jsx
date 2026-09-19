@@ -90,7 +90,7 @@ export default function ProductCard({ product, badge }) {
             {formatPrice(price)}
           </span>
           {hasDiscount && (
-            <span className="text-sm tabular-nums text-gray-400 line-through">
+            <span className="text-sm tabular-nums text-gray-500 line-through">
               {formatPrice(product.basePrice)}
             </span>
           )}
@@ -112,7 +112,7 @@ function Stars({ value }) {
           key={i}
           className={`h-3.5 w-3.5 ${
             i <= Math.round(value)
-              ? "fill-orange-500 text-orange-500"
+              ? "fill-orange-500 text-orange-600"
               : "fill-gray-200 text-gray-200"
           }`}
           aria-hidden="true"

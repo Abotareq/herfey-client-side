@@ -92,7 +92,7 @@ function PaymentForm() {
                   required
                 />
                 <label for="saveCard" class="ml-2 block text-sm text-gray-900 font-medium">
-                  {t('agree')} <Link href="#" class="text-orange-600 hover:text-orange-500">{t('condition')}</Link>
+                  {t('agree')} <Link href="#" class="text-orange-600 hover:text-orange-600">{t('condition')}</Link>
                 </label>
               </div>
             </div>

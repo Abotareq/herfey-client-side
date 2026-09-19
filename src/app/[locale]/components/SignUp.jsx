@@ -97,10 +97,10 @@ function Signup() {
             {/* First & Last Name */}
             <div className="mb-6 grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="signup-1" className="block text-sm font-medium text-gray-700 mb-2">
                   {t("firstname")}
                 </label>
-                <input
+                <input id="signup-1"
                   type="text"
                   name="firstName"
                   value={formData.firstName}
@@ -111,10 +111,10 @@ function Signup() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="signup-2" className="block text-sm font-medium text-gray-700 mb-2">
                   {t("lastname")}
                 </label>
-                <input
+                <input id="signup-2"
                   type="text"
                   name="lastName"
                   value={formData.lastName}
@@ -128,10 +128,10 @@ function Signup() {
 
             {/* Username */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-3" className="block text-sm font-medium text-gray-700 mb-2">
                 {t("Username")}
               </label>
-              <input
+              <input id="signup-3"
                 type="text"
                 name="userName"
                 value={formData.userName}
@@ -144,10 +144,10 @@ function Signup() {
 
             {/* Email */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-4" className="block text-sm font-medium text-gray-700 mb-2">
                 {t("emailaddress")}
               </label>
-              <input
+              <input id="signup-4"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -157,16 +157,16 @@ function Signup() {
                 placeholder={t("pemail")}
               />
               {formData.email && !validateEmail(formData.email) && (
-                <p className="mt-2 text-sm text-orange-500">{t("wemail")}</p>
+                <p className="mt-2 text-sm text-orange-600">{t("wemail")}</p>
               )}
             </div>
 
             {/* Phone */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-5" className="block text-sm font-medium text-gray-700 mb-2">
                 {t("phonenumber")}
               </label>
-              <input
+              <input id="signup-5"
                 type="tel"
                 name="phone"
                 value={formData.phone}
@@ -180,11 +180,11 @@ function Signup() {
 
             {/* Password */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-6" className="block text-sm font-medium text-gray-700 mb-2">
                 {t("Password")}
               </label>
               <div className="relative">
-                <input
+                <input id="signup-6"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
@@ -210,11 +210,11 @@ function Signup() {
 
             {/* Confirm Password */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signup-7" className="block text-sm font-medium text-gray-700 mb-2">
                 {t("cpassword")}
               </label>
               <div className="relative">
-                <input
+                <input id="signup-7"
                   type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
@@ -300,7 +300,7 @@ function Signup() {
               {t("accountexists")}{" "}
               <Link
                 href="/signin"
-                className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
+                className="ml-1 inline-block py-1 font-medium text-orange-700 hover:text-orange-800 hover:underline font-semibold"
               >
                 {t("signin")}
               </Link>
@@ -309,7 +309,7 @@ function Signup() {
               {t2("guest")}
               <Link
                 href="/"
-                className={`ml-1 text-orange-500 hover:text-orange-600 font-semibold ${
+                className={`ml-1 inline-block py-1 font-medium text-orange-700 hover:text-orange-800 hover:underline font-semibold ${
                   isArabic ? "pr-1" : ""
                 }`}
               >

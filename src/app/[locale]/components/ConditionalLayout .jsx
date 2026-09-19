@@ -27,7 +27,7 @@ export default function ConditionalLayout({ locale, children }) {
   return (
     <>
       {showHeaderFooter && <Nav />}
-      <div className="min-h-screen">{children}</div>
+      <main id="main" className="min-h-screen">{children}</main>
       {showHeaderFooter && <Footer />}
     </>
   );

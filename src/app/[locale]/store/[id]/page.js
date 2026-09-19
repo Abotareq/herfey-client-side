@@ -266,14 +266,14 @@ export default function StoreDetailsPage() {
               <button
                 onClick={handleFavorite}
                 className={`p-2 rounded-lg transition-colors ${
-                  isFavorite ? 'text-red-500 bg-red-50' : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+                  isFavorite ? 'text-red-500 bg-red-50' : 'text-gray-500 hover:text-red-700 hover:bg-gray-900/5'
                 }`}
               >
                 <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
               </button>
               <button
                 onClick={handleShare}
-                className="p-2 rounded-lg text-gray-400 hover:text-orange-600 hover:bg-orange-50 transition-colors"
+                className="p-2 rounded-lg text-gray-500 hover:text-orange-700 hover:bg-gray-900/5 transition-colors"
               >
                 <Share className="w-5 h-5" />
               </button>

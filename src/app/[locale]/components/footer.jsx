@@ -20,7 +20,7 @@ const Footer = () => {
     { key: "privacy", href: "/privacy" },
   ];
   const linkClass =
-    "text-sm text-gray-600 transition-colors duration-300 hover:text-gray-900 hover:underline";
+    "inline-block py-1 text-sm text-gray-600 transition-colors duration-300 hover:text-gray-900 hover:underline";
 
   return (
     <footer className="border-t border-gray-900/8 bg-gray-50">
@@ -34,7 +34,7 @@ const Footer = () => {
                 {t("phone")}
               </p>
               <p>
-                <a href={`mailto:${t("email")}`} className="hover:text-gray-900 hover:underline">
+                <a href={`mailto:${t("email")}`} className="inline-block py-1 hover:text-gray-900 hover:underline">
                   {t("email")}
                 </a>
               </p>

@@ -484,7 +484,7 @@ export default function StoresSection() {
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-orange-100">
         <div className="space-y-3">
-          <h3 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+          <h3 className="text-4xl font-bold font-display text-gray-900">
             {t('title')}
           </h3>
           <p className="text-gray-600 text-lg font-medium">

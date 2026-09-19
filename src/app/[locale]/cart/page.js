@@ -1,4 +1,5 @@
 "use client";
+import { Loader2 } from "lucide-react";
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
 import AuthenticatedCart from "./AuthenticatedCart";
@@ -13,7 +14,7 @@ function ShoppingCart() {
     return (
       <div className="max-w-5xl max-lg:max-w-2xl mx-auto p-4">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-800"></div>
+          <Loader2 className="h-8 w-8 animate-spin text-gray-800" aria-hidden="true" />
           <span className="ml-2">{t('loadingcart')}</span>
         </div>
       </div>

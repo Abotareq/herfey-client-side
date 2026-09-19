@@ -86,7 +86,7 @@ export default function CheckoutStep1() {
           <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-sm">1</span>
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold font-display text-gray-900">
             {t("title")}
           </h2>
         </div>
@@ -174,7 +174,7 @@ export default function CheckoutStep1() {
 
       {/* New Address Form with enhanced styling */}
       {!state.useExisting && (
-        <div className="mt-8 space-y-6 border-t-2 border-orange-200 pt-6 bg-white/50 rounded-2xl p-6">
+        <div className="mt-8 space-y-6 border-t border-gray-900/8 pt-6 bg-white/50 rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-orange-800 mb-4">
             {t("newaddress")}
           </h3>

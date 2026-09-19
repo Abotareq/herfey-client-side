@@ -99,7 +99,7 @@ function StoreSkeleton() {
 
       {/* Loading Indicator */}
       <div className="text-center py-12">
-        <Loader2 className="w-8 h-8 text-orange-500 animate-spin mx-auto mb-4" />
+        <Loader2 className="w-8 h-8 text-orange-600 animate-spin mx-auto mb-4" />
         <p className="text-orange-600 font-medium">Loading your stores...</p>
       </div>
 

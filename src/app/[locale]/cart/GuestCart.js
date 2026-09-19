@@ -925,7 +925,7 @@ function GuestCart() {
                                   <button
                                     type="button"
                                     onClick={() => handleAddToWishlist(item)}
-                                    className="p-2 text-orange-500 hover:bg-orange-100 rounded-md transition-colors duration-200 disabled:opacity-50"
+                                    className="p-2 text-orange-600 hover:bg-orange-100 rounded-md transition-colors duration-200 disabled:opacity-50"
                                     title={t('wishlist')}
                                     disabled={isUpdating}
                                   >

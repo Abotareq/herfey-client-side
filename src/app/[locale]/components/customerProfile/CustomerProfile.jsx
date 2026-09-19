@@ -107,7 +107,7 @@ function CustomerProfile() {
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "profile"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               {t("profile")}
@@ -117,7 +117,7 @@ function CustomerProfile() {
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "addresses"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               {t("address")}
@@ -127,7 +127,7 @@ function CustomerProfile() {
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "orders"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               {t("order")}
@@ -137,7 +137,7 @@ function CustomerProfile() {
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === "reviews"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               {t("review")}

@@ -167,7 +167,7 @@ export default function OrderDetailsPage() {
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-orange-100 p-8 mb-8 hover:shadow-xl transition-all duration-300">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent mb-2">
+              <h1 className="text-3xl font-bold font-display text-gray-900 mb-2">
                 {t('order')} #{order?._id?.slice(-8)}
               </h1>
               <p className="text-gray-600">{t('orderdetails')}</p>
@@ -208,7 +208,7 @@ export default function OrderDetailsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold font-display text-gray-900">
               {t('orderitems')} ({order.orderItems?.length || 0})
             </h2>
           </div>
@@ -251,7 +251,7 @@ export default function OrderDetailsPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+              <h3 className="text-xl font-bold font-display text-gray-900">
                 {t('customerinfo')}
               </h3>
             </div>
@@ -280,7 +280,7 @@ export default function OrderDetailsPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+              <h3 className="text-xl font-bold font-display text-gray-900">
                 {t('delivery')}
               </h3>
             </div>
@@ -301,7 +301,7 @@ export default function OrderDetailsPage() {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl shadow-2xl border border-orange-100 p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold font-display text-gray-900">
                 {t('updateo')}
               </h3>
               <button
@@ -323,7 +323,7 @@ export default function OrderDetailsPage() {
                     value={status.value}
                     checked={selectedStatus === status.value}
                     onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="text-orange-500 focus:ring-orange-400"
+                    className="text-orange-600 focus:ring-orange-400"
                   />
                   <span className="text-lg">{status.icon}</span>
                   <span className="font-medium text-gray-800">{status.label}</span>

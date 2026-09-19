@@ -91,7 +91,7 @@ const FieldArrayOptions = ({ control, register, variantIndex, errors, t }) => { 
                         </div>
                     </div>
                      {fields.length > 1 && (
-                        <button type="button" onClick={() => remove(optionIndex)} className="absolute -top-2 -right-2 p-1.5 text-gray-500 bg-white/80 border border-gray-200 rounded-full transition-all opacity-0 group-hover:opacity-100 hover:bg-red-100 hover:text-red-600 hover:scale-110"><Icons.X className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => remove(optionIndex)} className="absolute -top-2 -right-2 p-1.5 text-gray-500 bg-white/80 border border-gray-200 rounded-full transition-all opacity-0 group-hover:opacity-100 hover:bg-gray-900/5 hover:text-red-700 hover:scale-110"><Icons.X className="w-4 h-4" /></button>
                      )}
                 </div>
             ))}
@@ -182,7 +182,7 @@ export default function CreateProductForm() {
         return (
             <div className="fixed inset-0 bg-gray-100 z-50 flex items-center justify-center">
                 <div className="flex items-center space-x-4">
-                    <Icons.Loader className="w-10 h-10 text-orange-500" />
+                    <Icons.Loader className="w-10 h-10 text-orange-600" />
                     <span className="text-gray-600 font-medium">{t('loading')}</span>
                 </div>
             </div>
@@ -209,7 +209,7 @@ export default function CreateProductForm() {
                     </div>
                 </header>
 
-                <main>
+                <div>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Basic Information Card */}
                         <div className="bg-white/25 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden border border-white/30">
@@ -294,7 +294,7 @@ export default function CreateProductForm() {
                                             <div className="flex justify-between items-center mb-4">
                                                 <label className={labelClass}>{t('varianttype')}{requiredStar} <span className="text-xs font-normal text-gray-500">({t('ex')})</span></label>
                                                 {variants.length > 1 && (
-                                                    <button type="button" onClick={() => removeVariant(index)} className="text-gray-500 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-50"><Icons.X className="w-5 h-5" /></button>
+                                                    <button type="button" onClick={() => removeVariant(index)} className="text-gray-500 hover:text-red-700 transition-colors p-1 rounded-full hover:bg-gray-900/5"><Icons.X className="w-5 h-5" /></button>
                                                 )}
                                             </div>
                                             <input {...register(`variants.${index}.name`)} placeholder={t('variantplaceholder')} className={inputClass(errors.variants?.[index]?.name)} />
@@ -326,14 +326,14 @@ export default function CreateProductForm() {
                            </button>
                         </div>
                     </form>
-                </main>
+                </div>
 
                 {/* Loading State Overlay */}
                 {submitting && (
                     <div className="fixed inset-0  backdrop-blur-sm flex items-center justify-center z-50">
                         <div className="bg-white rounded-xl p-6 flex items-center space-x-4">
-                            <Icons.Loader className="w-8 h-8 text-orange-500" />
-                            <span className="text-orange-500 font-medium">{t('creatingproduct')}</span>
+                            <Icons.Loader className="w-8 h-8 text-orange-600" />
+                            <span className="text-orange-600 font-medium">{t('creatingproduct')}</span>
                         </div>
                     </div>
                 )}

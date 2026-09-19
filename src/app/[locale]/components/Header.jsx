@@ -106,10 +106,10 @@ export default function Header() {
                 key={item.name}
                 href={`/${currentLocale}${item.href}`}
                 aria-current={active ? "page" : undefined}
-                className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition duration-300 ease-out-soft after:absolute after:inset-x-3.5 after:-bottom-px after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-orange-600 after:transition-transform after:duration-300 after:ease-out-soft hover:text-gray-900 ${
+                className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition duration-300 ease-out-soft after:absolute after:inset-x-3.5 after:-bottom-px after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-current after:transition-transform after:duration-300 after:ease-out-soft ${
                   active
-                    ? "text-gray-900 after:scale-x-100"
-                    : "text-gray-600 hover:after:scale-x-100"
+                    ? "text-orange-800 after:scale-x-100"
+                    : "text-gray-600 hover:text-orange-800 hover:after:scale-x-100"
                 }`}
               >
                 {t(item.name)}

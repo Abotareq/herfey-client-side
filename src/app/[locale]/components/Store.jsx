@@ -1,4 +1,5 @@
 "use client";
+import { Loader2 } from "lucide-react";
 import { useStores, useVendorStores } from "@/service/store";
 import Link from "next/link";
 import { useState } from "react";
@@ -394,7 +395,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                           type="checkbox"
                           checked={filters.brand.includes(brand)}
                           onChange={() => toggleBrand(brand)}
-                          className="w-4 h-4 text-orange-500 bg-white border-2 border-gray-300 rounded focus:ring-orange-500 focus:ring-2 transition-all duration-200 cursor-pointer hover:border-orange-400"
+                          className="w-4 h-4 text-orange-600 bg-white border-2 border-gray-300 rounded focus:ring-orange-500 focus:ring-2 transition-all duration-200 cursor-pointer hover:border-orange-400"
                         />
                       </div>
                       <label
@@ -426,7 +427,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-16">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-orange-500 mb-4"></div>
+                  <Loader2 className="h-12 w-12 animate-spin text-orange-600 mb-4" aria-hidden="true" />
                   <p className="text-center text-gray-500 text-lg font-medium">
                     {t("loading")}
                   </p>
@@ -501,7 +502,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
 
                       {/* Store Info */}
                       <div className="space-y-2 h-16">
-                        <h4 className="text-lg font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-200 line-clamp-2 leading-tight">
+                        <h4 className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-200 line-clamp-2 leading-tight">
                           {store.name}
                         </h4>
                       </div>
@@ -587,7 +588,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                             className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                               filters.page === page
                                 ? "bg-orange-500 text-white shadow-lg"
-                                : "text-gray-600 bg-white border border-gray-300 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-300"
+                                : "text-gray-700 bg-white ring-1 ring-gray-900/10 ring-inset hover:text-orange-700 hover:bg-gray-900/5"
                             }`}
                           >
                             {page}

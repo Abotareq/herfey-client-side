@@ -1,4 +1,5 @@
 "use client";
+import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslations } from "use-intl";
 import { useQueryClient } from "@tanstack/react-query";
@@ -367,7 +368,7 @@ function ReviewsSectionInProfile({ userId }) {
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
               >
                 {deleteReviewMutation.isPending && (
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <Loader2 className="h-4 w-4 animate-spin text-white" aria-hidden="true" />
                 )}
                 <span>
                   {deleteReviewMutation.isPending
@@ -585,7 +586,7 @@ function ReviewsSectionInProfile({ userId }) {
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center z-40">
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <div className="flex items-center space-x-3">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
+              <Loader2 className="h-6 w-6 animate-spin text-orange-600" aria-hidden="true" />
               <span className="text-gray-700 font-medium">
                 {t("Updating") || t("Updating")}
               </span>

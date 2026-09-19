@@ -615,7 +615,7 @@ export default function OrdersSection() {
         {/* Search and Filter Bar */}
         <div className="mt-6 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1 group">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-orange-500 transition-colors duration-200" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-orange-600 transition-colors duration-200" />
             <input
               type="text"
               placeholder="Search by order ID or customer name..."

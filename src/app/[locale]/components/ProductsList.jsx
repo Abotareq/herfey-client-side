@@ -318,7 +318,7 @@ function ProductsList() {
           } w-full bg-white p-5 shadow-xs lg:block lg:w-64 lg:shrink-0 lg:self-start lg:sticky lg:top-20 lg:rounded-2xl`}
         >
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="font-semibold">{t1("filter")}</h3>
+            <p className="font-semibold text-gray-900">{t1("filter")}</p>
             <button
               type="button"
               onClick={() => setFiltersOpen(false)}
@@ -331,8 +331,8 @@ function ProductsList() {
 
           {/* Sort Options */}
           <div className="mb-4">
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("sort")}</label>
-            <select
+            <label htmlFor="filter-1" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("sort")}</label>
+            <select id="filter-1"
               className="field"
               value={sortBy || ""}
               onChange={(e) => setSortBy(e.target.value)}
@@ -349,8 +349,8 @@ function ProductsList() {
 
           {/* Store Filter */}
           <div className="mb-4">
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("store")}</label>
-            <select
+            <label htmlFor="filter-2" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("store")}</label>
+            <select id="filter-2"
               className="field"
               value={selectedFilters.storeId || ""}
               onChange={(e) => handleFilter("storeId", e.target.value)}
@@ -366,8 +366,8 @@ function ProductsList() {
 
           {/* Category Filter */}
           <div className="mb-4">
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{"Category"}</label>
-            <select
+            <label htmlFor="filter-3" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{"Category"}</label>
+            <select id="filter-3"
               className="field"
               value={selectedFilters.category || ""}
               onChange={(e) => handleFilter("category", e.target.value)}
@@ -385,10 +385,10 @@ function ProductsList() {
           {Object.entries(getVariantFilters(products)).map(
             ([variantName, options]) => (
               <div key={variantName} className="mb-4">
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <label htmlFor="filter-4" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">
                   {variantName}
                 </label>
-                <select
+                <select id="filter-4"
                   className="field"
                   value={selectedFilters[variantName] || ""}
                   onChange={(e) => handleFilter(variantName, e.target.value)}
@@ -414,6 +414,15 @@ function ProductsList() {
         </aside>
 
         <section className="min-w-0 flex-1">
+          <div className="section-head mb-6">
+            <div>
+              <h1 className="section-title">{category?.name || t("allProducts")}</h1>
+              <p className="section-lede hidden lg:block">
+                {t1("results", { count: data?.totalProducts ?? displayedProducts.length })}
+              </p>
+            </div>
+          </div>
+
           {/* Toolbar (below lg): open the filters panel */}
           <div className="mb-6 flex items-center justify-between gap-3 lg:hidden">
             <button

@@ -194,7 +194,7 @@ export default function CheckoutStep2() {
           <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-sm">2</span>
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold font-display text-gray-900">
             {t("payment")}
           </h2>
         </div>
@@ -205,7 +205,7 @@ export default function CheckoutStep2() {
 
       {/* Error Display */}
       {error && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-400 rounded-xl shadow-sm">
+        <div className="mb-6 p-4 bg-red-50 text-red-900 ring-1 ring-red-200 ring-inset rounded-xl">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <AlertTriangle className="w-5 h-5 text-red-400" />
@@ -280,7 +280,7 @@ export default function CheckoutStep2() {
 
       {/* Validation Messages */}
       {!canProceed && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-amber-50 border-l-4 border-amber-400 rounded-xl shadow-sm">
+        <div className="mb-6 p-4 bg-orange-50 text-orange-950 ring-1 ring-orange-200 ring-inset rounded-xl">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Info className="w-5 h-5 text-amber-500" />
@@ -312,7 +312,7 @@ export default function CheckoutStep2() {
               <span className="font-medium">{state.cartItems.length}</span>{" "}
               {t("items")}
             </p>
-            <p className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+            <p className="text-xl font-bold font-display text-gray-900">
               ${state.totalAmount?.toFixed(2) || "0.00"}
             </p>
           </div>

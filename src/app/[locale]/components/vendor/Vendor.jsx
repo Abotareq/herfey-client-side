@@ -195,7 +195,7 @@ function VendorProfile() {
               </div>
             </div>
             <div className="flex-1">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent mb-2">
+              <h1 className="text-4xl font-bold font-display text-gray-900 mb-2">
                 {firstName} {lastName}
               </h1>
               <p className="text-orange-600 font-medium text-lg mb-3">
@@ -204,7 +204,7 @@ function VendorProfile() {
               <div className="flex flex-wrap items-center space-x-6 text-sm text-gray-600">
                 <span className="flex items-center space-x-2 bg-white/80 px-3 py-2 rounded-full border border-orange-200 hover:bg-white transition-colors">
                   <svg
-                    className="w-4 h-4 text-orange-500"
+                    className="w-4 h-4 text-orange-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -222,7 +222,7 @@ function VendorProfile() {
                 </span>
                 <span className="flex items-center space-x-2 bg-white/80 px-3 py-2 rounded-full border border-orange-200 hover:bg-white transition-colors">
                   <svg
-                    className="w-4 h-4 text-orange-500"
+                    className="w-4 h-4 text-orange-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -249,7 +249,7 @@ function VendorProfile() {
               className={`flex items-center space-x-2 px-6 py-3 text-sm font-medium rounded-xl transition-all duration-300 hover:scale-105 ${
                 activeTab === "profile"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               <svg
@@ -272,7 +272,7 @@ function VendorProfile() {
               className={`flex items-center space-x-2 px-6 py-3 text-sm font-medium rounded-xl transition-all duration-300 hover:scale-105 ${
                 activeTab === "stores"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               <svg
@@ -295,7 +295,7 @@ function VendorProfile() {
               className={`flex items-center space-x-2 px-6 py-3 text-sm font-medium rounded-xl transition-all duration-300 hover:scale-105 ${
                 activeTab === "coupons"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               <svg
@@ -318,7 +318,7 @@ function VendorProfile() {
               className={`flex items-center space-x-2 px-6 py-3 text-sm font-medium rounded-xl transition-all duration-300 hover:scale-105 ${
                 activeTab === "orders"
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg"
-                  : "text-gray-600 hover:text-orange-600 hover:bg-orange-50"
+                  : "text-gray-600 hover:text-orange-700 hover:bg-gray-900/5"
               }`}
             >
               <svg

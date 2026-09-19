@@ -135,7 +135,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
     <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-orange-500">
+          <span className="text-orange-600">
             {paymentMethod === "cash_on_delivery" ? 
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
@@ -214,7 +214,7 @@ const OrderStatusTracker = ({ status, paymentMethod, t }) => {
 const OrderItemsCard = ({ items, t }) => (
   <div className="lg:col-span-2 bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md space-y-4">
     <div className="flex items-center gap-3">
-      <span className="text-orange-500">{Icons.package}</span>
+      <span className="text-orange-600">{Icons.package}</span>
       <h4 className="font-semibold text-gray-800 text-lg">
         {t("itemsInOrder")} ({items.length})
       </h4>
@@ -263,7 +263,7 @@ const OrderSidebar = ({
   <div className="space-y-6">
     <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-orange-500">{Icons.location}</span>
+        <span className="text-orange-600">{Icons.location}</span>
         <h4 className="font-semibold text-gray-800 text-lg">
           {t("shippingAddress")}
         </h4>
@@ -280,7 +280,7 @@ const OrderSidebar = ({
     {/* Payment Method Info */}
     <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-orange-500">
+        <span className="text-orange-600">
           {order.paymentMethod === "cash_on_delivery" ? 
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
@@ -326,7 +326,7 @@ const OrderSidebar = ({
 
     <div className="bg-gradient-to-r from-orange-50 to-orange-100 backdrop-blur-lg rounded-2xl p-6 border border-orange-200/50 shadow-md">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-orange-500">{Icons.receipt}</span>
+        <span className="text-orange-600">{Icons.receipt}</span>
         <h4 className="font-semibold text-gray-800 text-lg">
           {t("orderSummary")}
         </h4>

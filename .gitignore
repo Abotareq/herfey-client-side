@@ -40,5 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Claude Code local settings and skill symlinks (skills live in .agents/skills)
-.claude/
+# Claude Code: local settings stay out; the impeccable skill and its agents are shared
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/impeccable/
+!.claude/agents/

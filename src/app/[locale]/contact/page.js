@@ -60,7 +60,7 @@ export default function ContactPage() {
               <div>
                 <dt className="text-sm text-gray-500">{t("pplace")}</dt>
                 <dd className="mt-0.5">
-                  <a href={`tel:${t("phone").replace(/\s+/g, "")}`} dir="ltr" className="font-medium tabular-nums text-gray-900 hover:underline">
+                  <a href={`tel:${t("phone").replace(/\s+/g, "")}`} dir="ltr" className="inline-block py-1 font-medium tabular-nums text-gray-900 hover:underline">
                     {t("phone")}
                   </a>
                 </dd>
@@ -68,7 +68,7 @@ export default function ContactPage() {
               <div>
                 <dt className="text-sm text-gray-500">{t("ePlace")}</dt>
                 <dd className="mt-0.5">
-                  <a href={`mailto:${t("email")}`} className="font-medium text-gray-900 hover:underline">
+                  <a href={`mailto:${t("email")}`} className="inline-block py-1 font-medium text-gray-900 hover:underline">
                     {t("email")}
                   </a>
                 </dd>

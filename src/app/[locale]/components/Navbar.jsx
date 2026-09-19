@@ -70,7 +70,7 @@ export default function Header() {
               className="cursor-pointer group"
               onClick={() => router.push(`/${currentLocale}`)}
             >
-              <div className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+              <div className="text-2xl lg:text-3xl font-bold font-display text-gray-900">
                 {t2("herafy")}
               </div>
               <div className="w-12 lg:w-16 h-1 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mt-1 group-hover:scale-110 transition-transform duration-300"></div>

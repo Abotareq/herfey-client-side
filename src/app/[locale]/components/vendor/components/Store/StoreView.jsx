@@ -1,4 +1,5 @@
 "use client";
+import { Loader2 } from "lucide-react";
 import { useGetAllProducts } from "@/service/product";
 import { useFilterReviewsByStore } from "@/service/reviewService";
 import { useTranslations } from "next-intl";
@@ -515,7 +516,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
 
                 {productsLoading ? (
                   <div className="flex items-center justify-center py-12">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+                    <Loader2 className="h-12 w-12 animate-spin text-orange-600" aria-hidden="true" />
                   </div>
                 ) : Array.isArray(productsRes?.products) &&
                   productsRes.products.length > 0 ? (
@@ -770,7 +771,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
 
                 {reviewsLoading ? (
                   <div className="flex items-center justify-center py-12">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+                    <Loader2 className="h-12 w-12 animate-spin text-orange-600" aria-hidden="true" />
                   </div>
                 ) : reviewsRes?.data.review && reviewsRes.data.review.length > 0 ? (
                   <div className="space-y-6">

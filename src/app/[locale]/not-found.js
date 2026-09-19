@@ -20,7 +20,7 @@ export default function NotFound() {
       </div>
 
       {/* Main content */}
-      <main className="flex flex-1 items-center justify-center px-6 py-24 sm:py-32 lg:px-8">
+      <div className="flex flex-1 items-center justify-center px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center max-w-md">
           <p className="text-base font-semibold text-orange-600">404</p>
           <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">
@@ -44,7 +44,7 @@ export default function NotFound() {
             </Link>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

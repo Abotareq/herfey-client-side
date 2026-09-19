@@ -164,7 +164,8 @@ function ReviewsSection({ productId }) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                aria-label={t("new")}
+                className="field w-auto"
               >
                 <option value="newest">{t("new")}</option>
                 <option value="oldest">{t("old")}</option>
@@ -176,7 +177,8 @@ function ReviewsSection({ productId }) {
               <select
                 value={filterRating}
                 onChange={(e) => setFilterRating(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                aria-label={t("all")}
+                className="field w-auto"
               >
                 <option value="all">{t("all")}</option>
                 <option value="5">{t("5")}</option>

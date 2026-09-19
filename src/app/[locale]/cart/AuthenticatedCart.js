@@ -333,7 +333,7 @@ function AuthenticatedCart() {
                         <div className="flex items-center gap-2 ml-4">
                           <button
                             type="button"
-                            className="p-2 rounded-lg text-gray-400 hover:text-orange-500 hover:bg-orange-50 transition-all duration-200 transform hover:scale-110"
+                            className="p-2 rounded-lg text-gray-500 hover:text-orange-700 hover:bg-gray-900/5 transition-all duration-200 transform hover:scale-110"
                             title="Add to wishlist"
                           >
                             <svg
@@ -348,7 +348,7 @@ function AuthenticatedCart() {
                           <button
                             type="button"
                             onClick={() => handleRemoveItem(itemId)}
-                            className="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all duration-200 transform hover:scale-110"
+                            className="p-2 rounded-lg text-gray-500 hover:text-red-700 hover:bg-gray-900/5 transition-all duration-200 transform hover:scale-110"
                             title="Remove item"
                             disabled={
                               updateCartMutation.isLoading ||
@@ -401,7 +401,7 @@ function AuthenticatedCart() {
                         <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-2">
                           <button
                             type="button"
-                            className="w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-orange-500 text-gray-600 hover:text-white shadow-md transition-all duration-200 transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:scale-100"
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-gray-900 text-gray-700 hover:text-white shadow-md transition-all duration-200 transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 disabled:hover:scale-100"
                             onClick={() =>
                               handleUpdateQuantity(
                                 itemId,

@@ -581,7 +581,8 @@
     "Adding": "Adding...",
     "retry": "Try again",
     "noreviews": "No reviews yet",
-    "selectoptions": "Choose the options above to add this to your cart."
+    "selectoptions": "Choose the options above to add this to your cart.",
+    "allProducts": "All products"
   },
   "productreview": {
     "1": "1 Star",

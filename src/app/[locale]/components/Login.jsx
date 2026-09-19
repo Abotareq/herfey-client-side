@@ -62,11 +62,11 @@ export default function LogIn() {
           <form onSubmit={handleSubmit}>
             {/* Email */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signin-1" className="block text-sm font-medium text-gray-700 mb-2">
                 {t("email")}
               </label>
               <div className="relative">
-                <input
+                <input id="signin-1"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -77,7 +77,7 @@ export default function LogIn() {
                 <i className="fas fa-envelope absolute right-2 top-4 w-6 h-6 text-gray-400"></i>
               </div>
               {email && !validateEmail(email) && (
-                <p className="mt-2 text-sm text-orange-500">
+                <p className="mt-2 text-sm text-orange-600">
                   {t("wrongemail")}
                 </p>
               )}
@@ -85,11 +85,11 @@ export default function LogIn() {
 
             {/* Password */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="signin-2" className="block text-sm font-medium text-gray-700 mb-2">
                 {t("password")}
               </label>
               <div className="relative">
-                <input
+                <input id="signin-2"
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -108,7 +108,7 @@ export default function LogIn() {
                 </button>
               </div>
               {password && !validatePassword(password) && (
-                <p className="mt-2 text-sm text-orange-500">
+                <p className="mt-2 text-sm text-orange-600">
                   {t("wrongpasswrod")}
                 </p>
               )}
@@ -199,7 +199,7 @@ export default function LogIn() {
               {t("signup")}{" "}
               <Link
                 href="/signup"
-                className="ml-1 text-orange-500 hover:text-orange-600 font-semibold"
+                className="ml-1 inline-block py-1 font-medium text-orange-700 hover:text-orange-800 hover:underline font-semibold"
               >
                 {t("newsignup")}
               </Link>
@@ -210,7 +210,7 @@ export default function LogIn() {
               {t("guest")}
               <Link
                 href="/"
-                className={`ml-1 text-orange-500 hover:text-orange-600 font-semibold ${
+                className={`ml-1 inline-block py-1 font-medium text-orange-700 hover:text-orange-800 hover:underline font-semibold ${
                   isArabic ? "pr-1" : ""
                 }`}
               >
