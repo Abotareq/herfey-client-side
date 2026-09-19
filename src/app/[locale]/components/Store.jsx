@@ -174,7 +174,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                   </div>
 
                   {/* Overlay Content Skeleton */}
-                  <div className="bg-orange-600 absolute inset-0 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-all duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-t from-orange-950/70 to-orange-950/20 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-opacity duration-300">
                     {/* Top Tags */}
                     <div className="flex justify-between">
                       <div className="h-6 bg-orange-200/70 rounded-full w-20 animate-pulse shadow-sm backdrop-blur-sm"></div>
