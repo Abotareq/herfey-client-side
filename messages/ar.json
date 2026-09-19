@@ -667,7 +667,10 @@
     "prev": "السابق",
     "next": "التالي",
     "allstores": "كل المتاجر",
-    "mystore": "متاجري"
+    "mystore": "متاجري",
+    "results": "{count, plural, =0 {لا توجد متاجر} =1 {متجر واحد} =2 {متجران} other {# متاجر}}",
+    "productCount": "{count, plural, =1 {منتج واحد} =2 {منتجان} other {# منتجات}}",
+    "newBadge": "جديد"
   },
   "storedetails": {
     "location": "موقع المتجر",
@@ -716,7 +719,10 @@
     "allstores": "جميع المتاجر",
     "clear": "مسح جميع عوامل التصفية",
     "close": "إغلاق الفلاتر",
-    "results": "{count, plural, =0 {لا توجد منتجات} =1 {منتج واحد} =2 {منتجان} other {# منتجات}}"
+    "results": "{count, plural, =0 {لا توجد منتجات} =1 {منتج واحد} =2 {منتجان} other {# منتجات}}",
+    "category": "الفئة",
+    "allcategories": "كل الفئات",
+    "all": "الكل ({name})"
   },
   "BestSeller": {
     "bestseller": "الأكثر مبيعًا",
@@ -777,7 +783,12 @@
     "apply": "تاكيد",
     "update": "جاري التحديث",
     "checkout": "الانتقال الي صفحة الدفع",
-    "securepayment": "عمليات الشراء مؤمنة عن طريق"
+    "securepayment": "عمليات الشراء مؤمنة عن طريق",
+    "remove": "إزالة المنتج",
+    "removeFailed": "تعذّر إزالة المنتج. حاول مرة أخرى.",
+    "updateFailed": "تعذّر تحديث الكمية. حاول مرة أخرى.",
+    "couponApplied": "تم تطبيق الكوبون",
+    "couponFailed": "تعذّر تطبيق هذا الكوبون."
   },
   "GuestCart": {
     "unkownproduct": "منتج غير معروف",
@@ -1265,5 +1276,26 @@
     "shoppersTitle": "لكل قطعة حكاية",
     "shoppersText": "تصفّح الكتالوج كاملًا مباشرة من ورش في كل أنحاء البلاد.",
     "shoppersCta": "تصفّح كل المنتجات"
+  },
+  "filters": {
+    "title": "تصفية وفرز",
+    "close": "إغلاق الفلاتر",
+    "clear": "مسح جميع عوامل التصفية",
+    "updating": "جارٍ التحديث…",
+    "pagination": "الصفحات",
+    "page": "صفحة {page}",
+    "previous": "السابق",
+    "next": "التالي"
+  },
+  "activity": {
+    "working": "جارٍ العمل…",
+    "removingItem": "جارٍ إزالة المنتج…",
+    "updatingCart": "جارٍ تحديث السلة…",
+    "addingToCart": "جارٍ الإضافة إلى السلة…",
+    "applyingCoupon": "جارٍ تطبيق الكوبون…",
+    "clearingCart": "جارٍ تفريغ السلة…",
+    "cancellingOrder": "جارٍ إلغاء الطلب…",
+    "placingOrder": "جارٍ إتمام الطلب…",
+    "updatingOrder": "جارٍ تحديث الطلب…"
   }
 }

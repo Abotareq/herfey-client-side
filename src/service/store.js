@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 /** ===================== HOOKS ===================== **/
 const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE}/store`;
 /** ===================== PUBLIC METHODS ===================== **/
@@ -160,7 +160,8 @@ export const useStores = (params) => {
   return useQuery({
     queryKey: ["stores", params],
     queryFn: () => getAllStores(params),
-    keepPreviousData: true, // pagination friendly
+    // Filter/page changes keep the last results on screen until the new ones land
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -182,7 +183,7 @@ export const useVendorStores = (params) => {
   return useQuery({
     queryKey: ["vendorStores", params],
     queryFn: () => getVendorStores(params),
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -196,8 +197,8 @@ export const useCreateStore = () => {
     mutationFn: createStore,
     onSuccess: () => {
       // invalidate cache after creating
-      queryClient.invalidateQueries(["stores"]);
-      queryClient.invalidateQueries(["vendorStores"]);
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
+      queryClient.invalidateQueries({ queryKey: ["vendorStores"] });
     },
   });
 };
@@ -211,8 +212,8 @@ export const useUpdateStore = () => {
   return useMutation({
     mutationFn: ({ storeId, formData }) => updateStore(storeId, formData),
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries(["stores"]);
-      queryClient.invalidateQueries(["vendorStores"]);
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
+      queryClient.invalidateQueries({ queryKey: ["vendorStores"] });
       queryClient.invalidateQueries(["store", variables.storeId]); // refresh specific
     },
   });
@@ -227,8 +228,8 @@ export const useDeleteStore = () => {
   return useMutation({
     mutationFn: deleteStore,
     onSuccess: () => {
-      queryClient.invalidateQueries(["stores"]);
-      queryClient.invalidateQueries(["vendorStores"]);
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
+      queryClient.invalidateQueries({ queryKey: ["vendorStores"] });
     },
   });
 };

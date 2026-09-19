@@ -666,7 +666,10 @@
     "prev": "Previous",
     "next": "Next",
     "allstores": "All Stores",
-    "mystore": "My Stores"
+    "mystore": "My Stores",
+    "results": "{count, plural, =0 {No stores} =1 {1 store} other {# stores}}",
+    "productCount": "{count, plural, =1 {1 product} other {# products}}",
+    "newBadge": "New"
   },
   "storedetails": {
     "location": "Store Location",
@@ -715,7 +718,10 @@
     "allstores": "All Stores",
     "clear": "Clear All Filters",
     "close": "Close filters",
-    "results": "{count, plural, =0 {No products} =1 {1 product} other {# products}}"
+    "results": "{count, plural, =0 {No products} =1 {1 product} other {# products}}",
+    "category": "Category",
+    "allcategories": "All categories",
+    "all": "All {name}"
   },
   "BestSeller": {
     "bestseller": "Bestsellers",
@@ -776,7 +782,12 @@
     "apply": "Apply",
     "update": "Updating...",
     "checkout": "Proceed to Checkout",
-    "securepayment": "Secure payments powered by"
+    "securepayment": "Secure payments powered by",
+    "remove": "Remove item",
+    "removeFailed": "Could not remove the item. Try again.",
+    "updateFailed": "Could not update the quantity. Try again.",
+    "couponApplied": "Coupon applied",
+    "couponFailed": "That coupon could not be applied."
   },
   "GuestCart": {
     "unkownproduct": "Unknown Product",
@@ -1264,5 +1275,26 @@
     "shoppersTitle": "Every piece has a story",
     "shoppersText": "Browse the full catalogue, straight from workshops all over the country.",
     "shoppersCta": "Browse all products"
+  },
+  "filters": {
+    "title": "Filter & sort",
+    "close": "Close filters",
+    "clear": "Clear all filters",
+    "updating": "Updating…",
+    "pagination": "Pages",
+    "page": "Page {page}",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "activity": {
+    "working": "Working…",
+    "removingItem": "Removing item…",
+    "updatingCart": "Updating cart…",
+    "addingToCart": "Adding to cart…",
+    "applyingCoupon": "Applying coupon…",
+    "clearingCart": "Clearing cart…",
+    "cancellingOrder": "Cancelling order…",
+    "placingOrder": "Placing order…",
+    "updatingOrder": "Updating order…"
   }
 }

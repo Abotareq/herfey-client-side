@@ -1,654 +1,257 @@
 "use client";
-import { Loader2 } from "lucide-react";
-import { useStores, useVendorStores } from "@/service/store";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useState } from "react";
-import Breadcrumbs from "./Breadcrumbs";
-import { useLocale, useTranslations } from "use-intl";
 import Image from "next/image";
-// Helper function to check if store is new (created within last 7 days)
+import { ImageOff, Search, Store as StoreIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useStores, useVendorStores } from "@/service/store";
+import Breadcrumbs from "./Breadcrumbs";
+import {
+  CataloguePageSkeleton,
+  FilterDivider,
+  FilterField,
+  FilterLayout,
+  FilterSidebar,
+  FilterToolbar,
+  Pagination,
+  ResultsGrid,
+  ResultsSummary,
+} from "./Filters";
+
+const GRID =
+  "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-10 items-start";
+
+const DEFAULT_SORT = "newest";
+
+// A store counts as new for its first week
 const isNewStore = (createdAt) => {
   if (!createdAt) return false;
-  const storeDate = new Date(createdAt);
-  const now = new Date();
-  const diffTime = now - storeDate;
-  const diffDays = diffTime / (1000 * 60 * 60 * 24);
-  return diffDays <= 7;
+  const days = (Date.now() - new Date(createdAt)) / (1000 * 60 * 60 * 24);
+  return days <= 7;
 };
-// Main component for Herafy Store Page
+
+/** One store card, on the product card's proportions and hover. */
+function StoreCard({ store }) {
+  const t = useTranslations("Store");
+  const id = store._id || store.id;
+  return (
+    <Link
+      href={`/store/${id}`}
+      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-white shadow-xs transition duration-500 ease-out-soft hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-orange-500/40"
+    >
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+        {store.logoUrl ? (
+          <Image
+            src={store.logoUrl}
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-300">
+            <ImageOff className="h-10 w-10" aria-hidden="true" />
+          </div>
+        )}
+        {isNewStore(store.createdAt) && (
+          <span className="absolute start-3 top-3 rounded-md bg-orange-600 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
+            {t("newBadge")}
+          </span>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col gap-1 p-4">
+        <h3 className="row-title line-clamp-2 text-lg transition-colors group-hover:text-orange-700 sm:text-lg">
+          {store.name}
+        </h3>
+        {store.productCount > 0 && (
+          <p className="text-sm tabular-nums text-gray-500">
+            {t("productCount", { count: store.productCount })}
+          </p>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+function StoreCardSkeleton() {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-xs">
+      <div className="skeleton aspect-[4/3] w-full" />
+      <div className="p-4">
+        <div className="skeleton h-5 w-3/4 rounded" />
+        <div className="skeleton mt-2 h-4 w-1/3 rounded" />
+      </div>
+    </div>
+  );
+}
+
 export default function HerafyStorePage({ vendorOnly = false }) {
   const t = useTranslations("Store");
-  // 🔹 filter + sort state
+  const tf = useTranslations("filters");
+
   const [filters, setFilters] = useState({
     search: "",
-    status: "",
-    brand: [],
-    sort: "newest", // default
+    sort: DEFAULT_SORT,
     page: 1,
     limit: 9,
   });
-  const locale = useLocale();
-  const isArabic = locale === "ar";
-  // 🔹 Use React Query hooks based on vendorOnly prop
+  // The box updates on every keystroke; the query waits for a pause
+  const [searchInput, setSearchInput] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  useEffect(() => {
+    const term = searchInput.trim();
+    if (term === filters.search) return;
+    const id = setTimeout(() => {
+      setFilters((prev) => ({ ...prev, search: term, page: 1 }));
+    }, 300);
+    return () => clearTimeout(id);
+  }, [searchInput, filters.search]);
+
+  const useList = vendorOnly ? useVendorStores : useStores;
   const {
     data: storeData,
-    isLoading: loading,
+    isPending,
+    isPlaceholderData,
     error,
-  } = vendorOnly ? useVendorStores(filters) : useStores(filters);
+    refetch,
+  } = useList(filters);
 
-  // Extract stores from the response (handle different response structures)
   const stores = storeData?.stores || storeData?.data?.stores || [];
   const pagination = storeData?.pagination || {};
+  const totalPages = pagination.totalPages || 1;
+  const total = pagination.total ?? stores.length;
 
-  // 🔹 update filter helper
   const updateFilter = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
-    // Scroll to top when filters change
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // 🔹 toggle brand
-  const toggleBrand = (brand) => {
-    setFilters((prev) => {
-      const updated = prev.brand.includes(brand)
-        ? prev.brand.filter((b) => b !== brand)
-        : [...prev.brand, brand];
-      return { ...prev, brand: updated, page: 1 };
-    });
-    // Scroll to top when filters change
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // 🔹 clear all
   const clearFilters = () => {
-    setFilters({
-      search: "",
-      status: "",
-      brand: [],
-      sort: "newest",
-      page: 1,
-      limit: 12,
-    });
-    // Scroll to top when filters are cleared
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setSearchInput("");
+    setFilters((prev) => ({ ...prev, search: "", sort: DEFAULT_SORT, page: 1 }));
   };
 
-  // 🔹 Pagination helper with scroll to top
   const goToPage = (page) => {
     setFilters((prev) => ({ ...prev, page }));
-    // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // 🔹 Generate pagination numbers
-  const generatePaginationNumbers = () => {
-    const totalPages = pagination?.totalPages || 1;
-    const currentPage = filters.page;
-    const pages = [];
+  const activeFilterCount =
+    (filters.search ? 1 : 0) + (filters.sort !== DEFAULT_SORT ? 1 : 0);
 
-    if (totalPages <= 7) {
-      // Show all pages if 7 or fewer
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      // Complex pagination logic
-      if (currentPage <= 4) {
-        // Show first 5 pages + ... + last page
-        for (let i = 1; i <= 5; i++) {
-          pages.push(i);
-        }
-        pages.push("...");
-        pages.push(totalPages);
-      } else if (currentPage >= totalPages - 3) {
-        // Show first page + ... + last 5 pages
-        pages.push(1);
-        pages.push("...");
-        for (let i = totalPages - 4; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        // Show first + ... + current-1, current, current+1 + ... + last
-        pages.push(1);
-        pages.push("...");
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-          pages.push(i);
-        }
-        pages.push("...");
-        pages.push(totalPages);
-      }
-    }
-
-    return pages;
-  };
-
-  if (loading) {
+  if (isPending) {
     return (
-      <div className="min-h-screen">
-        {/* Breadcrumbs Skeleton */}
-        <div className="text-center py-4">
-          <div className="skeleton h-4 rounded w-64 mx-auto"></div>
-        </div>
-
-        <div className="flex">
-          {/* Sidebar Skeleton */}
-          <aside className="bg-white w-64 p-4 border-r shadow-xs">
-            {/* Filter & Sort Title */}
-            <div className="skeleton h-6 rounded w-32 mb-4"></div>
-
-            {/* Sort Options */}
-            <div className="mb-4">
-              <div className="skeleton h-4 rounded w-16 mb-1"></div>
-              <div className="skeleton h-10 rounded-md"></div>
-            </div>
-
-            <hr className="my-4 border-gray-900/8" />
-
-            {/* Filter Options Skeleton */}
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="mb-4">
-                <div className="skeleton h-4 rounded w-20 mb-1"></div>
-                <div className="skeleton h-10 rounded-md"></div>
-              </div>
-            ))}
-
-            {/* Clear Button Skeleton */}
-            <div className="skeleton h-10 rounded-md mt-4"></div>
-          </aside>
-
-          {/* Main Content */}
-          <section className="container mx-auto p-10 md:py-12 md:p-8 flex-1">
-            {/* Products Grid Skeleton */}
-            <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 items-start">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                <div
-                  key={item}
-                  className="relative rounded-lg overflow-hidden shadow-lg bg-white border border-gray-900/8"
-                >
-                  {/* Product Image Skeleton */}
-                  <div className="skeleton w-full h-72"></div>
-
-                  {/* Product Info Skeleton */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orange-900/80 to-transparent">
-                    <div className="skeleton h-5 rounded w-3/4 mx-auto"></div>
-                  </div>
-
-                  {/* Overlay Content Skeleton */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-orange-950/70 to-orange-950/20 flex flex-col justify-between p-4 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    {/* Top Tags */}
-                    <div className="flex justify-between">
-                      <div className="h-6 bg-orange-200/70 rounded-full w-20 shadow-sm backdrop-blur-sm"></div>
-                    </div>
-
-                    {/* Center Button */}
-                    <div className="flex-grow flex items-center justify-center">
-                      <div className="h-12 bg-orange-400/60 rounded-full w-24 shadow-lg backdrop-blur-sm border border-orange-300/50"></div>
-                    </div>
-
-                    {/* Price */}
-                    <div className="flex justify-center mb-6">
-                      <div className="skeleton h-10 rounded-full w-20 backdrop-blur-sm"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </section>
-
-            {/* Pagination Skeleton */}
-            <div className="flex justify-center items-center gap-2 mt-10">
-              {/* Previous Button */}
-              <div className="skeleton h-10 rounded-lg w-20"></div>
-
-              {/* Page Numbers */}
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((page) => (
-                  <div
-                    key={page}
-                    className="skeleton h-10 w-10 rounded-lg"
-                  ></div>
-                ))}
-              </div>
-
-              {/* Next Button */}
-              <div className="skeleton h-10 rounded-lg w-16"></div>
-            </div>
-
-            {/* Loading Indicator */}
-            <div className="fixed bottom-8 right-8 z-50">
-              <div className="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-gray-900/8 rounded-full px-4 py-2 shadow-lg">
-                <div className="w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
-                <span className="text-orange-600 text-sm font-medium">
-                  Loading products...
-                </span>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
+      <CataloguePageSkeleton gridClassName={GRID} cards={6} card={<StoreCardSkeleton />} />
     );
   }
-  // 🔹 Handle error state
+
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-2">{t("error")}</h2>
-          <p className="text-gray-600">
-            {error.message || "Something went wrong"}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="btn btn-primary mt-4"
-          >
-            {t("retry")}
-          </button>
-        </div>
+      <div className="container mx-auto px-4 py-16 text-center md:px-8">
+        <h2 className="section-title">{t("error")}</h2>
+        <p className="section-lede mx-auto">{error.message || t("nodesc")}</p>
+        <button type="button" onClick={() => refetch()} className="btn btn-primary mt-6">
+          {t("retry")}
+        </button>
       </div>
     );
   }
+
+  const results = (
+    <ResultsSummary updating={isPlaceholderData}>
+      {t("results", { count: total })}
+    </ResultsSummary>
+  );
 
   return (
     <div>
-      <Breadcrumbs />
-      <div className="min-h-screen bg-gray-50">
-        <div className="flex flex-col lg:flex-row">
-          {/* Sidebar Filter */}
-          <div className="w-full lg:w-80 lg:min-w-80 bg-white border-r border-gray-200 shadow-sm">
-            <div className="sticky top-0 px-6 py-8 lg:min-h-screen">
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-8">
-                <h3 className="text-gray-900 text-xl font-bold tracking-tight">
-                  {t("filters")}
-                </h3>
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="text-sm text-red-500 hover:text-red-600 font-semibold transition-colors duration-200 hover:underline focus:outline-none focus:ring-2 focus:ring-red-200 rounded px-2 py-1"
-                >
-                  {t("clearall")}
+      <Breadcrumbs className="text-center" />
+      <FilterLayout>
+        <FilterSidebar
+          id="store-filters"
+          open={filtersOpen}
+          onClose={() => setFiltersOpen(false)}
+          onClear={clearFilters}
+        >
+          <FilterField id="store-sort" label={t("sort")}>
+            <select
+              id="store-sort"
+              className="field"
+              value={filters.sort}
+              onChange={(e) => updateFilter("sort", e.target.value)}
+            >
+              <option value="newest">{t("new")}</option>
+              <option value="oldest">{t("old")}</option>
+              <option value="name">{t("name")}</option>
+              <option value="products">{t("mostproduct")}</option>
+              <option value="orders">{t("mostorders")}</option>
+            </select>
+          </FilterField>
+
+          <FilterDivider />
+
+          <FilterField id="store-search" label={t("searchstore")}>
+            <div className="relative">
+              <Search
+                className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500"
+                aria-hidden="true"
+              />
+              <input
+                id="store-search"
+                type="search"
+                className="field ps-9"
+                placeholder={t("searchstoreplace")}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+            </div>
+          </FilterField>
+        </FilterSidebar>
+
+        <section className="min-w-0 flex-1">
+          <div className="section-head mb-6">
+            <div>
+              <h1 className="page-title">
+                {vendorOnly ? t("mystore") : t("allstores")}
+              </h1>
+              <p className="section-lede hidden lg:block">{results}</p>
+            </div>
+          </div>
+
+          <FilterToolbar
+            open={filtersOpen}
+            onToggle={() => setFiltersOpen((open) => !open)}
+            controls="store-filters"
+            activeCount={activeFilterCount}
+          >
+            {results}
+          </FilterToolbar>
+
+          {stores.length === 0 ? (
+            <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-xs">
+              <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-gray-100 text-gray-400">
+                <StoreIcon className="h-6 w-6" aria-hidden="true" />
+              </div>
+              <h2 className="row-title">{t("no")}</h2>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-gray-500">{t("nodesc")}</p>
+              {activeFilterCount > 0 && (
+                <button type="button" onClick={clearFilters} className="btn btn-sm btn-secondary mt-6">
+                  {tf("clear")}
                 </button>
-              </div>
-
-              {/* Search Filter */}
-              <div className="mb-8">
-                <label className="block text-gray-900 text-sm font-semibold mb-3">
-                  {t("searchstore")}
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder={t("searchstoreplace")}
-                    value={filters.search}
-                    onChange={(e) => updateFilter("search", e.target.value)}
-                    className={`w-full border border-gray-300 rounded-lg px-4 py-3 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 
-                    ${isArabic ? "pr-10" : "pl-2"}`}
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <svg
-                      className="h-4 w-4 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Status Filter */}
-              {/*     <div className="mb-8">
-                <label className="block text-gray-900 text-sm font-semibold mb-3">
-                  {t("storestatus")}
-                </label>
-                <div className="relative">
-                  <select
-                    value={filters.status}
-                    onChange={(e) => updateFilter("status", e.target.value)}
-                    className={`w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer
-                    ${isArabic ? "pr-10" : "pl-2"}`}
-                  >
-                    <option value="">{t("all")}</option>
-                    <option value="approved">{t("approved")}</option>
-                    <option value="pending">{t("pending")}</option>
-                    <option value="rejected">{t("rejected")}</option>
-                    <option value="suspended">{t("suspended")}</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <svg
-                      className="h-4 w-4 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div> */}
-
-              {/* Sort Filter */}
-              <div className="mb-6">
-                <label className="block text-gray-900 text-sm font-semibold mb-3">
-                  {t("sort")}
-                </label>
-                <div className="relative">
-                  <select
-                    value={filters.sort}
-                    onChange={(e) => updateFilter("sort", e.target.value)}
-                    className={`w-full appearance-none border border-gray-300 rounded-lg px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 shadow-sm hover:border-gray-400 cursor-pointer
-                    ${isArabic ? "pr-10" : "pl-2"}`}
-                  >
-                    <option value="newest">{t("new")}</option>
-                    <option value="oldest">{t("old")}</option>
-                    <option value="name">{t("name")}</option>
-                    <option value="products">{t("mostproduct")}</option>
-                    <option value="orders">{t("mostorders")}</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <svg
-                      className="h-4 w-4 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Brand Filter */}
-              {/*      <div className="mb-8">
-                <label className="block text-gray-900 text-sm font-semibold mb-4">
-                  {t("brand")}
-                </label>
-                <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400">
-                  {[
-                    "Zara",
-                    "H&M",
-                    "Uniqlo",
-                    "Levi's",
-                    "Nike",
-                    "Adidas",
-                    "Puma",
-                  ].map((brand, index) => (
-                    <div key={index} className="flex items-center group">
-                      <div className="relative flex items-center">
-                        <input
-                          id={brand.toLowerCase()}
-                          type="checkbox"
-                          checked={filters.brand.includes(brand)}
-                          onChange={() => toggleBrand(brand)}
-                          className="w-4 h-4 text-orange-600 bg-white border-2 border-gray-300 rounded focus:ring-orange-500 focus:ring-2 transition-all duration-200 cursor-pointer hover:border-orange-400"
-                        />
-                      </div>
-                      <label
-                        htmlFor={brand.toLowerCase()}
-                        className={`ml-3 text-gray-600 font-medium text-sm cursor-pointer group-hover:text-gray-800 transition-colors duration-200 select-none
-                        ${isArabic ? "mr-2" : ""}`}
-                      >
-                        {brand}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div> */}
-            </div>
-          </div>
-
-          {/* Store Cards Section */}
-          <div className="flex-1 bg-gray-50">
-            <div className="p-6 lg:p-8">
-              {/* Header */}
-              <div className="mb-8">
-                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                  {vendorOnly ? t("mystore") : t("allstores")}
-                </h1>
-                <p className="text-gray-600 text-sm lg:text-base">
-                  {t("desc")}
-                </p>
-              </div>
-
-              {loading ? (
-                <div className="flex flex-col items-center justify-center py-16">
-                  <Loader2 className="h-12 w-12 animate-spin text-orange-600 mb-4" aria-hidden="true" />
-                  <p className="text-center text-gray-500 text-lg font-medium">
-                    {t("loading")}
-                  </p>
-                  <p className="text-center text-gray-400 text-sm mt-1">
-                    {t("waiting")}
-                  </p>
-                </div>
-              ) : stores.length === 0 ? (
-                <div className="text-center py-16">
-                  <div className="bg-white rounded-2xl shadow-xs p-8 max-w-md mx-auto">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg
-                        className="w-8 h-8 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {t("no")}
-                    </h3>
-                    <p className="text-gray-600 text-sm">{t("nodesc")}</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                  {stores.map((store, index) => (
-                    <div
-                      key={store._id || store.id}
-                      className="group relative border border-gray-900/8 rounded-2xl p-4 bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1 w-full max-w-sm mx-auto animate-[fadeInUp_0.6s_ease-out_both]"
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                    >
-                      {/* New Badge */}
-                      {isNewStore(store.createdAt) && (
-                        <div className="absolute top-3 left-3 z-10">
-                          <div className="bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                            NEW
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Store Image/Logo */}
-                      <div className="relative overflow-hidden rounded-lg mb-4 h-40 group">
-                        <Image
-                          src={store.logoUrl || "/placeholder.jpg"}
-                          alt={store.name}
-                          width={400}
-                          height={160}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          loading="lazy"
-                        />
-
-                        {/* Overlay on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-white-900/90 to-orange-700/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                          <Link
-                            href={`/store/${store._id || store.id}`}
-                            className="transform scale-90 group-hover:scale-100 transition-transform duration-300"
-                          >
-                            <button className="bg-white text-orange-600 rounded-full px-6 py-3 shadow-lg font-semibold hover:bg-orange-50 transition-all duration-200">
-                              View Details
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-
-                      {/* Store Info */}
-                      <div className="space-y-2 h-16">
-                        <h4 className="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-200 line-clamp-2 leading-tight">
-                          {store.name}
-                        </h4>
-                      </div>
-
-                      {/* Store Stats Badge */}
-                      {store.productCount && (
-                        <div className="absolute top-3 right-3">
-                          <div className="bg-orange-600 text-white px-3 py-2 rounded-full text-sm font-bold shadow-lg">
-                            {store.productCount} Products
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Status Badge */}
-                      {store.status && (
-                        <div
-                          className={`absolute bottom-16 ${
-                            isArabic ? "left-3" : "right-3"
-                          }`}
-                        >
-                          <div
-                            className={`px-2 py-1 rounded-full text-xs font-bold shadow-sm ${
-                              store.status === "approved"
-                                ? "bg-green-100 text-green-800"
-                                : store.status === "pending"
-                                ? "bg-amber-100 text-amber-800"
-                                : store.status === "rejected"
-                                ? "bg-red-100 text-red-800"
-                                : "bg-gray-100 text-gray-800"
-                            }`}
-                          >
-                            {store.status.toUpperCase()}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Enhanced Pagination */}
-              {pagination?.totalPages > 1 && (
-                <div className="mt-12 flex flex-col items-center space-y-4">
-                  {/* Pagination Info */}
-                  <div className="text-sm text-gray-600 text-center">
-                    Showing page {filters.page} of {pagination.totalPages}
-                    {pagination.total && ` (${pagination.total} total stores)`}
-                  </div>
-
-                  {/* Pagination Controls */}
-                  <div className="flex items-center space-x-1">
-                    {/* Previous Button */}
-                    <button
-                      onClick={() => goToPage(Math.max(1, filters.page - 1))}
-                      disabled={filters.page === 1}
-                      className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 transition-all duration-200"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 19l-7-7 7-7"
-                        />
-                      </svg>
-                    </button>
-
-                    {/* Page Numbers */}
-                    {generatePaginationNumbers().map((page, index) => (
-                      <div key={index}>
-                        {page === "..." ? (
-                          <span className="px-3 py-2 text-sm text-gray-400 select-none">
-                            ...
-                          </span>
-                        ) : (
-                          <button
-                            onClick={() => goToPage(page)}
-                            className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                              filters.page === page
-                                ? "bg-orange-500 text-white shadow-lg"
-                                : "text-gray-700 bg-white ring-1 ring-gray-900/10 ring-inset hover:text-orange-700 hover:bg-gray-900/5"
-                            }`}
-                          >
-                            {page}
-                          </button>
-                        )}
-                      </div>
-                    ))}
-
-                    {/* Next Button */}
-                    <button
-                      onClick={() =>
-                        goToPage(
-                          Math.min(pagination.totalPages, filters.page + 1)
-                        )
-                      }
-                      disabled={filters.page === pagination.totalPages}
-                      className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-600 transition-all duration-200"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-
-                  {/* Quick Jump (for large page counts) */}
-                  {pagination.totalPages > 10 && (
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <span>Go to page:</span>
-                      <input
-                        type="number"
-                        min="1"
-                        max={pagination.totalPages}
-                        value={filters.page}
-                        onChange={(e) => {
-                          const page = parseInt(e.target.value);
-                          if (page >= 1 && page <= pagination.totalPages) {
-                            goToPage(page);
-                          }
-                        }}
-                        className="w-16 px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      />
-                      <span>of {pagination.totalPages}</span>
-                    </div>
-                  )}
-                </div>
               )}
             </div>
-          </div>
-        </div>
-      </div>
+          ) : (
+            <ResultsGrid updating={isPlaceholderData} className={GRID}>
+              {stores.map((store) => (
+                <StoreCard key={store._id || store.id} store={store} />
+              ))}
+            </ResultsGrid>
+          )}
+
+          <Pagination page={filters.page} totalPages={totalPages} onChange={goToPage} />
+        </section>
+      </FilterLayout>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import axios from "axios";
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE}`;
@@ -43,6 +43,8 @@ export const useGetAllProducts = (params = {}) => {
     return useQuery({
         queryKey: ['product', params],
         queryFn: () => getAllProducts(params),
+        // Filter/page changes keep the last results on screen until the new ones land
+        placeholderData: keepPreviousData,
         onError: (error) => {
             console.error("Failed to get All Products",
                 error.response?.data?.message || error.message
