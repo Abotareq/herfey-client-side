@@ -46,3 +46,7 @@ next-env.d.ts
 .claude/skills/*
 !.claude/skills/impeccable/
 !.claude/agents/
+
+# impeccable: per-developer consent and overrides stay local
+.impeccable/config.local.json
+.impeccable/hook.cache.json
