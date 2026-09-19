@@ -8,31 +8,21 @@ const StoreDetailsSkeleton = () => {
         <div className="skeleton h-4 rounded w-64"></div>
       </div>
 
-      {/* Header Skeleton */}
-      <div className="sticky top-0 z-40 bg-white border-b border-gray-900/8 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Back Button Skeleton */}
-            <div className="flex items-center gap-2">
-              <div className="skeleton w-5 h-5 rounded"></div>
-              <div className="skeleton h-4 rounded w-24"></div>
-            </div>
-            
-            {/* Action Buttons Skeleton */}
-            <div className="flex items-center gap-3">
-              <div className="skeleton w-9 h-9 rounded-lg"></div>
-              <div className="skeleton w-9 h-9 rounded-lg"></div>
-              <div className="skeleton h-8 rounded-full w-20"></div>
-            </div>
-          </div>
+      {/* Back / actions row */}
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <div className="skeleton h-4 w-28 rounded"></div>
+        <div className="flex items-center gap-2">
+          <div className="skeleton h-9 w-9 rounded-full"></div>
+          <div className="skeleton h-9 w-9 rounded-full"></div>
+          <div className="skeleton h-8 w-24 rounded-full"></div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section Skeleton */}
-        <div className="bg-white rounded-2xl shadow-xs overflow-hidden mb-8">
+        <div className="bg-white rounded-[2rem] shadow-xs overflow-hidden mb-8">
           {/* Orange Header */}
-          <div className="skeleton h-32"></div>
+          <div className="skeleton h-36 rounded-none"></div>
           
           <div className="p-8">
             <div className="flex flex-col md:flex-row items-start gap-6">
@@ -67,14 +57,12 @@ const StoreDetailsSkeleton = () => {
         {/* Stats Grid Skeleton */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           {[1, 2, 3, 4].map((item) => (
-            <div key={item} className="bg-white rounded-xl shadow-xs p-6">
-              <div className="flex items-center gap-3">
-                <div className="skeleton w-12 h-12 rounded-lg"></div>
-                <div className="space-y-2">
-                  <div className="skeleton h-4 rounded w-16"></div>
-                  <div className="skeleton h-6 rounded w-12"></div>
-                </div>
+            <div key={item} className="bg-white rounded-2xl shadow-xs p-5">
+              <div className="flex items-center gap-2">
+                <div className="skeleton h-4 w-4 rounded"></div>
+                <div className="skeleton h-4 w-16 rounded"></div>
               </div>
+              <div className="skeleton mt-3 h-8 w-10 rounded"></div>
             </div>
           ))}
         </div>
@@ -82,7 +70,7 @@ const StoreDetailsSkeleton = () => {
         {/* Main Content Grid Skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Store Policies Skeleton */}
-          <div className="bg-white rounded-xl shadow-xs p-6">
+          <div className="bg-white rounded-2xl shadow-xs p-6">
             <div className="flex items-center gap-2 mb-6">
               <div className="skeleton w-5 h-5 rounded"></div>
               <div className="skeleton h-6 rounded w-32"></div>
@@ -107,7 +95,7 @@ const StoreDetailsSkeleton = () => {
           </div>
 
           {/* Location Details Skeleton */}
-          <div className="bg-white rounded-xl shadow-xs p-6">
+          <div className="bg-white rounded-2xl shadow-xs p-6">
             <div className="skeleton h-6 rounded w-24 mb-6"></div>
             
             <div className="space-y-4">
@@ -134,7 +122,7 @@ const StoreDetailsSkeleton = () => {
         </div>
 
         {/* Store Information Skeleton */}
-        <div className="bg-white rounded-xl shadow-xs p-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-xs p-6 mb-8">
           <div className="skeleton h-6 rounded w-32 mb-6"></div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -148,20 +136,17 @@ const StoreDetailsSkeleton = () => {
         </div>
 
         {/* Call to Action Skeleton */}
-        <div className="bg-orange-600 rounded-xl shadow-xs p-8 text-center">
-          <div className="skeleton h-8 rounded w-64 mx-auto mb-2"></div>
-          <div className="skeleton h-5 rounded w-80 mx-auto mb-6"></div>
-          <div className="skeleton h-12 rounded-lg w-40 mx-auto"></div>
+        <div className="rounded-[2rem] bg-orange-950 p-8 sm:p-10">
+          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+            <div className="space-y-3">
+              <div className="h-8 w-64 rounded bg-white/15"></div>
+              <div className="h-4 w-80 max-w-full rounded bg-white/10"></div>
+            </div>
+            <div className="h-12 w-40 rounded-full bg-white/20"></div>
+          </div>
         </div>
       </div>
 
-      {/* Loading Indicator */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-xs">
-          <div className="w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
-          <span className="text-orange-600 text-sm font-medium">Loading store details...</span>
-        </div>
-      </div>
     </div>
   );
 };

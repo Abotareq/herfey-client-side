@@ -25,7 +25,7 @@ import Image from "next/image";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useStoreContext } from "@/app/context/StoreContext";
 import { useTranslations } from "next-intl";
-import { StoreSkeletonSimple } from "../../components/vendor/components/Store/storeSkelton";
+import StoreDetailsSkeleton from "./StoreDetailsSkeleton";
 
 // Main component for Store Details Page
 export default function StoreDetailsPage() {
@@ -192,7 +192,7 @@ export default function StoreDetailsPage() {
 
   // Loading state
   if (loading) {
-    return <StoreSkeletonSimple />;
+    return <StoreDetailsSkeleton />;
   }
 
   // Error state
