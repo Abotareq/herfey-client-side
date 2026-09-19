@@ -312,6 +312,21 @@
      Entrances use @starting-style so a conditional render or a display
      toggle animates in without JS; there is no exit (unmount is instant). */
 
+  /* route change: the incoming page settles in; nothing delays leaving */
+  .page-enter {
+    animation: page-enter 240ms var(--ease-out-ui) both;
+  }
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* a panel that appears in place: the mobile filter panel, inline forms */
   .enter {
     transition:
@@ -401,6 +416,7 @@
     .enter,
     .modal-panel,
     .stagger > *,
+    .page-enter,
     .pop-in {
       transition-property: opacity;
       animation-name: fade-only;
