@@ -10,6 +10,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../components/ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
 import { Icons } from "../../../components/ReusableComponents/SVG-Icons/SVG-Icons.jsx";
+import CancelOrderDialog from "../../../components/CancelOrderDialog.jsx";
 import Image from "next/image.js";
 
 const OrderStatusTracker = ({ status, paymentMethod, t }) => {
@@ -365,13 +366,15 @@ const OrderSidebar = ({
       ) : isCancellable ? (
         <>
           <p className="text-sm text-gray-600 mb-4">{t("cancelPrompt")}</p>
-          <button
-            onClick={onCancelClick}
-            disabled={isCancelling}
-            className="w-full px-4 py-2.5 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isCancelling ? tOrders("cancelling") : tOrders("cancelOrder")}
-          </button>
+          <CancelOrderDialog onConfirm={onCancelClick} disabled={isCancelling}>
+            <button
+              type="button"
+              disabled={isCancelling}
+              className="btn w-full bg-red-700 text-white shadow-md shadow-red-900/15 hover:bg-red-800"
+            >
+              {isCancelling ? tOrders("cancelling") : tOrders("cancelOrder")}
+            </button>
+          </CancelOrderDialog>
         </>
       ) : (
         <div className="text-center">
@@ -436,11 +439,7 @@ function OrderDetailsPage() {
     ? ["pending"].includes(order.status) // COD orders can only be cancelled when pending
     : ["paid"].includes(order.status); // Credit card orders can be cancelled when paid
 
-  const handleCancelClick = () => {
-    if (confirm(tOrders("areYouSure"))) {
-      cancelOrder(orderId);
-    }
-  };
+  const handleCancelClick = () => cancelOrder(orderId);
 
   return (
     <div className="min-h-screen p-4 sm:p-6 md:p-8">

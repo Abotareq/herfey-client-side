@@ -5,6 +5,7 @@ import { useGetUserOrders, useCancelOrder } from '@/service/customerOrderService
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import OrderSectionSkeleton from '../../OrderSkelton.jsx';
+import CancelOrderDialog from '../../CancelOrderDialog.jsx';
 
 function OrderSection() {
   const t = useTranslations('orders');
@@ -16,11 +17,6 @@ function OrderSection() {
 
   const { mutate: cancelOrder, isLoading: isCancelling } = useCancelOrder();
 
-  const handleCancelOrder = (orderId) => {
-    if (confirm(t('areYouSure'))) {
-      cancelOrder(orderId);
-    }
-  };
 
   const orderStatuses = ['pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled'];
 
@@ -88,13 +84,11 @@ function OrderSection() {
                   {t('viewDetails')}
                 </Link>
                 {(order.status === 'pending' || order.status === 'processing') && (
-                  <button
-                    onClick={() => handleCancelOrder(order._id)}
-                    disabled={isCancelling}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-center hover:bg-gray-50 transition-colors disabled:opacity-50"
-                  >
-                    {isCancelling ? t('cancelling') : t('cancelOrder')}
-                  </button>
+                  <CancelOrderDialog onConfirm={() => cancelOrder(order._id)} disabled={isCancelling}>
+                    <button type="button" disabled={isCancelling} className="btn btn-secondary">
+                      {isCancelling ? t('cancelling') : t('cancelOrder')}
+                    </button>
+                  </CancelOrderDialog>
                 )}
               </div>
             </div>
