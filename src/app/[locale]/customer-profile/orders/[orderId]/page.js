@@ -8,6 +8,7 @@ import {
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 import LoadingSpinner from "../../../components/ReusableComponents/LoadingSpinner/LoadingSpinner.jsx";
 import { Icons } from "../../../components/ReusableComponents/SVG-Icons/SVG-Icons.jsx";
 import CancelOrderDialog from "../../../components/CancelOrderDialog.jsx";
@@ -372,6 +373,7 @@ const OrderSidebar = ({
               disabled={isCancelling}
               className="btn w-full bg-red-700 text-white shadow-md shadow-red-900/15 hover:bg-red-800"
             >
+              {isCancelling && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
               {isCancelling ? tOrders("cancelling") : tOrders("cancelOrder")}
             </button>
           </CancelOrderDialog>
@@ -406,7 +408,7 @@ function OrderDetailsPage() {
     isFetching,
   } = useGetUserOrderById(orderId);
 
-  const { mutate: cancelOrder, isLoading: isCancelling } = useCancelOrder({
+  const { mutate: cancelOrder, isPending: isCancelling } = useCancelOrder({
     onSuccess: () => {
       toast.success(tOrders("orderCancelled"));
       refetch();

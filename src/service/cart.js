@@ -197,8 +197,9 @@ export const useCreateOrUpdateCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createOrUpdateCart,
+    meta: { activity: "updatingCart" },
     onSuccess: () => {
-      queryClient.invalidateQueries(["cart"]);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };
@@ -210,8 +211,9 @@ export const useUpdateCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateCart,
+    meta: { activity: "updatingCart" },
     onSuccess: () => {
-      queryClient.invalidateQueries(["cart"]);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };
@@ -223,8 +225,9 @@ export const useDeleteCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteCart,
+    meta: { activity: "clearingCart" },
     onSuccess: () => {
-      queryClient.invalidateQueries(["cart"]);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };
@@ -236,8 +239,9 @@ export const useAddItemToCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: addItemToCart,
+    meta: { activity: "addingToCart" },
     onSuccess: () => {
-      queryClient.invalidateQueries(["cart"]);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };
@@ -250,8 +254,9 @@ export const useRemoveItemFromCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: removeItemFromCart,
+    meta: { activity: "removingItem" },
     onSuccess: () => {
-      queryClient.invalidateQueries(["cart"]);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };
@@ -263,8 +268,9 @@ export const useApplyCoupon = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: applyCoupon,
+    meta: { activity: "applyingCoupon" },
     onSuccess: () => {
-      queryClient.invalidateQueries(["cart"]);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };

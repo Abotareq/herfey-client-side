@@ -340,10 +340,10 @@ export default function OrderDetailsPage() {
               </button>
               <button
                 onClick={handleStatusUpdate}
-                disabled={!selectedStatus || updateStatusMutation.isLoading}
+                disabled={!selectedStatus || updateStatusMutation.isPending}
                 className="bg-orange-600 flex-1 text-white px-6 py-3 rounded-xl font-medium hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 transition-all duration-300"
               >
-                {updateStatusMutation.isLoading ? t('updating') : t('updates')}
+                {updateStatusMutation.isPending ? t('updating') : t('updates')}
               </button>
             </div>
           </div>

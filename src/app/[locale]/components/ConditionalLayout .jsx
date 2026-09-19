@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import Footer from "./footer";
 import Nav from "./Header";
+import ActivityIndicator from "./ActivityIndicator";
 
 // Sections of the site that stand on their own, without the storefront
 // header and footer. Matched by prefix so nested pages are covered too.
@@ -29,6 +30,7 @@ export default function ConditionalLayout({ locale, children }) {
       {showHeaderFooter && <Nav />}
       <main id="main" className="min-h-screen">{children}</main>
       {showHeaderFooter && <Footer />}
+      <ActivityIndicator />
     </>
   );
 }

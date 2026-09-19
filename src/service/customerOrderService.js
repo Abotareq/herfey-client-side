@@ -60,13 +60,18 @@ export const useGetSellerOrderById = (orderId) =>
   });
 
 // Cancel order
-export const useCancelOrder = () => {
+export const useCancelOrder = ({ onSuccess, onError, ...options } = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (orderId) => patchRequest(`/order/${orderId}/cancel`),
-    onSuccess: () => {
+    meta: { activity: "cancellingOrder" },
+    ...options,
+    onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ["userOrders"] });
+      queryClient.invalidateQueries({ queryKey: ["userOrder"] });
+      onSuccess?.(...args);
     },
+    onError,
   });
 };
 
@@ -75,6 +80,7 @@ export const useCreateOrder = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (orderData) => postRequest("/order", orderData),
+    meta: { activity: "placingOrder" },
     onSuccess: (newOrder) => {
       // Invalidate orders list so it refreshes
       console.log("new order", newOrder);
@@ -89,6 +95,7 @@ export const useUpdateVendorOrderStatus = () => {
   return useMutation({
     mutationFn: ({ orderId, status }) =>
       patchRequest(`/order/vendor/orders/${orderId}/status`, { status }),
+    meta: { activity: "updatingOrder" },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sellerOrders"] });
       queryClient.invalidateQueries({ queryKey: ["userOrders"] }); // optional refresh for user too

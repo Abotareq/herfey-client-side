@@ -16,6 +16,8 @@ import NotFoundPage from "../components/NotFoundComponent.jsx";
 import Image from "next/image.js";
 import CartSkeleton from "./cartSkelton.jsx";
 import { useTranslations } from "next-intl";
+import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 function AuthenticatedCart() {
   const [couponCode, setCouponCode] = useState("");
@@ -31,8 +33,21 @@ function AuthenticatedCart() {
   const updateCartMutation = useUpdateCart();
   const removeItemMutation = useRemoveItemFromCart();
   const addItemMutation = useAddItemToCart();
-  const { mutateAsync: applyCoupon } = useApplyCoupon();
+  const applyCouponMutation = useApplyCoupon();
+  const { mutateAsync: applyCoupon } = applyCouponMutation;
   const router = useRouter();
+
+  // Which row is being written right now, so only that row shows it.
+  // Remove carries the item id as its variable; quantity sends the whole
+  // cart, so it is tracked by hand.
+  const [pendingQuantityId, setPendingQuantityId] = useState(null);
+  const removingId = removeItemMutation.isPending
+    ? removeItemMutation.variables
+    : null;
+  const busy =
+    updateCartMutation.isPending ||
+    removeItemMutation.isPending ||
+    applyCouponMutation.isPending;
   // Handle cart migration when user logs in
   useEffect(() => {
     const migrateGuestCart = async () => {
@@ -105,9 +120,13 @@ function AuthenticatedCart() {
         coupon: backendCart?.coupon?._id,
       };
 
+      setPendingQuantityId(itemId);
       await updateCartMutation.mutateAsync(updateCart);
     } catch (error) {
       console.error("Error updating quantity:", error);
+      toast.error(error.response?.data?.message || t("updateFailed"));
+    } finally {
+      setPendingQuantityId(null);
     }
   };
 
@@ -127,8 +146,10 @@ function AuthenticatedCart() {
         code: couponCode.trim(),
         items: updatedItems,
       });
+      toast.success(t("couponApplied"));
     } catch (error) {
       console.error("Error applying coupon:", error);
+      toast.error(error.response?.data?.message || t("couponFailed"));
     }
   };
 
@@ -138,6 +159,7 @@ function AuthenticatedCart() {
       await removeItemMutation.mutateAsync(itemId);
     } catch (error) {
       console.error("Error removing item:", error);
+      toast.error(error.response?.data?.message || t("removeFailed"));
     }
   };
 
@@ -300,10 +322,16 @@ function AuthenticatedCart() {
               const color = item.variant[0]?.value;
               const size = item.variant[1]?.value;
 
+              const isRemoving = removingId === itemId;
+              const isChangingQuantity = pendingQuantityId === itemId;
+
               return (
                 <div
                   key={itemId}
-                  className="bg-white rounded-xl shadow-md border border-gray-900/8 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-900/8 group"
+                  aria-busy={isRemoving || isChangingQuantity || undefined}
+                  className={`bg-white rounded-xl shadow-md border border-gray-900/8 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-900/8 group ${
+                    isRemoving ? "pointer-events-none opacity-50" : ""
+                  }`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex gap-6">
@@ -348,21 +376,24 @@ function AuthenticatedCart() {
                           <button
                             type="button"
                             onClick={() => handleRemoveItem(itemId)}
-                            className="p-2 rounded-lg text-gray-500 hover:text-red-700 hover:bg-gray-900/5 transition-all duration-200 transform hover:scale-110"
-                            title="Remove item"
-                            disabled={
-                              updateCartMutation.isLoading ||
-                              removeItemMutation.isLoading
-                            }
+                            className="p-2 rounded-lg text-gray-500 hover:text-red-700 hover:bg-gray-900/5 transition-all duration-200 transform hover:scale-110 disabled:opacity-50 disabled:hover:scale-100"
+                            title={t("remove")}
+                            aria-label={t("remove")}
+                            disabled={busy}
                           >
-                            <svg
-                              className="w-5 h-5"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                            >
-                              <path d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z" />
-                              <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z" />
-                            </svg>
+                            {isRemoving ? (
+                              <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+                            ) : (
+                              <svg
+                                className="w-5 h-5"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z" />
+                                <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z" />
+                              </svg>
+                            )}
                           </button>
                         </div>
                       </div>
@@ -409,10 +440,9 @@ function AuthenticatedCart() {
                                 quantity - 1
                               )
                             }
-                            disabled={
-                              quantity <= 1 || updateCartMutation.isLoading
-                            }
+                            disabled={quantity <= 1 || busy}
                             title={t('decrease')}
+                            aria-label={t('decrease')}
                           >
                             <svg
                               className="w-3 h-3"
@@ -423,8 +453,12 @@ function AuthenticatedCart() {
                             </svg>
                           </button>
 
-                          <span className="font-bold text-lg min-w-[24px] text-center">
-                            {quantity}
+                          <span className="font-bold text-lg min-w-[24px] text-center tabular-nums">
+                            {isChangingQuantity ? (
+                              <Loader2 className="w-4 h-4 animate-spin mx-auto text-orange-600" aria-hidden="true" />
+                            ) : (
+                              quantity
+                            )}
                           </span>
 
                           <button
@@ -437,8 +471,9 @@ function AuthenticatedCart() {
                                 quantity + 1
                               )
                             }
-                            disabled={updateCartMutation.isLoading}
+                            disabled={busy}
                             title={t('increase')}
+                            aria-label={t('increase')}
                           >
                             <svg
                               className="w-3 h-3"
@@ -507,13 +542,13 @@ function AuthenticatedCart() {
                   type="button"
                   className="bg-orange-600 px-4 py-2 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                   onClick={handleApplyCoupon}
-                  disabled={
-                    updateCartMutation.isLoading ||
-                    removeItemMutation.isLoading ||
-                    !couponCode.trim()
-                  }
+                  disabled={busy || !couponCode.trim()}
                 >
-                  {t('apply')}
+                  {applyCouponMutation.isPending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    t('apply')
+                  )}
                 </button>
               </div>
             </div>
@@ -524,14 +559,9 @@ function AuthenticatedCart() {
                 type="button"
                 className="bg-orange-600 w-full py-3 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
                 onClick={handleCheckout}
-                disabled={
-                  updateCartMutation.isLoading ||
-                  removeItemMutation.isLoading ||
-                  cartItems.length === 0
-                }
+                disabled={busy || cartItems.length === 0}
               >
-                {updateCartMutation.isLoading ||
-                removeItemMutation.isLoading ? (
+                {busy ? (
                   <div className="flex items-center justify-center">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                     {t('update')}

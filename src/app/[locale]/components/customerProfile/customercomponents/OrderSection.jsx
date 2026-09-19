@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import OrderSectionSkeleton from '../../OrderSkelton.jsx';
 import CancelOrderDialog from '../../CancelOrderDialog.jsx';
+import toast from 'react-hot-toast';
+import { Loader2 } from 'lucide-react';
 
 function OrderSection() {
   const t = useTranslations('orders');
@@ -15,7 +17,10 @@ function OrderSection() {
   const { data: ordersData, isLoading, isError, error } = useGetUserOrders(page, 10, statusFilter);
 
 
-  const { mutate: cancelOrder, isLoading: isCancelling } = useCancelOrder();
+  const { mutate: cancelOrder, isPending: isCancelling, variables: cancellingId } = useCancelOrder({
+    onSuccess: () => toast.success(t('orderCancelled')),
+    onError: (err) => toast.error(err.response?.data?.error || t('error')),
+  });
 
 
   const orderStatuses = ['pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled'];
@@ -50,8 +55,15 @@ function OrderSection() {
    
         {ordersData?.orders?.length > 0 ? (
 
-          ordersData.orders.map((order) => (
-            <div key={order._id} className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-lg transition-all duration-300">
+          ordersData.orders.map((order) => {
+            // Only the order being cancelled shows it; the rest stay usable
+            const cancellingThis = isCancelling && cancellingId === order._id;
+            return (
+            <div
+              key={order._id}
+              aria-busy={cancellingThis || undefined}
+              className={`bg-white rounded-2xl p-6 shadow-xs hover:shadow-lg transition-all duration-300 ${cancellingThis ? 'opacity-60' : ''}`}
+            >
             
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                 <div>
@@ -86,13 +98,15 @@ function OrderSection() {
                 {(order.status === 'pending' || order.status === 'processing') && (
                   <CancelOrderDialog onConfirm={() => cancelOrder(order._id)} disabled={isCancelling}>
                     <button type="button" disabled={isCancelling} className="btn btn-secondary">
-                      {isCancelling ? t('cancelling') : t('cancelOrder')}
+                      {cancellingThis && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+                      {cancellingThis ? t('cancelling') : t('cancelOrder')}
                     </button>
                   </CancelOrderDialog>
                 )}
               </div>
             </div>
-          ))
+            );
+          })
         ) : (
           !isLoading && (
             <div className="text-center py-12 bg-gray-50 rounded-lg">
