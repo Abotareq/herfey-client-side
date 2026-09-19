@@ -1,6 +1,5 @@
 'use client';
-import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import background from "../../../../public/contact.webp";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -9,8 +8,6 @@ import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function ContactPage() {
-  const locale = useLocale();
-  const isArabic = locale === "ar";
   const t = useTranslations("Contct");
 
   const [formdata, setFormData] = useState({
@@ -54,121 +51,106 @@ export default function ContactPage() {
   return (
     <div>
       <Breadcrumbs />
-      <section className="py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 grid-cols-1">
-            {/* Left side */}
-            <div className="lg:mb-0 mb-10">
-              <div className="group w-full h-full">
-                <div className="relative h-full">
-                  <Image
-                    src={background}
-                    width={800}
-                    height={800}
-                    alt={t("title")}
-                    className="w-full h-full lg:rounded-l-2xl rounded-2xl bg-blend-multiply bg-orange-500 object-cover"
-                  />
-                  <h1 className="font-manrope text-zinc-700 text-4xl font-bold leading-10 absolute top-11 left-11">
-                    {t("title")}
-                  </h1>
-                  <div className="absolute bottom-0 w-full lg:p-11 p-5">
-                    <div className="bg-white rounded-lg p-6 block">
-                      {/* Phone */}
-                      <Link href="#" className="flex items-center mb-6">
-                        <svg
-                          width="30"
-                          height="30"
-                          viewBox="0 0 30 30"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M22.3092 18.3098C22.0157 18.198 21.8689 18.1421 21.7145 18.1287C21.56 18.1154 21.4058 18.1453 21.0975 18.205L17.8126 18.8416C17.4392 18.9139 17.2525 18.9501 17.0616 18.9206C16.8707 18.891 16.7141 18.8058 16.4008 18.6353C13.8644 17.2551 12.1853 15.6617 11.1192 13.3695C10.9964 13.1055 10.935 12.9735 10.9133 12.8017C10.8917 12.6298 10.9218 12.4684 10.982 12.1456L11.6196 8.72559C11.6759 8.42342 11.7041 8.27233 11.6908 8.12115C11.6775 7.96998 11.6234 7.82612 11.5153 7.5384L10.6314 5.18758C10.37 4.49217 10.2392 4.14447 9.95437 3.94723C9.6695 3.75 9.29804 3.75 8.5551 3.75H5.85778C4.58478 3.75 3.58264 4.8018 3.77336 6.06012C4.24735 9.20085 5.64674 14.8966 9.73544 18.9853C14.0295 23.2794 20.2151 25.1426 23.6187 25.884C24.9335 26.1696 26.0993 25.1448 26.0993 23.7985V21.2824C26.0993 20.5428 26.0993 20.173 25.9034 19.8888C25.7076 19.6046 25.362 19.4729 24.6708 19.2096L22.3092 18.3098Z"
-                            stroke="#F97316"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <h5 className="text-black text-base font-normal leading-6 ml-5 hover:text-orange-400 transition-transform duration-300 hover:scale-105">
-                          {t("phone")}
-                        </h5>
-                      </Link>
-
-                      {/* Email */}
-                      <Link
-                          href="mailto:herafyecommerce@gmail.com?subject=Inquiry&body=Hello%20team,"
-                          className="flex items-center mb-6"
-                        >
-                          <h5 className="text-black text-base font-normal leading-6 ml-5 hover:text-orange-400 transition-transform duration-300 hover:scale-105">
-                            {t("email")}
-                          </h5>
-                        </Link>
-                      {/* Address */}
-                      <Link href="#" className="flex items-center">
-                        <h5 className="text-black text-base font-normal leading-6 ml-5 hover:text-orange-400 transition-transform duration-300 hover:scale-105">
-                          {t("address")}
-                        </h5>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+      <section className="px-4 pb-24 pt-8 md:px-8 md:pb-32 md:pt-12">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:gap-16">
+          {/* who to reach, and a face for the workshop */}
+          <div className="lg:col-span-5">
+            <h1 className="text-5xl leading-[1.05] text-gray-900 sm:text-6xl">{t("title")}</h1>
+            <dl className="mt-8 space-y-4 text-base">
+              <div>
+                <dt className="text-sm text-gray-500">{t("pplace")}</dt>
+                <dd className="mt-0.5">
+                  <a href={`tel:${t("phone").replace(/\s+/g, "")}`} dir="ltr" className="font-medium tabular-nums text-gray-900 hover:underline">
+                    {t("phone")}
+                  </a>
+                </dd>
               </div>
+              <div>
+                <dt className="text-sm text-gray-500">{t("ePlace")}</dt>
+                <dd className="mt-0.5">
+                  <a href={`mailto:${t("email")}`} className="font-medium text-gray-900 hover:underline">
+                    {t("email")}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="sr-only">Address</dt>
+                <dd className="text-gray-700">{t("address")}</dd>
+              </div>
+            </dl>
+            <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[2rem] bg-orange-950 shadow-md">
+              <Image
+                src={background}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                placeholder="blur"
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* the form */}
+          <form
+            className="rounded-[2rem] bg-white p-6 shadow-xs sm:p-10 lg:col-span-7"
+            onSubmit={handleSubmit}
+          >
+            <h2 className="text-3xl text-gray-900 sm:text-4xl">{t("send")}</h2>
+
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("nplace")}</span>
+                <input
+                  type="text"
+                  name="name"
+                  value={formdata.name}
+                  onChange={handleChange}
+                  required
+                  autoComplete="name"
+                  className="field"
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("ePlace")}</span>
+                <input
+                  type="email"
+                  name="email"
+                  value={formdata.email}
+                  onChange={handleChange}
+                  required
+                  autoComplete="email"
+                  className="field"
+                />
+              </label>
+              <label className="block sm:col-span-2">
+                <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("pplace")}</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formdata.phone}
+                  onChange={handleChange}
+                  autoComplete="tel"
+                  dir="ltr"
+                  className="field text-start"
+                />
+              </label>
+              <label className="block sm:col-span-2">
+                <span className="mb-1.5 block text-sm font-medium text-gray-700">{t("mpalce")}</span>
+                <textarea
+                  name="message"
+                  value={formdata.message}
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="field resize-y"
+                />
+              </label>
             </div>
 
-            {/* Right side */}
-            <form
-              className="p-5 lg:p-11 lg:rounded-r-2xl rounded-2xl"
-              onSubmit={handleSubmit}
-            >
-              <h2 className="text-orange-500 font-manrope text-4xl font-semibold leading-10 mb-11">
-                {t("send")}
-              </h2>
-
-              <input
-                type="text"
-                name="name"
-                className={`w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10 ${isArabic ? "pr-[10px]" : ""}`}
-                placeholder={t("nplace")}
-                value={formdata.name}
-                onChange={handleChange}
-              />
-
-              <input
-                type="text"
-                name="email"
-                className={`w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10 ${isArabic ? "pr-[10px]" : ""}`}
-                placeholder={t("ePlace")}
-                value={formdata.email}
-                onChange={handleChange}
-              />
-
-              <input
-                type="text"
-                name="phone"
-                className={`w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10 ${isArabic ? "pr-[10px]" : ""}`}
-                placeholder={t("pplace")}
-                value={formdata.phone}
-                onChange={handleChange}
-              />
-
-              <textarea
-                name="message"
-                className={`w-full h-28 text-gray-600 placeholder-gray-400 bg-transparent text-lg shadow-sm font-normal leading-7 rounded-2xl border border-gray-200 focus:outline-none p-4 mb-10 ${isArabic ? "pr-[10px]" : ""}`}
-                value={formdata.message}
-                onChange={handleChange}
-                placeholder={t("mpalce")}
-              />
-
-              <button
-                type="submit"
-                className="w-full h-12 text-white text-base font-semibold leading-6 rounded-full transition-all duration-700 hover:bg-orange-800 bg-orange-600 shadow-sm"
-                disabled={loading}
-              >
-                {loading ? t('sending') : t("Buttonsend")}
-              </button>
-            </form>
-          </div>
+            <button type="submit" className="btn btn-primary mt-8 w-full sm:w-auto" disabled={loading}>
+              {loading ? t("sending") : t("Buttonsend")}
+            </button>
+          </form>
         </div>
       </section>
     </div>

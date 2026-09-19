@@ -28,7 +28,7 @@ export default function ProductCard({ product, badge }) {
   return (
     <Link
       href={`/products/${product._id}`}
-      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-white shadow-xs transition duration-500 ease-out-soft hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-orange-500/40"
     >
       {/* image */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-gray-100">
@@ -37,7 +37,7 @@ export default function ProductCard({ product, badge }) {
             src={image}
             alt={product.name}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-gray-300">
@@ -46,19 +46,19 @@ export default function ProductCard({ product, badge }) {
         )}
 
         {badge && (
-          <span className="absolute left-3 top-3 rounded-full bg-orange-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+          <span className="absolute start-3 top-3 rounded-md bg-orange-600 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
             {badge}
           </span>
         )}
 
         {hasDiscount && (
-          <span className="absolute right-3 top-3 rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
+          <span className="absolute end-3 top-3 rounded-md bg-gray-900 px-2 py-1 text-[11px] font-semibold tabular-nums text-white">
             -{percentOff}%
           </span>
         )}
 
         {product.category?.name && (
-          <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-gray-700 backdrop-blur-sm">
+          <span className="absolute bottom-3 start-3 rounded-md bg-white/90 px-2 py-1 text-[11px] font-medium text-gray-700">
             {product.category.name}
           </span>
         )}
@@ -66,7 +66,7 @@ export default function ProductCard({ product, badge }) {
 
       {/* body */}
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="line-clamp-2 min-h-[2.75rem] text-base font-semibold leading-snug text-gray-900 transition-colors group-hover:text-orange-700">
+        <h3 className="line-clamp-2 min-h-[2.75rem] text-base font-semibold leading-snug text-gray-900 transition-colors duration-300 group-hover:text-orange-700">
           {product.name}
         </h3>
 
@@ -83,14 +83,14 @@ export default function ProductCard({ product, badge }) {
         </div>
 
         <div className="mt-auto flex items-baseline gap-2 pt-1">
-          <span className="text-lg font-bold text-orange-600">
-            <span className="mr-1 text-xs font-medium text-gray-500">
+          <span className="text-lg font-semibold tabular-nums text-gray-900">
+            <span className="me-1 text-xs font-medium text-gray-500">
               {t("currency")}
             </span>
             {formatPrice(price)}
           </span>
           {hasDiscount && (
-            <span className="text-sm text-gray-400 line-through">
+            <span className="text-sm tabular-nums text-gray-400 line-through">
               {formatPrice(product.basePrice)}
             </span>
           )}
@@ -112,7 +112,7 @@ function Stars({ value }) {
           key={i}
           className={`h-3.5 w-3.5 ${
             i <= Math.round(value)
-              ? "fill-amber-400 text-amber-400"
+              ? "fill-orange-500 text-orange-500"
               : "fill-gray-200 text-gray-200"
           }`}
           aria-hidden="true"
@@ -126,7 +126,7 @@ function Stars({ value }) {
 export function ProductCardSkeleton() {
   return (
     <div
-      className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white"
+      className="flex h-full w-full flex-col overflow-hidden rounded-2xl bg-white shadow-xs"
       aria-hidden="true"
     >
       <div className="skeleton aspect-[4/5] w-full rounded-none" />
@@ -172,7 +172,7 @@ export function ProductsPlaceholder({
           <button
             type="button"
             onClick={onRetry}
-            className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+            className="btn btn-sm btn-primary"
           >
             <RefreshCw className="h-4 w-4" aria-hidden="true" />
             {t("retry")}

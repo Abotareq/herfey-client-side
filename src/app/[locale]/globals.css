@@ -2,99 +2,53 @@
 
 @custom-variant dark (&:is(.dark *));
 
-.swiper {
-  width: 100%;
-  height: 100%;
-}
-
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #444;
-
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.swiper {
-  width: 100%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.swiper-slide {
-  background-size: cover;
-  background-position: center;
-  height: 30px;
-}
-
-.mySwiper2 {
-  height: 500px;
-  width: 100%;
-}
-
-.mySwiper {
-  height: 150px;
-  box-sizing: border-box;
-  padding: 10px 0;
-}
-
-.mySwiper .swiper-slide {
-  width: 25%;
-  height: 100%;
-  opacity: 0.4;
-}
-
-.mySwiper .swiper-slide-thumb-active {
-  opacity: 1;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit:fill;
-}
-@media (max-width: 1024px) {
-  .mySwiper2 {
-    height: 350px;
-  }
-  .mySwiper {
-    height: 160px;
-  }
-}
-
-/* Small screens (phones) */
-@media (max-width: 768px) {
-  .mySwiper2 {
-    height: 280px;
-  }
-  .mySwiper {
-    height: 130px;
-  }
-}
-
-/* Extra small screens (small phones) */
-@media (max-width: 480px) {
-  .mySwiper2 {
-    height: 220px;
-  }
-  .mySwiper {
-    height: 100px;
-  }
-}
-
 @theme inline {
+  /* type */
+  --font-sans: var(--font-body), var(--font-body-arabic), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-display-arabic), Georgia, serif;
+
+  /* brand: the Tailwind orange ramp is re-pointed at a clay/terracotta ramp,
+     so every existing `orange-*` utility picks up the warmer, less shouty tone */
+  --color-orange-50: oklch(0.977 0.013 68);
+  --color-orange-100: oklch(0.951 0.03 64);
+  --color-orange-200: oklch(0.905 0.06 58);
+  --color-orange-300: oklch(0.84 0.095 53);
+  --color-orange-400: oklch(0.745 0.135 48);
+  --color-orange-500: oklch(0.655 0.16 44);
+  --color-orange-600: oklch(0.565 0.155 41);
+  --color-orange-700: oklch(0.49 0.135 39);
+  --color-orange-800: oklch(0.42 0.11 37);
+  --color-orange-900: oklch(0.355 0.085 36);
+  --color-orange-950: oklch(0.245 0.055 35);
+
+  /* neutrals: one warm gray family, tinted towards the clay */
+  --color-gray-50: oklch(0.985 0.004 75);
+  --color-gray-100: oklch(0.965 0.007 75);
+  --color-gray-200: oklch(0.925 0.01 72);
+  --color-gray-300: oklch(0.87 0.012 70);
+  --color-gray-400: oklch(0.72 0.015 65);
+  --color-gray-500: oklch(0.58 0.017 60);
+  --color-gray-600: oklch(0.48 0.018 55);
+  --color-gray-700: oklch(0.4 0.019 50);
+  --color-gray-800: oklch(0.3 0.017 46);
+  --color-gray-900: oklch(0.23 0.015 45);
+  --color-gray-950: oklch(0.17 0.012 45);
+
+  /* shadows carry the surface hue instead of black */
+  --shadow-2xs: 0 1px 1px oklch(0.3 0.04 50 / 0.05);
+  --shadow-xs: 0 1px 2px oklch(0.3 0.04 50 / 0.06);
+  --shadow-sm: 0 1px 2px oklch(0.3 0.04 50 / 0.06), 0 1px 3px oklch(0.3 0.04 50 / 0.06);
+  --shadow-md: 0 2px 4px -1px oklch(0.3 0.04 50 / 0.06), 0 6px 14px -3px oklch(0.3 0.04 50 / 0.1);
+  --shadow-lg: 0 4px 8px -2px oklch(0.3 0.04 50 / 0.06), 0 14px 32px -8px oklch(0.3 0.05 50 / 0.16);
+  --shadow-xl: 0 8px 16px -4px oklch(0.3 0.04 50 / 0.08), 0 24px 48px -12px oklch(0.3 0.05 50 / 0.2);
+  --shadow-2xl: 0 32px 64px -16px oklch(0.3 0.06 50 / 0.28);
+
+  /* motion: one ease for everything that moves */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-soft: cubic-bezier(0.32, 0.72, 0, 1);
+  --default-transition-timing-function: var(--ease-out-soft);
+  --default-transition-duration: 250ms;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -134,14 +88,14 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.99 0.006 80);
+  --foreground: oklch(0.23 0.015 45);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.23 0.015 45);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  /* brand: Tailwind orange-600 / orange-500 / orange-50 / orange-900 */
-  --primary: oklch(0.646 0.222 41.116);
+  --popover-foreground: oklch(0.23 0.015 45);
+  /* brand: orange-600 / orange-500 / orange-50 / orange-900 (see @theme) */
+  --primary: oklch(0.565 0.155 41);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.967 0.003 264.542);
   --secondary-foreground: oklch(0.21 0.034 264.665);
@@ -206,8 +160,151 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+    caret-color: var(--color-orange-600);
+    accent-color: var(--color-orange-600);
+    scrollbar-color: var(--color-gray-300) transparent;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    font-variation-settings: "opsz" 72, "SOFT" 30;
+  }
+  h3,
+  h4 {
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  /* Arabic pages lead with the Arabic faces: next/font's size-adjusted
+     fallbacks carry Arabic glyphs, so the Latin face must not come first */
+  [dir="rtl"] body {
+    font-family: var(--font-body-arabic), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  }
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] .font-display {
+    font-family: var(--font-display-arabic), var(--font-display), Georgia, serif;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  ::selection {
+    background: var(--color-orange-200);
+    color: var(--color-orange-950);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-orange-500);
+    outline-offset: 2px;
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+  select,
+  input,
+  textarea {
+    font: inherit;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* buttons: a pill, a press, and (when there is an arrow) the arrow in its own disc */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold leading-none transition duration-300 ease-out-soft active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-orange-500/40 disabled:pointer-events-none disabled:opacity-50;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+  .btn-primary {
+    @apply bg-orange-600 text-white shadow-md shadow-orange-900/15 hover:bg-orange-700 hover:shadow-lg;
+  }
+  .btn-secondary {
+    @apply bg-white text-gray-900 ring-1 ring-gray-900/10 ring-inset hover:bg-gray-50;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-gray-700 hover:bg-gray-900/5;
+  }
+  .btn-on-dark {
+    @apply bg-white text-gray-900 hover:bg-orange-50;
+  }
+  .btn-disc {
+    @apply grid h-7 w-7 shrink-0 place-items-center rounded-full transition duration-300 ease-out-soft;
+    margin-inline-end: -0.5rem;
+  }
+  .btn-primary .btn-disc,
+  .btn-on-dark .btn-disc {
+    @apply bg-black/10;
+  }
+  .btn-secondary .btn-disc,
+  .btn-ghost .btn-disc {
+    @apply bg-gray-900/5;
+  }
+  .btn:hover .btn-disc {
+    transform: translate(2px, -1px);
+  }
+  [dir="rtl"] .btn:hover .btn-disc {
+    transform: translate(-2px, -1px);
+  }
+  .btn-disc svg {
+    @apply h-3.5 w-3.5;
+  }
+  [dir="rtl"] .btn-disc svg {
+    transform: scaleX(-1);
+  }
+
+  /* form controls share one quiet field style */
+  .field {
+    @apply w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 shadow-xs transition duration-200 placeholder:text-gray-400 hover:border-gray-300 focus:border-orange-400 focus:outline-none focus:ring-4 focus:ring-orange-500/15;
+  }
+  select.field {
+    @apply cursor-pointer appearance-none pe-9;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%237a6f65' stroke-width='1.5' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+  [dir="rtl"] select.field {
+    background-position: left 0.75rem center;
+  }
+
+  /* section header: heading on one side, a way onward on the other */
+  .section-head {
+    @apply mb-8 flex flex-wrap items-end justify-between gap-x-8 gap-y-3;
+  }
+  .section-title {
+    @apply text-3xl text-gray-900 sm:text-4xl;
+  }
+  .section-lede {
+    @apply mt-2 max-w-xl text-gray-600;
   }
 }
 

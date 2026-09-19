@@ -439,18 +439,16 @@ import { useTranslations } from 'next-intl';
 export default function BestSeller() {
   const t = useTranslations('BestSeller')
   return (
-    <div className="w-full bg-gray-50 py-12 px-4">
-      {/* Title Section */}
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold mb-4 text-center text-gray-900">
-          {t('bestseller')}
-        </h2>
-        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          {t('desc')}
-        </p>
+    <section className="w-full bg-gray-50 px-4 py-20 md:px-8 md:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="section-head">
+          <div>
+            <h2 className="section-title">{t('bestseller')}</h2>
+            <p className="section-lede">{t('desc')}</p>
+          </div>
+        </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="space-y-16">
           <DiscountedProducts />
           <TopRatedProducts />
           <MostRecentProducts />
@@ -458,6 +456,6 @@ export default function BestSeller() {
 
         <HomeCta />
       </div>
-    </div>
+    </section>
   );
 }

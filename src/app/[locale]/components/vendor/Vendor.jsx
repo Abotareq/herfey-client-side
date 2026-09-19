@@ -90,7 +90,7 @@ function VendorProfile() {
           {/* Content skeleton (for profile tab) */}
           <div className="space-y-8">
             {/* Personal Information Card skeleton */}
-            <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+            <div className="bg-white rounded-2xl p-8 shadow-xs">
               <div className="flex items-center justify-between mb-6">
                 <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
                 <div className="h-10 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
@@ -114,7 +114,7 @@ function VendorProfile() {
                 .map((_, i) => (
                   <div
                     key={i}
-                    className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm"
+                    className="bg-white rounded-2xl p-6 shadow-xs"
                   >
                     <div className="flex items-center justify-between">
                       <div className="space-y-2">

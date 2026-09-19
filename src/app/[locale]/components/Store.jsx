@@ -237,7 +237,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+            className="btn btn-primary mt-4"
           >
             {t("retry")}
           </button>
@@ -436,7 +436,7 @@ export default function HerafyStorePage({ vendorOnly = false }) {
                 </div>
               ) : stores.length === 0 ? (
                 <div className="text-center py-16">
-                  <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 max-w-md mx-auto">
+                  <div className="bg-white rounded-2xl shadow-xs p-8 max-w-md mx-auto">
                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                       <svg
                         className="w-8 h-8 text-gray-400"

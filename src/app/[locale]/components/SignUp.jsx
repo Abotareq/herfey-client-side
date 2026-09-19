@@ -87,14 +87,9 @@ function Signup() {
       {/* Left - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
-              <i className="fas fa-user-plus text-orange-500 fa-lg"></i>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800">
-              {t("newacount")}
-            </h2>
-            <p className="text-gray-600 mt-2">{t("details")}</p>
+          <div className="mb-8 text-start">
+            <h2 className="text-3xl text-gray-900">{t("newacount")}</h2>
+            <p className="mt-2 text-gray-600">{t("details")}</p>
           </div>
 
           {/* Form */}
@@ -254,7 +249,7 @@ function Signup() {
                 !validatePassword(formData.password) ||
                 !passwordsMatch
               }
-              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 focus:ring-4 focus:ring-orange-500 focus:ring-opacity-50 disabled:opacity-50"
+              className="btn btn-primary w-full"
             >
               {isPending ? `${t("signingup")}` : `${t("signUp")}`}
             </button>

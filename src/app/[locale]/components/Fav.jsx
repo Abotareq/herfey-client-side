@@ -78,7 +78,7 @@ export default function FavouritesPage() {
           {Array.from({ length: 8 }).map((_, index) => (
             <div
               key={index}
-              className="border border-gray-200 rounded-2xl p-4 bg-white shadow-sm animate-pulse"
+              className="rounded-2xl p-4 bg-white shadow-xs animate-pulse"
             >
               {/* Image Skeleton */}
               <div className="rounded-lg mb-4 h-40 bg-gray-300"></div>
@@ -127,7 +127,7 @@ export default function FavouritesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {wishlist.map((product) => (
           <Link href={`/products/${product._id}`} key={product._id}>
-            <div className="group relative border border-gray-200 rounded-2xl p-4 bg-white shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1">
+            <div className="group relative rounded-2xl p-4 bg-white shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-1">
               <div className="relative overflow-hidden rounded-lg mb-4 h-40">
                 {product.images && product.images.length > 0 ? (
                   <img

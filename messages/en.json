@@ -9,7 +9,7 @@
     "signin": "Signin",
     "signout": "Sign Out",
     "signing": "Signing Out...",
-    "products": "products",
+    "products": "Products",
     "favourite": "Favourite"
   },
   "Herafy": {
@@ -48,7 +48,7 @@
     "paypal": "PayPal"
   },
   "Login": {
-    "welcome": "Welcome Back!",
+    "welcome": "Welcome back",
     "sign": "Please sign in to continue",
     "email": "Email Address",
     "emailplace": "you@example.com",
@@ -63,12 +63,12 @@
     "worksentence": "Herafy – where the largest collection of handmade products meets passion and craft.",
     "guest": "process as a guest",
     "guestl": "guest",
-    "successfully": "Logged in successfully!",
+    "successfully": "Logged in successfully",
     "failed": "Login failed",
     "googlesign": "Google Sign-In Clicked!"
   },
   "Signup": {
-    "newacount": "Create Your Account",
+    "newacount": "Create your account",
     "details": "Please fill in your details",
     "firstname": " First Name",
     "fnameplace": "first name",
@@ -101,8 +101,8 @@
     "ePlace": "Email",
     "pplace": "Phone",
     "mpalce": "Message",
-    "address": "654 Sycamore Avenue, Meadowville, WA 76543",
-    "send": "Send Us A Message",
+    "address": "Cairo, Egypt",
+    "send": "Send us a message",
     "communication": "Preferred method of communication",
     "Ecommunication": "Email",
     "Pcommunucation": "Phone",

@@ -71,15 +71,15 @@ function ProductsList() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         {/* Breadcrumbs Skeleton */}
-        <div className="text-center py-4">
-          <div className="h-4 bg-gray-200 rounded w-64 mx-auto animate-pulse"></div>
+        <div className="px-4 py-4 md:px-8">
+          <div className="skeleton h-4 w-48"></div>
         </div>
 
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col gap-6 px-4 pb-16 md:px-8 lg:flex-row lg:gap-8">
           {/* Sidebar Skeleton */}
-          <aside className="hidden w-64 shrink-0 p-4 border-r border-gray-200 bg-white lg:block">
+          <aside className="hidden w-64 shrink-0 rounded-2xl bg-white p-5 shadow-xs lg:block">
             {/* Filter & Sort Title */}
             <div className="h-6 bg-gray-200 rounded w-32 mb-4 animate-pulse"></div>
 
@@ -89,7 +89,7 @@ function ProductsList() {
               <div className="h-10 bg-gray-100 border border-gray-200 rounded-md animate-pulse"></div>
             </div>
 
-            <hr className="my-4" />
+            <hr className="my-5 border-gray-900/8" />
 
             {/* Filter Options Skeleton */}
             {[1, 2, 3, 4].map((item) => (
@@ -104,7 +104,7 @@ function ProductsList() {
           </aside>
 
           {/* Main Content */}
-          <section className="container mx-auto min-w-0 flex-1 p-4 sm:p-6 lg:p-8 md:py-12">
+          <section className="min-w-0 flex-1">
             {/* Toolbar Skeleton */}
             <div className="mb-6 h-10 w-28 rounded-lg bg-gray-100 border border-gray-200 animate-pulse lg:hidden"></div>
             {/* Products Grid Skeleton */}
@@ -310,12 +310,12 @@ function ProductsList() {
   return (
     <div className="">
       <Breadcrumbs className="text-center" />
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col gap-6 px-4 pb-16 md:px-8 lg:flex-row lg:gap-8">
         <aside
           id="product-filters"
           className={`${
             filtersOpen ? "block" : "hidden"
-          } w-full border-b border-gray-200 bg-white p-4 lg:block lg:w-64 lg:shrink-0 lg:self-start lg:sticky lg:top-24 lg:border-b-0 lg:border-r`}
+          } w-full bg-white p-5 shadow-xs lg:block lg:w-64 lg:shrink-0 lg:self-start lg:sticky lg:top-20 lg:rounded-2xl`}
         >
           <div className="mb-4 flex items-center justify-between">
             <h3 className="font-semibold">{t1("filter")}</h3>
@@ -323,7 +323,7 @@ function ProductsList() {
               type="button"
               onClick={() => setFiltersOpen(false)}
               aria-label={t1("close")}
-              className="grid h-8 w-8 place-items-center rounded-full text-gray-500 hover:bg-gray-100 lg:hidden"
+              className="grid h-8 w-8 place-items-center rounded-full text-gray-500 transition hover:bg-gray-900/5 lg:hidden"
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -331,9 +331,9 @@ function ProductsList() {
 
           {/* Sort Options */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">{t1("sort")}</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("sort")}</label>
             <select
-              className="w-full border rounded-md p-2 text-sm"
+              className="field"
               value={sortBy || ""}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -345,13 +345,13 @@ function ProductsList() {
             </select>
           </div>
 
-          <hr className="my-4" />
+          <hr className="my-5 border-gray-900/8" />
 
           {/* Store Filter */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">{t1("store")}</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{t1("store")}</label>
             <select
-              className="w-full border rounded-md p-2 text-sm"
+              className="field"
               value={selectedFilters.storeId || ""}
               onChange={(e) => handleFilter("storeId", e.target.value)}
             >
@@ -366,9 +366,9 @@ function ProductsList() {
 
           {/* Category Filter */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">{"Category"}</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">{"Category"}</label>
             <select
-              className="w-full border rounded-md p-2 text-sm"
+              className="field"
               value={selectedFilters.category || ""}
               onChange={(e) => handleFilter("category", e.target.value)}
             >
@@ -385,11 +385,11 @@ function ProductsList() {
           {Object.entries(getVariantFilters(products)).map(
             ([variantName, options]) => (
               <div key={variantName} className="mb-4">
-                <label className="block mb-1 font-medium capitalize">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-500">
                   {variantName}
                 </label>
                 <select
-                  className="w-full border rounded-md p-2 text-sm"
+                  className="field"
                   value={selectedFilters[variantName] || ""}
                   onChange={(e) => handleFilter(variantName, e.target.value)}
                 >
@@ -406,14 +406,14 @@ function ProductsList() {
 
           {/* Clear Filters Button */}
           <button
-            className="w-full bg-gray-100 hover:bg-gray-200 border rounded-md p-2 text-sm transition-colors mt-4"
+            className="btn btn-sm btn-secondary mt-5 w-full"
             onClick={clearAllFilters}
           >
             {t1("clear")}
           </button>
         </aside>
 
-        <section className="container mx-auto min-w-0 flex-1 p-4 sm:p-6 lg:p-8 md:py-12">
+        <section className="min-w-0 flex-1">
           {/* Toolbar (below lg): open the filters panel */}
           <div className="mb-6 flex items-center justify-between gap-3 lg:hidden">
             <button
@@ -421,17 +421,17 @@ function ProductsList() {
               onClick={() => setFiltersOpen((open) => !open)}
               aria-expanded={filtersOpen}
               aria-controls="product-filters"
-              className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="btn btn-sm btn-secondary"
             >
               <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
               {t1("filter")}
               {activeFilterCount > 0 && (
-                <span className="rounded-full bg-orange-600 px-2 py-0.5 text-xs font-semibold text-white">
+                <span className="rounded-full bg-orange-600 px-2 py-0.5 text-[11px] font-semibold tabular-nums text-white">
                   {activeFilterCount}
                 </span>
               )}
             </button>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm tabular-nums text-gray-500">
               {t1("results", { count: data?.totalProducts ?? displayedProducts.length })}
             </p>
           </div>
@@ -460,7 +460,7 @@ function ProductsList() {
             <button
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
               disabled={page === 1}
-              className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+              className="btn btn-sm btn-secondary"
             >
               {t("Previous")}
             </button>
@@ -471,10 +471,11 @@ function ProductsList() {
                 <button
                   key={i}
                   onClick={() => setPage(i + 1)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                  aria-current={page === i + 1 ? "page" : undefined}
+                  className={`grid h-9 min-w-9 place-items-center rounded-full px-2 text-sm font-semibold tabular-nums transition duration-300 ease-out-soft ${
                     page === i + 1
-                      ? "bg-orange-600 text-white shadow-sm"
-                      : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-600 hover:bg-gray-900/5 hover:text-gray-900"
                   }`}
                 >
                   {i + 1}
@@ -486,7 +487,7 @@ function ProductsList() {
             <button
               onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
               disabled={page === totalPages}
-              className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+              className="btn btn-sm btn-secondary"
             >
               {t("next")}
             </button>

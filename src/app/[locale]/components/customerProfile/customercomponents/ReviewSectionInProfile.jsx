@@ -146,7 +146,7 @@ function ReviewsSectionInProfile({ userId }) {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm"
+            className="bg-white rounded-2xl p-6 shadow-xs"
           >
             <div className="flex items-start space-x-4">
               {/* Image skeleton */}
@@ -428,7 +428,7 @@ function ReviewsSectionInProfile({ userId }) {
               <button
                 onClick={handleUpdateReview}
                 disabled={updateReviewMutation.isPending}
-                className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn btn-primary"
               >
                 {updateReviewMutation.isPending ? t('Updating') : t("update")}
               </button>
@@ -449,7 +449,7 @@ function ReviewsSectionInProfile({ userId }) {
 
             return (
               <Link href={entityUrl} key={review._id} passHref>
-                <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-lg hover:border-orange-500 transition-all duration-300 cursor-pointer">
+                <div className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-lg hover:border-orange-500 transition-all duration-300 cursor-pointer">
                   <div className="flex items-start space-x-4">
                     {/* Entity image */}
                     {review.entityDetails?.images?.[0] && (

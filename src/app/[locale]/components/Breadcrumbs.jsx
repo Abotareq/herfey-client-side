@@ -35,7 +35,6 @@ function Breadcrumbs() {
 
   const product = productRes?.data || null;
   const store = storeRes || null;
-  console.log(`store data: ${store}`);
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
     let label;
@@ -52,21 +51,21 @@ function Breadcrumbs() {
   });
 
   return (
-    <nav className="mx-10 text-sm text-gray-600 my-4">
-      <ol className="flex items-center space-x-2">
+    <nav className="mx-auto max-w-7xl px-4 py-4 text-sm text-gray-500 md:px-8" aria-label="Breadcrumb">
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <li>
-          <Link href="/" className="text-orange-600 hover:underline">
+          <Link href="/" className="transition-colors hover:text-gray-900 hover:underline">
             {t("home")}
           </Link>
         </li>
 
         {breadcrumbs.map((crumb, index) => (
-          <li key={index} className="flex items-center space-x-2">
-            <span>{">"}</span>
+          <li key={index} className="flex items-center gap-2">
+            <span aria-hidden="true" className="text-gray-300 rtl:-scale-x-100">/</span>
             {index === breadcrumbs.length - 1 ? (
-              <span className="font-medium text-gray-800">{crumb.label}</span>
+              <span className="font-medium text-gray-900" aria-current="page">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="text-orange-600 hover:underline">
+              <Link href={crumb.href} className="transition-colors hover:text-gray-900 hover:underline">
                 {crumb.label}
               </Link>
             )}

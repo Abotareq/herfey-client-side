@@ -251,7 +251,7 @@ function ReviewsSection({ productId }) {
                 </button>
                 <button
                   onClick={handleAddReview}
-                  className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                  className="btn btn-primary"
                   disabled={addReviewMutation.isLoading}
                 >
                   {addReviewMutation.isLoading ? t("submitting") : t("submit")}
@@ -403,7 +403,7 @@ function ReviewsSection({ productId }) {
             <button
               onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
               disabled={page === 1}
-              className="px-8 py-3 border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
+              className="btn btn-secondary"
             >
               {t("previous")}
             </button>
@@ -416,7 +416,7 @@ function ReviewsSection({ productId }) {
                 setPage((prev) => Math.min(prev + 1, pagination.totalPages))
               }
               disabled={page >= pagination.totalPages}
-              className="px-8 py-3 border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50"
+              className="btn btn-secondary"
             >
               {t("next")}
             </button>

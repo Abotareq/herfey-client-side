@@ -55,7 +55,7 @@ function OrderSection() {
         {ordersData?.orders?.length > 0 ? (
 
           ordersData.orders.map((order) => (
-            <div key={order._id} className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300">
+            <div key={order._id} className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-lg transition-all duration-300">
             
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                 <div>
@@ -84,7 +84,7 @@ function OrderSection() {
                 )}
               </div>
               <div className="mt-4 flex flex-col sm:flex-row gap-3">
-                <Link href={`/customer-profile/orders/${order._id}`} className="px-4 py-2 bg-orange-600 text-white rounded-lg text-center hover:bg-orange-700 transition-colors">
+                <Link href={`/customer-profile/orders/${order._id}`} className="btn btn-primary text-center">
                   {t('viewDetails')}
                 </Link>
                 {(order.status === 'pending' || order.status === 'processing') && (

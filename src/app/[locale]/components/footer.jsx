@@ -1,139 +1,94 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useLocale, useTranslations } from "use-intl";
+import { useTranslations } from "use-intl";
 
 const Footer = () => {
-  const locale = useLocale();
-  const isArabic = locale === "ar";
   const t = useTranslations("Footer");
   const t2 = useTranslations("workingHours");
   const t3 = useTranslations("Terms");
   const t4 = useTranslations("Payment");
 
+  const help = [
+    { key: "frequentQuetsions", href: "/faq" },
+    { key: "contact", href: "/contact" },
+    { key: "excahnge", href: "/exchange" },
+  ];
+  const legal = [
+    { key: "termsofuse", href: "/packging" },
+    { key: "terms", href: "/term" },
+    { key: "privacy", href: "/privacy" },
+  ];
+  const linkClass =
+    "text-sm text-gray-600 transition-colors duration-300 hover:text-gray-900 hover:underline";
+
   return (
-    <footer className="bg-gray-50 py-8 px-4 border-t border-gray-200">
-      <div className="max-w-7xl mx-auto">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-4 items-start">
-          {/* Column 5: Logo and Contact Info */}
-          <div className="space-y-4">
-            {/* Logo */}
-            <div className="mb-4">
-              <div className="text-2xl font-bold text-orange-400 transition-transform duration-300 hover:scale-105">
-                {t("herafy")}
-              </div>
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-2 text-sm text-gray-700 cursor-pointer">
-              <div
-                className={`hover:text-orange-400 transition-transform duration-300 hover:scale-105 ${isArabic ? "text-right" : "text-left"} ${
-                  isArabic ? "rtl" : ""
-                }`}
-              >
+    <footer className="border-t border-gray-900/8 bg-gray-50">
+      <div className="mx-auto max-w-7xl px-4 pb-10 pt-16 md:px-8">
+        <div className="grid gap-12 md:grid-cols-12">
+          {/* wordmark + contact */}
+          <div className="md:col-span-5">
+            <p className="font-display text-3xl text-orange-700">{t("herafy")}</p>
+            <address className="mt-5 space-y-1.5 text-sm not-italic text-gray-600">
+              <p dir="ltr" className="text-start tabular-nums">
                 {t("phone")}
+              </p>
+              <p>
+                <a href={`mailto:${t("email")}`} className="hover:text-gray-900 hover:underline">
+                  {t("email")}
+                </a>
+              </p>
+              <p className="font-medium text-gray-900">{t("web")}</p>
+            </address>
+          </div>
+
+          {/* hours */}
+          <dl className="space-y-2 text-sm md:col-span-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-baseline justify-between gap-4">
+                <dt className="text-gray-600">{t2(`day${i}`)}</dt>
+                <dd dir="ltr" className="tabular-nums text-gray-900">
+                  {t2(`time${i}`)}
+                </dd>
               </div>
-              <div className="hover:text-orange-400 transition-transform duration-300 hover:scale-105">{t("sales")}</div>
-              <div className="font-semibold hover:text-orange-400 transition-transform duration-300 hover:scale-105">{t("web")}</div>
-            </div>
-          </div>
+            ))}
+          </dl>
 
-          {/* Column 1: Opening Hours */}
-          <div className="space-y-3 cursor-pointer">
-            <div className="space-y-2 text-sm text-gray-700">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="flex justify-between transition-colors duration-300 hover:text-orange-500"
-                >
-                  <span>{t2(`day${i}`)}</span>
-                  <span>{t2(`time${i}`)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Column 2: Terms and Links */}
-          <div className="space-y-3">
-            <div className="space-y-2">
-              {[
-                { key: "termsofuse", href: "/packging" },
-                { key: "frequentQuetsions", href: "/faq" },
-                { key: "contact", href: "/contact" },
-              ].map((item, idx) => (
-                <Link
-                  key={idx}
-                  href={item.href}
-                  className="block text-sm text-gray-700 hover:text-gray-900 transition-all duration-300 hover:translate-x-1"
-                >
+          {/* help + legal */}
+          <ul className="space-y-2 md:col-span-2">
+            {help.map((item) => (
+              <li key={item.key}>
+                <Link href={item.href} className={linkClass}>
                   {t3(item.key)}
                 </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Column 3: More Links */}
-          <div className="space-y-3">
-            <div className="space-y-2">
-              {[
-                {key: "excahnge", href: '/exchange'}, 
-                {key: "terms", href: '/term'},
-                {key: "privacy", href: '/privacy'}
-              ].map((item, idx) => (
-                <Link
-                  key={idx}
-                  href={item.href}
-                  className="block text-sm text-gray-700 hover:text-gray-900 transition-all duration-300 hover:translate-x-1"
-                >
+              </li>
+            ))}
+          </ul>
+          <ul className="space-y-2 md:col-span-2">
+            {legal.map((item) => (
+              <li key={item.key}>
+                <Link href={item.href} className={linkClass}>
                   {t3(item.key)}
                 </Link>
-              ))}
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-          {/* Column 4: Payment Methods */}
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-2">
-              {[
-                { key: "visa", color: "bg-orange-600" },
-                { key: "mastercard", color: "bg-red-500" },
-                { key: "discover", color: "bg-orange-500" },
-                { key: "paypal", color: "bg-orange-500" },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className={`${item.color} text-white px-3 py-1 rounded text-xs font-semibold cursor-pointer transition-transform duration-300 hover:scale-110`}
-                >
-                  {t4(item.key)}
-                </div>
-              ))}
-            </div>
-
-            {/* Social Media Icons */}
-            <div className="flex gap-3 mt-4">
-              {[
-                { color: "text-green-500 hover:text-green-600", icon: "whatsapp" },
-                { color: "text-orange-500 hover:text-orange-600", icon: "instagram" },
-                { color: "text-orange-600 hover:text-orange-700", icon: "facebook" },
-              ].map((item, idx) => (
-                <Link
-                  key={idx}
-                  href="#"
-                  className={`${item.color} transition-transform duration-300 hover:scale-125`}
-                >
-                  {/* You can keep your existing SVG icons here */}
-                </Link>
-              ))}
-            </div>
-          </div>
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-gray-900/8 pt-6">
+          <p className="text-sm text-gray-500">&copy; {t("copy")}</p>
+          <ul className="flex flex-wrap gap-2" aria-label="Payment methods">
+            {["visa", "mastercard", "discover", "paypal"].map((key) => (
+              <li
+                key={key}
+                className="rounded-md bg-white px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-gray-600 ring-1 ring-gray-900/10 ring-inset"
+              >
+                {t4(key)}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-       <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-          <p className="text-gray-400">
-            &copy; {t('copy')}
-          </p>
-        </div>
     </footer>
   );
 };

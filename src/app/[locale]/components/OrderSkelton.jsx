@@ -19,7 +19,7 @@ function OrderSectionSkeleton() {
       {/* Order Cards Skeleton */}
       <div className="space-y-4">
         {[1, 2, 3].map((index) => (
-          <div key={index} className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div key={index} className="bg-white rounded-2xl p-6 shadow-xs">
             {/* Order Header Skeleton */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
               <div>

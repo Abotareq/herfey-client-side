@@ -1012,7 +1012,7 @@ export default function StoresSection() {
                   <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-100">
                     <button
                       onClick={() => handleViewDetails(store)}
-                      className="flex-1 px-6 py-4 bg-orange-500 text-white rounded-2xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 font-bold text-lg flex items-center justify-center gap-3 shadow-lg"
+                      className="btn btn-primary flex-1 text-lg justify-center gap-3"
                     >
                       <Eye className="w-5 h-5" />
                       {t('View Details')}

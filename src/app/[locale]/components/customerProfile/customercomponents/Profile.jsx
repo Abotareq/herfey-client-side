@@ -53,7 +53,7 @@ function Customer() {
 if(userLoading){
 return<>  <div className="space-y-8">
       {/* Personal Information Card Skeleton */}
-      <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-8 shadow-xs">
         <div className="flex items-center justify-between mb-6">
           <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
           <div className="h-10 w-24 bg-gray-200 rounded-lg animate-pulse"></div>
@@ -74,7 +74,7 @@ return<>  <div className="space-y-8">
         {Array(3).fill().map((_, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm"
+            className="bg-white rounded-2xl p-6 shadow-xs"
           >
             <div className="flex items-center justify-between">
               <div className="space-y-2">
@@ -91,12 +91,12 @@ return<>  <div className="space-y-8">
   return (
     <div className="space-y-8">
       {/* Personal Information Card */}
-      <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+      <div className="bg-white rounded-2xl p-8 shadow-xs">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-bold text-gray-900">{t('title')}</h3>
           <button
             onClick={handleEditToggle}
-            className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+            className="btn btn-primary"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -202,7 +202,7 @@ return<>  <div className="space-y-8">
             </button>
             <button
               onClick={handleSaveProfile}
-              className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+              className="btn btn-primary"
               disabled={updateUserMutation.isLoading}
             >
               {updateUserMutation.isLoading ? t('saving') : t('save')}
@@ -213,7 +213,7 @@ return<>  <div className="space-y-8">
 
       {/* Account Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 shadow-xs">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm font-medium">{t('total')}</p>
@@ -227,7 +227,7 @@ return<>  <div className="space-y-8">
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 shadow-xs">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm font-medium">{t('active')}</p>
@@ -241,7 +241,7 @@ return<>  <div className="space-y-8">
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-6 shadow-xs">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm font-medium">{t('cancelorders')}</p>

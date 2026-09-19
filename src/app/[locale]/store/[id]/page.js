@@ -179,7 +179,7 @@ export default function StoreDetailsPage() {
 
             <button
               onClick={handleOpenGoogleMaps}
-              className="w-full bg-orange-600 text-white py-3 px-4 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
+              className="btn btn-primary w-full justify-center gap-2"
             >
               <Navigation className="w-5 h-5" />
               {t('open')}
@@ -216,7 +216,7 @@ export default function StoreDetailsPage() {
               </button>
               <button
                 onClick={() => window.location.reload()}
-                className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
+                className="btn btn-primary flex-1"
               >
                 {t('tryagain')}
               </button>
@@ -238,7 +238,7 @@ export default function StoreDetailsPage() {
           <h3 className="text-xl font-semibold text-gray-800 mb-4">{t('notfoundstore')}</h3>
           <button
             onClick={handleBackToStores}
-            className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
+            className="btn btn-primary"
           >
             {t('backtostores')}
           </button>
@@ -285,15 +285,15 @@ export default function StoreDetailsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
-        <div className={`bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`bg-white rounded-[2rem] shadow-xs overflow-hidden mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           {/* Orange Header */}
-          <div className="h-32 bg-gradient-to-r from-orange-500 to-orange-600"></div>
+          <div className="h-36 bg-orange-900 bg-[radial-gradient(ellipse_at_top_left,_oklch(0.49_0.135_39)_0%,_transparent_55%),radial-gradient(ellipse_at_bottom_right,_oklch(0.355_0.085_36)_0%,_transparent_60%)]"></div>
           
           <div className="p-8">
             <div className="flex flex-col md:flex-row items-start gap-6">
               {/* Store Logo */}
               <div className="relative -mt-20">
-                <div className="w-24 h-24 bg-white rounded-xl shadow-lg border-4 border-white overflow-hidden">
+                <div className="w-24 h-24 bg-white rounded-2xl shadow-lg ring-4 ring-white overflow-hidden">
                   <img
                     src={storeData.logoUrl || '/api/placeholder/96/96'}
                     alt={storeData.name}
@@ -352,23 +352,14 @@ export default function StoreDetailsPage() {
           ].map((stat, index) => (
             <div 
               key={index}
-              className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all duration-500 hover:shadow-md ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              className={`bg-white rounded-2xl shadow-xs p-5 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="flex items-center gap-3">
-                <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                  stat.color === 'orange' ? 'bg-orange-50 text-orange-600' :
-                  stat.color === 'green' ? 'bg-green-50 text-green-600' :
-                  stat.color === 'blue' ? 'bg-orange-50 text-orange-600' :
-                  'bg-orange-50 text-orange-600'
-                }`}>
-                  <stat.icon className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-500">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                </div>
+              <div className="flex items-center gap-2 text-gray-500">
+                <stat.icon className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                <p className="text-sm">{stat.label}</p>
               </div>
+              <p className="mt-2 font-display text-3xl tabular-nums text-gray-900">{stat.value}</p>
             </div>
           ))}
         </div>
@@ -376,7 +367,7 @@ export default function StoreDetailsPage() {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Store Policies */}
-          <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '400ms' }}>
+          <div className={`bg-white rounded-2xl shadow-xs p-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '400ms' }}>
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               <Shield className="w-5 h-5 text-orange-600" />
               {t('storepolicy')}
@@ -408,7 +399,7 @@ export default function StoreDetailsPage() {
           </div>
 
           {/* Location Details */}
-          <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '500ms' }}>
+          <div className={`bg-white rounded-2xl shadow-xs p-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '500ms' }}>
             <h2 className="text-xl font-bold text-gray-900 mb-6">{t('locationa')}</h2>
             <div className="space-y-4">
               <div className="border border-gray-200 rounded-lg p-4">
@@ -438,7 +429,7 @@ export default function StoreDetailsPage() {
         </div>
 
         {/* Store Information */}
-        <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '600ms' }}>
+        <div className={`bg-white rounded-2xl shadow-xs p-6 mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '600ms' }}>
           <h2 className="text-xl font-bold text-gray-900 mb-6">{t('storeinfo')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="border border-gray-200 rounded-lg p-4">
@@ -456,12 +447,16 @@ export default function StoreDetailsPage() {
         </div>
 
         {/* Call to Action */}
-        <div className={`bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl shadow-lg p-8 text-center text-white transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '700ms' }}>
-          <h3 className="text-2xl font-bold mb-2">{t('browsequestion')}</h3>
-          <p className="text-orange-100 mb-6">{t('browsedesc')}</p>
-          <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors" onClick={() => handleBrowseStoreProducts(storeData._id)}>
-            {t('browseproducts')}
-          </button>
+        <div className={`rounded-[2rem] bg-orange-950 p-8 text-white shadow-md sm:p-10 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '700ms' }}>
+          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+            <div>
+              <h3 className="font-display text-3xl">{t('browsequestion')}</h3>
+              <p className="mt-2 text-orange-100/85">{t('browsedesc')}</p>
+            </div>
+            <button type="button" className="btn btn-on-dark shrink-0" onClick={() => handleBrowseStoreProducts(storeData._id)}>
+              {t('browseproducts')}
+            </button>
+          </div>
         </div>
       </div>
 

@@ -75,7 +75,7 @@ export default function PaymentSuccessPage() {
           </p>
           <div className="space-x-4">
             <button
-              className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+              className="btn btn-primary"
               onClick={() => refetch()}
             >
               <RefreshCw className="w-4 h-4 mr-2" />
@@ -104,7 +104,7 @@ export default function PaymentSuccessPage() {
             {t('invalidpaymanetdesc')}
           </p>
           <button
-            className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+            className="btn btn-primary"
             onClick={() => router.push("/")}
           >
             <Home className="w-4 h-4 mr-2" />
@@ -213,7 +213,7 @@ export default function PaymentSuccessPage() {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
         <button
-          className="inline-flex items-center justify-center px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
+          className="btn btn-primary justify-center"
           onClick={() => router.push("/products")}
         >
           <ShoppingBag className="w-4 h-4 mr-2" />

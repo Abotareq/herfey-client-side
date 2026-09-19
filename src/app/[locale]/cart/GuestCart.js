@@ -560,7 +560,7 @@ function GuestCart() {
           <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
             {t('shoppingcart')}
           </h1>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-xl shadow-xs p-12 text-center">
             <div className="w-20 h-20 mx-auto mb-6 text-red-400">
               <svg
                 fill="currentColor"
@@ -581,7 +581,7 @@ function GuestCart() {
             <div className="flex justify-center gap-4">
               <button
                 onClick={handleRetry}
-                className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                className="btn btn-primary"
               >
                 {t('tryagain')}
               </button>
@@ -606,7 +606,7 @@ function GuestCart() {
           <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
             {t('shoppingcart')}
           </h1>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+          <div className="bg-white rounded-xl shadow-xs p-12 text-center">
             <div className="w-24 h-24 mx-auto mb-6 text-gray-400">
               <svg
                 fill="currentColor"
@@ -624,7 +624,7 @@ function GuestCart() {
             </p>
             <button
               onClick={handleContinueShopping}
-              className="px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              className="btn btn-primary"
             >
               {t('startshopping')}
             </button>
@@ -682,7 +682,7 @@ function GuestCart() {
             </button>
             <button
               onClick={() => router.push("/signin")}
-              className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors duration-200"
+              className="btn btn-primary"
             >
               {t('login')}
             </button>
@@ -981,7 +981,7 @@ function GuestCart() {
           {/* Checkout Sidebar - Fixed Position */}
           <div className="xl:col-span-1">
             <div className="sticky top-6">
-              <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-2xl shadow-xs overflow-hidden">
                 {/* Header */}
                 <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-6">
                   <div className="flex items-center gap-3">
@@ -1180,7 +1180,7 @@ function GuestCart() {
 
                     <button
                       onClick={() => router.push("/signup")}
-                      className="w-full py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg transition-colors duration-200 text-sm"
+                      className="btn btn-primary w-full text-sm"
                     >
                       {t('signup')}
                     </button>
@@ -1208,7 +1208,7 @@ function GuestCart() {
                       ].map((card, index) => (
                         <div
                           key={index}
-                          className="p-2 bg-white rounded-lg shadow-sm border border-gray-200"
+                          className="p-2 bg-white rounded-lg shadow-xs"
                         >
                           <Image
                             src={card.src}

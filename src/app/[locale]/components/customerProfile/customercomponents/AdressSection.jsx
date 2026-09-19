@@ -240,7 +240,7 @@ function AddressesSection() {
           </div>
 
           {/* Address Form Skeleton */}
-          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+          <div className="bg-white rounded-2xl p-8 shadow-xs">
             <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Array(6)
@@ -269,7 +269,7 @@ function AddressesSection() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative"
+                  className="bg-white rounded-2xl p-6 shadow-xs relative"
                 >
                   <div className="absolute top-4 right-4 h-5 w-16 bg-gray-200 rounded-full animate-pulse"></div>
                   <div className="space-y-2">
@@ -314,7 +314,7 @@ function AddressesSection() {
           </div>
 
           {/* Address Form Skeleton */}
-          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+          <div className="bg-white rounded-2xl p-8 shadow-xs">
             <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Array(6)
@@ -343,7 +343,7 @@ function AddressesSection() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative"
+                  className="bg-white rounded-2xl p-6 shadow-xs relative"
                 >
                   <div className="absolute top-4 right-4 h-5 w-16 bg-gray-200 rounded-full animate-pulse"></div>
                   <div className="space-y-2">
@@ -388,7 +388,7 @@ function AddressesSection() {
           </div>
 
           {/* Address Form Skeleton */}
-          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+          <div className="bg-white rounded-2xl p-8 shadow-xs">
             <div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Array(6)
@@ -417,7 +417,7 @@ function AddressesSection() {
               .map((_, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative"
+                  className="bg-white rounded-2xl p-6 shadow-xs relative"
                 >
                   <div className="absolute top-4 right-4 h-5 w-16 bg-gray-200 rounded-full animate-pulse"></div>
                   <div className="space-y-2">
@@ -465,7 +465,7 @@ function AddressesSection() {
         <h3 className="text-2xl font-bold text-gray-900">{t("delivery")}</h3>
         <button
           onClick={() => setShowAddressForm(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+          className="btn btn-primary"
         >
           <svg
             className="w-4 h-4"
@@ -486,7 +486,7 @@ function AddressesSection() {
 
       {/* Add/Edit Form */}
       {(showAddressForm || editingAddress) && (
-        <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-8 shadow-xs">
           <h4 className="text-lg font-semibold mb-4">
             {editingAddress ? "Edit Address" : "Add New Address"}
           </h4>

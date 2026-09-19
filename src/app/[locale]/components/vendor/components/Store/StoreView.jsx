@@ -279,7 +279,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
 
                 {/* Store Information */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <div className="bg-white rounded-2xl p-6 shadow-xs">
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                       <svg
                         className="w-6 h-6 text-orange-600"
@@ -354,7 +354,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <div className="bg-white rounded-2xl p-6 shadow-xs">
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                       <svg
                         className="w-6 h-6 text-orange-600"
@@ -421,7 +421,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                 </div>
 
                 {/* Store Policies */}
-                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                <div className="bg-white rounded-2xl p-6 shadow-xs">
                   <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                     <svg
                       className="w-6 h-6 text-orange-600"
@@ -777,7 +777,7 @@ export default function StoreDetailsView({ store, onClose, onEdit }) {
                     {reviewsRes.data.review.map((review) => (
                       <div
                         key={review._id}
-                        className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+                        className="bg-white rounded-2xl p-6 shadow-xs"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center gap-3">

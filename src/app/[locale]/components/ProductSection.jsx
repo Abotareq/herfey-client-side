@@ -19,17 +19,17 @@ export default function ProductSection({
   errorMessage,
   emptyMessage,
   badgeFor,
-  count = 3,
+  count = 4,
 }) {
+  const grid = "grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4";
   return (
-    <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-      <header className="mb-6 text-center">
-        <h3 className="text-2xl font-bold text-gray-900">{title}</h3>
-        <div className="mx-auto mt-2 h-1 w-16 rounded-full bg-orange-500" />
+    <section>
+      <header className="mb-5 flex items-end justify-between gap-4">
+        <h3 className="font-display text-2xl text-gray-900 sm:text-3xl">{title}</h3>
       </header>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 gap-6">
+        <div className={grid}>
           {Array.from({ length: count }, (_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
@@ -39,11 +39,14 @@ export default function ProductSection({
           message={errorMessage}
           onRetry={onRetry}
           count={count}
+          gridClassName={grid}
         />
       ) : products.length === 0 ? (
-        <p className="py-10 text-center text-sm text-gray-500">{emptyMessage}</p>
+        <p className="rounded-2xl bg-white px-6 py-10 text-center text-sm text-gray-500 shadow-xs">
+          {emptyMessage}
+        </p>
       ) : (
-        <div className="grid grid-cols-1 gap-6">
+        <div className={grid}>
           {products.slice(0, count).map((product, index) => (
             <ProductCard
               key={product._id}

@@ -26,10 +26,11 @@ export default function FAQSection() {
           <div className="w-full lg:w-1/2">
             <Image
               src={background}
-              alt="FAQ tailwind section"
+              alt=""
+              placeholder="blur"
               width={500}
               height={500}
-              className="w-full rounded-xl object-cover"
+              className="w-full rounded-[2rem] object-cover shadow-md"
             />
           </div>
 
@@ -37,14 +38,7 @@ export default function FAQSection() {
           <div className="w-full lg:w-1/2">
             <div className="lg:max-w-xl">
               <div className="mb-6 lg:mb-16">
-                <h6
-                  className={`text-lg font-medium text-orange-600 mb-2 ${
-                    isArabic ? "rtl" : "ltr"
-                  }`}
-                >
-                  {t("faq")}
-                </h6>
-                <h2 className="text-4xl font-bold text-gray-900 leading-[3.25rem] mb-5 ">
+                <h2 className="text-4xl text-gray-900 sm:text-5xl">
                   {t("answer")}
                 </h2>
               </div>

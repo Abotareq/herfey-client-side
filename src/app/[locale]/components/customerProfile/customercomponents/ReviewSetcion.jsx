@@ -247,7 +247,7 @@ function ReviewsSection({ userId }) {
               </button>
               <button
                 onClick={handleUpdateReview}
-                className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                className="btn btn-primary"
               >
                 {t("update")}
               </button>
@@ -268,7 +268,7 @@ function ReviewsSection({ userId }) {
 
             return (
               <Link href={entityUrl} key={review._id} passHref>
-                <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-lg hover:border-orange-500 transition-all duration-300 cursor-pointer">
+                <div className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-lg hover:border-orange-500 transition-all duration-300 cursor-pointer">
                   <div className="flex items-start space-x-4">
                     {review.entityDetails?.images?.[0] && (
                       <img

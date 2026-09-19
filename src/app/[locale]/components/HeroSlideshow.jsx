@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
+import { ArrowUpRight, ArrowUp, ArrowDown } from "lucide-react";
 import woodwork from "@public/hero/woodwork.jpg";
 import baskets from "@public/hero/baskets.jpg";
 import engraving from "@public/hero/engraving.jpg";
@@ -154,12 +155,12 @@ export default function HeroSlideshow() {
   }, []);
 
   return (
-    <section className="mx-4 my-8 md:mx-12">
+    <section className="mx-4 mb-6 mt-4 md:mx-8 md:mb-10 md:mt-6">
       <div
         ref={rootRef}
         tabIndex={0}
         aria-roledescription="carousel"
-        className="hero-slides relative h-[70vh] min-h-[420px] max-h-[820px] w-full select-none touch-pan-y overflow-hidden rounded-2xl bg-orange-950 shadow-lg outline-none focus-visible:ring-4 focus-visible:ring-orange-500/60"
+        className="hero-slides relative h-[72vh] min-h-[440px] max-h-[840px] w-full select-none touch-pan-y overflow-hidden rounded-[2rem] bg-orange-950 shadow-xl outline-none focus-visible:ring-4 focus-visible:ring-orange-500/60"
       >
         {SLIDES.map((slide, i) => (
           <div
@@ -182,24 +183,21 @@ export default function HeroSlideshow() {
                 draggable={false}
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-950/85 via-orange-950/25 to-transparent" />
             </div>
 
-            <div className="hero-slide__copy absolute inset-x-0 bottom-0 p-6 pe-24 text-white sm:p-10 sm:pe-36 md:p-14 md:pe-44">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-orange-300">
-                {t("eyebrow")}
-              </p>
-              <h2 className="max-w-2xl text-3xl font-bold leading-tight drop-shadow sm:text-4xl md:text-5xl">
+            <div className="hero-slide__copy absolute inset-x-0 bottom-0 p-6 pe-28 text-white sm:p-10 sm:pe-40 md:p-14 md:pe-48">
+              <h2 className="max-w-2xl text-4xl leading-[1.05] text-white sm:text-5xl md:text-6xl">
                 {t(`slides.${slide.key}.title`)}
               </h2>
-              <p className="mt-3 max-w-xl text-sm text-white/85 sm:text-base md:text-lg">
+              <p className="mt-4 max-w-lg text-sm text-orange-50/90 sm:text-base md:text-lg">
                 {t(`slides.${slide.key}.text`)}
               </p>
-              <Link
-                href="/products"
-                className="mt-6 inline-flex items-center rounded-xl bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
-              >
+              <Link href="/products" className="btn btn-on-dark mt-7">
                 {t("cta")}
+                <span className="btn-disc" aria-hidden="true">
+                  <ArrowUpRight />
+                </span>
               </Link>
             </div>
           </div>
@@ -210,17 +208,17 @@ export default function HeroSlideshow() {
             type="button"
             data-hero-prev
             aria-label={t("prev")}
-            className="grid h-11 w-11 place-items-center rounded-full bg-white/90 text-lg text-gray-900 shadow transition-colors hover:bg-orange-600 hover:text-white"
+            className="grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md transition duration-300 ease-out-soft hover:bg-white hover:text-gray-900 active:scale-95"
           >
-            ↑
+            <ArrowUp className="h-4 w-4" strokeWidth={1.75} />
           </button>
           <button
             type="button"
             data-hero-next
             aria-label={t("next")}
-            className="grid h-11 w-11 place-items-center rounded-full bg-white/90 text-lg text-gray-900 shadow transition-colors hover:bg-orange-600 hover:text-white"
+            className="grid h-11 w-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md transition duration-300 ease-out-soft hover:bg-white hover:text-gray-900 active:scale-95"
           >
-            ↓
+            <ArrowDown className="h-4 w-4" strokeWidth={1.75} />
           </button>
         </div>
       </div>

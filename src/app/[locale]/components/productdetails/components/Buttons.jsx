@@ -8,7 +8,7 @@ function Buttons() {
         <button className="w-full px-6 py-4 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200">
           {t('add')}
         </button>
-        <button className="w-full px-6 py-4 border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold rounded-xl transition-all duration-200">
+        <button className="btn btn-secondary w-full">
           {t('buy')}
         </button>
     </div>

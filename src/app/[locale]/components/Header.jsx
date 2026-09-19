@@ -1,14 +1,14 @@
 "use client";
 import { useAuth } from "@/app/context/AuthContext";
 import { useSignOut } from "@/service/auth";
-import { Search, Heart, ShoppingCart, Menu, X } from "lucide-react";
+import { Heart, ShoppingBag, UserRound } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { useCartCount, useWishlistCount } from "@/hooks/useNavCounts";
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(routing.defaultLocale);
@@ -19,232 +19,267 @@ export default function Header() {
   const { mutate: signOut, isLoading } = useSignOut();
   const cartCount = useCartCount();
   const wishlistCount = useWishlistCount();
+  const { user, loading } = useAuth();
 
   const handleSignOut = () => {
-    console.log("Signing out...");
     signOut(
       {},
       {
         onSuccess: () => {
-
           window.location.reload();
-
         },
       }
     );
   };
+
   useEffect(() => {
     const pathLocale = pathname?.split("/")[1];
     if (routing.locales.includes(pathLocale)) {
       setCurrentLocale(pathLocale);
     }
+    setIsMenuOpen(false);
   }, [pathname]);
 
   const handleLocaleChange = (newLocale) => {
     const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, "");
     router.push(`/${newLocale}${pathWithoutLocale}`);
   };
-  const { user, loading } = useAuth();
+
   const navigation = [
     { name: "home", href: "" },
     { name: "categories", href: "/categories" },
-    { name: "contact", href: "/contact" },
+    { name: "products", href: "/products" },
     { name: "store", href: "/store" },
-    { name: "products", href: '/products' }
+    { name: "contact", href: "/contact" },
   ];
   const isActive = (path) => pathname === path;
-  const locale = useLocale()
-  const isArabic = locale === 'ar';
-  return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
-      {/* Upper Section */}
-      <div className="border-b border-gray-200">
-        <div className="mx-auto px-2 sm:px-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 items-center py-2 sm:py-3 justify-between">
-            {/* Left Side - Action Icons */}
-            <div className="flex justify-start items-center gap-2 sm:gap-4">
-         {/*      <button className="p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-              </button> */}
-              {user &&
-                <button className="relative p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
-                  onClick={() => router.push(`/${currentLocale}/fav`)}
-                  aria-label={`Wishlist, ${wishlistCount} items`}
-                >
-                  {/* filled + red once anything is saved; outline grey when empty */}
-                  <Heart
-                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
-                      wishlistCount > 0 ? "fill-red-500 text-red-500" : "text-gray-600"
-                    }`}
-                  />
-                  {wishlistCount > 0 && <CountBadge count={wishlistCount} tone="red" />}
-                </button>
-              }
-              <button onClick={() => router.push(`/${currentLocale}/cart`)}
-                className="relative p-1 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
-                aria-label={`Cart, ${cartCount} items`}
-              >
-                <ShoppingCart
-                  className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
-                    cartCount > 0 ? "text-orange-600" : "text-gray-600"
-                  }`}
-                />
-                {cartCount > 0 && <CountBadge count={cartCount} tone="orange" />}
-              </button>
-            </div>
-            {/* Center - Logo (Hidden on sm and below) */}
-            <div className="hidden sm:flex justify-center">
-              <div className="text-xl sm:text-2xl font-bold text-orange-500 cursor-pointer" onClick={() => router.push(`/${currentLocale}`)}>
-                {t2("herafy")}
-                <div className="w-10 sm:w-12 h-1 bg-orange-500 mx-auto mt-1"></div>
-              </div>
-            </div>
 
-            {/* Right Side - Social Media Icons */}
-            <div className='flex justify-end gap-2 max-w-full sm:gap-3'>
-              <select
-                onChange={(e) => handleLocaleChange(e.target.value)}
-                value={currentLocale}
-                className="appearance-none bg-orange-500 border rounded-md px-4 py-2 pr-8 text-white cursor-pointer shadow-sm hover:border-orange-500 "
+  const iconButton =
+    "relative grid h-10 w-10 place-items-center rounded-full text-gray-700 transition duration-300 ease-out-soft hover:bg-gray-900/5 hover:text-gray-900 active:scale-95";
+
+  return (
+    <header className="sticky top-0 z-40 border-b border-gray-900/8 bg-background/85 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:px-8">
+        {/* mobile: menu button */}
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          aria-expanded={isMenuOpen}
+          aria-controls="site-menu"
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className={`${iconButton} md:hidden`}
+        >
+          <span className="relative block h-3.5 w-5" aria-hidden="true">
+            <span
+              className={`absolute inset-x-0 top-0 h-0.5 rounded-full bg-current transition duration-300 ease-out-soft ${
+                isMenuOpen ? "translate-y-1.5 rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`absolute inset-x-0 top-1.5 h-0.5 rounded-full bg-current transition duration-200 ${
+                isMenuOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-current transition duration-300 ease-out-soft ${
+                isMenuOpen ? "-translate-y-1.5 -rotate-45" : ""
+              }`}
+            />
+          </span>
+        </button>
+
+        {/* wordmark */}
+        <Link
+          href={`/${currentLocale}`}
+          className="font-display text-2xl text-orange-700 transition-colors hover:text-orange-800 md:text-[1.75rem]"
+          aria-label={t2("herafy")}
+        >
+          {t2("herafy")}
+        </Link>
+
+        {/* primary nav */}
+        <nav className="ms-6 hidden md:flex md:items-center md:gap-1" aria-label="Primary">
+          {navigation.map((item) => {
+            const active = isActive(`/${currentLocale}${item.href}`);
+            return (
+              <Link
+                key={item.name}
+                href={`/${currentLocale}${item.href}`}
+                aria-current={active ? "page" : undefined}
+                className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition duration-300 ease-out-soft after:absolute after:inset-x-3.5 after:-bottom-px after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-orange-600 after:transition-transform after:duration-300 after:ease-out-soft hover:text-gray-900 ${
+                  active
+                    ? "text-gray-900 after:scale-x-100"
+                    : "text-gray-600 hover:after:scale-x-100"
+                }`}
+              >
+                {t(item.name)}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* actions */}
+        <div className="ms-auto flex items-center gap-1">
+          {/* language: a two-way switch, not a select */}
+          <div
+            className="me-1 hidden items-center rounded-full bg-gray-900/5 p-0.5 text-xs font-semibold sm:flex"
+            role="group"
+            aria-label="Language"
+          >
+            {routing.locales.map((locale) => (
+              <button
+                key={locale}
+                type="button"
+                onClick={() => handleLocaleChange(locale)}
+                aria-pressed={locale === currentLocale}
+                className={`rounded-full px-2.5 py-1.5 transition duration-300 ease-out-soft ${
+                  locale === currentLocale
+                    ? "bg-white text-gray-900 shadow-xs"
+                    : "text-gray-500 hover:text-gray-900"
+                }`}
+              >
+                {locale.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
+          {user && (
+            <button
+              type="button"
+              className={iconButton}
+              onClick={() => router.push(`/${currentLocale}/fav`)}
+              aria-label={`${t("favourite")}, ${wishlistCount}`}
+            >
+              <Heart
+                className={`h-5 w-5 transition-colors ${
+                  wishlistCount > 0 ? "fill-orange-600 text-orange-600" : ""
+                }`}
+                strokeWidth={1.75}
+              />
+              {wishlistCount > 0 && <CountBadge count={wishlistCount} />}
+            </button>
+          )}
+
+          <button
+            type="button"
+            className={iconButton}
+            onClick={() => router.push(`/${currentLocale}/cart`)}
+            aria-label={`Cart, ${cartCount} items`}
+          >
+            <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
+            {cartCount > 0 && <CountBadge count={cartCount} />}
+          </button>
+
+          {!user && !loading && (
+            <Link
+              href={`/${currentLocale}/signin`}
+              className="btn btn-sm btn-primary ms-1 hidden sm:inline-flex"
+            >
+              {t("signin")}
+            </Link>
+          )}
+
+          {user && !loading && (
+            <>
+              <Link
+                href={`/${currentLocale}/customer-profile`}
+                className={iconButton}
+                aria-label="Account"
+              >
+                <UserRound className="h-5 w-5" strokeWidth={1.75} />
+              </Link>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                disabled={isLoading}
+                className="btn btn-sm btn-ghost hidden sm:inline-flex"
+              >
+                {isLoading ? t("signing") : t("signout")}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* mobile menu */}
+      <div
+        id="site-menu"
+        className={`grid transition-[grid-template-rows] duration-400 ease-out-soft md:hidden ${
+          isMenuOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <nav
+            className="border-t border-gray-900/8 px-4 pb-5 pt-3"
+            aria-label="Primary"
+          >
+            {navigation.map((item, i) => {
+              const active = isActive(`/${currentLocale}${item.href}`);
+              return (
+                <Link
+                  key={item.name}
+                  href={`/${currentLocale}${item.href}`}
+                  aria-current={active ? "page" : undefined}
+                  style={{ transitionDelay: isMenuOpen ? `${60 + i * 40}ms` : "0ms" }}
+                  className={`block rounded-xl px-3 py-3 text-lg transition duration-400 ease-out-soft ${
+                    isMenuOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+                  } ${active ? "font-display text-orange-700" : "text-gray-800 hover:bg-gray-900/5"}`}
+                >
+                  {t(item.name)}
+                </Link>
+              );
+            })}
+
+            <div className="mt-3 flex items-center justify-between gap-3 border-t border-gray-900/8 pt-4">
+              <div
+                className="flex items-center rounded-full bg-gray-900/5 p-0.5 text-xs font-semibold"
+                role="group"
+                aria-label="Language"
               >
                 {routing.locales.map((locale) => (
-                  <option key={locale} value={locale} >
-                    {locale.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-              {!user && !loading && (
-
-                <Link
-                  href={`/${currentLocale}/signin`}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${isActive(`/${currentLocale}/signin`)
-                      ? "bg-orange-600 text-white"
-                      : "text-gray-700 hover:bg-orange-100 hover:text-orange-600"
+                  <button
+                    key={locale}
+                    type="button"
+                    onClick={() => handleLocaleChange(locale)}
+                    aria-pressed={locale === currentLocale}
+                    className={`rounded-full px-3 py-1.5 transition duration-300 ${
+                      locale === currentLocale
+                        ? "bg-white text-gray-900 shadow-xs"
+                        : "text-gray-500"
                     }`}
-                >
+                  >
+                    {locale.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+              {!user && !loading && (
+                <Link href={`/${currentLocale}/signin`} className="btn btn-sm btn-primary">
                   {t("signin")}
                 </Link>
               )}
               {user && !loading && (
-                <div className="flex flex-start max-w-fit ">
-                  <button
-                    onClick={handleSignOut}
-                    disabled={isLoading}
-                    className={`cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit text-gray-700 hover:bg-red-600 hover:text-white ${isLoading ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
-                  >
-                    {isLoading ? t("signing") : t("signout")}
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  disabled={isLoading}
+                  className="btn btn-sm btn-secondary"
+                >
+                  {isLoading ? t("signing") : t("signout")}
+                </button>
               )}
-              {user && !loading && <Link
-                href={`/${currentLocale}/customer-profile`}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 max-w-fit`}
-              >
-                <Image src="/1.10.svg" alt="customer" width={20} height={20} />
-              </Link>}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Lower Section - Navigation */}
-      <div className="bg-white">
-        <div className="container mx-auto px-2 sm:px-4">
-          <div className="grid grid-cols-2 sm:grid-cols-1 items-center py-2 sm:py-4">
-            {/* Mobile Menu Button */}
-            <div className="sm:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-1 sm:p-2 hover:bg-gray-100 rounded-md transition-colors"
-              >
-                {isMenuOpen ? (
-                  <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
-                ) : (
-                  <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
-                )}
-              </button>
-            </div>
-            {/* Language Selector - Mobile */}
-            <div className="sm:hidden justify-self-end">
-              <select
-                onChange={(e) => handleLocaleChange(e.target.value)}
-                value={currentLocale}
-                className="px-2 py-1 sm:px-3 sm:py-2 border border-gray-300 rounded-md text-xs sm:text-sm text-gray-600 hover:bg-gray-50 transition-colors"
-              >
-                {routing.locales.map((locale) => (
-                  <option key={locale} value={locale}>
-                    {locale.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {/* Logo - Mobile */}
-            <div className="sm:hidden col-span-2 flex justify-center py-2">
-              <div className="text-xl font-bold text-orange-500 cursor-pointer" onClick={() => router.push(`/${currentLocale}`)}>
-                {t2("herafy")}
-                <div className="w-10 h-1 bg-orange-500 mx-auto mt-1"></div>
-              </div>
-            </div>
-            {/* Desktop Navigation */}
-
-            <nav className="hidden sm:block">
-              <div className="flex items-center justify-between mx-40 ">
-                {/* Nav items */}
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={`/${currentLocale}${item.href}`}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${isActive(`/${currentLocale}${item.href}`)
-                        ? "bg-orange-600 text-white"
-                        : "text-gray-700 hover:bg-orange-500 hover:text-white"
-                      }`}
-                  >
-                    {t(item.name)}
-                  </Link>
-                ))}
-
-                {/* Language Switcher */}
-
-              </div>
-            </nav>
-          </div>
-
-          {/* Mobile Navigation Menu */}
-          <div
-            className={`sm:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-              } overflow-hidden`}
-          >
-            <nav className="py-3 border-t border-gray-200">
-              <div className="grid grid-cols-1 gap-1">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={`/${currentLocale}${item.href}`}
-                    className={`py-2 px-3 rounded-md text-sm font-medium transition-colors ${isActive(`/${currentLocale}${item.href}`)
-                        ? "bg-orange-600 text-white"
-                        : "text-gray-700 hover:bg-green-100 hover:text-green-600"
-                      }`}
-                  >
-                    {t(item.name)}
-                  </Link>
-                ))}
-              </div>
-            </nav>
-          </div>
+          </nav>
         </div>
       </div>
     </header>
   );
 }
 
-
-// small pill in the icon's corner
-function CountBadge({ count, tone }) {
-  const color = tone === "red" ? "bg-red-500" : "bg-orange-600";
+// small count in the icon's corner
+function CountBadge({ count }) {
   return (
     <span
-      className={`absolute -top-0.5 -right-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[10px] font-bold leading-none text-white ring-2 ring-white ${color}`}
+      className="absolute -end-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-orange-600 px-1 text-[10px] font-bold leading-none tabular-nums text-white ring-2 ring-background"
       aria-hidden="true"
     >
       {count > 99 ? "99+" : count}

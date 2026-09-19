@@ -52,12 +52,10 @@ export default function LogIn() {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
           {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
-              <i className="fas fa-sign-in-alt text-orange-500 fa-lg"></i>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800">{t("welcome")}</h2>
-            <p className="text-gray-600 mt-2">{t("sign")}</p>
+          <div className="mb-8 text-start">
+            <p className="font-display text-2xl text-orange-700">{t2("herafy")}</p>
+            <h2 className="mt-4 text-3xl text-gray-900">{t("welcome")}</h2>
+            <p className="mt-2 text-gray-600">{t("sign")}</p>
           </div>
 
           {/* Form */}
@@ -124,7 +122,7 @@ export default function LogIn() {
                 (email && !validateEmail(email)) ||
                 (password && !validatePassword(password))
               }
-              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 focus:ring-4 focus:ring-orange-500 focus:ring-opacity-50 disabled:opacity-50"
+              className="btn btn-primary w-full"
             >
               {loading ? (
                 <span className="inline-flex items-center">

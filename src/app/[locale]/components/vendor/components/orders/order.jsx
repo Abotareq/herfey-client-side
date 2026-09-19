@@ -621,7 +621,7 @@ export default function OrdersSection() {
               placeholder="Search by order ID or customer name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-300 bg-white shadow-sm"
+              className="w-full pl-10 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-300 bg-white shadow-xs"
             />
           </div>
 
@@ -631,7 +631,7 @@ export default function OrdersSection() {
               setStatusFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
+            className="px-4 py-3 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-xs cursor-pointer"
           >
             <option value="all">{t("all")}</option>
             <option value="pending">{t("pendings")}</option>
@@ -648,7 +648,7 @@ export default function OrdersSection() {
               setPaymentMethodFilter(e.target.value);
               setPage(1);
             }}
-            className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-sm cursor-pointer"
+            className="px-4 py-3 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white hover:border-gray-300 transition-all duration-200 shadow-xs cursor-pointer"
           >
             <option value="all">{t("allpayment")}</option>
             <option value="credit_card">{t("creditcard")}</option>

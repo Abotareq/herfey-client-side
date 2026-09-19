@@ -43,7 +43,7 @@ const NotFoundPage = () => {
         </p>
         <Link
           href="/"
-          className="mt-6 inline-block bg-orange-600 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg transform transition hover:scale-105 hover:bg-orange-700"
+          className="btn btn-primary mt-6 inline-block text-lg"
         >
           {t('home')}
         </Link>

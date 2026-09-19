@@ -290,7 +290,7 @@ function CouponsSection() {
           <button
             onClick={() => setShowCouponForm(true)}
             disabled={createCoupon.isLoading}
-            className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:bg-orange-400 disabled:cursor-not-allowed transition-colors"
+            className="btn btn-primary"
           >
             {createCoupon.isLoading ? (
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -351,7 +351,7 @@ function CouponsSection() {
 
       {/* Add/Edit Coupon Form */}
       {(showCouponForm || editingCoupon) && (
-        <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+        <div className="bg-white rounded-2xl p-8 shadow-xs">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">
             {editingCoupon ? "Edit Coupon" : "Add New Coupon"}
           </h4>
@@ -505,7 +505,7 @@ function CouponsSection() {
             <button
               onClick={editingCoupon ? handleUpdateCoupon : handleAddCoupon}
               disabled={createCoupon.isLoading || updateCoupon.isLoading}
-              className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:bg-orange-400 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+              className="btn btn-primary"
             >
               {(createCoupon.isLoading || updateCoupon.isLoading) && (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -527,7 +527,7 @@ function CouponsSection() {
             return (
               <div
                 key={coupon._id}
-                className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>

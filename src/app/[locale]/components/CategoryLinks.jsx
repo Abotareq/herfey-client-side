@@ -71,7 +71,7 @@ function CategoryLinks() {
             <button
               type="button"
               onClick={() => refetch()}
-              className="inline-flex items-center gap-2 rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
+              className="btn btn-sm btn-primary"
             >
               <RefreshCw className="h-4 w-4" aria-hidden="true" />
               {tp("retry")}
@@ -95,7 +95,7 @@ function CategoryLinks() {
             key={item._id}
             href="/products"
             onClick={() => setCategory(item)}
-            className={`group relative isolate block overflow-hidden rounded-2xl bg-orange-950 shadow-md outline-none transition-shadow hover:shadow-xl focus-visible:ring-4 focus-visible:ring-orange-500/60 ${TILE_SPAN[i]}`}
+            className={`group relative isolate block overflow-hidden rounded-2xl bg-orange-950 shadow-sm outline-none transition duration-500 ease-out-soft hover:shadow-xl focus-visible:ring-4 focus-visible:ring-orange-500/60 ${TILE_SPAN[i]}`}
           >
             {photo ? (
               <Image
@@ -104,29 +104,29 @@ function CategoryLinks() {
                 fill
                 sizes={i === 0 ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 50vw, 33vw"}
                 placeholder={typeof photo === "string" ? "empty" : "blur"}
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
               />
             ) : null}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-orange-950/85 via-orange-950/20 to-transparent" />
 
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 text-white sm:p-5">
               <div className="min-w-0">
                 <h3
-                  className={`font-bold leading-tight drop-shadow ${
-                    i === 0 ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
+                  className={`font-display leading-tight ${
+                    i === 0 ? "text-3xl sm:text-4xl" : "text-xl sm:text-2xl"
                   }`}
                 >
                   {item.name || "Unnamed Category"}
                 </h3>
-                <p className="mt-1 text-xs text-white/80 sm:text-sm">
+                <p className="mt-1 text-xs tabular-nums text-orange-100/85 sm:text-sm">
                   {t("pieces", { count: item.productCount ?? 0 })}
                 </p>
               </div>
               <span
                 aria-hidden="true"
-                className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/90 text-gray-900 transition-colors group-hover:bg-orange-600 group-hover:text-white"
+                className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md transition duration-300 ease-out-soft group-hover:bg-white group-hover:text-gray-900"
               >
-                <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" />
+                <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" strokeWidth={1.75} />
               </span>
             </div>
           </Link>
@@ -140,24 +140,18 @@ export default CategoryLinks;
 
 function CraftFrame({ t, children }) {
   return (
-    <section className="w-full bg-white px-4 py-14 md:px-12">
+    <section className="w-full px-4 py-20 md:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="section-head">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-orange-600">
-              {t("eyebrow")}
-            </p>
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              {t("shopByCraft")}
-            </h2>
-            <p className="mt-2 max-w-xl text-gray-600">{t("shopByCraftDesc")}</p>
+            <h2 className="section-title">{t("shopByCraft")}</h2>
+            <p className="section-lede">{t("shopByCraftDesc")}</p>
           </div>
-          <Link
-            href="/categories"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700"
-          >
+          <Link href="/categories" className="btn btn-sm btn-secondary">
             {t("allCategories")}
-            <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
+            <span className="btn-disc" aria-hidden="true">
+              <ArrowUpRight />
+            </span>
           </Link>
         </div>
 
